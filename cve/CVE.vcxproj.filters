@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CVE.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="core\aligned_allocator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\allocator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\definition.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\error.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\instruction.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\rb_tree.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\tree.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sample_allocator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{ed18c081-8b4b-4326-9733-52e0cba051a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ann">
+      <UniqueIdentifier>{52158753-8cb9-4428-b271-f29c8170bf5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="image">
+      <UniqueIdentifier>{94082df3-40ac-4094-887e-6d473e601f85}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
