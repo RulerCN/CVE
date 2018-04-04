@@ -31,6 +31,21 @@
     <ClInclude Include="core\sample_allocator.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\scalar.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\uninitialized.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\vector.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\matrix.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\tensor.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

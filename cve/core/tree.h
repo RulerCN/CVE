@@ -720,7 +720,7 @@ namespace core
 	};
 
 	// Template class tree
-	template <class T, class Allocator = ::std::allocator<T> >
+	template <class T, class Allocator = allocator<T> >
 	class tree : public tree_node_allocator<T, Allocator>
 	{
 	public:
