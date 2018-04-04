@@ -377,7 +377,7 @@ namespace core
 			{
 				simd_inst |= test_simd_mmx();
 				simd_inst |= test_simd_sse();
-			//	simd_inst |= test_simd_avx();
+				simd_inst |= test_simd_avx();
 				simd_inst |= test_simd_fma();
 			}
 			return simd_inst;

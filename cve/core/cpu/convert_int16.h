@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CONVERT_INT16_H__
 #define __CORE_CPU_CONVERT_INT16_H__
 
+#include <cstring>
 #include "../scalar.h"
 #include "../vector.h"
 #include "../matrix.h"
@@ -83,6 +84,30 @@ namespace core
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<signed short, A1>& convert_int16(scalar<signed short, A1> &b, const scalar<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<unsigned short, A1>& convert_int16(scalar<unsigned short, A1> &b, const scalar<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
 		return b;
 	}
 
@@ -203,6 +228,30 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	vector<signed short, A1>& convert_int16(vector<signed short, A1> &b, const vector<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<unsigned short, A1>& convert_int16(vector<unsigned short, A1> &b, const vector<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
 	vector<signed int, A1>& convert_int16(vector<signed int, A1> &b, const vector<signed short, A2> &a)
 	{
 		if (b.empty() || a.empty())
@@ -319,6 +368,30 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	matrix<signed short, A1>& convert_int16(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	matrix<unsigned short, A1>& convert_int16(matrix<unsigned short, A1> &b, const matrix<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
 	matrix<signed int, A1>& convert_int16(matrix<signed int, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty() || a.empty())
@@ -431,6 +504,30 @@ namespace core
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed short, A1>& convert_int16(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<unsigned short, A1>& convert_int16(tensor<unsigned short, A1> &b, const tensor<signed short, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
 		return b;
 	}
 

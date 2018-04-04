@@ -30,6 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_ERROR_H__
 #define __CORE_ERROR_H__
 
+#include <stdexcept>
+
 namespace core
 {
 	//----------------------------------------------------------------

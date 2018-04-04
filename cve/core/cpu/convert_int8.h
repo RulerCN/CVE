@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CONVERT_INT8_H__
 #define __CORE_CPU_CONVERT_INT8_H__
 
+#include <cstring>
 #include "../scalar.h"
 #include "../vector.h"
 #include "../matrix.h"
@@ -49,6 +50,30 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_convert_int8<T, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<signed char, A1>& convert_int8(scalar<signed char, A1> &b, const scalar<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<unsigned char, A1>& convert_int8(scalar<unsigned char, A1> &b, const scalar<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
 		return b;
 	}
 
@@ -169,6 +194,31 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	vector<signed char, A1>& convert_int8(vector<signed char, A1> &b, const vector<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<unsigned char, A1>& convert_int8(vector<unsigned char, A1> &b, const vector<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+
+	template <class A1, class A2>
 	vector<signed short, A1>& convert_int8(vector<signed short, A1> &b, const vector<signed char, A2> &a)
 	{
 		if (b.empty() || a.empty())
@@ -285,6 +335,30 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	matrix<signed char, A1>& convert_int8(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	matrix<unsigned char, A1>& convert_int8(matrix<unsigned char, A1> &b, const matrix<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
 	matrix<signed short, A1>& convert_int8(matrix<signed short, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty() || a.empty())
@@ -397,6 +471,30 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_convert_int8<T, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed char, A1>& convert_int8(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<unsigned char, A1>& convert_int8(tensor<unsigned char, A1> &b, const tensor<signed char, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
 		return b;
 	}
 

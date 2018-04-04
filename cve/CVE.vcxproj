@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
+    <ClInclude Include="core\cpu\convert.h" />
     <ClInclude Include="core\cpu\convert_double.h" />
     <ClInclude Include="core\cpu\convert_float.h" />
     <ClInclude Include="core\cpu\convert_int16.h" />
@@ -160,6 +161,8 @@
     <ClInclude Include="core\cpu\kernel\kernel_convert_int16.h" />
     <ClInclude Include="core\cpu\kernel\kernel_convert_int32.h" />
     <ClInclude Include="core\cpu\kernel\kernel_convert_int8.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_scale_double.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_scale_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_convert_uint16.h" />
     <ClInclude Include="core\cpu\kernel\kernel_convert_uint32.h" />
     <ClInclude Include="core\cpu\kernel\kernel_convert_uint8.h" />

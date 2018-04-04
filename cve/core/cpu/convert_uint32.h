@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CONVERT_UINT32_H__
 #define __CORE_CPU_CONVERT_UINT32_H__
 
+#include <cstring>
 #include "../scalar.h"
 #include "../vector.h"
 #include "../matrix.h"
@@ -41,7 +42,7 @@ namespace core
 	// Scalar data-type conversion
 
 	template <class T, class A1, class A2>
-	scalar<T, A1>& convert_uint32(scalar<T, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<T, A1>& convert_uint32(scalar<T, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -53,7 +54,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed char, A1>& convert_uint32(scalar<signed char, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<signed char, A1>& convert_uint32(scalar<signed char, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -70,7 +71,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned char, A1>& convert_uint32(scalar<unsigned char, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<unsigned char, A1>& convert_uint32(scalar<unsigned char, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -87,7 +88,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed short, A1>& convert_uint32(scalar<signed short, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<signed short, A1>& convert_uint32(scalar<signed short, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -104,7 +105,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned short, A1>& convert_uint32(scalar<unsigned short, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<unsigned short, A1>& convert_uint32(scalar<unsigned short, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -121,7 +122,31 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<float, A1>& convert_uint32(scalar<float, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<signed int, A1>& convert_uint32(scalar<signed int, A1> &b, const scalar<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<unsigned int, A1>& convert_uint32(scalar<unsigned int, A1> &b, const scalar<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<float, A1>& convert_uint32(scalar<float, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -138,7 +163,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_uint32(scalar<double, A1> &b, const scalar<unsigned int A2> &a)
+	scalar<double, A1>& convert_uint32(scalar<double, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -157,7 +182,7 @@ namespace core
 	// Vector data-type conversion
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& convert_uint32(vector<T, A1> &b, const vector<unsigned int A2> &a)
+	vector<T, A1>& convert_uint32(vector<T, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -169,7 +194,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& convert_uint32(vector<signed char, A1> &b, const vector<unsigned int A2> &a)
+	vector<signed char, A1>& convert_uint32(vector<signed char, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -186,7 +211,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& convert_uint32(vector<unsigned char, A1> &b, const vector<unsigned int A2> &a)
+	vector<unsigned char, A1>& convert_uint32(vector<unsigned char, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -203,7 +228,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& convert_uint32(vector<signed short, A1> &b, const vector<unsigned int A2> &a)
+	vector<signed short, A1>& convert_uint32(vector<signed short, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -220,7 +245,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& convert_uint32(vector<unsigned short, A1> &b, const vector<unsigned int A2> &a)
+	vector<unsigned short, A1>& convert_uint32(vector<unsigned short, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -237,7 +262,31 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& convert_uint32(vector<float, A1> &b, const vector<unsigned int A2> &a)
+	vector<signed int, A1>& convert_uint32(vector<signed int, A1> &b, const vector<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<unsigned int, A1>& convert_uint32(vector<unsigned int, A1> &b, const vector<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<float, A1>& convert_uint32(vector<float, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -254,7 +303,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_uint32(vector<double, A1> &b, const vector<unsigned int A2> &a)
+	vector<double, A1>& convert_uint32(vector<double, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -273,7 +322,7 @@ namespace core
 	// Matrix data-type conversion
 
 	template <class T, class A1, class A2>
-	matrix<T, A1>& convert_uint32(matrix<T, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<T, A1>& convert_uint32(matrix<T, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -285,7 +334,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& convert_uint32(matrix<signed char, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<signed char, A1>& convert_uint32(matrix<signed char, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -302,7 +351,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned char, A1>& convert_uint32(matrix<unsigned char, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<unsigned char, A1>& convert_uint32(matrix<unsigned char, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -319,7 +368,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& convert_uint32(matrix<signed short, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<signed short, A1>& convert_uint32(matrix<signed short, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -336,7 +385,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& convert_uint32(matrix<unsigned short, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<unsigned short, A1>& convert_uint32(matrix<unsigned short, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -353,7 +402,31 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<float, A1>& convert_uint32(matrix<float, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<signed int, A1>& convert_uint32(matrix<signed int, A1> &b, const matrix<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	matrix<unsigned int, A1>& convert_uint32(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	matrix<float, A1>& convert_uint32(matrix<float, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -370,7 +443,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_uint32(matrix<double, A1> &b, const matrix<unsigned int A2> &a)
+	matrix<double, A1>& convert_uint32(matrix<double, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -389,7 +462,7 @@ namespace core
 	// Tensor data-type conversion
 
 	template <class T, class A1, class A2>
-	tensor<T, A1>& convert_uint32(tensor<T, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<T, A1>& convert_uint32(tensor<T, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -401,7 +474,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& convert_uint32(tensor<signed char, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<signed char, A1>& convert_uint32(tensor<signed char, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -418,7 +491,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned char, A1>& convert_uint32(tensor<unsigned char, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<unsigned char, A1>& convert_uint32(tensor<unsigned char, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -435,7 +508,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& convert_uint32(tensor<signed short, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<signed short, A1>& convert_uint32(tensor<signed short, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -452,7 +525,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& convert_uint32(tensor<unsigned short, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<unsigned short, A1>& convert_uint32(tensor<unsigned short, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -469,7 +542,31 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<float, A1>& convert_uint32(tensor<float, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<signed int, A1>& convert_uint32(tensor<signed int, A1> &b, const tensor<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<unsigned int, A1>& convert_uint32(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		::std::memcpy(b.data(), a.data(), a.size());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<float, A1>& convert_uint32(tensor<float, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -486,7 +583,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_uint32(tensor<double, A1> &b, const tensor<unsigned int A2> &a)
+	tensor<double, A1>& convert_uint32(tensor<double, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
