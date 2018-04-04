@@ -147,6 +147,22 @@
   <ItemGroup>
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
+    <ClInclude Include="core\cpu\convert_double.h" />
+    <ClInclude Include="core\cpu\convert_float.h" />
+    <ClInclude Include="core\cpu\convert_int16.h" />
+    <ClInclude Include="core\cpu\convert_int32.h" />
+    <ClInclude Include="core\cpu\convert_int8.h" />
+    <ClInclude Include="core\cpu\convert_uint16.h" />
+    <ClInclude Include="core\cpu\convert_uint32.h" />
+    <ClInclude Include="core\cpu\convert_uint8.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_double.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_float.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int16.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int32.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int8.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint16.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint32.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint8.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\instruction.h" />

@@ -46,6 +46,54 @@
     <ClInclude Include="core\tensor.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_double.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_float.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int8.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int16.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_int32.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint8.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint16.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_convert_uint32.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_int8.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_uint8.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_int16.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_uint16.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_int32.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_uint32.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_float.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_double.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -59,6 +107,12 @@
     </Filter>
     <Filter Include="image">
       <UniqueIdentifier>{94082df3-40ac-4094-887e-6d473e601f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu">
+      <UniqueIdentifier>{9a055627-2e6e-4f26-80aa-b57cb55c9493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel">
+      <UniqueIdentifier>{095edecf-007a-4226-9e3c-49bc1b0f1b08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
