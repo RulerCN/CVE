@@ -153,6 +153,8 @@
     <ClInclude Include="core\cpu\convert_int16.h" />
     <ClInclude Include="core\cpu\convert_int32.h" />
     <ClInclude Include="core\cpu\convert_int8.h" />
+    <ClInclude Include="core\cpu\convert_scale_double.h" />
+    <ClInclude Include="core\cpu\convert_scale_float.h" />
     <ClInclude Include="core\cpu\convert_uint16.h" />
     <ClInclude Include="core\cpu\convert_uint32.h" />
     <ClInclude Include="core\cpu\convert_uint8.h" />
