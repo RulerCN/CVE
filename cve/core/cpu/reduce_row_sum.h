@@ -82,6 +82,25 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	vector<float, A1>& reduce_row_sum(vector<float, A1> &b, const matrix<signed char, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(vector_invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_row_sum<signed char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (global::is_support_sse41())
+			kernel_row_sum<signed char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			kernel_row_sum<signed char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
 	vector<signed int, A1>& reduce_row_sum(vector<signed int, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
@@ -97,6 +116,25 @@ namespace core
 			kernel_row_sum<unsigned char, signed int, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
 			kernel_row_sum<unsigned char, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<float, A1>& reduce_row_sum(vector<float, A1> &b, const matrix<unsigned char, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(vector_invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_row_sum<unsigned char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (global::is_support_sse41())
+			kernel_row_sum<unsigned char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			kernel_row_sum<unsigned char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -120,6 +158,25 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	vector<float, A1>& reduce_row_sum(vector<float, A1> &b, const matrix<signed short, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(vector_invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_row_sum<signed short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (global::is_support_sse41())
+			kernel_row_sum<signed short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			kernel_row_sum<signed short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
 	vector<signed int, A1>& reduce_row_sum(vector<signed int, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
@@ -139,6 +196,25 @@ namespace core
 	}
 
 	template <class A1, class A2>
+	vector<float, A1>& reduce_row_sum(vector<float, A1> &b, const matrix<unsigned short, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(vector_invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_row_sum<unsigned short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (global::is_support_sse41())
+			kernel_row_sum<unsigned short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			kernel_row_sum<unsigned short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
 	vector<signed int, A1>& reduce_row_sum(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
@@ -154,6 +230,25 @@ namespace core
 			kernel_row_sum<signed int, signed int, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
 			kernel_row_sum<signed int, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<float, A1>& reduce_row_sum(vector<float, A1> &b, const matrix<signed int, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(vector_invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_row_sum<signed int, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (global::is_support_ssse3())
+			kernel_row_sum<signed int, float, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			kernel_row_sum<signed int, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
