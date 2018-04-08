@@ -226,7 +226,7 @@ namespace core
 			owner = true;
 			count = n;
 			buffer = this->allocate(count);
-			core::uninitialized_fill_n(buffer, count, value);
+			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
 		template <class InputIterator>
@@ -239,7 +239,7 @@ namespace core
 			owner = true;
 			count = static_cast<size_type>(::std::distance(first, last));
 			buffer = this->allocate(count);
-			core::uninitialized_copy(first, last, buffer);
+			::std::uninitialized_copy(first, last, buffer);
 		}
 
 		void assign(::std::initializer_list<T> il)
@@ -256,7 +256,7 @@ namespace core
 			owner = true;
 			count = x.count;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
 		}
 
 		void assign(scalar<T, Allocator>&& x)

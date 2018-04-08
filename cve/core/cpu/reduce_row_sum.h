@@ -58,7 +58,7 @@ namespace core
 		if (b.size() != a.rows())
 			throw ::std::invalid_argument(vector_invalid_size);
 
-		kernel_row_sum<T2, T1, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		kernel_reduce_row_sum<T2, T1, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -73,11 +73,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed char, signed int, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, signed int, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<signed char, signed int, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, signed int, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed char, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -92,11 +92,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<signed char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -111,11 +111,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<unsigned char, signed int, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, signed int, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<unsigned char, signed int, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, signed int, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<unsigned char, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -130,11 +130,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<unsigned char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, float, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<unsigned char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, float, 8, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<unsigned char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned char, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -149,11 +149,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed short, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<signed short, signed int, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, signed int, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed short, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -168,11 +168,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<signed short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -187,11 +187,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<unsigned short, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<unsigned short, signed int, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, signed int, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<unsigned short, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -206,11 +206,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<unsigned short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_row_sum<unsigned short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, float, 4, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<unsigned short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned short, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -225,11 +225,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed int, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_ssse3())
-			kernel_row_sum<signed int, signed int, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, signed int, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed int, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -244,11 +244,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<signed int, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_ssse3())
-			kernel_row_sum<signed int, float, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, float, 4, 4, inst_ssse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<signed int, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<signed int, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -263,11 +263,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_row_sum<unsigned int, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned int, float, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse3())
-			kernel_row_sum<unsigned int, float, 4, 4, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned int, float, 4, 4, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<unsigned int, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<unsigned int, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -282,11 +282,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_row_sum<float, float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<float, float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse3())
-			kernel_row_sum<float, float, 4, 4, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<float, float, 4, 4, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<float, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<float, float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -301,11 +301,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_row_sum<double, double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<double, double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse3())
-			kernel_row_sum<double, double, 2, 2, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<double, double, 2, 2, inst_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_row_sum<double, double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_sum<double, double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 

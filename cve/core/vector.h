@@ -397,7 +397,7 @@ namespace core
 			number = length;
 			count = number * channels;
 			buffer = this->allocate(count);
-			core::uninitialized_fill_n(buffer, count, value);
+			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
 		template <class InputIterator>
@@ -412,7 +412,7 @@ namespace core
 			number = (static_cast<size_type>(::std::distance(first, last)) + channels - 1) / channels;
 			count = number * channels;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(first, last, buffer);
+			::std::uninitialized_copy(first, last, buffer);
 		}
 
 		void assign(size_type dimension, ::std::initializer_list<T> il)
@@ -431,7 +431,7 @@ namespace core
 			number = x.number;
 			count = x.count;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
 		}
 
 		void assign(vector<T, Allocator>&& x)

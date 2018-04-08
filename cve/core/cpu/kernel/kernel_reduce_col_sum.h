@@ -205,7 +205,6 @@ namespace core
 			const signed char *ptr_a6 = ptr_a5 + rsa;
 			const signed char *ptr_a7 = ptr_a6 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m128i xmm_b;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 
 			for (size_t j = 0; j < n; j += 16)
@@ -390,7 +389,6 @@ namespace core
 			const unsigned char *ptr_a6 = ptr_a5 + rsa;
 			const unsigned char *ptr_a7 = ptr_a6 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m128i xmm_b;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 
 			for (size_t j = 0; j < n; j += 16)
@@ -530,7 +528,6 @@ namespace core
 			const signed short *ptr_a2 = ptr_a1 + rsa;
 			const signed short *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_b;
 			__m128 xmm_b0, xmm_b1;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -633,7 +630,6 @@ namespace core
 			const unsigned short *ptr_a2 = ptr_a1 + rsa;
 			const unsigned short *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_b;
 			__m128 xmm_b0, xmm_b1;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -717,7 +713,6 @@ namespace core
 			const signed int *ptr_a2 = ptr_a1 + rsa;
 			const signed int *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
-			__m128i xmm_b;
 			__m128 xmm_b0;
 
 			for (size_t j = 0; j < n; j += 4)

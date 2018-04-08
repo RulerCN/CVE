@@ -460,7 +460,7 @@ namespace core
 			constexpr size_t block = 16;
 			const __m256d ymm_scale = _mm256_set1_pd(scale);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
-			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3;
+			__m256i ymm_a0, ymm_a1;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 
 			while (n > block)
@@ -511,7 +511,7 @@ namespace core
 			constexpr size_t block = 16;
 			const __m256d ymm_scale = _mm256_set1_pd(scale);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
-			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3;
+			__m256i ymm_a0, ymm_a1;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 
 			while (n > block)

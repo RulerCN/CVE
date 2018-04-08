@@ -347,7 +347,7 @@ namespace core
 			}
 			while (n > 0)
 			{
-				*b++ = static_cast<double>(*a++);
+				*b++ = static_cast<float>(*a++);
 				--n;
 			}
 		}

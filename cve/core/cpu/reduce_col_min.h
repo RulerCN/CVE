@@ -58,7 +58,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(vector_invalid_size);
 
-		kernel_col_min<T, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		kernel_reduce_col_min<T, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -73,11 +73,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<signed char, 16, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed char, 16, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_col_min<signed char, 16, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed char, 16, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<signed char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -92,11 +92,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<unsigned char, 16, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned char, 16, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_col_min<unsigned char, 16, 16, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned char, 16, 16, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<unsigned char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -111,11 +111,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<signed short, 8, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed short, 8, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_col_min<signed short, 8, 8, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed short, 8, 8, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<signed short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -130,11 +130,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<unsigned short, 8, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned short, 8, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_col_min<unsigned short, 8, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned short, 8, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<unsigned short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -149,11 +149,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_col_min<signed int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -168,11 +168,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_col_min<unsigned int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_col_min<unsigned int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<unsigned int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<unsigned int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -187,11 +187,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_col_min<float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse())
-			kernel_col_min<float, 4, 4, inst_sse>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<float, 4, 4, inst_sse>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -206,11 +206,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_col_min<double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_col_min<double, 2, 2, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<double, 2, 2, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_col_min<double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_col_min<double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 

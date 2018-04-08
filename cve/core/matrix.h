@@ -423,7 +423,7 @@ namespace core
 			stride = width * channels;
 			count = height * stride;
 			buffer = this->allocate(count);
-			core::uninitialized_fill_n(buffer, count, value);
+			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
 		template <class InputIterator>
@@ -440,7 +440,7 @@ namespace core
 			height = (static_cast<size_type>(::std::distance(first, last)) + stride - 1) / stride;
 			count = height * stride;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(first, last, buffer);
+			::std::uninitialized_copy(first, last, buffer);
 		}
 
 		void assign(size_type columns, size_type dimension, ::std::initializer_list<T> il)
@@ -461,7 +461,7 @@ namespace core
 			stride = x.stride;
 			count = x.count;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
 		}
 
 		void assign(matrix<T, Allocator>&& x)

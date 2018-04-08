@@ -433,7 +433,7 @@ namespace core
 			plane = height * stride;
 			count = depth * plane;
 			buffer = this->allocate(count);
-			core::uninitialized_fill_n(buffer, count, value);
+			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
 		template <class InputIterator>
@@ -452,7 +452,7 @@ namespace core
 			depth = (static_cast<size_type>(::std::distance(first, last)) + plane - 1) / plane;
 			count = depth * plane;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(first, last, buffer);
+			::std::uninitialized_copy(first, last, buffer);
 		}
 
 		void assign(size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il)
@@ -475,7 +475,7 @@ namespace core
 			plane = x.plane;
 			count = x.count;
 			buffer = this->allocate(count);
-			core::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
 		}
 
 		void assign(tensor<T, Allocator>&& x)

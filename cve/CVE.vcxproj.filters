@@ -148,6 +148,9 @@
     <ClInclude Include="core\cpu\reduce_row_sum.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\reduce.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

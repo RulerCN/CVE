@@ -175,6 +175,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\reduce.h" />
     <ClInclude Include="core\cpu\reduce_col_max.h" />
     <ClInclude Include="core\cpu\reduce_col_min.h" />
     <ClInclude Include="core\cpu\reduce_col_sum.h" />
