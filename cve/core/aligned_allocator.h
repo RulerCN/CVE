@@ -203,7 +203,7 @@ namespace core
 		}
 		inline void** get_free_list(size_t bytes)
 		{
-			return reinterpret_cast<void**>(reinterpret_cast<size_t>(free_list) + (bytes - 1) / align);
+			return reinterpret_cast<void**>(free_list + (bytes + align - 1) / align - 1);
 		}
 		char* chunk_alloc(size_t align_bytes, size_t& count)
 		{

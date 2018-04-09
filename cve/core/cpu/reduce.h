@@ -70,12 +70,16 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_min:
+			b.fill(int8_max);
 			return reduce_col_min(b, a);
 		case rm_col_max:
+			b.fill(int8_min);
 			return reduce_col_max(b, a);
 		case rm_row_min:
+			b.fill(int8_max);
 			return reduce_row_min(b, a);
 		case rm_row_max:
+			b.fill(int8_min);
 			return reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -88,8 +92,10 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
+			b.fill(int32_zero);
 			return reduce_col_sum(b, a);
 		case rm_row_sum:
+			b.fill(int32_zero);
 			return reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -102,17 +108,19 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
+			b.fill(0.0F);
 			return reduce_col_sum(b, a);
 		case rm_col_avg:
+			b.fill(0.0F);
 			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
-			return b;
+			return convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
 		case rm_row_sum:
+			b.fill(0.0F);
 			return reduce_row_sum(b, a);
 		case rm_row_avg:
+			b.fill(0.0F);
 			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
-			return b;
+			return convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
@@ -124,12 +132,16 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_min:
+			b.fill(uint8_max);
 			return reduce_col_min(b, a);
 		case rm_col_max:
+			b.fill(uint8_min);
 			return reduce_col_max(b, a);
 		case rm_row_min:
+			b.fill(uint8_max);
 			return reduce_row_min(b, a);
 		case rm_row_max:
+			b.fill(uint8_min);
 			return reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -142,8 +154,10 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
+			b.fill(int32_zero);
 			return reduce_col_sum(b, a);
 		case rm_row_sum:
+			b.fill(int32_zero);
 			return reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -156,6 +170,7 @@ namespace core
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
+			b.fill(0.0F);
 			return reduce_col_sum(b, a);
 		case rm_col_avg:
 			reduce_col_sum(b, a);

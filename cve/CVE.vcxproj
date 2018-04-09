@@ -101,6 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/arch:AVX %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +160,7 @@
     <ClInclude Include="core\cpu\convert_uint16.h" />
     <ClInclude Include="core\cpu\convert_uint32.h" />
     <ClInclude Include="core\cpu\convert_uint8.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_sum.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\reduce.h" />
     <ClInclude Include="core\cpu\reduce_col_max.h" />
     <ClInclude Include="core\cpu\reduce_col_min.h" />
@@ -182,6 +185,7 @@
     <ClInclude Include="core\cpu\reduce_row_max.h" />
     <ClInclude Include="core\cpu\reduce_row_min.h" />
     <ClInclude Include="core\cpu\reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\transpose.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\instruction.h" />
