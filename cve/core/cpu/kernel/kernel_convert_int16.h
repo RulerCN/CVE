@@ -137,8 +137,8 @@ namespace core
 				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 2);
 				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 3);
 				// data-type conversion
-				xmm_b0 = _mm_packs_epi16(xmm_a0, xmm_a1);
-				xmm_b1 = _mm_packs_epi16(xmm_a2, xmm_a3);
+				xmm_b0 = _mm_packus_epi16(xmm_a0, xmm_a1);
+				xmm_b1 = _mm_packus_epi16(xmm_a2, xmm_a3);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -152,7 +152,7 @@ namespace core
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 1);
 				// data-type conversion
-				xmm_b0 = _mm_packs_epi16(xmm_a0, xmm_a1);
+				xmm_b0 = _mm_packus_epi16(xmm_a0, xmm_a1);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += bit;
@@ -366,7 +366,7 @@ namespace core
 				// data-type conversion
 				ymm_b0 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a0), xmm_a2, 1);
 				ymm_b1 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a1), xmm_a3, 1);
-				ymm_b0 = _mm256_packs_epi16(ymm_b0, ymm_b1);
+				ymm_b0 = _mm256_packus_epi16(ymm_b0, ymm_b1);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += block;

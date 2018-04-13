@@ -37,8 +37,8 @@ namespace core
 {
 	// Get an element of a vector
 
-	template <class T, class A1, class A2>
-	scalar<T, A1>& get_element(scalar<T, A1> &b, const vector<T, A2> &a, size_t index)
+	template <class T1, class T2, class A1, class A2>
+	scalar<T1, A1>& get_element(scalar<T1, A1> &b, const vector<T2, A2> &a, size_t index)
 	{
 		return convert(b, a.at(index));
 	}
@@ -57,8 +57,8 @@ namespace core
 
 	// Get an element of a matrix
 
-	template <class T, class A1, class A2>
-	vector<T, A1>& get_element(vector<T, A1> &b, const matrix<T, A2> &a, size_t index)
+	template <class T1, class T2, class A1, class A2>
+	vector<T1, A1>& get_element(vector<T1, A1> &b, const matrix<T2, A2> &a, size_t index)
 	{
 		return convert(b, a.at(index));
 	}
@@ -77,8 +77,8 @@ namespace core
 
 	// Get an element of a tensor
 
-	template <class T, class A1, class A2>
-	matrix<T, A1>& get_element(matrix<T, A1> &b, const tensor<T, A2> &a, size_t index)
+	template <class T1, class T2, class A1, class A2>
+	matrix<T1, A1>& get_element(matrix<T1, A1> &b, const tensor<T2, A2> &a, size_t index)
 	{
 		return convert(b, a.at(index));
 	}

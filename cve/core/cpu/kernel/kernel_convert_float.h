@@ -130,9 +130,9 @@ namespace core
 				xmm_b1 = _mm_cvtps_epi32(xmm_a1);
 				xmm_b2 = _mm_cvtps_epi32(xmm_a2);
 				xmm_b3 = _mm_cvtps_epi32(xmm_a3);
-				xmm_b0 = _mm_packs_epi32(xmm_b0, xmm_b1);
-				xmm_b2 = _mm_packs_epi32(xmm_b2, xmm_b3);
-				xmm_b0 = _mm_packs_epi16(xmm_b0, xmm_b2);
+				xmm_b0 = _mm_packus_epi32(xmm_b0, xmm_b1);
+				xmm_b2 = _mm_packus_epi32(xmm_b2, xmm_b3);
+				xmm_b0 = _mm_packus_epi16(xmm_b0, xmm_b2);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += block;
@@ -231,8 +231,8 @@ namespace core
 				xmm_b1 = _mm_cvtps_epi32(xmm_a1);
 				xmm_b2 = _mm_cvtps_epi32(xmm_a2);
 				xmm_b3 = _mm_cvtps_epi32(xmm_a3);
-				xmm_b0 = _mm_packs_epi32(xmm_b0, xmm_b1);
-				xmm_b2 = _mm_packs_epi32(xmm_b2, xmm_b3);
+				xmm_b0 = _mm_packus_epi32(xmm_b0, xmm_b1);
+				xmm_b2 = _mm_packus_epi32(xmm_b2, xmm_b3);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b2);
@@ -248,7 +248,7 @@ namespace core
 				// data-type conversion
 				xmm_b0 = _mm_cvtps_epi32(xmm_a0);
 				xmm_b1 = _mm_cvtps_epi32(xmm_a1);
-				xmm_b0 = _mm_packs_epi32(xmm_b0, xmm_b1);
+				xmm_b0 = _mm_packus_epi32(xmm_b0, xmm_b1);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += bit;
@@ -504,9 +504,9 @@ namespace core
 				ymm_b1 = _mm256_cvtps_epi32(ymm_a1);
 				ymm_b2 = _mm256_cvtps_epi32(ymm_a2);
 				ymm_b3 = _mm256_cvtps_epi32(ymm_a3);
-				ymm_b0 = _mm256_packs_epi32(ymm_b0, ymm_b1);
-				ymm_b2 = _mm256_packs_epi32(ymm_b2, ymm_b3);
-				ymm_b0 = _mm256_packs_epi16(ymm_b0, ymm_b2);
+				ymm_b0 = _mm256_packus_epi32(ymm_b0, ymm_b1);
+				ymm_b2 = _mm256_packus_epi32(ymm_b2, ymm_b3);
+				ymm_b0 = _mm256_packus_epi16(ymm_b0, ymm_b2);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += block;
@@ -588,7 +588,7 @@ namespace core
 				ymm_a1 = _mm256_insertf128_ps(_mm256_castps128_ps256(xmm_a1), xmm_a3, 1);
 				ymm_b0 = _mm256_cvtps_epi32(ymm_a0);
 				ymm_b1 = _mm256_cvtps_epi32(ymm_a1);
-				ymm_b0 = _mm256_packs_epi32(ymm_b0, ymm_b1);
+				ymm_b0 = _mm256_packus_epi32(ymm_b0, ymm_b1);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += block;

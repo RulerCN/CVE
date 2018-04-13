@@ -154,9 +154,9 @@ namespace core
 				xmm_b2 = _mm_unpacklo_epi64(xmm_b2, xmm_b3);
 				xmm_b4 = _mm_unpacklo_epi64(xmm_b4, xmm_b5);
 				xmm_b6 = _mm_unpacklo_epi64(xmm_b6, xmm_b7);
-				xmm_b0 = _mm_packs_epi32(xmm_b0, xmm_b2);
-				xmm_b4 = _mm_packs_epi32(xmm_b4, xmm_b6);
-				xmm_b0 = _mm_packs_epi16(xmm_b0, xmm_b4);
+				xmm_b0 = _mm_packus_epi32(xmm_b0, xmm_b2);
+				xmm_b4 = _mm_packus_epi32(xmm_b4, xmm_b6);
+				xmm_b0 = _mm_packus_epi16(xmm_b0, xmm_b4);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += block;
@@ -240,7 +240,7 @@ namespace core
 				xmm_b3 = _mm_cvtpd_epi32(xmm_a3);
 				xmm_b0 = _mm_unpacklo_epi64(xmm_b0, xmm_b1);
 				xmm_b2 = _mm_unpacklo_epi64(xmm_b2, xmm_b3);
-				xmm_b0 = _mm_packs_epi32(xmm_b0, xmm_b2);
+				xmm_b0 = _mm_packus_epi32(xmm_b0, xmm_b2);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += block;
@@ -444,9 +444,9 @@ namespace core
 				ymm_b1 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a1), xmm_a5, 1);
 				ymm_b2 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a2), xmm_a6, 1);
 				ymm_b3 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a3), xmm_a7, 1);
-				ymm_b0 = _mm256_packs_epi32(ymm_b0, ymm_b1);
-				ymm_b2 = _mm256_packs_epi32(ymm_b2, ymm_b3);
-				ymm_b0 = _mm256_packs_epi16(ymm_b0, ymm_b2);
+				ymm_b0 = _mm256_packus_epi32(ymm_b0, ymm_b1);
+				ymm_b2 = _mm256_packus_epi32(ymm_b2, ymm_b3);
+				ymm_b0 = _mm256_packus_epi16(ymm_b0, ymm_b2);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += block;
@@ -532,7 +532,7 @@ namespace core
 				xmm_a3 = _mm256_cvtpd_epi32(ymm_a3);
 				ymm_b0 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a0), xmm_a2, 1);
 				ymm_b1 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_a1), xmm_a3, 1);
-				ymm_b0 = _mm256_packs_epi32(ymm_b0, ymm_b1);
+				ymm_b0 = _mm256_packus_epi32(ymm_b0, ymm_b1);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += block;

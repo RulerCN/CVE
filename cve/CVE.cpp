@@ -50,13 +50,16 @@ int main()
 	const size_t dimension = 1;
 
 	ann::mnist<> mnist("data/mnist");
+	core::tensor<float> train_images_flt(batch, rows, columns, dimension);
 	core::tensor<unsigned char> train_images(batch, rows, columns, dimension);
 	core::vector<unsigned char> train_labels(length, dimension);
 	core::tensor<unsigned char> test_images(batch, rows, columns, dimension);
 	core::vector<unsigned char> test_labels(length, dimension);
 
 	mnist.train.shuffle(1U);
-	mnist.train.next_batch(train_images, train_labels);
+	mnist.train.next_batch(train_images_flt, train_labels);
+	core::convert(train_images, train_images_flt);
+
 	img::bitmap::encode("data/train/1.bmp", train_images[0]);
 	img::bitmap::encode("data/train/2.bmp", train_images[1]);
 	img::bitmap::encode("data/train/3.bmp", train_images[2]);
