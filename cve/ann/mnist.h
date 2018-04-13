@@ -65,8 +65,7 @@ namespace ann
 			::std::string train_images = folder + "/train-images.idx3-ubyte";
 			::std::string test_labels = folder + "/t10k-labels.idx1-ubyte";
 			::std::string test_images = folder + "/t10k-images.idx3-ubyte";
-			return train.load(train_images, train_labels)
-				&& test.load(test_images, test_labels);
+			return (train.load(train_images, train_labels) && test.load(test_images, test_labels));
 		}
 
 		// Not recommended. (Olny provided for Microsoft Visual Studio)
@@ -77,8 +76,7 @@ namespace ann
 			::std::wstring train_images = folder + L"/train-images.idx3-ubyte";
 			::std::wstring test_labels = folder + L"/t10k-labels.idx1-ubyte";
 			::std::wstring test_images = folder + L"/t10k-images.idx3-ubyte";
-			return train.load(train_images, train_labels)
-				&& test.load(test_images, test_labels);
+			return (train.load(train_images, train_labels) && test.load(test_images, test_labels));
 		}
 #		endif
 	public:
