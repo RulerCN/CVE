@@ -40,7 +40,7 @@ namespace img
 	static constexpr unsigned short bitmap_identity_bitmap = 0x4d42; /* 'BM' */
 	static constexpr unsigned short bitmap_identity_cursor = 0x5450; /* 'PT' */
 
-#	pragma pack(push, 2)
+#	pragma pack(push, 1)
 
 	// Struct bitmap_file_header
 	struct bitmap_file_header
@@ -77,13 +77,6 @@ namespace img
 		unsigned char        reserved;
 	};
 
-	// Struct bitmap_header
-	struct bitmap_header
-	{
-		bitmap_file_header   file;
-		bitmap_dib_header    dib;
-	};
-
 	// Struct bitmap_palette
 	struct bitmap_palette
 	{
@@ -100,7 +93,7 @@ namespace img
 		// Bitmap encode
 
 		template <class Allocator>
-		static bool encode(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72)
+		static bool encode(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			// Write header information
 			if (!write_header(output, input, dpi))
@@ -113,7 +106,7 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool encode(const char* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72)
+		static bool encode(const char* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
 			std::ofstream output(file_name, std::ios::out | std::ios::binary);
@@ -126,7 +119,7 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool encode(const std::string& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72)
+		static bool encode(const std::string& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
 			std::ofstream output(file_name, std::ios::out | std::ios::binary);
@@ -141,7 +134,7 @@ namespace img
 		// Not recommended. (Olny provided for Microsoft Visual Studio)
 #		if defined(_MSC_VER)
 		template <class Allocator>
-		static bool encode(const wchar_t* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72)
+		static bool encode(const wchar_t* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
 			std::ofstream output(file_name, std::ios::out | std::ios::binary);
@@ -154,7 +147,7 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool encode(const std::wstring& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72)
+		static bool encode(const std::wstring& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
 			std::ofstream output(file_name, std::ios::out | std::ios::binary);
@@ -172,17 +165,18 @@ namespace img
 		template <class Allocator>
 		static bool decode(std::istream &input, ::core::matrix<unsigned char, Allocator> &output)
 		{
-			bitmap_header header = { 0 };
+			bitmap_file_header file_header = { 0 };
+			bitmap_dib_header dib_header = { 0 };
 			bitmap_palette palette = { 0 };
 			// Read header information
 			if (!read_header(input, header))
 				return false;
 			// Read palette information
-			input.seekg(static_cast<std::streamoff>(header.dib.size), std::ios::beg);
+			input.seekg(static_cast<std::streamoff>(dib_header.size), std::ios::beg);
 			if (!read_palette(input, header, palette))
 				return false;
 			// Read bitmap data
-			input.seekg(static_cast<std::streamoff>(header.file.offset), std::ios::beg);
+			input.seekg(static_cast<std::streamoff>(file_header.offset), std::ios::beg);
 			return read_data(input, header, palette, output);
 		}
 
@@ -245,30 +239,31 @@ namespace img
 		template <class Allocator>
 		static bool write_header(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi)
 		{
-			bitmap_header header;
+			bitmap_file_header file_header = { 0 };
+			bitmap_dib_header dib_header = { 0 };
 			size_t stride = (input.row_size() + 3) & ~3;
 			// file header
-			header.file.type = bitmap_identity_bitmap;
-			header.file.size = static_cast<unsigned int>(sizeof(bitmap_header) + stride * input.rows());
-			header.file.reserved1 = 0;
-			header.file.reserved2 = 0;
-			header.file.offset = sizeof(bitmap_header);
+			file_header.type = bitmap_identity_bitmap;
+			file_header.size = static_cast<unsigned int>(sizeof(bitmap_file_header) + sizeof(bitmap_dib_header) + stride * input.rows());
+			file_header.reserved1 = 0;
+			file_header.reserved2 = 0;
+			file_header.offset = sizeof(bitmap_file_header) + sizeof(bitmap_dib_header);
 			// DIB header
-			header.dib.size = sizeof(bitmap_dib_header);
-			header.dib.width = static_cast<int>(input.columns());
-			header.dib.height = -static_cast<int>(input.rows());
-			header.dib.planes = 1;
-			header.dib.bits = static_cast<unsigned short>(input.dimension() << 3);
-			header.dib.compression = 0;
-			header.dib.image_size = static_cast<unsigned int>(stride * input.rows());
-			header.dib.resolution_x = static_cast<int>(dpi * 39.37f + 0.5f);
-			header.dib.resolution_y = static_cast<int>(dpi * 39.37f + 0.5f);
-			header.dib.colors = (input.dimension() == 1) ? 256 : 0;
-			header.dib.important_colors = 0;
+			dib_header.size = sizeof(bitmap_dib_header);
+			dib_header.width = static_cast<int>(input.columns());
+			dib_header.height = -static_cast<int>(input.rows());
+			dib_header.planes = 1;
+			dib_header.bits = static_cast<unsigned short>(input.dimension() << 3);
+			dib_header.compression = 0;
+			dib_header.image_size = static_cast<unsigned int>(stride * input.rows());
+			dib_header.resolution_x = static_cast<int>(dpi * 39.37F + 0.5F);
+			dib_header.resolution_y = static_cast<int>(dpi * 39.37F + 0.5F);
+			dib_header.colors = (input.dimension() == 1) ? 256 : 0;
+			dib_header.important_colors = 0;
 			// Write file header
-			output.write(reinterpret_cast<char*>(&header.file), sizeof(bitmap_file_header));
+			output.write(reinterpret_cast<char*>(&file_header), sizeof(bitmap_file_header));
 			// Write DIB header
-			output.write(reinterpret_cast<char*>(&header.dib), sizeof(bitmap_dib_header));
+			output.write(reinterpret_cast<char*>(&dib_header), sizeof(bitmap_dib_header));
 			return true;
 		}
 
@@ -284,7 +279,7 @@ namespace img
 				palette.color[i].red = static_cast<unsigned char>(i);
 				palette.color[i].reserved = 0;
 			}
-			output.write(reinterpret_cast<const char*>(&palette), palette.number * sizeof(bitmap_palette_entry));
+			output.write(reinterpret_cast<const char*>(&palette.color), palette.number * sizeof(bitmap_palette_entry));
 			return true;
 		}
 
@@ -324,18 +319,18 @@ namespace img
 		}
 
 		// Read header information
-		static bool read_header(std::istream &input, bitmap_header &header)
+		static bool read_header(std::istream &input, bitmap_file_header &file_header, bitmap_dib_header &dib_header)
 		{
 			bool rst = false;
 			// Read file header
-			input.read(reinterpret_cast<char*>(&header.file), sizeof(bitmap_file_header));
+			input.read(reinterpret_cast<char*>(&file_header), sizeof(bitmap_file_header));
 			if (input.good())
 			{
-				switch (header.file.type)
+				switch (file_header.type)
 				{
 				case bitmap_identity_bitmap:
 					// Read DIB header
-					input.read(reinterpret_cast<char*>(&header.dib), sizeof(bitmap_dib_header));
+					input.read(reinterpret_cast<char*>(&dib_header), sizeof(bitmap_dib_header));
 					rst = input.good();
 					break;
 				}
@@ -344,18 +339,18 @@ namespace img
 		}
 
 		// Read palette information
-		static bool read_palette(std::istream &input, const bitmap_header &header, bitmap_palette &palette)
+		static bool read_palette(std::istream &input, const bitmap_dib_header &dib_header, bitmap_palette &palette)
 		{
 			bool rst = false;
-			if (header.dib.colors == 0)
+			if (dib_header.colors == 0)
 			{
 				palette.number = 0;
 				rst = true;
 			}
-			else if (header.dib.colors > 0 && header.dib.colors <= 256)
+			else if (dib_header.colors > 0 && dib_header.colors <= 256)
 			{
-				palette.number = header.dib.colors;
-				input.read(reinterpret_cast<char*>(&palette), palette.number * sizeof(bitmap_palette_entry));
+				palette.number = dib_header.colors;
+				input.read(reinterpret_cast<char*>(&palette.color), palette.number * sizeof(bitmap_palette_entry));
 				rst = input.good();
 			}
 			return rst;
@@ -363,20 +358,20 @@ namespace img
 
 		// Read bitmap data
 		template <class Allocator>
-		static bool read_data(std::istream &input, const bitmap_header &header, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		static bool read_data(std::istream &input, const bitmap_dib_header &dib_header, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
 		{
 			bool rst = true;
-			int channel = (palette.number > 0) ? 3 : (header.dib.bits >> 3);
-			int width = header.dib.width;
-			int height = header.dib.height;
-			int stride = ((header.dib.width * header.dib.bits + 31) & ~31) >> 3;
+			int channel = (palette.number > 0) ? 3 : (dib_header.bits >> 3);
+			int width = dib_header.width;
+			int height = dib_header.height;
+			int stride = ((dib_header.width * dib_header.bits + 31) & ~31) >> 3;
 			// Create matrix
 			output.assign(height, width, channel);
 			// Read bitmap data
-			switch (header.dib.compression)
+			switch (dib_header.compression)
 			{
 			case 0:
-				switch (header.dib.bits)
+				switch (dib_header.bits)
 				{
 				case 1:
 					// Read 1-bit color image

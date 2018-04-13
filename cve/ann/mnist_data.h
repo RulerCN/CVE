@@ -45,14 +45,6 @@ namespace ann
 #	pragma pack(push, 4)
 
 	// Struct mnist_image_header
-	struct mnist_label_header
-	{
-		unsigned int         magic;    /* magic number */
-		unsigned int         items;    /* number of images */
-	//	unsigned char        label;    /* labels value are 0 to 9. */
-	};
-
-	// Struct mnist_image_header
 	struct mnist_image_header
 	{
 		unsigned int         magic;    /* magic number */
@@ -62,8 +54,15 @@ namespace ann
 	//	unsigned char        pixel;    /* pixel value are 0 to 255. */
 	};
 
-#	pragma pack(pop)
+	// Struct mnist_image_header
+	struct mnist_label_header
+	{
+		unsigned int         magic;    /* magic number */
+		unsigned int         items;    /* number of images */
+	//	unsigned char        label;    /* labels value are 0 to 9. */
+	};
 
+#	pragma pack(pop)
 
 	// Template class mnist_data
 	template <class Allocator = ::core::allocator<unsigned char> >
