@@ -172,6 +172,9 @@
     <ClInclude Include="ann\mnist.h">
       <Filter>ann</Filter>
     </ClInclude>
+    <ClInclude Include="image\bitmap.h">
+      <Filter>image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

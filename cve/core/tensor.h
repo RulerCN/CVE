@@ -1061,12 +1061,16 @@ namespace core
 
 		matrix_type at(size_type i)
 		{
+			if (empty())
+				throw ::std::domain_error(tensor_not_initialized);
 			if (i >= depth)
 				throw ::std::out_of_range(tensor_out_of_range);
 			return matrix_type(height, width, channels, buffer + i * plane);
 		}
 		const_matrix_type at(size_type i) const
 		{
+			if (empty())
+				throw ::std::domain_error(tensor_not_initialized);
 			if (i >= depth)
 				throw ::std::out_of_range(tensor_out_of_range);
 			return const_matrix_type(height, width, channels, buffer + i * plane);

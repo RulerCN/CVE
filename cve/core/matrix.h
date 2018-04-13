@@ -837,12 +837,16 @@ namespace core
 
 		vector_type at(size_type i)
 		{
+			if (empty())
+				throw ::std::domain_error(matrix_not_initialized);
 			if (i >= height)
 				throw ::std::out_of_range(matrix_out_of_range);
 			return vector_type(width, channels, buffer + i * stride);
 		}
 		const_vector_type at(size_type i) const
 		{
+			if (empty())
+				throw ::std::domain_error(matrix_not_initialized);
 			if (i >= height)
 				throw ::std::out_of_range(matrix_out_of_range);
 			return const_vector_type(width, channels, buffer + i * stride);

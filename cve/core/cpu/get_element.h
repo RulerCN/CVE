@@ -40,85 +40,58 @@ namespace core
 	template <class T, class A1, class A2>
 	scalar<T, A1>& get_element(scalar<T, A1> &b, const vector<T, A2> &a, size_t index)
 	{
-		if (a.empty())
-			throw ::std::domain_error(vector_not_initialized);
-
 		return convert(b, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
 	scalar<float, A1>& get_element(scalar<float, A1> &b, const vector<T, A2> &a, size_t index, float scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(vector_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 
 	template <class T, class A1, class A2>
 	scalar<double, A1>& get_element(scalar<double, A1> &b, const vector<T, A2> &a, size_t index, double scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(vector_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 
 	// Get an element of a matrix
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& get_element(vector<T, A1> &b, const matrix<T, A2> &a, size_t index) const
+	vector<T, A1>& get_element(vector<T, A1> &b, const matrix<T, A2> &a, size_t index)
 	{
-		if (a.empty())
-			throw ::std::domain_error(matrix_not_initialized);
-
 		return convert(b, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
-	vector<float, A1>& get_element(vector<float, A1> &b, const matrix<T, A2> &a, size_t index, float scale) const
+	vector<float, A1>& get_element(vector<float, A1> &b, const matrix<T, A2> &a, size_t index, float scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(matrix_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 
 	template <class T, class A1, class A2>
-	vector<double, A1>& get_element(vector<double, A1> &b, const matrix<T, A2> &a, size_t index, double scale) const
+	vector<double, A1>& get_element(vector<double, A1> &b, const matrix<T, A2> &a, size_t index, double scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(matrix_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 
 	// Get an element of a tensor
 
 	template <class T, class A1, class A2>
-	matrix<T, A1>& get_element(matrix<T, A1> &b, const tensor<T, A2> &a, size_t index) const
+	matrix<T, A1>& get_element(matrix<T, A1> &b, const tensor<T, A2> &a, size_t index)
 	{
-		if (a.empty())
-			throw ::std::domain_error(tensor_not_initialized);
-
 		return convert(b, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
-	matrix<float, A1>& get_element(matrix<float, A1> &b, const tensor<T, A2> &a, size_t index, float scale) const
+	matrix<float, A1>& get_element(matrix<float, A1> &b, const tensor<T, A2> &a, size_t index, float scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(tensor_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 
 	template <class T, class A1, class A2>
-	matrix<double, A1>& get_element(matrix<double, A1> &b, const tensor<T, A2> &a, size_t index, double scale) const
+	matrix<double, A1>& get_element(matrix<double, A1> &b, const tensor<T, A2> &a, size_t index, double scale)
 	{
-		if (a.empty())
-			throw ::std::domain_error(tensor_not_initialized);
-
 		return convert_scale(b, a.at(index), scale);
 	}
 

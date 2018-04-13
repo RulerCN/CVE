@@ -43,6 +43,7 @@ namespace ann
 	static constexpr unsigned int mnist_identity_image = 0x03080000; /* 2051 */
 
 #	pragma pack(push, 4)
+
 	// Struct mnist_image_header
 	struct mnist_label_header
 	{
@@ -60,6 +61,7 @@ namespace ann
 		unsigned int         width;    /* number of width */
 	//	unsigned char        pixel;    /* pixel value are 0 to 255. */
 	};
+
 #	pragma pack(pop)
 
 
@@ -72,6 +74,25 @@ namespace ann
 
 		mnist_data(void)
 		{}
+		mnist_data(::std::ifstream &image, ::std::ifstream &label)
+		{
+			load(image, label);
+		}
+		mnist_data(const char* image, const char* label)
+		{
+			load(image, label);
+		}
+		mnist_data(const ::std::string& image, const ::std::string& label)
+		{
+			load(image, label);
+		}
+		// Not recommended. (Olny provided for Microsoft Visual Studio)
+#		if defined(_MSC_VER)
+		mnist_data(const wchar_t* image, const wchar_t* label)
+		{
+			load(image, label);
+		}
+#		endif
 
 		// Load MNIST data set
 

@@ -310,12 +310,16 @@ namespace core
 
 		reference at(size_type idx)
 		{
+			if (empty())
+				throw ::std::domain_error(scalar_not_initialized);
 			if (idx >= count)
 				throw ::std::out_of_range(scalar_out_of_range);
 			return buffer[idx];
 		}
 		const_reference at(size_type idx) const
 		{
+			if (empty())
+				throw ::std::domain_error(scalar_not_initialized);
 			if (idx >= count)
 				throw ::std::out_of_range(scalar_out_of_range);
 			return buffer[idx];

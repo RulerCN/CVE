@@ -548,12 +548,16 @@ namespace core
 
 		scalar_type at(size_type i)
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			if (i >= number)
 				throw ::std::out_of_range(vector_out_of_range);
 			return scalar_type(channels, buffer + i * channels);
 		}
 		const_scalar_type at(size_type i) const
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			if (i >= number)
 				throw ::std::out_of_range(vector_out_of_range);
 			return const_scalar_type(channels, buffer + i * channels);
