@@ -160,6 +160,18 @@
     <ClInclude Include="core\cpu\kernel\kernel_multiply.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
+    <ClInclude Include="ann\sample_base.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ann\mnist_data.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\get_element.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="ann\mnist.h">
+      <Filter>ann</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

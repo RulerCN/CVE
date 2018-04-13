@@ -502,7 +502,7 @@ namespace core
 	};
 
 	// Template class rb_tree
-	template <class Key, class Value, class KeyOfValue, class KeyCompare = ::std::less<Key>, class Allocator = ::std::allocator<Value> >
+	template <class Key, class Value, class KeyOfValue, class KeyCompare = ::std::less<Key>, class Allocator = allocator<Value> >
 	class rb_tree : public rb_tree_node_allocator<Value, Allocator>
 	{
 	public:

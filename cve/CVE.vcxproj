@@ -146,6 +146,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ann\mnist.h" />
+    <ClInclude Include="ann\mnist_data.h" />
+    <ClInclude Include="ann\sample_base.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\cpu\convert.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="core\cpu\convert_uint16.h" />
     <ClInclude Include="core\cpu\convert_uint32.h" />
     <ClInclude Include="core\cpu\convert_uint8.h" />
+    <ClInclude Include="core\cpu\get_element.h" />
     <ClInclude Include="core\cpu\kernel\kernel_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_min.h" />
