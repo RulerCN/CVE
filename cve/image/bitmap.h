@@ -93,7 +93,7 @@ namespace img
 		// Bitmap encode
 
 		template <class Allocator>
-		static bool encode(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
+		static bool encode(::std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			// Write header information
 			if (!write_header(output, input, dpi))
@@ -109,7 +109,7 @@ namespace img
 		static bool encode(const char* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
-			std::ofstream output(file_name, std::ios::out | std::ios::binary);
+			::std::ofstream output(file_name, ::std::ios::out | ::std::ios::binary);
 			if (output.is_open())
 			{
 				rst = encode(output, input, dpi);
@@ -119,10 +119,10 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool encode(const std::string& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
+		static bool encode(const ::std::string& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
-			std::ofstream output(file_name, std::ios::out | std::ios::binary);
+			::std::ofstream output(file_name, ::std::ios::out | ::std::ios::binary);
 			if (output.is_open())
 			{
 				rst = encode(output, input, dpi);
@@ -137,7 +137,7 @@ namespace img
 		static bool encode(const wchar_t* file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
-			std::ofstream output(file_name, std::ios::out | std::ios::binary);
+			::std::ofstream output(file_name, ::std::ios::out | ::std::ios::binary);
 			if (output.is_open())
 			{
 				rst = encode(output, input, dpi);
@@ -147,10 +147,10 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool encode(const std::wstring& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
+		static bool encode(const ::std::wstring& file_name, const ::core::matrix<unsigned char, Allocator> &input, float dpi = 72.0F)
 		{
 			bool rst = false;
-			std::ofstream output(file_name, std::ios::out | std::ios::binary);
+			::std::ofstream output(file_name, ::std::ios::out | ::std::ios::binary);
 			if (output.is_open())
 			{
 				rst = encode(output, input, dpi);
@@ -163,28 +163,43 @@ namespace img
 		// Bitmap decode
 
 		template <class Allocator>
-		static bool decode(std::istream &input, ::core::matrix<unsigned char, Allocator> &output)
+		static bool decode(::std::istream &input, ::core::matrix<unsigned char, Allocator> &output)
 		{
 			bitmap_file_header file_header = { 0 };
 			bitmap_dib_header dib_header = { 0 };
 			bitmap_palette palette = { 0 };
 			// Read header information
-			if (!read_header(input, header))
+			if (!read_header(input, file_header, dib_header))
 				return false;
 			// Read palette information
-			input.seekg(static_cast<std::streamoff>(dib_header.size), std::ios::beg);
-			if (!read_palette(input, header, palette))
+			input.seekg(static_cast<::std::streamoff>(dib_header.size), ::std::ios::beg);
+			if (!read_palette(input, dib_header, palette))
 				return false;
 			// Read bitmap data
-			input.seekg(static_cast<std::streamoff>(file_header.offset), std::ios::beg);
-			return read_data(input, header, palette, output);
+			input.seekg(static_cast<::std::streamoff>(file_header.offset), ::std::ios::beg);
+			return read_data(input, dib_header, palette, output);
+		}
+
+		template <class Allocator>
+		static bool decode(::std::istream &input, ::core::matrix<unsigned char, Allocator> &output, bitmap_palette &palette)
+		{
+			bitmap_file_header file_header = { 0 };
+			bitmap_dib_header dib_header = { 0 };
+			// Read header information
+			if (!read_header(input, file_header, dib_header))
+				return false;
+			// Read palette information
+			if (!read_palette(input, dib_header, palette))
+				return false;
+			// Read bitmap data
+			return read_data(input, dib_header, output);
 		}
 
 		template <class Allocator>
 		static bool decode(const char* file_name, ::core::matrix<unsigned char, Allocator> &output)
 		{
 			bool rst = false;
-			std::ifstream input(file_name, std::ios::in | std::ios::binary);
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
 			if (input.is_open())
 			{
 				rst = decode(input, output);
@@ -194,13 +209,39 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool decode(const std::string& file_name, ::core::matrix<unsigned char, Allocator> &output)
+		static bool decode(const char* file_name, ::core::matrix<unsigned char, Allocator> &output, bitmap_palette &palette)
 		{
 			bool rst = false;
-			std::ifstream input(file_name, std::ios::in | std::ios::binary);
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
+			if (input.is_open())
+			{
+				rst = decode(input, output, palette);
+				input.close();
+			}
+			return rst;
+		}
+
+		template <class Allocator>
+		static bool decode(const ::std::string& file_name, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			bool rst = false;
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
 			if (input.is_open())
 			{
 				rst = decode(input, output);
+				input.close();
+			}
+			return rst;
+		}
+
+		template <class Allocator>
+		static bool decode(const ::std::string& file_name, ::core::matrix<unsigned char, Allocator> &output, bitmap_palette &palette)
+		{
+			bool rst = false;
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
+			if (input.is_open())
+			{
+				rst = decode(input, output, palette);
 				input.close();
 			}
 			return rst;
@@ -212,7 +253,7 @@ namespace img
 		static bool decode(const wchar_t* file_name, ::core::matrix<unsigned char, Allocator> &output)
 		{
 			bool rst = false;
-			std::ifstream input(file_name, std::ios::in | std::ios::binary);
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
 			if (input.is_open())
 			{
 				rst = decode(input, output);
@@ -222,13 +263,39 @@ namespace img
 		}
 
 		template <class Allocator>
-		static bool decode(const std::wstring& file_name, ::core::matrix<unsigned char, Allocator> &output)
+		static bool decode(const wchar_t* file_name, ::core::matrix<unsigned char, Allocator> &output, bitmap_palette &palette)
 		{
 			bool rst = false;
-			std::ifstream input(file_name, std::ios::in | std::ios::binary);
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
+			if (input.is_open())
+			{
+				rst = decode(input, output, palette);
+				input.close();
+			}
+			return rst;
+		}
+
+		template <class Allocator>
+		static bool decode(const ::std::wstring& file_name, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			bool rst = false;
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
 			if (input.is_open())
 			{
 				rst = decode(input, output);
+				input.close();
+			}
+			return rst;
+		}
+
+		template <class Allocator>
+		static bool decode(const ::std::wstring& file_name, ::core::matrix<unsigned char, Allocator> &output, bitmap_palette &palette)
+		{
+			bool rst = false;
+			::std::ifstream input(file_name, ::std::ios::in | ::std::ios::binary);
+			if (input.is_open())
+			{
+				rst = decode(input, output, palette);
 				input.close();
 			}
 			return rst;
@@ -237,17 +304,20 @@ namespace img
 	private:
 		// Write header information
 		template <class Allocator>
-		static bool write_header(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi)
+		static bool write_header(::std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input, float dpi)
 		{
 			bitmap_file_header file_header = { 0 };
 			bitmap_dib_header dib_header = { 0 };
-			size_t stride = (input.row_size() + 3) & ~3;
+			const size_t stride = (input.row_size() + 3) & ~3;
+			const unsigned int header_size = sizeof(bitmap_file_header) + sizeof(bitmap_dib_header);
+			const unsigned int palette_size = (input.dimension() == 1) ? 1024 : 0;
+			const unsigned int image_size = static_cast<unsigned int>(stride * input.rows());
 			// file header
 			file_header.type = bitmap_identity_bitmap;
-			file_header.size = static_cast<unsigned int>(sizeof(bitmap_file_header) + sizeof(bitmap_dib_header) + stride * input.rows());
+			file_header.size = header_size + palette_size + image_size;
 			file_header.reserved1 = 0;
 			file_header.reserved2 = 0;
-			file_header.offset = sizeof(bitmap_file_header) + sizeof(bitmap_dib_header);
+			file_header.offset = header_size + palette_size;
 			// DIB header
 			dib_header.size = sizeof(bitmap_dib_header);
 			dib_header.width = static_cast<int>(input.columns());
@@ -255,7 +325,7 @@ namespace img
 			dib_header.planes = 1;
 			dib_header.bits = static_cast<unsigned short>(input.dimension() << 3);
 			dib_header.compression = 0;
-			dib_header.image_size = static_cast<unsigned int>(stride * input.rows());
+			dib_header.image_size = image_size;
 			dib_header.resolution_x = static_cast<int>(dpi * 39.37F + 0.5F);
 			dib_header.resolution_y = static_cast<int>(dpi * 39.37F + 0.5F);
 			dib_header.colors = (input.dimension() == 1) ? 256 : 0;
@@ -268,7 +338,7 @@ namespace img
 		}
 
 		// Write gray palette information
-		static bool write_palette(std::ostream &output)
+		static bool write_palette(::std::ostream &output)
 		{
 			bitmap_palette palette;
 			palette.number = 256;
@@ -277,15 +347,15 @@ namespace img
 				palette.color[i].blue = static_cast<unsigned char>(i);
 				palette.color[i].green = static_cast<unsigned char>(i);
 				palette.color[i].red = static_cast<unsigned char>(i);
-				palette.color[i].reserved = 0;
+				palette.color[i].reserved = 0xff;
 			}
-			output.write(reinterpret_cast<const char*>(&palette.color), palette.number * sizeof(bitmap_palette_entry));
+			output.write(reinterpret_cast<const char*>(palette.color), palette.number * sizeof(bitmap_palette_entry));
 			return true;
 		}
 
 		// Write bitmap data
 		template <class Allocator>
-		static bool write_data(std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input)
+		static bool write_data(::std::ostream &output, const ::core::matrix<unsigned char, Allocator> &input)
 		{
 			bool rst = false;
 			const char zero[3] = { 0, 0, 0 };
@@ -319,7 +389,7 @@ namespace img
 		}
 
 		// Read header information
-		static bool read_header(std::istream &input, bitmap_file_header &file_header, bitmap_dib_header &dib_header)
+		static bool read_header(::std::istream &input, bitmap_file_header &file_header, bitmap_dib_header &dib_header)
 		{
 			bool rst = false;
 			// Read file header
@@ -339,34 +409,35 @@ namespace img
 		}
 
 		// Read palette information
-		static bool read_palette(std::istream &input, const bitmap_dib_header &dib_header, bitmap_palette &palette)
+		static bool read_palette(::std::istream &input, const bitmap_dib_header &dib_header, bitmap_palette &palette)
 		{
-			bool rst = false;
-			if (dib_header.colors == 0)
+			if (dib_header.bits > 8)
 			{
 				palette.number = 0;
-				rst = true;
+				return true;
 			}
-			else if (dib_header.colors > 0 && dib_header.colors <= 256)
+			else if (dib_header.bits > 0)
 			{
-				palette.number = dib_header.colors;
-				input.read(reinterpret_cast<char*>(&palette.color), palette.number * sizeof(bitmap_palette_entry));
-				rst = input.good();
+				palette.number = 1 << dib_header.bits;
+				if (dib_header.colors != 0 && dib_header.colors < palette.number)
+					palette.number = dib_header.colors;
+				input.read(reinterpret_cast<char*>(palette.color), palette.number * sizeof(bitmap_palette_entry));
+				return input.good();
 			}
-			return rst;
+			return false;
 		}
 
 		// Read bitmap data
 		template <class Allocator>
-		static bool read_data(std::istream &input, const bitmap_dib_header &dib_header, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		static bool read_data(::std::istream &input, const bitmap_dib_header &dib_header, ::core::matrix<unsigned char, Allocator> &output)
 		{
 			bool rst = true;
-			int channel = (palette.number > 0) ? 3 : (dib_header.bits >> 3);
+			int channel = dib_header.bits >> 3;
 			int width = dib_header.width;
 			int height = dib_header.height;
 			int stride = ((dib_header.width * dib_header.bits + 31) & ~31) >> 3;
 			// Create matrix
-			output.assign(height, width, channel);
+			output.assign(height < 0 ? -height : height, width, channel);
 			// Read bitmap data
 			switch (dib_header.compression)
 			{
@@ -375,23 +446,80 @@ namespace img
 				{
 				case 1:
 					// Read 1-bit color image
-					rst = read_data_1bit(input, width, height, stride, palette, output);
+					read_data_1bit(input, width, height, stride, output);
+					rst = true;
 					break;
 				case 4:
 					// Read 4-bit color image
-					rst = read_data_4bit(input, width, height, stride, palette, output);
+					read_data_4bit(input, width, height, stride, output);
+					rst = true;
 					break;
 				case 8:
 					// Read 8-bit color image
-					rst = read_data_8bit(input, width, height, stride, palette, output);
+					read_data_8bit(input, width, height, stride, output);
+					rst = true;
 					break;
 				case 24:
 					// Read 24-bit color image
-					rst = read_data_24bit(input, width, height, stride, output);
+					read_data_24bit(input, width, height, stride, output);
+					rst = true;
 					break;
 				case 32:
 					// Read 32-bit color image
-					rst = read_data_32bit(input, width, height, stride, output);
+					read_data_32bit(input, width, height, stride, output);
+					rst = true;
+					break;
+				}
+				break;
+			case 1:
+				break;
+			case 4:
+				break;
+			}
+			return rst;
+		}
+
+		// Read bitmap data
+		template <class Allocator>
+		static bool read_data(::std::istream &input, const bitmap_dib_header &dib_header, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			bool rst = true;
+			int channel = (palette.number > 0) ? 3 : (dib_header.bits >> 3);
+			int width = dib_header.width;
+			int height = dib_header.height;
+			int stride = ((dib_header.width * dib_header.bits + 31) & ~31) >> 3;
+			// Create matrix
+			output.assign(height < 0 ? -height : height, width, channel);
+			// Read bitmap data
+			switch (dib_header.compression)
+			{
+			case 0:
+				switch (dib_header.bits)
+				{
+				case 1:
+					// Read 1-bit color image
+					read_data_1bit(input, width, height, stride, palette, output);
+					rst = true;
+					break;
+				case 4:
+					// Read 4-bit color image
+					read_data_4bit(input, width, height, stride, palette, output);
+					rst = true;
+					break;
+				case 8:
+					// Read 8-bit color image
+					read_data_8bit(input, width, height, stride, palette, output);
+					rst = true;
+					break;
+				case 24:
+					// Read 24-bit color image
+					read_data_24bit(input, width, height, stride, output);
+					rst = true;
+					break;
+				case 32:
+					// Read 32-bit color image
+					read_data_32bit(input, width, height, stride, output);
+					rst = true;
 					break;
 				}
 				break;
@@ -405,312 +533,327 @@ namespace img
 
 		// Read 1-bit color image
 		template <class Allocator>
-		static bool read_data_1bit(std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		static void read_data_1bit(::std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
 		{
-			if (palette.number == 0)
+			char value;
+			unsigned char *dst;
+			::std::streampos position;
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
 			{
-				if (height < 0)
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int x = 0; x < width;)
 					{
-						char value = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int x = 0; x < width;)
-						{
-							input.get(value);
-							dst[x++] = (value & 0x80);
-							dst[x++] = (value & 0x40) << 1;
-							dst[x++] = (value & 0x20) << 2;
-							dst[x++] = (value & 0x10) << 3;
-							dst[x++] = (value & 0x08) << 4;
-							dst[x++] = (value & 0x04) << 5;
-							dst[x++] = (value & 0x02) << 6;
-							dst[x++] = (value & 0x01) << 7;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
+						input.get(value);
+						dst[x++] = (value >> 7) & 0x01;
+						dst[x++] = (value >> 6) & 0x01;
+						dst[x++] = (value >> 5) & 0x01;
+						dst[x++] = (value >> 4) & 0x01;
+						dst[x++] = (value >> 3) & 0x01;
+						dst[x++] = (value >> 2) & 0x01;
+						dst[x++] = (value >> 1) & 0x01;
+						dst[x++] = value & 0x01;
 					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char value = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int x = 0; x < width;)
-						{
-							input.get(value);
-							dst[x++] = (value & 0x80);
-							dst[x++] = (value & 0x40) << 1;
-							dst[x++] = (value & 0x20) << 2;
-							dst[x++] = (value & 0x10) << 3;
-							dst[x++] = (value & 0x08) << 4;
-							dst[x++] = (value & 0x04) << 5;
-							dst[x++] = (value & 0x02) << 6;
-							dst[x++] = (value & 0x01) << 7;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					input.seekg(position + offset);
 				}
 			}
 			else
 			{
-				if (height < 0)
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int x = 0; x < width;)
 					{
-						char value = 0;
-						unsigned char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; x += 8)
-						{
-							input.get(value);
-							for (int i = 7; i >= 0; --i)
-							{
-								index = static_cast<unsigned char>((value >> i) & 0x01);
-								dst[n++] = palette.color[index].blue;
-								dst[n++] = palette.color[index].green;
-								dst[n++] = palette.color[index].red;
-							}
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
+						input.get(value);
+						dst[x++] = (value >> 7) & 0x01;
+						dst[x++] = (value >> 6) & 0x01;
+						dst[x++] = (value >> 5) & 0x01;
+						dst[x++] = (value >> 4) & 0x01;
+						dst[x++] = (value >> 3) & 0x01;
+						dst[x++] = (value >> 2) & 0x01;
+						dst[x++] = (value >> 1) & 0x01;
+						dst[x++] = value & 0x01;
 					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char value = 0;
-						unsigned char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; x += 8)
-						{
-							input.get(value);
-							for (int i = 7; i >= 0; --i)
-							{
-								index = static_cast<unsigned char>((value >> i) & 0x01);
-								dst[n++] = palette.color[index].blue;
-								dst[n++] = palette.color[index].green;
-								dst[n++] = palette.color[index].red;
-							}
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					input.seekg(position + offset);
 				}
 			}
-			return true;
+		}
+
+		// Read 1-bit color image
+		template <class Allocator>
+		static void read_data_1bit(::std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			char value;
+			unsigned char index;
+			unsigned char *dst;
+			::std::streampos position;
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
+			{
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; x += 8)
+					{
+						input.get(value);
+						for (int i = 7; i >= 0; --i)
+						{
+							index = (value >> i) & 0x01;
+							dst[n++] = palette.color[index].blue;
+							dst[n++] = palette.color[index].green;
+							dst[n++] = palette.color[index].red;
+						}
+					}
+					input.seekg(position + offset);
+				}
+			}
+			else
+			{
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; x += 8)
+					{
+						input.get(value);
+						for (int i = 7; i >= 0; --i)
+						{
+							index = (value >> i) & 0x01;
+							dst[n++] = palette.color[index].blue;
+							dst[n++] = palette.color[index].green;
+							dst[n++] = palette.color[index].red;
+						}
+					}
+					input.seekg(position + offset);
+				}
+			}
 		}
 
 		// Read 4-bit color image
 		template <class Allocator>
-		static bool read_data_4bit(std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		static void read_data_4bit(::std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
 		{
-			if (palette.number == 0)
+			char value;
+			unsigned char *dst;
+			::std::streampos position;
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
 			{
-				if (height < 0)
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int x = 0; x < width;)
 					{
-						char value = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int x = 0; x < width;)
-						{
-							input.get(value);
-							dst[x++] = (value & 0xf0);
-							dst[x++] = (value & 0x0f) << 4;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
+						input.get(value);
+						dst[x++] = (value >> 4) & 0x0f;
+						dst[x++] = value & 0x0f;
 					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char value = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int x = 0; x < width;)
-						{
-							input.get(value);
-							dst[x++] = (value & 0xf0);
-							dst[x++] = (value & 0x0f) << 4;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					input.seekg(position + offset);
 				}
 			}
 			else
 			{
-				if (height < 0)
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int x = 0; x < width;)
 					{
-						char value = 0;
-						unsigned char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; x += 2)
-						{
-							input.get(value);
-							index = static_cast<unsigned char>((value >> 4) & 0x0f);
-							dst[n++] = palette.color[index].blue;
-							dst[n++] = palette.color[index].green;
-							dst[n++] = palette.color[index].red;
-							index = static_cast<unsigned char>(value & 0x0f);
-							dst[n++] = palette.color[index].blue;
-							dst[n++] = palette.color[index].green;
-							dst[n++] = palette.color[index].red;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
+						input.get(value);
+						dst[x++] = (value >> 4) & 0x0f;
+						dst[x++] = value & 0x0f;
 					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char value = 0;
-						unsigned char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; x += 2)
-						{
-							input.get(value);
-							index = static_cast<unsigned char>((value >> 4) & 0x0f);
-							dst[n++] = palette.color[index].blue;
-							dst[n++] = palette.color[index].green;
-							dst[n++] = palette.color[index].red;
-							index = static_cast<unsigned char>(value & 0x0f);
-							dst[n++] = palette.color[index].blue;
-							dst[n++] = palette.color[index].green;
-							dst[n++] = palette.color[index].red;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					input.seekg(position + offset);
 				}
 			}
-			return true;
+		}
+
+		// Read 4-bit color image
+		template <class Allocator>
+		static void read_data_4bit(::std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			char value;
+			unsigned char index;
+			unsigned char *dst;
+			::std::streampos position;
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
+			{
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; x += 2)
+					{
+						input.get(value);
+						index = (value >> 4) & 0x0f;
+						dst[n++] = palette.color[index].blue;
+						dst[n++] = palette.color[index].green;
+						dst[n++] = palette.color[index].red;
+						index = value & 0x0f;
+						dst[n++] = palette.color[index].blue;
+						dst[n++] = palette.color[index].green;
+						dst[n++] = palette.color[index].red;
+					}
+					input.seekg(position + offset);
+				}
+			}
+			else
+			{
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; x += 2)
+					{
+						input.get(value);
+						index = (value >> 4) & 0x0f;
+						dst[n++] = palette.color[index].blue;
+						dst[n++] = palette.color[index].green;
+						dst[n++] = palette.color[index].red;
+						index = value & 0x0f;
+						dst[n++] = palette.color[index].blue;
+						dst[n++] = palette.color[index].green;
+						dst[n++] = palette.color[index].red;
+					}
+					input.seekg(position + offset);
+				}
+			}
 		}
 
 		// Read 8-bit color image
 		template <class Allocator>
-		static bool read_data_8bit(std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		static void read_data_8bit(::std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
 		{
-			if (palette.number == 0)
+			::std::streampos position;
+			::std::streamsize count = static_cast<::std::streamoff>(width);
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
 			{
-				if (height < 0)
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
-					{
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						input.read(dst, width);
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						input.read(dst, width);
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
 			else
 			{
-				if (height < 0)
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
 				{
-					for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
-					{
-						char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; ++x)
-						{
-							input.get(index);
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].blue;
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].green;
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].red;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
-				}
-				else
-				{
-					for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
-					{
-						char index = 0;
-						char* dst = reinterpret_cast<char*>(vi.operator->());
-						std::streampos position = input.tellg();
-						for (int n = 0, x = 0; x < width; ++x)
-						{
-							input.get(index);
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].blue;
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].green;
-							dst[n++] = palette.color[static_cast<unsigned char>(index)].red;
-						}
-						input.seekg(position + static_cast<std::streamoff>(stride));
-					}
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
-			return true;
+		}
+
+		// Read 8-bit color image
+		template <class Allocator>
+		static void read_data_8bit(::std::istream &input, int width, int height, int stride, const bitmap_palette &palette, ::core::matrix<unsigned char, Allocator> &output)
+		{
+			char value;
+			unsigned char *dst;
+			::std::streampos position;
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
+			if (height < 0)
+			{
+				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; ++x)
+					{
+						input.get(value);
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].blue;
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].green;
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].red;
+					}
+					input.seekg(position + offset);
+				}
+			}
+			else
+			{
+				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
+				{
+					dst = vi.operator->();
+					position = input.tellg();
+					for (int n = 0, x = 0; x < width; ++x)
+					{
+						input.get(value);
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].blue;
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].green;
+						dst[n++] = palette.color[static_cast<unsigned char>(value)].red;
+					}
+					input.seekg(position + offset);
+				}
+			}
 		}
 
 		// Read 24-bit color image
 		template <class Allocator>
-		static bool read_data_24bit(std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
+		static void read_data_24bit(::std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
 		{
+			::std::streampos position;
+			::std::streamsize count = static_cast<::std::streamoff>(width * 3);
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
 			if (height < 0)
 			{
 				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
 				{
-					char* dst = reinterpret_cast<char*>(vi.operator->());
-					std::streampos position = input.tellg();
-					input.read(dst, width * 3);
-					input.seekg(position + static_cast<std::streamoff>(stride));
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
 			else
 			{
 				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
 				{
-					char* dst = reinterpret_cast<char*>(vi.operator->());
-					std::streampos position = input.tellg();
-					input.read(dst, width * 3);
-					input.seekg(position + static_cast<std::streamoff>(stride));
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
-			return true;
 		}
 
 		// Read 32-bit color image
 		template <class Allocator>
-		static bool read_data_32bit(std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
+		static bool read_data_32bit(::std::istream &input, int width, int height, int stride, ::core::matrix<unsigned char, Allocator> &output)
 		{
+			::std::streampos position;
+			::std::streamsize count = static_cast<::std::streamoff>(width * 4);
+			::std::streamoff offset = static_cast<::std::streamoff>(stride);
+
 			if (height < 0)
 			{
 				for (auto vi = output.vbegin(); vi != output.vend(); ++vi)
 				{
-					char* dst = reinterpret_cast<char*>(vi.operator->());
-					std::streampos position = input.tellg();
-					input.read(dst, width * 4);
-					input.seekg(position + static_cast<std::streamoff>(stride));
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
 			else
 			{
 				for (auto vi = output.rvbegin(); vi != output.rvend(); ++vi)
 				{
-					char* dst = reinterpret_cast<char*>(vi.operator->());
-					std::streampos position = input.tellg();
-					input.read(dst, width * 4);
-					input.seekg(position + static_cast<std::streamoff>(stride));
+					position = input.tellg();
+					input.read(reinterpret_cast<char*>(vi.operator->()), count);
+					input.seekg(position + offset);
 				}
 			}
 			return true;

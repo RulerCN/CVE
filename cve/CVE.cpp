@@ -43,6 +43,11 @@ int main()
 {
 	core::global::enable_simd(true);
 
+	//core::matrix<unsigned char> output;
+	//img::bitmap_palette palette;
+	//img::bitmap::decode("data/train/1.bmp", output, palette);
+	//return 0;
+
 	const size_t batch     = 10;
 	const size_t rows      = 28;
 	const size_t columns   = 28;
