@@ -166,11 +166,11 @@ namespace core
 	// Axis type 
 	typedef unsigned char axis_type;
 	static constexpr axis_type           axis_none         = 0x00;
-	static constexpr axis_type           axis_x            = 0x01;    					 /* x-axis */
-	static constexpr axis_type           axis_y            = 0x02;						 /* y-axis */
-	static constexpr axis_type           axis_z            = 0x04;						 /* z-axis */
-	static constexpr axis_type           axis_xy           = axis_x | axis_y;			 /* x-axis and y-axis */
-	static constexpr axis_type           axis_xyz          = axis_xy | axis_z;			 /* x-axis, y-axis and axis */
+	static constexpr axis_type           axis_x            = 0x01;                       /* x-axis */
+	static constexpr axis_type           axis_y            = 0x02;                       /* y-axis */
+	static constexpr axis_type           axis_z            = 0x04;                       /* z-axis */
+	static constexpr axis_type           axis_xy           = axis_x | axis_y;            /* x-axis and y-axis */
+	static constexpr axis_type           axis_xyz          = axis_xy | axis_z;           /* x-axis, y-axis and axis */
 
 } // namespace core
 
