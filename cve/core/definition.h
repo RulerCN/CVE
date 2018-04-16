@@ -34,6 +34,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
+	// Instruction set
+	typedef unsigned char inst_type;
+	static constexpr inst_type          inst_none          = 0x00;
+	static constexpr inst_type          inst_mmx           = 0x01;                       /* MMX instruction */
+	static constexpr inst_type          inst_sse           = 0x02;                       /* SSE instruction */
+	static constexpr inst_type          inst_sse2          = 0x03;                       /* SSE2 instruction */
+	static constexpr inst_type          inst_sse3          = 0x04;                       /* SSE3 instruction */
+	static constexpr inst_type          inst_ssse3         = 0x05;                       /* SSE3S instruction */
+	static constexpr inst_type          inst_sse41         = 0x06;                       /* SSE4.1 instruction */
+	static constexpr inst_type          inst_sse42         = 0x07;                       /* SSE4.2 instruction */
+	static constexpr inst_type          inst_avx           = 0x08;                       /* AVX instruction */
+	static constexpr inst_type          inst_avx2          = 0x09;                       /* AVX2 instruction */
+	static constexpr inst_type          inst_fma           = 0x10;                       /* FMA instruction */
+	static constexpr inst_type          inst_fma4          = 0x20;                       /* FMA4 instruction */
 	// Extremum
 	static constexpr signed char        int8_min           = -0x7f - 1;                  /* -128 */
 	static constexpr signed short       int16_min          = -0x7fff - 1;                /* -32768 */
@@ -128,22 +142,21 @@ namespace core
 	static constexpr double             dbl_2_sqrtpi       = 1.12837916709551257390;     /* 2/sqrt(pi) */
 	static constexpr double             dbl_sqrt2          = 1.41421356237309504880;     /* sqrt(2) */
 	static constexpr double             dbl_sqrt1_2        = 0.707106781186547524401;    /* 1/sqrt(2) */
-
-	// Instruction set
-	typedef unsigned char inst_type;
-	static constexpr inst_type          inst_none          = 0x00;
-	static constexpr inst_type          inst_mmx           = 0x01;                       /* MMX instruction */
-	static constexpr inst_type          inst_sse           = 0x02;                       /* SSE instruction */
-	static constexpr inst_type          inst_sse2          = 0x03;                       /* SSE2 instruction */
-	static constexpr inst_type          inst_sse3          = 0x04;                       /* SSE3 instruction */
-	static constexpr inst_type          inst_ssse3         = 0x05;                       /* SSE3S instruction */
-	static constexpr inst_type          inst_sse41         = 0x06;                       /* SSE4.1 instruction */
-	static constexpr inst_type          inst_sse42         = 0x07;                       /* SSE4.2 instruction */
-	static constexpr inst_type          inst_avx           = 0x08;                       /* AVX instruction */
-	static constexpr inst_type          inst_avx2          = 0x09;                       /* AVX2 instruction */
-	static constexpr inst_type          inst_fma           = 0x10;                       /* FMA instruction */
-	static constexpr inst_type          inst_fma4          = 0x20;                       /* FMA4 instruction */
-
+	// Border type
+	typedef unsigned char border_type;
+	static constexpr border_type        border_constant    = 0x00;                       /* iiii|abcdefgh|iiii */
+	static constexpr border_type        border_replicte    = 0x01;                       /* aaaa|abcdefgh|hhhh */
+	static constexpr border_type        border_reflect     = 0x02;                       /* dcba|abcdefgh|hgfe */
+	static constexpr border_type        border_reflect101  = 0x03;                       /* edcb|abcdefgh|gfed */
+	static constexpr border_type        border_wrap        = 0x04;                       /* efgh|abcdefgh|abcd */
+	// Axis type
+	typedef unsigned char axis_type;
+	static constexpr axis_type          axis_none          = 0x00;
+	static constexpr axis_type          axis_x             = 0x01;                       /* x-axis */
+	static constexpr axis_type          axis_y             = 0x02;                       /* y-axis */
+	static constexpr axis_type          axis_z             = 0x04;                       /* z-axis */
+	static constexpr axis_type          axis_xy            = axis_x | axis_y;            /* x-axis and y-axis */
+	static constexpr axis_type          axis_xyz           = axis_xy | axis_z;           /* x-axis, y-axis and z-axis */
 	// Reduce mode
 	typedef unsigned char reduce_mode_type;
 	static constexpr reduce_mode_type   reduce_col_min     = 0x01;                       /* the minimum of each row of matrix */
@@ -154,23 +167,6 @@ namespace core
 	static constexpr reduce_mode_type   reduce_row_max     = 0x12;                       /* the maximum of each column of matrix */
 	static constexpr reduce_mode_type   reduce_row_sum     = 0x13;                       /* the sum of each column of matrix */
 	static constexpr reduce_mode_type   reduce_row_avg     = 0x14;                       /* the mean of each column of matrix */
-
-	// Border type
-	typedef unsigned char border_type;
-	static constexpr border_type         border_constant   = 0x00;                       /* iiii|abcdefgh|iiii */
-	static constexpr border_type         border_replicte   = 0x01;                       /* aaaa|abcdefgh|hhhh */
-	static constexpr border_type         border_reflect    = 0x02;                       /* dcba|abcdefgh|hgfe */
-	static constexpr border_type         border_reflect101 = 0x03;                       /* edcb|abcdefgh|gfed */
-	static constexpr border_type         border_wrap       = 0x04;                       /* efgh|abcdefgh|abcd */
-
-	// Axis type 
-	typedef unsigned char axis_type;
-	static constexpr axis_type           axis_none         = 0x00;
-	static constexpr axis_type           axis_x            = 0x01;                       /* x-axis */
-	static constexpr axis_type           axis_y            = 0x02;                       /* y-axis */
-	static constexpr axis_type           axis_z            = 0x04;                       /* z-axis */
-	static constexpr axis_type           axis_xy           = axis_x | axis_y;            /* x-axis and y-axis */
-	static constexpr axis_type           axis_xyz          = axis_xy | axis_z;           /* x-axis, y-axis and z-axis */
 
 } // namespace core
 
