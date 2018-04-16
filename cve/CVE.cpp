@@ -100,12 +100,12 @@ int main()
 	//x.linear_fill(static_cast<signed char>(1), static_cast<signed char>(2), static_cast<signed char>(1));
 	//// Matrix operation
 	//core::transpose(t, x);
-	//core::reduce(col_min, x, core::rm_col_min);
-	//core::reduce(col_max, x, core::rm_col_max);
-	//core::reduce(col_sum, x, core::rm_col_sum);
-	//core::reduce(row_min, x, core::rm_row_min);
-	//core::reduce(row_max, x, core::rm_row_max);
-	//core::reduce(row_sum, x, core::rm_row_sum);
+	//core::reduce(col_min, x, core::reduce_col_min);
+	//core::reduce(col_max, x, core::reduce_col_max);
+	//core::reduce(col_sum, x, core::reduce_col_sum);
+	//core::reduce(row_min, x, core::reduce_row_min);
+	//core::reduce(row_max, x, core::reduce_row_max);
+	//core::reduce(row_sum, x, core::reduce_row_sum);
 	//print("X", x);
 	//print("T", t);
 	//print("col_min", col_min);

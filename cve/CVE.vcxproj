@@ -151,6 +151,7 @@
     <ClInclude Include="ann\sample_base.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
+    <ClInclude Include="core\cpu\cpu_border_index.h" />
     <ClInclude Include="core\cpu\cpu_convert.h" />
     <ClInclude Include="core\cpu\cpu_convert_double.h" />
     <ClInclude Include="core\cpu\cpu_convert_float.h" />

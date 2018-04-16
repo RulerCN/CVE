@@ -40,45 +40,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	typedef unsigned char reduce_mode_type;
-	static constexpr reduce_mode_type rm_col_min = 0x01;
-	static constexpr reduce_mode_type rm_col_max = 0x02;
-	static constexpr reduce_mode_type rm_col_sum = 0x03;
-	static constexpr reduce_mode_type rm_col_avg = 0x04;
-	static constexpr reduce_mode_type rm_row_min = 0x11;
-	static constexpr reduce_mode_type rm_row_max = 0x12;
-	static constexpr reduce_mode_type rm_row_sum = 0x13;
-	static constexpr reduce_mode_type rm_row_avg = 0x14;
-
 	// Reducing the dimension of a matrix by a specified operation
 	// Parameters:
 	// 1. b - output vector.
 	// 2. a - input matrix.
 	// 3. reduce_mode - reduction operation that could be one of the following:
-	//     rm_row_min: return the minimum of each row of matrix.
-	//     rm_row_max: return the maximum of each row of matrix.
-	//     rm_row_sum: return the sum of each row of matrix.
-	//     rm_row_avg: return the mean of each row of matrix.
-	//     rm_col_min: return the minimum of each column of matrix.
-	//     rm_col_max: return the maximum of each column of matrix.
-	//     rm_col_sum: return the sum of each column of matrix.
-	//     rm_col_avg: return the mean of each column of matrix.
+	//     reduce_row_min: return the minimum of each row of matrix.
+	//     reduce_row_max: return the maximum of each row of matrix.
+	//     reduce_row_sum: return the sum of each row of matrix.
+	//     reduce_row_avg: return the mean of each row of matrix.
+	//     reduce_col_min: return the minimum of each column of matrix.
+	//     reduce_col_max: return the maximum of each column of matrix.
+	//     reduce_col_sum: return the sum of each column of matrix.
+	//     reduce_col_avg: return the mean of each column of matrix.
 
 	template <class A1, class A2>
 	vector<signed char, A1>& cpu_reduce(vector<signed char, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			b.fill(int8_max);
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			b.fill(int8_min);
 			return cpu_reduce_col_max(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			b.fill(int8_max);
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			b.fill(int8_min);
 			return cpu_reduce_row_max(b, a);
 		default:
@@ -91,10 +81,10 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			b.fill(int32_zero);
 			return cpu_reduce_col_sum(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			b.fill(int32_zero);
 			return cpu_reduce_row_sum(b, a);
 		default:
@@ -107,17 +97,17 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			b.fill(0.0F);
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			b.fill(0.0F);
 			cpu_reduce_col_sum(b, a);
 			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
-		case rm_row_sum:
+		case reduce_row_sum:
 			b.fill(0.0F);
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			b.fill(0.0F);
 			cpu_reduce_row_sum(b, a);
 			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
@@ -131,16 +121,16 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			b.fill(uint8_max);
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			b.fill(uint8_min);
 			return cpu_reduce_col_max(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			b.fill(uint8_max);
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			b.fill(uint8_min);
 			return cpu_reduce_row_max(b, a);
 		default:
@@ -153,10 +143,10 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			b.fill(int32_zero);
 			return cpu_reduce_col_sum(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			b.fill(int32_zero);
 			return cpu_reduce_row_sum(b, a);
 		default:
@@ -169,16 +159,16 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			b.fill(0.0F);
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -192,13 +182,13 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -210,9 +200,9 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -224,15 +214,15 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -246,13 +236,13 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -264,9 +254,9 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -278,15 +268,15 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -300,17 +290,17 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -322,15 +312,15 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -344,13 +334,13 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -362,15 +352,15 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -384,23 +374,23 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
@@ -414,23 +404,23 @@ namespace core
 	{
 		switch (reduce_mode)
 		{
-		case rm_col_min:
+		case reduce_col_min:
 			return cpu_reduce_col_min(b, a);
-		case rm_col_max:
+		case reduce_col_max:
 			return cpu_reduce_col_max(b, a);
-		case rm_col_sum:
+		case reduce_col_sum:
 			return cpu_reduce_col_sum(b, a);
-		case rm_col_avg:
+		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
 			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
 			return b;
-		case rm_row_min:
+		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
-		case rm_row_max:
+		case reduce_row_max:
 			return cpu_reduce_row_max(b, a);
-		case rm_row_sum:
+		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
-		case rm_row_avg:
+		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
 			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
 			return b;

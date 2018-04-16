@@ -35,53 +35,53 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Extremum
-	static constexpr signed char        int8_min           = -0x7f - 1;                  // -128
-	static constexpr signed short       int16_min          = -0x7fff - 1;                // -32768
-	static constexpr signed int         int32_min          = -0x7fffffff - 1;            // -2147483648
-	static constexpr signed long long   int64_min          = -0x7fffffffffffffffLL - 1;  // -9223372036854775808LL
-	static constexpr signed char        int8_zero          = 0x00;                       // 0
-	static constexpr signed short       int16_zero         = 0x0000;                     // 0
-	static constexpr signed int         int32_zero         = 0x00000000;                 // 0
-	static constexpr signed long long   int64_zero         = 0x0000000000000000LL;       // 0LL
-	static constexpr signed char        int8_max           = 0x7f;                       // 127
-	static constexpr signed short       int16_max          = 0x7fff;                     // 32767
-	static constexpr signed int         int32_max          = 0x7fffffff;                 // 2147483647
-	static constexpr signed long long   int64_max          = 0x7fffffffffffffffLL;       // 9223372036854775807LL
-	static constexpr unsigned char      uint8_min          = 0x00U;                      // 0U
-	static constexpr unsigned short     uint16_min         = 0x0000U;                    // 0U
-	static constexpr unsigned int       uint32_min         = 0x00000000U;                // 0U
-	static constexpr unsigned long long uint64_min         = 0x0000000000000000ULL;      // 0ULL
-	static constexpr unsigned char      uint8_max          = 0xffU;                      // 255U
-	static constexpr unsigned short     uint16_max         = 0xffffU;                    // 65535U
-	static constexpr unsigned int       uint32_max         = 0xffffffffU;                // 4294967295U
-	static constexpr unsigned long long uint64_max         = 0xffffffffffffffffULL;      // 18446744073709551615ULL
+	static constexpr signed char        int8_min           = -0x7f - 1;                  /* -128 */
+	static constexpr signed short       int16_min          = -0x7fff - 1;                /* -32768 */
+	static constexpr signed int         int32_min          = -0x7fffffff - 1;            /* -2147483648 */
+	static constexpr signed long long   int64_min          = -0x7fffffffffffffffLL - 1;  /* -9223372036854775808LL */
+	static constexpr signed char        int8_zero          = 0x00;                       /* 0 */
+	static constexpr signed short       int16_zero         = 0x0000;                     /* 0 */
+	static constexpr signed int         int32_zero         = 0x00000000;                 /* 0 */
+	static constexpr signed long long   int64_zero         = 0x0000000000000000LL;       /* 0LL */
+	static constexpr signed char        int8_max           = 0x7f;                       /* 127 */
+	static constexpr signed short       int16_max          = 0x7fff;                     /* 32767 */
+	static constexpr signed int         int32_max          = 0x7fffffff;                 /* 2147483647 */
+	static constexpr signed long long   int64_max          = 0x7fffffffffffffffLL;       /* 9223372036854775807LL */
+	static constexpr unsigned char      uint8_min          = 0x00U;                      /* 0U */
+	static constexpr unsigned short     uint16_min         = 0x0000U;                    /* 0U */
+	static constexpr unsigned int       uint32_min         = 0x00000000U;                /* 0U */
+	static constexpr unsigned long long uint64_min         = 0x0000000000000000ULL;      /* 0ULL */
+	static constexpr unsigned char      uint8_max          = 0xffU;                      /* 255U */
+	static constexpr unsigned short     uint16_max         = 0xffffU;                    /* 65535U */
+	static constexpr unsigned int       uint32_max         = 0xffffffffU;                /* 4294967295U */
+	static constexpr unsigned long long uint64_max         = 0xffffffffffffffffULL;      /* 18446744073709551615ULL */
 	// Logical constants
-	static constexpr signed char        int8_false         = 0x00;                       // 0
-	static constexpr signed short       int16_false        = 0x0000;                     // 0
-	static constexpr signed int         int32_false        = 0x00000000;                 // 0
-	static constexpr signed long long   int64_false        = 0x0000000000000000LL;       // 0LL
-	static constexpr unsigned char      uint8_false        = 0x00U;                      // 0U
-	static constexpr unsigned short     uint16_false       = 0x0000U;                    // 0U
-	static constexpr unsigned int       uint32_false       = 0x00000000U;                // 0U
-	static constexpr unsigned long long uint64_false       = 0x0000000000000000ULL;      // 0ULL
-	static constexpr signed char        int8_true          = -1;                         // 0xff
-	static constexpr signed short       int16_true         = -1;                         // 0xffff
-	static constexpr signed int         int32_true         = -1;                         // 0xffffffff
-	static constexpr signed long long   int64_true         = -1LL;                       // 0xffffffffffffffffLL
-	static constexpr unsigned char      uint8_true         = 0xffU;                      // 255U
-	static constexpr unsigned short     uint16_true        = 0xffffU;                    // 65535U
-	static constexpr unsigned int       uint32_true        = 0xffffffffU;                // 4294967295U
-	static constexpr unsigned long long uint64_true        = 0xffffffffffffffffULL;      // 18446744073709551615ULL
+	static constexpr signed char        int8_false         = 0x00;                       /* 0 */
+	static constexpr signed short       int16_false        = 0x0000;                     /* 0 */
+	static constexpr signed int         int32_false        = 0x00000000;                 /* 0 */
+	static constexpr signed long long   int64_false        = 0x0000000000000000LL;       /* 0LL */
+	static constexpr unsigned char      uint8_false        = 0x00U;                      /* 0U */
+	static constexpr unsigned short     uint16_false       = 0x0000U;                    /* 0U */
+	static constexpr unsigned int       uint32_false       = 0x00000000U;                /* 0U */
+	static constexpr unsigned long long uint64_false       = 0x0000000000000000ULL;      /* 0ULL */
+	static constexpr signed char        int8_true          = -1;                         /* 0xff */
+	static constexpr signed short       int16_true         = -1;                         /* 0xffff */
+	static constexpr signed int         int32_true         = -1;                         /* 0xffffffff */
+	static constexpr signed long long   int64_true         = -1LL;                       /* 0xffffffffffffffffLL */
+	static constexpr unsigned char      uint8_true         = 0xffU;                      /* 255U */
+	static constexpr unsigned short     uint16_true        = 0xffffU;                    /* 65535U */
+	static constexpr unsigned int       uint32_true        = 0xffffffffU;                /* 4294967295U */
+	static constexpr unsigned long long uint64_true        = 0xffffffffffffffffULL;      /* 18446744073709551615ULL */
 	// Sign bit
-	static constexpr signed char        int8_sign          = -0x7f - 1;                  // 0x80
-	static constexpr signed short       int16_sign         = -0x7fff - 1;                // 0x8000
-	static constexpr signed int         int32_sign         = -0x7fffffff - 1;            // 0x80000000
-	static constexpr signed long long   int64_sign         = -0x7fffffffffffffffLL - 1;  // 0x8000000000000000LL
+	static constexpr signed char        int8_sign          = -0x7f - 1;                  /* 0x80 */
+	static constexpr signed short       int16_sign         = -0x7fff - 1;                /* 0x8000 */
+	static constexpr signed int         int32_sign         = -0x7fffffff - 1;            /* 0x80000000 */
+	static constexpr signed long long   int64_sign         = -0x7fffffffffffffffLL - 1;  /* 0x8000000000000000LL */
 	// Absolute value
-	static constexpr signed char        int8_abs           = 0x7f;                       // 127
-	static constexpr signed short       int16_abs          = 0x7fff;                     // 32767
-	static constexpr signed int         int32_abs          = 0x7fffffff;                 // 2147483647
-	static constexpr signed long long   int64_abs          = 0x7fffffffffffffffLL;       // 9223372036854775807LL
+	static constexpr signed char        int8_abs           = 0x7f;                       /* 127 */
+	static constexpr signed short       int16_abs          = 0x7fff;                     /* 32767 */
+	static constexpr signed int         int32_abs          = 0x7fffffff;                 /* 2147483647 */
+	static constexpr signed long long   int64_abs          = 0x7fffffffffffffffLL;       /* 9223372036854775807LL */
 	// Floating point
 	static constexpr int                flt_dig            = 6;
 	static constexpr int                flt_mant_dig       = 24;
@@ -102,47 +102,75 @@ namespace core
 	static constexpr int                dbl_max_10_exp     = 308;
 	static constexpr int                dbl_max_exp        = 1024;
 	// Mathematical constants
-	static constexpr float              flt_e              = 2.71828182845904523536F;    // e
-	static constexpr float              flt_log2e          = 1.44269504088896340736F;    // log2(e)
-	static constexpr float              flt_log10e         = 0.434294481903251827651F;   // log10(e)
-	static constexpr float              flt_ln2            = 0.693147180559945309417F;   // ln(2)
-	static constexpr float              flt_ln10           = 2.30258509299404568402F;    // ln(10)
-	static constexpr float              flt_pi             = 3.14159265358979323846F;    // pi
-	static constexpr float              flt_pi_2           = 1.57079632679489661923F;    // pi/2
-	static constexpr float              flt_pi_4           = 0.785398163397448309616F;   // pi/4
-	static constexpr float              flt_1_pi           = 0.318309886183790671538F;   // 1/pi
-	static constexpr float              flt_2_pi           = 0.636619772367581343076F;   // 2/pi
-	static constexpr float              flt_2_sqrtpi       = 1.12837916709551257390F;    // 2/sqrt(pi)
-	static constexpr float              flt_sqrt2          = 1.41421356237309504880F;    // sqrt(2)
-	static constexpr float              flt_sqrt1_2        = 0.707106781186547524401F;   // 1/sqrt(2)
-	static constexpr double             dbl_e              = 2.71828182845904523536;     // e
-	static constexpr double             dbl_log2e          = 1.44269504088896340736;     // log2(e)
-	static constexpr double             dbl_log10e         = 0.434294481903251827651;    // log10(e)
-	static constexpr double             dbl_ln2            = 0.693147180559945309417;    // ln(2)
-	static constexpr double             dbl_ln10           = 2.30258509299404568402;     // ln(10)
-	static constexpr double             dbl_pi             = 3.14159265358979323846;     // pi
-	static constexpr double             dbl_pi_2           = 1.57079632679489661923;     // pi/2
-	static constexpr double             dbl_pi_4           = 0.785398163397448309616;    // pi/4
-	static constexpr double             dbl_1_pi           = 0.318309886183790671538;    // 1/pi
-	static constexpr double             dbl_2_pi           = 0.636619772367581343076;    // 2/pi
-	static constexpr double             dbl_2_sqrtpi       = 1.12837916709551257390;     // 2/sqrt(pi)
-	static constexpr double             dbl_sqrt2          = 1.41421356237309504880;     // sqrt(2)
-	static constexpr double             dbl_sqrt1_2        = 0.707106781186547524401;    // 1/sqrt(2)
+	static constexpr float              flt_e              = 2.71828182845904523536F;    /* e */
+	static constexpr float              flt_log2e          = 1.44269504088896340736F;    /* log2(e) */
+	static constexpr float              flt_log10e         = 0.434294481903251827651F;   /* log10(e) */
+	static constexpr float              flt_ln2            = 0.693147180559945309417F;   /* ln(2) */
+	static constexpr float              flt_ln10           = 2.30258509299404568402F;    /* ln(10) */
+	static constexpr float              flt_pi             = 3.14159265358979323846F;    /* pi */
+	static constexpr float              flt_pi_2           = 1.57079632679489661923F;    /* pi/2 */
+	static constexpr float              flt_pi_4           = 0.785398163397448309616F;   /* pi/4 */
+	static constexpr float              flt_1_pi           = 0.318309886183790671538F;   /* 1/pi */
+	static constexpr float              flt_2_pi           = 0.636619772367581343076F;   /* 2/pi */
+	static constexpr float              flt_2_sqrtpi       = 1.12837916709551257390F;    /* 2/sqrt(pi) */
+	static constexpr float              flt_sqrt2          = 1.41421356237309504880F;    /* sqrt(2) */
+	static constexpr float              flt_sqrt1_2        = 0.707106781186547524401F;   /* 1/sqrt(2) */
+	static constexpr double             dbl_e              = 2.71828182845904523536;     /* e */
+	static constexpr double             dbl_log2e          = 1.44269504088896340736;     /* log2(e) */
+	static constexpr double             dbl_log10e         = 0.434294481903251827651;    /* log10(e) */
+	static constexpr double             dbl_ln2            = 0.693147180559945309417;    /* ln(2) */
+	static constexpr double             dbl_ln10           = 2.30258509299404568402;     /* ln(10) */
+	static constexpr double             dbl_pi             = 3.14159265358979323846;     /* pi */
+	static constexpr double             dbl_pi_2           = 1.57079632679489661923;     /* pi/2 */
+	static constexpr double             dbl_pi_4           = 0.785398163397448309616;    /* pi/4 */
+	static constexpr double             dbl_1_pi           = 0.318309886183790671538;    /* 1/pi */
+	static constexpr double             dbl_2_pi           = 0.636619772367581343076;    /* 2/pi */
+	static constexpr double             dbl_2_sqrtpi       = 1.12837916709551257390;     /* 2/sqrt(pi) */
+	static constexpr double             dbl_sqrt2          = 1.41421356237309504880;     /* sqrt(2) */
+	static constexpr double             dbl_sqrt1_2        = 0.707106781186547524401;    /* 1/sqrt(2) */
 
 	// Instruction set
 	typedef unsigned char inst_type;
 	static constexpr inst_type          inst_none          = 0x00;
-	static constexpr inst_type          inst_mmx           = 0x01;
-	static constexpr inst_type          inst_sse           = 0x02;
-	static constexpr inst_type          inst_sse2          = 0x03;
-	static constexpr inst_type          inst_sse3          = 0x04;
-	static constexpr inst_type          inst_ssse3         = 0x05;
-	static constexpr inst_type          inst_sse41         = 0x06;
-	static constexpr inst_type          inst_sse42         = 0x07;
-	static constexpr inst_type          inst_avx           = 0x08;
-	static constexpr inst_type          inst_avx2          = 0x09;
-	static constexpr inst_type          inst_fma           = 0x10;
-	static constexpr inst_type          inst_fma4          = 0x20;
+	static constexpr inst_type          inst_mmx           = 0x01;                       /* MMX instruction */
+	static constexpr inst_type          inst_sse           = 0x02;                       /* SSE instruction */
+	static constexpr inst_type          inst_sse2          = 0x03;                       /* SSE2 instruction */
+	static constexpr inst_type          inst_sse3          = 0x04;                       /* SSE3 instruction */
+	static constexpr inst_type          inst_ssse3         = 0x05;                       /* SSE3S instruction */
+	static constexpr inst_type          inst_sse41         = 0x06;                       /* SSE4.1 instruction */
+	static constexpr inst_type          inst_sse42         = 0x07;                       /* SSE4.2 instruction */
+	static constexpr inst_type          inst_avx           = 0x08;                       /* AVX instruction */
+	static constexpr inst_type          inst_avx2          = 0x09;                       /* AVX2 instruction */
+	static constexpr inst_type          inst_fma           = 0x10;                       /* FMA instruction */
+	static constexpr inst_type          inst_fma4          = 0x20;                       /* FMA4 instruction */
+
+	// Reduce mode
+	typedef unsigned char reduce_mode_type;
+	static constexpr reduce_mode_type   reduce_col_min     = 0x01;                       /* the minimum of each row of matrix */
+	static constexpr reduce_mode_type   reduce_col_max     = 0x02;                       /* the maximum of each row of matrix */
+	static constexpr reduce_mode_type   reduce_col_sum     = 0x03;                       /* the sum of each row of matrix */
+	static constexpr reduce_mode_type   reduce_col_avg     = 0x04;                       /* the mean of each row of matrix */
+	static constexpr reduce_mode_type   reduce_row_min     = 0x11;                       /* the minimum of each column of matrix */
+	static constexpr reduce_mode_type   reduce_row_max     = 0x12;                       /* the maximum of each column of matrix */
+	static constexpr reduce_mode_type   reduce_row_sum     = 0x13;                       /* the sum of each column of matrix */
+	static constexpr reduce_mode_type   reduce_row_avg     = 0x14;                       /* the mean of each column of matrix */
+
+	// Border type
+	typedef unsigned char border_type;
+	static constexpr border_type         border_constant   = 0x00;                       /* iiii|abcdefgh|iiii */
+	static constexpr border_type         border_replicte   = 0x01;                       /* aaaa|abcdefgh|hhhh */
+	static constexpr border_type         border_reflect    = 0x02;                       /* dcba|abcdefgh|hgfe */
+	static constexpr border_type         border_reflect101 = 0x03;                       /* edcb|abcdefgh|gfed */
+	static constexpr border_type         border_wrap       = 0x04;                       /* efgh|abcdefgh|abcd */
+
+	// Axis type 
+	typedef unsigned char axis_type;
+	static constexpr axis_type           axis_none         = 0x00;
+	static constexpr axis_type           axis_x            = 0x01;    					 /* x-axis */
+	static constexpr axis_type           axis_y            = 0x02;						 /* y-axis */
+	static constexpr axis_type           axis_z            = 0x04;						 /* z-axis */
+	static constexpr axis_type           axis_xy           = axis_x | axis_y;			 /* x-axis and y-axis */
+	static constexpr axis_type           axis_xyz          = axis_xy | axis_z;			 /* x-axis, y-axis and axis */
 
 } // namespace core
 

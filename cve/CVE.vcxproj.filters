@@ -175,6 +175,9 @@
     <ClInclude Include="core\cpu\cpu_transpose.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cpu_border_index.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
