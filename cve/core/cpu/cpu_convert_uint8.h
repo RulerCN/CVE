@@ -42,7 +42,7 @@ namespace core
 	// Scalar data-type conversion
 
 	template <class T, class A1, class A2>
-	scalar<T, A1>& convert_uint8(scalar<T, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<T, A1>& cpu_convert_uint8(scalar<T, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -54,7 +54,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed char, A1>& convert_uint8(scalar<signed char, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<signed char, A1>& cpu_convert_uint8(scalar<signed char, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -66,7 +66,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned char, A1>& convert_uint8(scalar<unsigned char, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<unsigned char, A1>& cpu_convert_uint8(scalar<unsigned char, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -78,7 +78,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed short, A1>& convert_uint8(scalar<signed short, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<signed short, A1>& cpu_convert_uint8(scalar<signed short, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -95,7 +95,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned short, A1>& convert_uint8(scalar<unsigned short, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<unsigned short, A1>& cpu_convert_uint8(scalar<unsigned short, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -112,7 +112,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed int, A1>& convert_uint8(scalar<signed int, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<signed int, A1>& cpu_convert_uint8(scalar<signed int, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -129,7 +129,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned int, A1>& convert_uint8(scalar<unsigned int, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<unsigned int, A1>& cpu_convert_uint8(scalar<unsigned int, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -146,7 +146,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<float, A1>& convert_uint8(scalar<float, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<float, A1>& cpu_convert_uint8(scalar<float, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -163,7 +163,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_uint8(scalar<double, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<double, A1>& cpu_convert_uint8(scalar<double, A1> &b, const scalar<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -182,7 +182,7 @@ namespace core
 	// Vector data-type conversion
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& convert_uint8(vector<T, A1> &b, const vector<unsigned char, A2> &a)
+	vector<T, A1>& cpu_convert_uint8(vector<T, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -194,7 +194,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& convert_uint8(vector<signed char, A1> &b, const vector<unsigned char, A2> &a)
+	vector<signed char, A1>& cpu_convert_uint8(vector<signed char, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -206,7 +206,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& convert_uint8(vector<unsigned char, A1> &b, const vector<unsigned char, A2> &a)
+	vector<unsigned char, A1>& cpu_convert_uint8(vector<unsigned char, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -218,7 +218,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& convert_uint8(vector<signed short, A1> &b, const vector<unsigned char, A2> &a)
+	vector<signed short, A1>& cpu_convert_uint8(vector<signed short, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -235,7 +235,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& convert_uint8(vector<unsigned short, A1> &b, const vector<unsigned char, A2> &a)
+	vector<unsigned short, A1>& cpu_convert_uint8(vector<unsigned short, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -252,7 +252,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& convert_uint8(vector<signed int, A1> &b, const vector<unsigned char, A2> &a)
+	vector<signed int, A1>& cpu_convert_uint8(vector<signed int, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -269,7 +269,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& convert_uint8(vector<unsigned int, A1> &b, const vector<unsigned char, A2> &a)
+	vector<unsigned int, A1>& cpu_convert_uint8(vector<unsigned int, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -286,7 +286,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& convert_uint8(vector<float, A1> &b, const vector<unsigned char, A2> &a)
+	vector<float, A1>& cpu_convert_uint8(vector<float, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -303,7 +303,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_uint8(vector<double, A1> &b, const vector<unsigned char, A2> &a)
+	vector<double, A1>& cpu_convert_uint8(vector<double, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -322,7 +322,7 @@ namespace core
 	// Matrix data-type conversion
 
 	template <class T, class A1, class A2>
-	matrix<T, A1>& convert_uint8(matrix<T, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<T, A1>& cpu_convert_uint8(matrix<T, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -334,7 +334,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& convert_uint8(matrix<signed char, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<signed char, A1>& cpu_convert_uint8(matrix<signed char, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -346,7 +346,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned char, A1>& convert_uint8(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<unsigned char, A1>& cpu_convert_uint8(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -358,7 +358,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& convert_uint8(matrix<signed short, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<signed short, A1>& cpu_convert_uint8(matrix<signed short, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -375,7 +375,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& convert_uint8(matrix<unsigned short, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<unsigned short, A1>& cpu_convert_uint8(matrix<unsigned short, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -392,7 +392,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed int, A1>& convert_uint8(matrix<signed int, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<signed int, A1>& cpu_convert_uint8(matrix<signed int, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -409,7 +409,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned int, A1>& convert_uint8(matrix<unsigned int, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<unsigned int, A1>& cpu_convert_uint8(matrix<unsigned int, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -426,7 +426,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<float, A1>& convert_uint8(matrix<float, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<float, A1>& cpu_convert_uint8(matrix<float, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -443,7 +443,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_uint8(matrix<double, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<double, A1>& cpu_convert_uint8(matrix<double, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -462,7 +462,7 @@ namespace core
 	// Tensor data-type conversion
 
 	template <class T, class A1, class A2>
-	tensor<T, A1>& convert_uint8(tensor<T, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<T, A1>& cpu_convert_uint8(tensor<T, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -474,7 +474,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& convert_uint8(tensor<signed char, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<signed char, A1>& cpu_convert_uint8(tensor<signed char, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -486,7 +486,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned char, A1>& convert_uint8(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<unsigned char, A1>& cpu_convert_uint8(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -498,7 +498,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& convert_uint8(tensor<signed short, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<signed short, A1>& cpu_convert_uint8(tensor<signed short, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -515,7 +515,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& convert_uint8(tensor<unsigned short, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<unsigned short, A1>& cpu_convert_uint8(tensor<unsigned short, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -532,7 +532,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed int, A1>& convert_uint8(tensor<signed int, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<signed int, A1>& cpu_convert_uint8(tensor<signed int, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -549,7 +549,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned int, A1>& convert_uint8(tensor<unsigned int, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<unsigned int, A1>& cpu_convert_uint8(tensor<unsigned int, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -566,7 +566,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<float, A1>& convert_uint8(tensor<float, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<float, A1>& cpu_convert_uint8(tensor<float, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -583,7 +583,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_uint8(tensor<double, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<double, A1>& cpu_convert_uint8(tensor<double, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

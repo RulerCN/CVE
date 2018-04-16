@@ -27,51 +27,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_CONVERT_INT32_H__
-#define __CORE_CPU_CONVERT_INT32_H__
+#ifndef __CORE_CPU_CONVERT_UINT32_H__
+#define __CORE_CPU_CONVERT_UINT32_H__
 
 #include <cstring>
 #include "../scalar.h"
 #include "../vector.h"
 #include "../matrix.h"
 #include "../tensor.h"
-#include "kernel/kernel_convert_int32.h"
+#include "kernel/kernel_convert_uint32.h"
 
 namespace core
 {
 	// Scalar data-type conversion
 
 	template <class T, class A1, class A2>
-	scalar<T, A1>& convert_int32(scalar<T, A1> &b, const scalar<signed int, A2> &a)
+	scalar<T, A1>& cpu_convert_uint32(scalar<T, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_int32<T, inst_none>()(a.size(), a.data(), b.data());
+		kernel_convert_uint32<T, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<signed char, A1>& convert_int32(scalar<signed char, A1> &b, const scalar<signed int, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (global::is_support_avx2())
-			kernel_convert_int32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
-			kernel_convert_int32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
-		else
-			kernel_convert_int32<signed char, inst_none>()(a.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	scalar<unsigned char, A1>& convert_int32(scalar<unsigned char, A1> &b, const scalar<signed int, A2> &a)
+	scalar<signed char, A1>& cpu_convert_uint32(scalar<signed char, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -79,16 +62,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<signed short, A1>& convert_int32(scalar<signed short, A1> &b, const scalar<signed int, A2> &a)
+	scalar<unsigned char, A1>& cpu_convert_uint32(scalar<unsigned char, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -96,16 +79,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<signed int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned short, A1>& convert_int32(scalar<unsigned short, A1> &b, const scalar<signed int, A2> &a)
+	scalar<signed short, A1>& cpu_convert_uint32(scalar<signed short, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -113,16 +96,33 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<signed int, A1>& convert_int32(scalar<signed int, A1> &b, const scalar<signed int, A2> &a)
+	scalar<unsigned short, A1>& cpu_convert_uint32(scalar<unsigned short, A1> &b, const scalar<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_convert_uint32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+		else
+			kernel_convert_uint32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	scalar<signed int, A1>& cpu_convert_uint32(scalar<signed int, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -134,7 +134,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned int, A1>& convert_int32(scalar<unsigned int, A1> &b, const scalar<signed int, A2> &a)
+	scalar<unsigned int, A1>& cpu_convert_uint32(scalar<unsigned int, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -146,72 +146,55 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<float, A1>& convert_int32(scalar<float, A1> &b, const scalar<signed int, A2> &a)
+	scalar<float, A1>& cpu_convert_uint32(scalar<float, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<float, inst_avx>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<float, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse2())
-			kernel_convert_int32<float, inst_sse2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_sse2>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<float, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_int32(scalar<double, A1> &b, const scalar<signed int, A2> &a)
+	scalar<double, A1>& cpu_convert_uint32(scalar<double, A1> &b, const scalar<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<double, inst_avx>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse2())
-			kernel_convert_int32<double, inst_sse2>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<double, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<double, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<double, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	// Vector data-type conversion
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& convert_int32(vector<T, A1> &b, const vector<signed int, A2> &a)
+	vector<T, A1>& cpu_convert_uint32(vector<T, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_int32<T, inst_none>()(a.size(), a.data(), b.data());
+		kernel_convert_uint32<T, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& convert_int32(vector<signed char, A1> &b, const vector<signed int, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (global::is_support_avx2())
-			kernel_convert_int32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
-			kernel_convert_int32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
-		else
-			kernel_convert_int32<signed char, inst_none>()(a.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	vector<unsigned char, A1>& convert_int32(vector<unsigned char, A1> &b, const vector<signed int, A2> &a)
+	vector<signed char, A1>& cpu_convert_uint32(vector<signed char, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -219,16 +202,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& convert_int32(vector<signed short, A1> &b, const vector<signed int, A2> &a)
+	vector<unsigned char, A1>& cpu_convert_uint32(vector<unsigned char, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -236,16 +219,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<signed int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& convert_int32(vector<unsigned short, A1> &b, const vector<signed int, A2> &a)
+	vector<signed short, A1>& cpu_convert_uint32(vector<signed short, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -253,16 +236,33 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& convert_int32(vector<signed int, A1> &b, const vector<signed int, A2> &a)
+	vector<unsigned short, A1>& cpu_convert_uint32(vector<unsigned short, A1> &b, const vector<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_convert_uint32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+		else
+			kernel_convert_uint32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<signed int, A1>& cpu_convert_uint32(vector<signed int, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -274,7 +274,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& convert_int32(vector<unsigned int, A1> &b, const vector<signed int, A2> &a)
+	vector<unsigned int, A1>& cpu_convert_uint32(vector<unsigned int, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -286,72 +286,55 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& convert_int32(vector<float, A1> &b, const vector<signed int, A2> &a)
+	vector<float, A1>& cpu_convert_uint32(vector<float, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<float, inst_avx>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<float, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse2())
-			kernel_convert_int32<float, inst_sse2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_sse2>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<float, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_int32(vector<double, A1> &b, const vector<signed int, A2> &a)
+	vector<double, A1>& cpu_convert_uint32(vector<double, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<double, inst_avx>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse2())
-			kernel_convert_int32<double, inst_sse2>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<double, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<double, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<double, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	// Matrix data-type conversion
 
 	template <class T, class A1, class A2>
-	matrix<T, A1>& convert_int32(matrix<T, A1> &b, const matrix<signed int, A2> &a)
+	matrix<T, A1>& cpu_convert_uint32(matrix<T, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_int32<T, inst_none>()(a.size(), a.data(), b.data());
+		kernel_convert_uint32<T, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& convert_int32(matrix<signed char, A1> &b, const matrix<signed int, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (global::is_support_avx2())
-			kernel_convert_int32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
-			kernel_convert_int32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
-		else
-			kernel_convert_int32<signed char, inst_none>()(a.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& convert_int32(matrix<unsigned char, A1> &b, const matrix<signed int, A2> &a)
+	matrix<signed char, A1>& cpu_convert_uint32(matrix<signed char, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -359,16 +342,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& convert_int32(matrix<signed short, A1> &b, const matrix<signed int, A2> &a)
+	matrix<unsigned char, A1>& cpu_convert_uint32(matrix<unsigned char, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -376,16 +359,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<signed int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& convert_int32(matrix<unsigned short, A1> &b, const matrix<signed int, A2> &a)
+	matrix<signed short, A1>& cpu_convert_uint32(matrix<signed short, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -393,16 +376,33 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<signed int, A1>& convert_int32(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
+	matrix<unsigned short, A1>& cpu_convert_uint32(matrix<unsigned short, A1> &b, const matrix<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_convert_uint32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+		else
+			kernel_convert_uint32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	matrix<signed int, A1>& cpu_convert_uint32(matrix<signed int, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -414,7 +414,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned int, A1>& convert_int32(matrix<unsigned int, A1> &b, const matrix<signed int, A2> &a)
+	matrix<unsigned int, A1>& cpu_convert_uint32(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -426,72 +426,55 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<float, A1>& convert_int32(matrix<float, A1> &b, const matrix<signed int, A2> &a)
+	matrix<float, A1>& cpu_convert_uint32(matrix<float, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<float, inst_avx>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<float, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse2())
-			kernel_convert_int32<float, inst_sse2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_sse2>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<float, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_int32(matrix<double, A1> &b, const matrix<signed int, A2> &a)
+	matrix<double, A1>& cpu_convert_uint32(matrix<double, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<double, inst_avx>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse2())
-			kernel_convert_int32<double, inst_sse2>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<double, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<double, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<double, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	// Tensor data-type conversion
 
 	template <class T, class A1, class A2>
-	tensor<T, A1>& convert_int32(tensor<T, A1> &b, const tensor<signed int, A2> &a)
+	tensor<T, A1>& cpu_convert_uint32(tensor<T, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_int32<T, inst_none>()(a.size(), a.data(), b.data());
+		kernel_convert_uint32<T, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& convert_int32(tensor<signed char, A1> &b, const tensor<signed int, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (global::is_support_avx2())
-			kernel_convert_int32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
-			kernel_convert_int32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
-		else
-			kernel_convert_int32<signed char, inst_none>()(a.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& convert_int32(tensor<unsigned char, A1> &b, const tensor<signed int, A2> &a)
+	tensor<signed char, A1>& cpu_convert_uint32(tensor<signed char, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -499,16 +482,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& convert_int32(tensor<signed short, A1> &b, const tensor<signed int, A2> &a)
+	tensor<unsigned char, A1>& cpu_convert_uint32(tensor<unsigned char, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -516,16 +499,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<signed int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<unsigned char, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& convert_int32(tensor<unsigned short, A1> &b, const tensor<signed int, A2> &a)
+	tensor<signed short, A1>& cpu_convert_uint32(tensor<signed short, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -533,16 +516,33 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_convert_int32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse41())
-			kernel_convert_int32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<signed int, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<signed int, A1>& convert_int32(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	tensor<unsigned short, A1>& cpu_convert_uint32(tensor<unsigned short, A1> &b, const tensor<unsigned int, A2> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (global::is_support_avx2())
+			kernel_convert_uint32<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
+		else
+			kernel_convert_uint32<unsigned int, inst_none>()(a.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_convert_uint32(tensor<signed int, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -554,7 +554,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned int, A1>& convert_int32(tensor<unsigned int, A1> &b, const tensor<signed int, A2> &a)
+	tensor<unsigned int, A1>& cpu_convert_uint32(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -566,36 +566,36 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<float, A1>& convert_int32(tensor<float, A1> &b, const tensor<signed int, A2> &a)
+	tensor<float, A1>& cpu_convert_uint32(tensor<float, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<float, inst_avx>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<float, inst_avx2>()(a.size(), a.data(), b.data());
 		else if (global::is_support_sse2())
-			kernel_convert_int32<float, inst_sse2>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_sse2>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<float, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<float, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_int32(tensor<double, A1> &b, const tensor<signed int, A2> &a)
+	tensor<double, A1>& cpu_convert_uint32(tensor<double, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx())
-			kernel_convert_int32<double, inst_avx>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse2())
-			kernel_convert_int32<double, inst_sse2>()(a.size(), a.data(), b.data());
+		if (global::is_support_avx2())
+			kernel_convert_uint32<double, inst_avx2>()(a.size(), a.data(), b.data());
+		else if (global::is_support_sse41())
+			kernel_convert_uint32<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
-			kernel_convert_int32<double, inst_none>()(a.size(), a.data(), b.data());
+			kernel_convert_uint32<double, inst_none>()(a.size(), a.data(), b.data());
 		return b;
 	}
 

@@ -27,16 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_REDUCE_ROW_MAX_H__
-#define __CORE_CPU_REDUCE_ROW_MAX_H__
+#ifndef __CORE_CPU_REDUCE_ROW_MIN_H__
+#define __CORE_CPU_REDUCE_ROW_MIN_H__
 
 #include "../vector.h"
 #include "../matrix.h"
-#include "kernel/kernel_reduce_row_max.h"
+#include "kernel/kernel_reduce_row_min.h"
 
 namespace core
 {
-	// Get the maximum of each row of matrix: b[i] = max(b[i], a[i][j])
+	// Get the minimum of each row of matrix: b[i] = min(b[i], a[i][j])
 	//----------------------------------------------------------------
 	// input:
 	//              | a[1][1],a[1][2],a[1][3],бн,a[1][n] |
@@ -49,7 +49,7 @@ namespace core
 	//----------------------------------------------------------------
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& reduce_row_max(vector<T, A1> &b, const matrix<T, A2> &a)
+	vector<T, A1>& cpu_reduce_row_min(vector<T, A1> &b, const matrix<T, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -58,12 +58,12 @@ namespace core
 		if (b.size() != a.rows())
 			throw ::std::invalid_argument(vector_invalid_size);
 
-		kernel_reduce_row_max<T, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		kernel_reduce_row_min<T, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& reduce_row_max(vector<signed char, A1> &b, const matrix<signed char, A2> &a)
+	vector<signed char, A1>& cpu_reduce_row_min(vector<signed char, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -73,16 +73,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<signed char, 32, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed char, 32, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_reduce_row_max<signed char, 16, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed char, 16, 16, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<signed char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& reduce_row_max(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	vector<unsigned char, A1>& cpu_reduce_row_min(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -92,16 +92,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<unsigned char, 32, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned char, 32, 32, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_reduce_row_max<unsigned char, 16, 16, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned char, 16, 16, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<unsigned char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned char, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& reduce_row_max(vector<signed short, A1> &b, const matrix<signed short, A2> &a)
+	vector<signed short, A1>& cpu_reduce_row_min(vector<signed short, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -111,16 +111,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<signed short, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed short, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_reduce_row_max<signed short, 8, 8, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed short, 8, 8, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<signed short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& reduce_row_max(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	vector<unsigned short, A1>& cpu_reduce_row_min(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -130,16 +130,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<unsigned short, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned short, 16, 16, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_reduce_row_max<unsigned short, 8, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned short, 8, 8, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<unsigned short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned short, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_row_max(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
+	vector<signed int, A1>& cpu_reduce_row_min(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -149,16 +149,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_reduce_row_max<signed int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<signed int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& reduce_row_max(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	vector<unsigned int, A1>& cpu_reduce_row_min(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -168,16 +168,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx2())
-			kernel_reduce_row_max<unsigned int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned int, 8, 8, inst_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse41())
-			kernel_reduce_row_max<unsigned int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned int, 4, 4, inst_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<unsigned int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<unsigned int, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_row_max(vector<float, A1> &b, const matrix<float, A2> &a)
+	vector<float, A1>& cpu_reduce_row_min(vector<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -187,16 +187,16 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_reduce_row_max<float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<float, 8, 8, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse())
-			kernel_reduce_row_max<float, 4, 4, inst_sse>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<float, 4, 4, inst_sse>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<float, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& reduce_row_max(vector<double, A1> &b, const matrix<double, A2> &a)
+	vector<double, A1>& cpu_reduce_row_min(vector<double, A1> &b, const matrix<double, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -206,11 +206,11 @@ namespace core
 			throw ::std::invalid_argument(vector_invalid_size);
 
 		if (global::is_support_avx())
-			kernel_reduce_row_max<double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<double, 4, 4, inst_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (global::is_support_sse2())
-			kernel_reduce_row_max<double, 2, 2, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<double, 2, 2, inst_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_row_max<double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_reduce_row_min<double, 4, 4, inst_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 

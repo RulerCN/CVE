@@ -41,7 +41,7 @@ namespace core
 	// Scalar data-type conversion and scaling
 
 	template <class T, class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<T, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<T, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -53,7 +53,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<signed char, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<signed char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -70,7 +70,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<unsigned char, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<unsigned char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -87,7 +87,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<signed short, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<signed short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -104,7 +104,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<unsigned short, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<unsigned short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -121,7 +121,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<signed int, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<signed int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -138,7 +138,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<unsigned int, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<unsigned int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -155,7 +155,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<float, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<float, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -172,7 +172,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& convert_scale_double(scalar<double, A1> &b, const scalar<double, A2> &a, double scale)
+	scalar<double, A1>& cpu_convert_scale_double(scalar<double, A1> &b, const scalar<double, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -191,7 +191,7 @@ namespace core
 	// Vector data-type conversion and scaling
 
 	template <class T, class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<T, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<T, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -203,7 +203,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<signed char, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<signed char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -220,7 +220,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<unsigned char, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<unsigned char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -237,7 +237,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<signed short, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<signed short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -254,7 +254,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<unsigned short, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<unsigned short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -271,7 +271,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<signed int, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<signed int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -288,7 +288,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<unsigned int, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<unsigned int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -305,7 +305,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<float, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<float, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -322,7 +322,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& convert_scale_double(vector<double, A1> &b, const vector<double, A2> &a, double scale)
+	vector<double, A1>& cpu_convert_scale_double(vector<double, A1> &b, const vector<double, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -341,7 +341,7 @@ namespace core
 	// Matrix data-type conversion and scaling
 
 	template <class T, class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<T, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<T, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -353,7 +353,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<signed char, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<signed char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -370,7 +370,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<unsigned char, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<unsigned char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -387,7 +387,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<signed short, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<signed short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -404,7 +404,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<unsigned short, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<unsigned short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -421,7 +421,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<signed int, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<signed int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -438,7 +438,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<unsigned int, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<unsigned int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -455,7 +455,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<float, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<float, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -472,7 +472,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& convert_scale_double(matrix<double, A1> &b, const matrix<double, A2> &a, double scale)
+	matrix<double, A1>& cpu_convert_scale_double(matrix<double, A1> &b, const matrix<double, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -491,7 +491,7 @@ namespace core
 	// Tensor data-type conversion and scaling
 
 	template <class T, class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<T, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<T, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -503,7 +503,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<signed char, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<signed char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -520,7 +520,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<unsigned char, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<unsigned char, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -537,7 +537,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<signed short, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<signed short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -554,7 +554,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<unsigned short, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<unsigned short, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -571,7 +571,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<signed int, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<signed int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -588,7 +588,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<unsigned int, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<unsigned int, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -605,7 +605,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<float, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<float, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -622,7 +622,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& convert_scale_double(tensor<double, A1> &b, const tensor<double, A2> &a, double scale)
+	tensor<double, A1>& cpu_convert_scale_double(tensor<double, A1> &b, const tensor<double, A2> &a, double scale)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

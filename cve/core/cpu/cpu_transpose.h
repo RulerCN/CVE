@@ -52,7 +52,7 @@ namespace core
 	//----------------------------------------------------------------
 
 	template <class T, class A1, class A2>
-	matrix<T, A1>& transpose(matrix<T, A1> &b, const matrix<T, A2> &a)
+	matrix<T, A1>& cpu_transpose(matrix<T, A1> &b, const matrix<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -64,7 +64,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& transpose(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
+	matrix<signed char, A1>& cpu_transpose(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -81,7 +81,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned char, A1>& transpose(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<unsigned char, A1>& cpu_transpose(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -98,7 +98,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& transpose(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
+	matrix<signed short, A1>& cpu_transpose(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -115,7 +115,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& transpose(matrix<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	matrix<unsigned short, A1>& cpu_transpose(matrix<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -132,7 +132,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed int, A1>& transpose(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
+	matrix<signed int, A1>& cpu_transpose(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -149,7 +149,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned int, A1>& transpose(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	matrix<unsigned int, A1>& cpu_transpose(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -166,7 +166,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<float, A1>& transpose(matrix<float, A1> &b, const matrix<float, A2> &a)
+	matrix<float, A1>& cpu_transpose(matrix<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -183,7 +183,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& transpose(matrix<double, A1> &b, const matrix<double, A2> &a)
+	matrix<double, A1>& cpu_transpose(matrix<double, A1> &b, const matrix<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);

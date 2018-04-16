@@ -49,7 +49,7 @@ namespace core
 	//----------------------------------------------------------------
 
 	template <class T, class A1, class A2>
-	vector<T, A1>& reduce_col_min(vector<T, A1> &b, const matrix<T, A2> &a)
+	vector<T, A1>& cpu_reduce_col_min(vector<T, A1> &b, const matrix<T, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -63,7 +63,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& reduce_col_min(vector<signed char, A1> &b, const matrix<signed char, A2> &a)
+	vector<signed char, A1>& cpu_reduce_col_min(vector<signed char, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -82,7 +82,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& reduce_col_min(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	vector<unsigned char, A1>& cpu_reduce_col_min(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -101,7 +101,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& reduce_col_min(vector<signed short, A1> &b, const matrix<signed short, A2> &a)
+	vector<signed short, A1>& cpu_reduce_col_min(vector<signed short, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -120,7 +120,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& reduce_col_min(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	vector<unsigned short, A1>& cpu_reduce_col_min(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -139,7 +139,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_min(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_min(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -158,7 +158,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& reduce_col_min(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	vector<unsigned int, A1>& cpu_reduce_col_min(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -177,7 +177,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_min(vector<float, A1> &b, const matrix<float, A2> &a)
+	vector<float, A1>& cpu_reduce_col_min(vector<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -196,7 +196,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& reduce_col_min(vector<double, A1> &b, const matrix<double, A2> &a)
+	vector<double, A1>& cpu_reduce_col_min(vector<double, A1> &b, const matrix<double, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);

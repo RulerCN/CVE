@@ -49,7 +49,7 @@ namespace core
 	//----------------------------------------------------------------
 
 	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& reduce_col_sum(vector<T1, A1> &b, const matrix<T2, A2> &a)
+	vector<T1, A1>& cpu_reduce_col_sum(vector<T1, A1> &b, const matrix<T2, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -63,7 +63,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_sum(vector<signed int, A1> &b, const matrix<signed char, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_sum(vector<signed int, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -82,7 +82,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<signed char, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -101,7 +101,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_sum(vector<signed int, A1> &b, const matrix<unsigned char, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_sum(vector<signed int, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -120,7 +120,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<unsigned char, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -139,7 +139,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_sum(vector<signed int, A1> &b, const matrix<signed short, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_sum(vector<signed int, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -158,7 +158,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<signed short, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -177,7 +177,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_sum(vector<signed int, A1> &b, const matrix<unsigned short, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_sum(vector<signed int, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -196,7 +196,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<unsigned short, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -215,7 +215,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce_col_sum(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
+	vector<signed int, A1>& cpu_reduce_col_sum(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -234,7 +234,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<signed int, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -253,7 +253,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<unsigned int, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -272,7 +272,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce_col_sum(vector<float, A1> &b, const matrix<float, A2> &a)
+	vector<float, A1>& cpu_reduce_col_sum(vector<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -291,7 +291,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& reduce_col_sum(vector<double, A1> &b, const matrix<double, A2> &a)
+	vector<double, A1>& cpu_reduce_col_sum(vector<double, A1> &b, const matrix<double, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);

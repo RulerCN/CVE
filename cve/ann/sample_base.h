@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../core/vector.h"
 #include "../core/matrix.h"
 #include "../core/tensor.h"
-#include "../core/cpu/get_element.h"
+#include "../core/cpu/cpu_get_element.h"
 
 namespace ann
 {

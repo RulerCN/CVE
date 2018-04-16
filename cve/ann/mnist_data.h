@@ -161,8 +161,8 @@ namespace ann
 			for (size_t i = 0; i < batch_size; ++i)
 			{
 				size_t index = this->next();
-				::core::get_element(batch_images.at(i), images, index);
-				::core::get_element(batch_labels.at(i), labels, index);
+				::core::cpu_get_element(batch_images.at(i), images, index);
+				::core::cpu_get_element(batch_labels.at(i), labels, index);
 			}
 		}
 
@@ -176,8 +176,8 @@ namespace ann
 			for (size_t i = 0; i < batch_size; ++i)
 			{
 				size_t index = this->next();
-				::core::get_element(batch_images.at(i), images, index, scale);
-				::core::get_element(batch_labels.at(i), labels, index);
+				::core::cpu_get_element(batch_images.at(i), images, index, scale);
+				::core::cpu_get_element(batch_labels.at(i), labels, index);
 			}
 		}
 
@@ -191,8 +191,8 @@ namespace ann
 			for (size_t i = 0; i < batch_size; ++i)
 			{
 				size_t index = this->next();
-				::core::get_element(batch_images.at(i), images, index, scale);
-				::core::get_element(batch_labels.at(i), labels, index);
+				::core::cpu_get_element(batch_images.at(i), images, index, scale);
+				::core::cpu_get_element(batch_labels.at(i), labels, index);
 			}
 		}
 	private:

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include "core\cpu\convert.h"
-#include "core\cpu\convert_scale.h"
-#include "core\cpu\reduce.h"
-#include "core\cpu\transpose.h"
+#include "core\cpu\cpu_convert.h"
+#include "core\cpu\cpu_convert_scale.h"
+#include "core\cpu\cpu_reduce.h"
+#include "core\cpu\cpu_transpose.h"
 #include "image\bitmap.h"
 #include "ann\mnist.h"
 
@@ -63,7 +63,7 @@ int main()
 
 	mnist.train.shuffle(1U);
 	mnist.train.next_batch(train_images_flt, train_labels);
-	core::convert(train_images, train_images_flt);
+	core::cpu_convert(train_images, train_images_flt);
 
 	img::bitmap::encode("data/train/1.bmp", train_images[0]);
 	img::bitmap::encode("data/train/2.bmp", train_images[1]);

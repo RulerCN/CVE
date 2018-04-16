@@ -30,13 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_REDUCE_H__
 #define __CORE_CPU_REDUCE_H__
 
-#include "reduce_col_min.h"
-#include "reduce_col_max.h"
-#include "reduce_col_sum.h"
-#include "reduce_row_min.h"
-#include "reduce_row_max.h"
-#include "reduce_row_sum.h"
-#include "convert_scale.h"
+#include "cpu_reduce_col_min.h"
+#include "cpu_reduce_col_max.h"
+#include "cpu_reduce_col_sum.h"
+#include "cpu_reduce_row_min.h"
+#include "cpu_reduce_row_max.h"
+#include "cpu_reduce_row_sum.h"
+#include "cpu_convert_scale.h"
 
 namespace core
 {
@@ -65,122 +65,122 @@ namespace core
 	//     rm_col_avg: return the mean of each column of matrix.
 
 	template <class A1, class A2>
-	vector<signed char, A1>& reduce(vector<signed char, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed char, A1>& cpu_reduce(vector<signed char, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
 			b.fill(int8_max);
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
 			b.fill(int8_min);
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_row_min:
 			b.fill(int8_max);
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
 			b.fill(int8_min);
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce(vector<signed int, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed int, A1>& cpu_reduce(vector<signed int, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
 			b.fill(int32_zero);
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_row_sum:
 			b.fill(int32_zero);
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
 			b.fill(0.0F);
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
 			b.fill(0.0F);
-			reduce_col_sum(b, a);
-			return convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
 		case rm_row_sum:
 			b.fill(0.0F);
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
 			b.fill(0.0F);
-			reduce_row_sum(b, a);
-			return convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& reduce(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
+	vector<unsigned char, A1>& cpu_reduce(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
 			b.fill(uint8_max);
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
 			b.fill(uint8_min);
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_row_min:
 			b.fill(uint8_max);
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
 			b.fill(uint8_min);
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce(vector<signed int, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed int, A1>& cpu_reduce(vector<signed int, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
 			b.fill(int32_zero);
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_row_sum:
 			b.fill(int32_zero);
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<unsigned char, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
 			b.fill(0.0F);
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -188,53 +188,53 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& reduce(vector<signed short, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed short, A1>& cpu_reduce(vector<signed short, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_row_min:
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce(vector<signed int, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed int, A1>& cpu_reduce(vector<signed int, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<signed short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -242,53 +242,53 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& reduce(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
+	vector<unsigned short, A1>& cpu_reduce(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_row_min:
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce(vector<signed int, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed int, A1>& cpu_reduce(vector<signed int, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<unsigned short, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -296,43 +296,43 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& reduce(vector<signed int, A1> &b, const matrix<signed int, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed int, A1>& cpu_reduce(vector<signed int, A1> &b, const matrix<signed int, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_row_min:
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<signed int, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<signed int, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -340,39 +340,39 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& reduce(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a, reduce_mode_type reduce_mode)
+	vector<unsigned int, A1>& cpu_reduce(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_row_min:
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<unsigned int, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<unsigned int, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -380,59 +380,59 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& reduce(vector<float, A1> &b, const matrix<float, A2> &a, reduce_mode_type reduce_mode)
-	{
-		switch (reduce_mode)
-		{
-		case rm_col_min:
-			return reduce_col_min(b, a);
-		case rm_col_max:
-			return reduce_col_max(b, a);
-		case rm_col_sum:
-			return reduce_col_sum(b, a);
-		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
-			return b;
-		case rm_row_min:
-			return reduce_row_min(b, a);
-		case rm_row_max:
-			return reduce_row_max(b, a);
-		case rm_row_sum:
-			return reduce_row_sum(b, a);
-		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
-			return b;
-		default:
-			throw ::std::invalid_argument(invalid_mode_parameters);
-		}
-	}
-
-	template <class A1, class A2>
-	vector<double, A1>& reduce(vector<double, A1> &b, const matrix<double, A2> &a, reduce_mode_type reduce_mode)
+	vector<float, A1>& cpu_reduce(vector<float, A1> &b, const matrix<float, A2> &a, reduce_mode_type reduce_mode)
 	{
 		switch (reduce_mode)
 		{
 		case rm_col_min:
-			return reduce_col_min(b, a);
+			return cpu_reduce_col_min(b, a);
 		case rm_col_max:
-			return reduce_col_max(b, a);
+			return cpu_reduce_col_max(b, a);
 		case rm_col_sum:
-			return reduce_col_sum(b, a);
+			return cpu_reduce_col_sum(b, a);
 		case rm_col_avg:
-			reduce_col_sum(b, a);
-			convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
 			return b;
 		case rm_row_min:
-			return reduce_row_min(b, a);
+			return cpu_reduce_row_min(b, a);
 		case rm_row_max:
-			return reduce_row_max(b, a);
+			return cpu_reduce_row_max(b, a);
 		case rm_row_sum:
-			return reduce_row_sum(b, a);
+			return cpu_reduce_row_sum(b, a);
 		case rm_row_avg:
-			reduce_row_sum(b, a);
-			convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			return b;
+		default:
+			throw ::std::invalid_argument(invalid_mode_parameters);
+		}
+	}
+
+	template <class A1, class A2>
+	vector<double, A1>& cpu_reduce(vector<double, A1> &b, const matrix<double, A2> &a, reduce_mode_type reduce_mode)
+	{
+		switch (reduce_mode)
+		{
+		case rm_col_min:
+			return cpu_reduce_col_min(b, a);
+		case rm_col_max:
+			return cpu_reduce_col_max(b, a);
+		case rm_col_sum:
+			return cpu_reduce_col_sum(b, a);
+		case rm_col_avg:
+			cpu_reduce_col_sum(b, a);
+			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
+			return b;
+		case rm_row_min:
+			return cpu_reduce_row_min(b, a);
+		case rm_row_max:
+			return cpu_reduce_row_max(b, a);
+		case rm_row_sum:
+			return cpu_reduce_row_sum(b, a);
+		case rm_row_avg:
+			cpu_reduce_row_sum(b, a);
+			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);

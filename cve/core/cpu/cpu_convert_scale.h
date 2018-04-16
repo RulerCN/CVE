@@ -27,72 +27,68 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_GET_ELEMENT_H__
-#define __CORE_CPU_GET_ELEMENT_H__
+#ifndef __CORE_CPU_CONVERT_SCALE_H__
+#define __CORE_CPU_CONVERT_SCALE_H__
 
-#include "convert.h"
-#include "convert_scale.h"
+#include "cpu_convert_scale_float.h"
+#include "cpu_convert_scale_double.h"
 
 namespace core
 {
-	// Get an element of a vector
+	// Scalar data-type conversion and scaling
 
-	template <class T1, class T2, class A1, class A2>
-	scalar<T1, A1>& get_element(scalar<T1, A1> &b, const vector<T2, A2> &a, size_t index)
+	template <class T, class A1, class A2>
+	scalar<float, A1>& cpu_convert_scale(scalar<float, A1> &b, const scalar<T, A2> &a, float scale)
 	{
-		return convert(b, a.at(index));
+		return cpu_convert_scale_float(b, a, scale);
 	}
 
 	template <class T, class A1, class A2>
-	scalar<float, A1>& get_element(scalar<float, A1> &b, const vector<T, A2> &a, size_t index, float scale)
+	scalar<double, A1>& cpu_convert_scale(scalar<double, A1> &b, const scalar<T, A2> &a, double scale)
 	{
-		return convert_scale(b, a.at(index), scale);
+		return cpu_convert_scale_double(b, a, scale);
+	}
+
+	// Vector data-type conversion and scaling
+
+	template <class T, class A1, class A2>
+	vector<float, A1>& cpu_convert_scale(vector<float, A1> &b, const vector<T, A2> &a, float scale)
+	{
+		return cpu_convert_scale_float(b, a, scale);
 	}
 
 	template <class T, class A1, class A2>
-	scalar<double, A1>& get_element(scalar<double, A1> &b, const vector<T, A2> &a, size_t index, double scale)
+	vector<double, A1>& cpu_convert_scale(vector<double, A1> &b, const vector<T, A2> &a, double scale)
 	{
-		return convert_scale(b, a.at(index), scale);
+		return cpu_convert_scale_double(b, a, scale);
 	}
 
-	// Get an element of a matrix
+	// Matrix data-type conversion and scaling
 
-	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& get_element(vector<T1, A1> &b, const matrix<T2, A2> &a, size_t index)
+	template <class T, class A1, class A2>
+	matrix<float, A1>& cpu_convert_scale(matrix<float, A1> &b, const matrix<T, A2> &a, float scale)
 	{
-		return convert(b, a.at(index));
+		return cpu_convert_scale_float(b, a, scale);
 	}
 
 	template <class T, class A1, class A2>
-	vector<float, A1>& get_element(vector<float, A1> &b, const matrix<T, A2> &a, size_t index, float scale)
+	matrix<double, A1>& cpu_convert_scale(matrix<double, A1> &b, const matrix<T, A2> &a, double scale)
 	{
-		return convert_scale(b, a.at(index), scale);
+		return cpu_convert_scale_double(b, a, scale);
+	}
+
+	// Tensor data-type conversion and scaling
+
+	template <class T, class A1, class A2>
+	tensor<float, A1>& cpu_convert_scale(tensor<float, A1> &b, const tensor<T, A2> &a, float scale)
+	{
+		return cpu_convert_scale_float(b, a, scale);
 	}
 
 	template <class T, class A1, class A2>
-	vector<double, A1>& get_element(vector<double, A1> &b, const matrix<T, A2> &a, size_t index, double scale)
+	tensor<double, A1>& cpu_convert_scale(tensor<double, A1> &b, const tensor<T, A2> &a, double scale)
 	{
-		return convert_scale(b, a.at(index), scale);
-	}
-
-	// Get an element of a tensor
-
-	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& get_element(matrix<T1, A1> &b, const tensor<T2, A2> &a, size_t index)
-	{
-		return convert(b, a.at(index));
-	}
-
-	template <class T, class A1, class A2>
-	matrix<float, A1>& get_element(matrix<float, A1> &b, const tensor<T, A2> &a, size_t index, float scale)
-	{
-		return convert_scale(b, a.at(index), scale);
-	}
-
-	template <class T, class A1, class A2>
-	matrix<double, A1>& get_element(matrix<double, A1> &b, const tensor<T, A2> &a, size_t index, double scale)
-	{
-		return convert_scale(b, a.at(index), scale);
+		return cpu_convert_scale_double(b, a, scale);
 	}
 
 } // namespace core
