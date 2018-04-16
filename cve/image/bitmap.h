@@ -172,11 +172,9 @@ namespace img
 			if (!read_header(input, file_header, dib_header))
 				return false;
 			// Read palette information
-			input.seekg(static_cast<::std::streamoff>(dib_header.size), ::std::ios::beg);
 			if (!read_palette(input, dib_header, palette))
 				return false;
 			// Read bitmap data
-			input.seekg(static_cast<::std::streamoff>(file_header.offset), ::std::ios::beg);
 			return read_data(input, dib_header, palette, output);
 		}
 
