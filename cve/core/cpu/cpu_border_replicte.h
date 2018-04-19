@@ -27,29 +27,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_BORDER_INDEX_H__
-#define __CORE_CPU_BORDER_INDEX_H__
+#ifndef __CORE_CPU_BORDER_REPLICTE_H__
+#define __CORE_CPU_BORDER_REPLICTE_H__
 
 #include "../matrix.h"
+#include "kernel/kernel_border_replicte.h"
 
 namespace core
 {
-	template <class A>
-	matrix<size_t, A>& cpu_border_index(matrix<size_t, A> &index, size_t rows, size_t columns, size_t dimension, size_t border)
-	{
-		//if (b.empty() || a.empty())
-		//	throw ::std::invalid_argument(matrix_not_initialized);
-		//if (b.size() != a.size())
-		//	throw ::std::invalid_argument(invalid_size);
-
-		//if (global::is_support_avx2())
-		//	kernel_convert_float<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
-		//else if (global::is_support_sse2())
-		//	kernel_convert_float<unsigned char, inst_sse2>()(a.size(), a.data(), b.data());
-		//else
-		//	kernel_convert_float<unsigned char, inst_none>()(a.size(), a.data(), b.data());
-		//return b;
-	}
+	//static constexpr border_type        border_constant    = 0x00;                       /* iiii|abcdefgh|iiii */
+	//static constexpr border_type        border_replicte    = 0x01;                       /* aaaa|abcdefgh|hhhh */
+	//static constexpr border_type        border_reflect     = 0x02;                       /* dcba|abcdefgh|hgfe */
+	//static constexpr border_type        border_reflect101  = 0x03;                       /* edcb|abcdefgh|gfed */
+	//static constexpr border_type        border_wrap        = 0x04;                       /* efgh|abcdefgh|abcd */
 
 } // namespace core
 

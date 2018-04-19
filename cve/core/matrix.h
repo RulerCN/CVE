@@ -61,7 +61,7 @@ namespace core
 		};
 	};
 
-	// Template class matrix_type_traits
+	// Class template matrix_type_traits
 
 	template <class Matrix, bool is_const>
 	struct matrix_type_traits
@@ -83,7 +83,7 @@ namespace core
 		typedef typename Matrix::difference_type difference_type;
 	};
 
-	// Template class matrix_iterator
+	// Class template matrix_iterator
 	template <class Matrix, bool is_const>
 	class matrix_iterator
 	{
@@ -198,7 +198,7 @@ namespace core
 		pointer   ptr;
 	};
 
-	// Template class matrix
+	// Class template matrix
 	template <class T, class Allocator = allocator<T> >
 	class matrix : public Allocator
 	{

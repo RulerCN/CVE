@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class common_transpose
+	// Class template common_transpose
 	template<class T>
 	struct common_transpose
 	{
@@ -56,7 +56,7 @@ namespace core
 		}
 	};
 
-	// Template class block_transpose
+	// Class template block_transpose
 	template<class T, inst_type inst>
 	struct block_transpose
 	{
@@ -1400,7 +1400,7 @@ namespace core
 		}
 	};
 
-	// Template class reduce_transpose
+	// Class template reduce_transpose
 	template<class T, size_t block_m, size_t block_n, inst_type inst>
 	struct kernel_transpose
 	{

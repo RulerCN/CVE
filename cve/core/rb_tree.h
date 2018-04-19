@@ -48,7 +48,7 @@ namespace core
 	static constexpr rb_tree_node_state rb_tree_state_right = 0x13;
 	static constexpr rb_tree_node_state rb_tree_state_root = 0x04;
 
-	// Template class rb_tree_node
+	// Class template rb_tree_node
 	template <class T>
 	struct rb_tree_node
 	{
@@ -65,7 +65,7 @@ namespace core
 		T                        data;
 	};
 
-	// Template class rb_tree_type_traits
+	// Class template rb_tree_type_traits
 
 	template <class Tree, bool IsConst>
 	struct rb_tree_type_traits
@@ -91,7 +91,7 @@ namespace core
 		typedef typename Tree::difference_type difference_type;
 	};
 
-	// Template class rb_tree_iterator
+	// Class template rb_tree_iterator
 	template <class Tree, bool IsConst>
 	class rb_tree_iterator
 	{
@@ -244,7 +244,7 @@ namespace core
 		node_pointer node;
 	};
 
-	// Template class rb_tree_primitive_iterator
+	// Class template rb_tree_primitive_iterator
 	template <class Tree, bool IsConst>
 	class rb_tree_primitive_iterator
 	{
@@ -442,7 +442,7 @@ namespace core
 		rb_tree_node_state state;
 	};
 
-	// Template class rb_tree_node_allocator
+	// Class template rb_tree_node_allocator
 	template <class T, class Allocator>
 	class rb_tree_node_allocator : public Allocator
 	{
@@ -501,7 +501,7 @@ namespace core
 		node_allocator_type node_alloc;
 	};
 
-	// Template class rb_tree
+	// Class template rb_tree
 	template <class Key, class Value, class KeyOfValue, class KeyCompare = ::std::less<Key>, class Allocator = allocator<Value> >
 	class rb_tree : public rb_tree_node_allocator<Value, Allocator>
 	{

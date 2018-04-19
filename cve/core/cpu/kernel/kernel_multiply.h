@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class common_multiply
+	// Class template common_multiply
 	template<class T>
 	struct common_multiply
 	{
@@ -54,7 +54,7 @@ namespace core
 		}
 	};
 
-	// Template class block_multiply
+	// Class template block_multiply
 	template<class T, inst_type inst>
 	struct block_multiply
 	{
@@ -486,7 +486,7 @@ namespace core
 		}
 	};
 
-	// Template class kernel_multiply
+	// Class template kernel_multiply
 	template<class T, size_t block_n, size_t block_p, inst_type inst>
 	struct kernel_multiply
 	{

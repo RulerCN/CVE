@@ -175,7 +175,13 @@
     <ClInclude Include="core\cpu\cpu_transpose.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_border_index.h">
+    <ClInclude Include="core\cpu\cpu_border_replicte.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_border.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>

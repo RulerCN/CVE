@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class kernel_convert_scale_double
+	// Class template kernel_convert_scale_double
 	template<class T, inst_type inst>
 	struct kernel_convert_scale_double
 	{

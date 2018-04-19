@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class common_reduce_row_sum
+	// Class template common_reduce_row_sum
 	template<class T1, class T2>
 	struct common_reduce_row_sum
 	{
@@ -54,7 +54,7 @@ namespace core
 		}
 	};
 
-	// Template class block_reduce_row_sum
+	// Class template block_reduce_row_sum
 	template<class T1, class T2, inst_type inst>
 	struct block_reduce_row_sum
 	{
@@ -1646,7 +1646,7 @@ namespace core
 		}
 	};
 
-	// Template class kernel_reduce_row_sum
+	// Class template kernel_reduce_row_sum
 	template<class T1, class T2, size_t block_m, size_t block_n, inst_type inst>
 	struct kernel_reduce_row_sum
 	{

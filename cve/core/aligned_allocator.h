@@ -54,7 +54,7 @@ namespace core
 		};
 	};
 
-	// Template class aligned_allocator_base
+	// Class template aligned_allocator_base
 	template <size_t align, int inst>
 	class aligned_allocator_base
 	{
@@ -290,7 +290,7 @@ namespace core
 		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
 	};
 
-	// Template class aligned_allocator
+	// Class template aligned_allocator
 	template <class T, size_t align, int inst = 0>
 	class aligned_allocator : public aligned_allocator_base<align, inst>
 	{

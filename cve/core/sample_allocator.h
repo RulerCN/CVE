@@ -54,7 +54,7 @@ namespace core
 		};
 	};
 
-	// Template class sample_allocator
+	// Class template sample_allocator
 	template <class T>
 	class sample_allocator
 	{

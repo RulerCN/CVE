@@ -42,7 +42,7 @@ namespace core
 	static constexpr tree_node_state tree_state_sibling = 0x01;
 	static constexpr tree_node_state tree_state_child = 0x12;
 
-	// Template class tree_node
+	// Class template tree_node
 	template <class T>
 	struct tree_node
 	{
@@ -60,7 +60,7 @@ namespace core
 		T                        data;
 	};
 
-	// Template class tree_type_traits
+	// Class template tree_type_traits
 
 	template <class Tree, bool IsConst>
 	struct tree_type_traits
@@ -86,7 +86,7 @@ namespace core
 		typedef typename Tree::difference_type difference_type;
 	};
 
-	// Template class tree_iterator
+	// Class template tree_iterator
 	template <class Tree, bool IsConst>
 	class tree_iterator
 	{
@@ -212,7 +212,7 @@ namespace core
 		node_pointer node;
 	};
 
-	// Template class tree_primitive_iterator
+	// Class template tree_primitive_iterator
 	template <class Tree, bool IsConst>
 	class tree_primitive_iterator
 	{
@@ -395,7 +395,7 @@ namespace core
 		tree_node_state state;
 	};
 
-	// Template class tree_sibling_iterator
+	// Class template tree_sibling_iterator
 	template <class Tree, bool IsConst>
 	class tree_sibling_iterator
 	{
@@ -529,7 +529,7 @@ namespace core
 		node_pointer node;
 	};
 
-	// Template class tree_leaf_iterator
+	// Class template tree_leaf_iterator
 	template <class Tree, bool IsConst>
 	class tree_leaf_iterator
 	{
@@ -660,7 +660,7 @@ namespace core
 		node_pointer node;
 	};
 
-	// Template class tree_node_allocator
+	// Class template tree_node_allocator
 	template <class T, class Allocator>
 	class tree_node_allocator : public Allocator
 	{
@@ -719,7 +719,7 @@ namespace core
 		node_allocator_type node_alloc;
 	};
 
-	// Template class tree
+	// Class template tree
 	template <class T, class Allocator = allocator<T> >
 	class tree : public tree_node_allocator<T, Allocator>
 	{

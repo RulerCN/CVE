@@ -59,7 +59,7 @@ namespace core
 		};
 	};
 
-	// Template class scalar
+	// Class template scalar
 	template <class T, class Allocator = allocator<T> >
 	class scalar : public Allocator
 	{

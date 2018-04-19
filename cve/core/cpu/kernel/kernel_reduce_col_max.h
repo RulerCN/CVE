@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class common_reduce_col_max
+	// Class template common_reduce_col_max
 	template<class T>
 	struct common_reduce_col_max
 	{
@@ -51,7 +51,7 @@ namespace core
 		}
 	};
 
-	// Template class block_reduce_col_max
+	// Class template block_reduce_col_max
 	template<class T, inst_type inst>
 	struct block_reduce_col_max
 	{
@@ -812,7 +812,7 @@ namespace core
 		}
 	};
 
-	// Template class kernel_reduce_col_max
+	// Class template kernel_reduce_col_max
 	template<class T, size_t block_m, size_t block_n, inst_type inst>
 	struct kernel_reduce_col_max
 	{

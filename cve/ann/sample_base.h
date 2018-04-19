@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ann
 {
-	// Template class sample_base
+	// Class template sample_base
 	template <class Allocator = ::core::allocator<void> >
 	class sample_base
 	{

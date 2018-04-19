@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ann
 {
-	// Template class mnist
+	// Class template mnist
 	template <class Allocator = ::core::allocator<unsigned char> >
 	class mnist
 	{

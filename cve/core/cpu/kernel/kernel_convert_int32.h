@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Template class kernel_convert_int32
+	// Class template kernel_convert_int32
 	template<class T, inst_type inst>
 	struct kernel_convert_int32
 	{

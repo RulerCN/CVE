@@ -54,7 +54,7 @@ namespace core
 		};
 	};
 
-	// Template class allocator_base
+	// Class template allocator_base
 	template <int inst>
 	class allocator_base
 	{
@@ -290,7 +290,7 @@ namespace core
 		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
 	};
 
-	// Template class allocator
+	// Class template allocator
 	template <class T, int inst = 0>
 	class allocator : public allocator_base<inst>
 	{

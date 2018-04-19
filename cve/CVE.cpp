@@ -9,6 +9,7 @@
 #include "core\cpu\cpu_convert_scale.h"
 #include "core\cpu\cpu_reduce.h"
 #include "core\cpu\cpu_transpose.h"
+#include "core\cpu\cpu_border.h"
 #include "image\bitmap.h"
 #include "ann\mnist.h"
 
@@ -47,6 +48,10 @@ int main()
 	//img::bitmap_palette palette;
 	//img::bitmap::decode("data/train/1.bmp", output, palette);
 	//return 0;
+
+	size_t idx[1024];
+	//core::kernel_border_replicte_left(idx, (size_t)10, (size_t)3, (size_t)31);
+	core::kernel_border_replicte_right(idx + 30, (size_t)10, (size_t)3, (size_t)23);
 
 	const size_t batch     = 10;
 	const size_t rows      = 28;

@@ -64,7 +64,7 @@ namespace ann
 
 #	pragma pack(pop)
 
-	// Template class mnist_data
+	// Class template mnist_data
 	template <class Allocator = ::core::allocator<unsigned char> >
 	class mnist_data : public sample_base<Allocator>
 	{

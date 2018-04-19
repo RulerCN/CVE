@@ -62,7 +62,7 @@ namespace core
 		};
 	};
 
-	// Template class tensor_type_traits
+	// Class template tensor_type_traits
 
 	template <class Tensor, bool is_const>
 	struct tensor_type_traits
@@ -84,7 +84,7 @@ namespace core
 		typedef typename Tensor::difference_type difference_type;
 	};
 
-	// Template class tensor_iterator
+	// Class template tensor_iterator
 	template <class Tensor, bool is_const>
 	class tensor_iterator
 	{
@@ -194,7 +194,7 @@ namespace core
 		pointer   ptr;
 	};
 
-	// Template class tensor
+	// Class template tensor
 	template <class T, class Allocator = allocator<T> >
 	class tensor : public Allocator
 	{

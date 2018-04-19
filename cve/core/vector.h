@@ -60,7 +60,7 @@ namespace core
 		};
 	};
 
-	// Template class vector_type_traits
+	// Class template vector_type_traits
 
 	template <class Vector, bool is_const>
 	struct vector_type_traits
@@ -82,7 +82,7 @@ namespace core
 		typedef typename Vector::difference_type   difference_type;
 	};
 
-	// Template class vector_iterator
+	// Class template vector_iterator
 	template <class Vector, bool is_const>
 	class vector_iterator
 	{
@@ -202,7 +202,7 @@ namespace core
 		pointer   ptr;
 	};
 
-	// Template class vector
+	// Class template vector
 	template <class T, class Allocator = allocator<T> >
 	class vector : public Allocator
 	{
