@@ -37,144 +37,42 @@ namespace core
 {
 	// Function template kernel_border_replicte_left
 	template<class T>
-	void kernel_border_replicte_left(T *data, T columns, T channels, T border)
+	void kernel_border_replicte_left(T *data, T /*columns*/, T /*width*/, T channels, T left)
 	{
-		T value;
-		T loop = border / columns;
-		T remain = (border % columns) * channels;
-		T stride = columns * channels;
+		T border = left * channels;
 
-		if (remain > 0)
-		{
-			if (loop & 1)
-			{
-				value = stride - remain;
-				for (T i = 0; i < remain; ++i)
-					data[i] = value + i;
-			}
-			else
-			{
-				value = remain - channels;
-				for (T j = 0; j < channels; ++j)
-				{
-					for (T i = j; i < remain; i += channels)
-						data[i] = value - i;
-					value += 2;
-				}
-			}
-			data += remain;
-		}
-		if (loop & 1)
-		{
-			value = stride - channels;
-			for (T j = 0; j < channels; ++j)
-			{
-				for (T i = j; i < stride; i += channels)
-					data[i] = value - i;
-				value += 2;
-			}
-			data += stride;
-		}
-		while (loop > 1)
-		{
-			for (T i = 0; i < stride; ++i)
-				data[i] = i;
-			data += stride;
-			value = stride - channels;
-			for (T j = 0; j < channels; ++j)
-			{
-				for (T i = j; i < stride; i += channels)
-					data[i] = value - i;
-				value += 2;
-			}
-			data += stride;
-			loop -= 2;
-		}
+		for (T i = 0; i < border; ++i)
+			data[i] = 0;
+	}
+
+	// Function template kernel_border_replicte_center
+	template<class T>
+	void kernel_border_replicte_center(T *data, T columns, T width, T channels, T left)
+	{
 	}
 
 	// Function template kernel_border_replicte_right
 	template<class T>
-	void kernel_border_replicte_right(T *data, T columns, T channels, T border)
+	void kernel_border_replicte_right(T *data, T columns, T width, T channels, T right)
 	{
-		T value;
-		T loop = border / columns;
-		T remain = (border % columns) * channels;
-		T stride = columns * channels;
-
-		while (loop > 1)
-		{
-			value = stride - channels;
-			for (T j = 0; j < channels; ++j)
-			{
-				for (T i = j; i < stride; i += channels)
-					data[i] = value - i;
-				value += 2;
-			}
-			data += stride;
-			for (T i = 0; i < stride; ++i)
-				data[i] = i;
-			data += stride;
-			loop -= 2;
-		}
-		if (loop & 1)
-		{
-			value = stride - channels;
-			for (T j = 0; j < channels; ++j)
-			{
-				for (T i = j; i < stride; i += channels)
-					data[i] = value - i;
-				value += 2;
-			}
-			data += stride;
-		}
-		if (remain > 0)
-		{
-			if (loop & 1)
-			{
-				for (T i = 0; i < remain; ++i)
-					data[i] = i;
-			}
-			else
-			{
-				value = stride - channels;
-				for (T j = 0; j < channels; ++j)
-				{
-					for (T i = j; i < remain; i += channels)
-						data[i] = value - i;
-					value += 2;
-				}
-			}
-			data += remain;
-		}
 	}
 
 	// Function template kernel_border_replicte_top
 	template<class T>
-	void kernel_border_replicte_top(T *data, T stride, T rows, T columns, T border)
+	void kernel_border_replicte_top(T *data, T rows, T columns, T height, T width, T channels, T top)
 	{
-		T count;
-		T loop = border / rows;
-		T remain = border % rows;
+	}
 
-		if (remain > 0)
-		{
-			if (loop & 1)
-			{
-				//count = rows - remain;
-				//for (T i = 0; i < remain; ++i)
-				//	data[i] = value + i;
-			}
-			else
-			{
-				//value = remain - 1;
-				//for (T j = 0; j < channels; ++j)
-				//{
-				//	for (T i = j; i < remain; i += channels)
-				//		data[i] = value - i;
-				//	value += 2;
-				//}
-			}
-		}
+	// Function template kernel_border_replicte_middle
+	template<class T>
+	void kernel_border_replicte_middle(T *data, T rows, T columns, T height, T width, T channels, T top)
+	{
+	}
+
+	// Function template kernel_border_replicte_bottom
+	template<class T>
+	void kernel_border_replicte_bottom(T *data, T rows, T columns, T height, T width, T channels, T bottom)
+	{
 	}
 
 } // namespace core

@@ -152,7 +152,6 @@
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
-    <ClInclude Include="core\cpu\cpu_border_replicte.h" />
     <ClInclude Include="core\cpu\cpu_convert.h" />
     <ClInclude Include="core\cpu\cpu_convert_double.h" />
     <ClInclude Include="core\cpu\cpu_convert_float.h" />
@@ -166,7 +165,10 @@
     <ClInclude Include="core\cpu\cpu_convert_uint32.h" />
     <ClInclude Include="core\cpu\cpu_convert_uint8.h" />
     <ClInclude Include="core\cpu\cpu_get_element.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_border_wrap.h" />
     <ClInclude Include="core\cpu\kernel\kernel_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_min.h" />

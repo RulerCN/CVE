@@ -39,20 +39,33 @@ template<class Allocator>
 void print(const char *name, const core::matrix<int, Allocator> &mat);
 template<class Allocator>
 void print(const char *name, const core::matrix<float, Allocator> &mat);
+template<class Allocator>
+void print(const char *name, const core::matrix<unsigned long long, Allocator> &mat);
 
 int main()
 {
 	core::global::enable_simd(true);
 
-	//core::matrix<unsigned char> output;
-	//img::bitmap_palette palette;
-	//img::bitmap::decode("data/train/1.bmp", output, palette);
-	//return 0;
+	core::matrix<unsigned char> input;
+	img::bitmap::decode("data/test.bmp", input);
 
-	size_t idx[1024];
-	//core::kernel_border_replicte_left(idx, (size_t)10, (size_t)3, (size_t)31);
-	core::kernel_border_replicte_right(idx + 30, (size_t)10, (size_t)3, (size_t)23);
+	size_t left = 50;
+	size_t top = 100;
+	size_t right = 50;
+	size_t bottom = 100;
+	size_t rows = input.rows();
+	size_t columns = input.columns();
+	size_t dimension = input.dimension();
+	core::matrix<size_t> index(top + rows + bottom, left + columns + right, dimension);
 
+	index.fill(0);
+
+	core::cpu_border_reflect101(index, left, top, right, bottom);
+	core::matrix<unsigned char> output(input.data(), index);
+	img::bitmap::encode("data/save1.bmp", output);
+
+	return 0;
+/*
 	const size_t batch     = 10;
 	const size_t rows      = 28;
 	const size_t columns   = 28;
@@ -89,7 +102,7 @@ int main()
 	img::bitmap::encode("data/test/6.bmp", test_images[5]);
 	img::bitmap::encode("data/test/7.bmp", test_images[6]);
 	img::bitmap::encode("data/test/8.bmp", test_images[7]);
-
+*/
 	//size_t row = 13;
 	//size_t col = 17;
 	//size_t dim = 1;
@@ -261,6 +274,21 @@ void print(const char *name, const core::matrix<float, Allocator> &mat)
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
 			std::cout << std::setfill('0') << std::setw(8) << *i << ",";
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+}
+
+template<class Allocator>
+void print(const char *name, const core::matrix<unsigned long long, Allocator> &mat)
+{
+	std::cout << name << "[" << mat.rows() << "][" << mat.columns() << "] =\n";
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		std::cout << "    ";
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			for (int n = 0; n < mat.dimension(); ++n)
+				std::cout << std::setfill(' ') << std::setw(3) << i[n] << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";

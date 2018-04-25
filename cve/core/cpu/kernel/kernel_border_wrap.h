@@ -27,19 +27,68 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_BORDER_REPLICTE_H__
-#define __CORE_CPU_BORDER_REPLICTE_H__
+#ifndef __CORE_CPU_KERNEL_BORDER_REPLICTE101_H__
+#define __CORE_CPU_KERNEL_BORDER_REPLICTE101_H__
 
-#include "../matrix.h"
-#include "kernel/kernel_border_replicte.h"
+#include "../../definition.h"
+#include "../../instruction.h"
 
 namespace core
 {
-	//static constexpr border_type        border_constant    = 0x00;                       /* iiii|abcdefgh|iiii */
-	//static constexpr border_type        border_replicte    = 0x01;                       /* aaaa|abcdefgh|hhhh */
-	//static constexpr border_type        border_reflect     = 0x02;                       /* dcba|abcdefgh|hgfe */
-	//static constexpr border_type        border_reflect101  = 0x03;                       /* edcb|abcdefgh|gfed */
-	//static constexpr border_type        border_wrap        = 0x04;                       /* efgh|abcdefgh|abcd */
+	// Function template kernel_border_wrap_left
+	template<class T>
+	void kernel_border_wrap_left(T *data, T columns, T width, T channels, T left)
+	{
+		T value;
+		T stride = width * channels;
+		T loop = left / width;
+		T remain = (left % width) * channels;
+
+		if (remain > 0)
+		{
+			value = stride - remain;
+			for (T i = 0; i < remain; ++i)
+				data[i] = value + i;
+			data += remain;
+		}
+		while (loop > 1)
+		{
+			for (T i = 0; i < stride; ++i)
+				data[i] = i;
+			data += stride;
+			--loop;
+		}
+	}
+
+	// Function template kernel_border_wrap_center
+	template<class T>
+	void kernel_border_wrap_center(T *data, T columns, T width, T channels, T left)
+	{
+	}
+
+	// Function template kernel_border_wrap_right
+	template<class T>
+	void kernel_border_wrap_right(T *data, T columns, T width, T channels, T right)
+	{
+	}
+
+	// Function template kernel_border_wrap_top
+	template<class T>
+	void kernel_border_wrap_top(T *data, T rows, T columns, T height, T width, T channels, T top)
+	{
+	}
+
+	// Function template kernel_border_wrap_middle
+	template<class T>
+	void kernel_border_wrap_middle(T *data, T rows, T columns, T height, T width, T channels, T top)
+	{
+	}
+
+	// Function template kernel_border_wrap_bottom
+	template<class T>
+	void kernel_border_wrap_bottom(T *data, T rows, T columns, T height, T width, T channels, T bottom)
+	{
+	}
 
 } // namespace core
 

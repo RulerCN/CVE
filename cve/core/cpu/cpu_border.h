@@ -30,80 +30,137 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_BORDER_H__
 #define __CORE_CPU_BORDER_H__
 
-#include "cpu_border_replicte.h"
+#include "../matrix.h"
+#include "kernel/kernel_border_replicte.h"
+#include "kernel/kernel_border_reflect.h"
+#include "kernel/kernel_border_reflect101.h"
+#include "kernel/kernel_border_wrap.h"
 
 namespace core
 {
-	//template <class A>
-	//matrix<size_t, A>& cpu_border_index_x(matrix<size_t, A> &index, size_t left, size_t right)
-	//{
-	//	if (index.empty())
-	//		throw ::std::invalid_argument(matrix_not_initialized);
-	//	if (left + right >= index.columns())
-	//		throw ::std::invalid_argument(invalid_border_size);
+	// Function template cpu_border_replicte
+	template <class T, class A>
+	matrix<T, A>& cpu_border_replicte(matrix<T, A> &index, T left, T top, T right, T bottom)
+	{
+		if (index.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (index.rows() <= top + bottom || index.columns() <= left + right)
+			throw ::std::invalid_argument(invalid_border_size);
+		T *data = index.data(top);
+		T height = index.rows() - top - bottom;
+		T width = index.columns() - left - right;
 
-	//	//size_t rows, size_t columns, size_t dimension,
+		// left border
+		if (left > 0)
+			kernel_border_replicte_left(data, index.columns(), width, index.dimension(), left);
+		// center data
+		kernel_border_replicte_center(data, index.columns(), width, index.dimension(), left);
+		// right border
+		if (right > 0)
+			kernel_border_replicte_right(data, index.columns(), width, index.dimension(), right);
+		// top border
+		if (top > 0)
+			kernel_border_replicte_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// middle data
+		kernel_border_replicte_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// bottom border
+		if (bottom > 0)
+			kernel_border_replicte_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+		return index;
+	}
 
-	//	for (size_t i = 0; i < count; ++i)
-	//	{
-	//		buffer[i] = value;
-	//		value += delta;
-	//	}
+	// Function template cpu_border_reflect
+	template <class T, class A>
+	matrix<T, A>& cpu_border_reflect(matrix<T, A> &index, T left, T top, T right, T bottom)
+	{
+		if (index.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (index.rows() <= top + bottom || index.columns() <= left + right)
+			throw ::std::invalid_argument(invalid_border_size);
+		T *data = index.data(top);
+		T height = index.rows() - top - bottom;
+		T width = index.columns() - left - right;
 
-	//	return index;
-	//}
+		// left border
+		if (left > 0)
+			kernel_border_reflect_left(data, index.columns(), width, index.dimension(), left);
+		// center data
+		kernel_border_reflect_center(data, index.columns(), width, index.dimension(), left);
+		// right border
+		if (right > 0)
+			kernel_border_reflect_right(data, index.columns(), width, index.dimension(), right);
+		// top border
+		if (top > 0)
+			kernel_border_reflect_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// middle data
+		kernel_border_reflect_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// bottom border
+		if (bottom > 0)
+			kernel_border_reflect_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+		return index;
+	}
 
-	////static constexpr border_type        border_constant    = 0x00;                       /* iiii|abcdefgh|iiii */
-	////static constexpr border_type        border_replicte    = 0x01;                       /* aaaa|abcdefgh|hhhh */
-	////static constexpr border_type        border_reflect     = 0x02;                       /* dcba|abcdefgh|hgfe */
-	////static constexpr border_type        border_reflect101  = 0x03;                       /* edcb|abcdefgh|gfed */
-	////static constexpr border_type        border_wrap        = 0x04;                       /* efgh|abcdefgh|abcd */
+	// Function template cpu_border_reflect101
+	template <class T, class A>
+	matrix<T, A>& cpu_border_reflect101(matrix<T, A> &index, T left, T top, T right, T bottom)
+	{
+		if (index.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (index.rows() <= top + bottom || index.columns() <= left + right)
+			throw ::std::invalid_argument(invalid_border_size);
+		T *data = index.data(top);
+		T height = index.rows() - top - bottom;
+		T width = index.columns() - left - right;
 
-	//template <class A>
-	//matrix<size_t, A>& cpu_border_replicte_x(matrix<size_t, A> &index, size_t border_left, size_t border_top, size_t border_right, size_t border_bottom)
-	//{
-	//	if (index.empty())
-	//		throw ::std::invalid_argument(matrix_not_initialized);
-	//	if (border_left + border_right >= index.columns())
-	//		throw ::std::invalid_argument(invalid_border_size);
+		// left border
+		if (left > 0)
+			kernel_border_reflect101_left(data, index.columns(), width, index.dimension(), left);
+		// center data
+		kernel_border_reflect101_center(data, index.columns(), width, index.dimension(), left);
+		// right border
+		if (right > 0)
+			kernel_border_reflect101_right(data, index.columns(), width, index.dimension(), right);
+		// top border
+		if (top > 0)
+			kernel_border_reflect101_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// middle data
+		kernel_border_reflect101_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// bottom border
+		if (bottom > 0)
+			kernel_border_reflect101_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+		return index;
+	}
 
-	//	size_t rows = index.rows() - border_top - border_bottom;
-	//	size_t cols = index.columns() - border_left - border_right;
-	//	size_t dim = index.dimension();
-	//	size_t row_size = cols * dim;
-	//	size_t loop = left / cols;
-	//	size_t remain = (left % cols) * dim;
+	// Function template cpu_border_wrap
+	template <class T, class A>
+	matrix<T, A>& cpu_border_wrap(matrix<T, A> &index, T left, T top, T right, T bottom)
+	{
+		if (index.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (index.rows() <= top + bottom || index.columns() <= left + right)
+			throw ::std::invalid_argument(invalid_border_size);
+		T *data = index.data(top);
+		T height = index.rows() - top - bottom;
+		T width = index.columns() - left - right;
 
-	//	if (loop & 1)
-	//	{
-	//		value = row_size - remain;
-	//		for (size_t i = 0; i < remain; i += dim)
-	//			ptr[i] = value + i;
-	//		ptr += remain - dim;
-	//		value = row_size - dim;
-	//		for (size_t i = 0; i < row_size; i += dim)
-	//			ptr[i] = value - i;
-	//		ptr += row_size - dim;
-	//		--loop;
-	//	}
-	//	else
-	//	{
-	//		value = remain - dim;
-	//		for (size_t i = 0; i < remain; i += dim)
-	//			ptr[i] = value - i;
-	//		ptr += remain - dim;
-	//	}
-	//	for (size_t i = 0; i < loop; i += 2)
-	//	{
-	//		for (size_t i = 0; i < row_size; i += dim)
-	//			ptr[i] = i;
-	//		ptr += row_size;
-	//		value = row_size - dim;
-	//		for (size_t i = 0; i < row_size; i += dim)
-	//			ptr[i] = value - i;
-	//		ptr += row_size - dim;
-	//	}
-	//}
+		// left border
+		if (left > 0)
+			kernel_border_wrap_left(data, index.columns(), width, index.dimension(), left);
+		// center data
+		kernel_border_wrap_center(data, index.columns(), width, index.dimension(), left);
+		// right border
+		if (right > 0)
+			kernel_border_wrap_right(data, index.columns(), width, index.dimension(), right);
+		// top border
+		if (top > 0)
+			kernel_border_wrap_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// middle data
+		kernel_border_wrap_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		// bottom border
+		if (bottom > 0)
+			kernel_border_wrap_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+		return index;
+	}
 
 } // namespace core
 
