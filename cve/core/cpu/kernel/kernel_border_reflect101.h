@@ -41,13 +41,13 @@ namespace core
 	{
 		T value;
 		T repeat = (width - 1) * 2;
-		T stride = (width - 1) * channels;
 		T loop = left / repeat;
 		T remain = (left % repeat) * channels;
+		T delta = (width - 1) * channels;
 
 		if (remain > 0)
 		{
-			if (remain <= stride)
+			if (remain <= delta)
 			{
 				value = remain;
 				for (T j = 0; j < channels; ++j)
@@ -60,34 +60,34 @@ namespace core
 			}
 			else
 			{
-				remain -= stride;
-				value = stride - remain;
+				remain -= delta;
+				value = delta - remain;
 				for (T i = 0; i < remain; ++i)
 					data[i] = value + i;
 				data += remain;
-				value = stride;
+				value = delta;
 				for (T j = 0; j < channels; ++j)
 				{
-					for (T i = j; i < stride; i += channels)
+					for (T i = j; i < delta; i += channels)
 						data[i] = value - i;
 					value += 2;
 				}
-				data += stride;
+				data += delta;
 			}
 		}
-		while (loop > 1)
+		while (loop > 0)
 		{
-			for (T i = 0; i < stride; ++i)
+			for (T i = 0; i < delta; ++i)
 				data[i] = i;
-			data += stride;
-			value = stride;
+			data += delta;
+			value = delta;
 			for (T j = 0; j < channels; ++j)
 			{
-				for (T i = j; i < stride; i += channels)
+				for (T i = j; i < delta; i += channels)
 					data[i] = value - i;
 				value += 2;
 			}
-			data += stride;
+			data += delta;
 			--loop;
 		}
 	}
@@ -96,44 +96,44 @@ namespace core
 	template<class T>
 	void kernel_border_reflect101_center(T *data, T /*columns*/, T width, T channels, T left)
 	{
-		T stride = width * channels;
+		T delta = width * channels;
 		T *dst = data + left * channels;
 
-		for (T i = 0; i < stride; ++i)
+		for (T i = 0; i < delta; ++i)
 			dst[i] = i;
 	}
-
+	
 	// Function template kernel_border_reflect101_right
 	template<class T>
 	void kernel_border_reflect101_right(T *data, T columns, T width, T channels, T right)
 	{
 		T value;
 		T repeat = (width - 1) * 2;
-		T stride = (width - 1) * channels;
 		T loop = right / repeat;
 		T remain = (right % repeat) * channels;
+		T delta = (width - 1) * channels;
 		T *dst = data + (columns - right) * channels;
 
-		while (loop > 1)
+		while (loop > 0)
 		{
-			value = stride - channels;
+			value = delta - channels;
 			for (T j = 0; j < channels; ++j)
 			{
-				for (T i = j; i < stride; i += channels)
+				for (T i = j; i < delta; i += channels)
 					dst[i] = value - i;
 				value += 2;
 			}
-			dst += stride;
-			for (T i = 0; i < stride; ++i)
+			dst += delta - channels;
+			for (T i = channels; i <= delta; ++i)
 				dst[i] = i;
-			dst += stride;
+			dst += delta + channels;
 			--loop;
 		}
 		if (remain > 0)
 		{
-			if (remain <= stride)
+			if (remain <= delta)
 			{
-				value = stride - channels;
+				value = delta - channels;
 				for (T j = 0; j < channels; ++j)
 				{
 					for (T i = j; i < remain; i += channels)
@@ -143,16 +143,16 @@ namespace core
 			}
 			else
 			{
-				remain -= stride;
-				value = stride - channels;
+				value = delta - channels;
 				for (T j = 0; j < channels; ++j)
 				{
-					for (T i = j; i < stride; i += channels)
+					for (T i = j; i < delta; i += channels)
 						dst[i] = value - i;
 					value += 2;
 				}
-				dst += stride;
-				for (T i = 0; i < remain; ++i)
+				remain -= delta - channels;
+				dst += delta - channels;
+				for (T i = channels; i < remain; ++i)
 					dst[i] = i;
 			}
 		}
@@ -160,61 +160,154 @@ namespace core
 
 	// Function template kernel_border_reflect101_top
 	template<class T>
-	void kernel_border_reflect101_top(T *data, T rows, T columns, T height, T width, T channels, T top)
+	void kernel_border_reflect101_top(T *data, T columns, T height, T width, T channels, T top)
 	{
 		T value;
-		T stride = width * channels;
-		T length = columns * channels;
-		T loop = top / height;
-		T remain = top % height;
-		T *dst = data - top * columns * channels;
+		T repeat = (height - 1) * 2;
+		T loop = top / repeat;
+		T remain = top % repeat;
+		T delta = width * channels;
+		T stride = columns * channels;
+		T *dst = data - top * stride;
 
 		if (remain > 0)
 		{
 			if (remain < height)
 			{
-				value = (height - remain) * stride;
+				value = remain * delta;
 				for (T j = 0; j < remain; ++j)
 				{
-					for (T i = 0; i < length; ++i)
+					for (T i = 0; i < stride; ++i)
 						dst[i] = data[i] + value;
-					dst += length;
-					value += stride;
+					dst += stride;
+					value -= delta;
 				}
 			}
 			else
 			{
-
+				value = (repeat - remain) * delta;
+				for (T j = height - 1; j < remain; ++j)
+				{
+					for (T i = 0; i < stride; ++i)
+						dst[i] = data[i] + value;
+					dst += stride;
+					value += delta;
+				}
+				value = (height - 1) * delta;
+				for (T j = 1; j < height; ++j)
+				{
+					for (T i = 0; i < stride; ++i)
+						dst[i] = data[i] + value;
+					dst += stride;
+					value -= delta;
+				}
 			}
 		}
-		while (loop > 1)
+		while (loop > 0)
 		{
+			value = 0;
+			for (T j = 1; j < height; ++j)
+			{
+				for (T i = 0; i < stride; ++i)
+					dst[i] = data[i] + value;
+				dst += stride;
+				value += delta;
+			}
+			value = (height - 1) * delta;
+			for (T j = 1; j < height; ++j)
+			{
+				for (T i = 0; i < stride; ++i)
+					dst[i] = data[i] + value;
+				dst += stride;
+				value -= delta;
+			}
 			--loop;
 		}
 	}
 
 	// Function template kernel_border_reflect101_middle
 	template<class T>
-	void kernel_border_reflect101_middle(T *data, T /*rows*/, T columns, T height, T width, T channels, T top)
+	void kernel_border_reflect101_middle(T *data, T columns, T height, T width, T channels, T /*top*/)
 	{
-		T stride = width * channels;
-		T length = columns * channels;
-		T value = stride;
-		T *dst = data + length;
+		T delta = width * channels;
+		T stride = columns * channels;
+		T value = delta;
+		T *dst = data + stride;
 
 		for (T j = 1; j < height; ++j)
 		{
-			for (T i = 0; i < length; ++i)
+			for (T i = 0; i < stride; ++i)
 				dst[i] = data[i] + value;
-			dst += length;
-			value += stride;
+			dst += stride;
+			value += delta;
 		}
 	}
 
 	// Function template kernel_border_reflect101_bottom
 	template<class T>
-	void kernel_border_reflect101_bottom(T *data, T rows, T columns, T height, T width, T channels, T bottom)
+	void kernel_border_reflect101_bottom(T *data, T columns, T height, T width, T channels, T bottom)
 	{
+		T value;
+		T repeat = (height - 1) * 2;
+		T loop = bottom / repeat;
+		T remain = bottom % repeat;
+		T delta = width * channels;
+		T stride = columns * channels;
+		T *dst = data + height * stride;
+
+		while (loop > 0)
+		{
+			value = (height - 2) * delta;
+			for (T j = 1; j < height; ++j)
+			{
+				for (T i = 0; i < stride; ++i)
+					dst[i] = data[i] + value;
+				dst += stride;
+				value -= delta;
+			}
+			value = delta;
+			for (T j = 1; j < height; ++j)
+			{
+				for (T i = 0; i < stride; ++i)
+					dst[i] = data[i] + value;
+				dst += stride;
+				value += delta;
+			}
+			--loop;
+		}
+		if (remain > 0)
+		{
+			if (remain < height)
+			{
+				value = (height - 2) * delta;
+				for (T j = 0; j < remain; ++j)
+				{
+					for (T i = 0; i < stride; ++i)
+						dst[i] = data[i] + value;
+					dst += stride;
+					value -= delta;
+				}
+			}
+			else
+			{
+				value = (height - 2) * delta;
+				for (T j = 1; j < height; ++j)
+				{
+					for (T i = 0; i < stride; ++i)
+						dst[i] = data[i] + value;
+					dst += stride;
+					value -= delta;
+				}
+				value = delta;
+				for (T j = height - 1; j < remain; ++j)
+				{
+					for (T i = 0; i < stride; ++i)
+						dst[i] = data[i] + value;
+					dst += stride;
+					value += delta;
+				}
+			}
+		}
 	}
 
 } // namespace core

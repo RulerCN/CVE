@@ -60,12 +60,12 @@ namespace core
 			kernel_border_replicte_right(data, index.columns(), width, index.dimension(), right);
 		// top border
 		if (top > 0)
-			kernel_border_replicte_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+			kernel_border_replicte_top(data, index.columns(), height, width, index.dimension(), top);
 		// middle data
-		kernel_border_replicte_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		kernel_border_replicte_middle(data, index.columns(), height, width, index.dimension(), top);
 		// bottom border
 		if (bottom > 0)
-			kernel_border_replicte_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+			kernel_border_replicte_bottom(data, index.columns(), height, width, index.dimension(), bottom);
 		return index;
 	}
 
@@ -91,12 +91,12 @@ namespace core
 			kernel_border_reflect_right(data, index.columns(), width, index.dimension(), right);
 		// top border
 		if (top > 0)
-			kernel_border_reflect_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+			kernel_border_reflect_top(data, index.columns(), height, width, index.dimension(), top);
 		// middle data
-		kernel_border_reflect_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		kernel_border_reflect_middle(data, index.columns(), height, width, index.dimension(), top);
 		// bottom border
 		if (bottom > 0)
-			kernel_border_reflect_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+			kernel_border_reflect_bottom(data, index.columns(), height, width, index.dimension(), bottom);
 		return index;
 	}
 
@@ -122,12 +122,12 @@ namespace core
 			kernel_border_reflect101_right(data, index.columns(), width, index.dimension(), right);
 		// top border
 		if (top > 0)
-			kernel_border_reflect101_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+			kernel_border_reflect101_top(data, index.columns(), height, width, index.dimension(), top);
 		// middle data
-		kernel_border_reflect101_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		kernel_border_reflect101_middle(data, index.columns(), height, width, index.dimension(), top);
 		// bottom border
 		if (bottom > 0)
-			kernel_border_reflect101_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+			kernel_border_reflect101_bottom(data, index.columns(), height, width, index.dimension(), bottom);
 		return index;
 	}
 
@@ -153,12 +153,12 @@ namespace core
 			kernel_border_wrap_right(data, index.columns(), width, index.dimension(), right);
 		// top border
 		if (top > 0)
-			kernel_border_wrap_top(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+			kernel_border_wrap_top(data, index.columns(), height, width, index.dimension(), top);
 		// middle data
-		kernel_border_wrap_middle(data, index.rows(), index.columns(), height, width, index.dimension(), top);
+		kernel_border_wrap_middle(data, index.columns(), height, width, index.dimension(), top);
 		// bottom border
 		if (bottom > 0)
-			kernel_border_wrap_bottom(data, index.rows(), index.columns(), height, width, index.dimension(), bottom);
+			kernel_border_wrap_bottom(data, index.columns(), height, width, index.dimension(), bottom);
 		return index;
 	}
 

@@ -39,10 +39,6 @@ namespace core
 	template<class T>
 	void kernel_border_replicte_left(T *data, T /*columns*/, T /*width*/, T channels, T left)
 	{
-		T border = left * channels;
-
-		for (T i = 0; i < border; ++i)
-			data[i] = 0;
 	}
 
 	// Function template kernel_border_replicte_center
@@ -59,19 +55,19 @@ namespace core
 
 	// Function template kernel_border_replicte_top
 	template<class T>
-	void kernel_border_replicte_top(T *data, T rows, T columns, T height, T width, T channels, T top)
+	void kernel_border_replicte_top(T *data, T rows, T columns, T width, T channels, T top)
 	{
 	}
 
 	// Function template kernel_border_replicte_middle
 	template<class T>
-	void kernel_border_replicte_middle(T *data, T rows, T columns, T height, T width, T channels, T top)
+	void kernel_border_replicte_middle(T *data, T rows, T columns, T width, T channels, T top)
 	{
 	}
 
 	// Function template kernel_border_replicte_bottom
 	template<class T>
-	void kernel_border_replicte_bottom(T *data, T rows, T columns, T height, T width, T channels, T bottom)
+	void kernel_border_replicte_bottom(T *data, T rows, T columns, T width, T channels, T bottom)
 	{
 	}
 

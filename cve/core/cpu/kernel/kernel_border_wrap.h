@@ -40,22 +40,22 @@ namespace core
 	void kernel_border_wrap_left(T *data, T columns, T width, T channels, T left)
 	{
 		T value;
-		T stride = width * channels;
 		T loop = left / width;
 		T remain = (left % width) * channels;
+		T delta = width * channels;
 
 		if (remain > 0)
 		{
-			value = stride - remain;
+			value = delta - remain;
 			for (T i = 0; i < remain; ++i)
 				data[i] = value + i;
 			data += remain;
 		}
 		while (loop > 1)
 		{
-			for (T i = 0; i < stride; ++i)
+			for (T i = 0; i < delta; ++i)
 				data[i] = i;
-			data += stride;
+			data += delta;
 			--loop;
 		}
 	}
@@ -74,19 +74,19 @@ namespace core
 
 	// Function template kernel_border_wrap_top
 	template<class T>
-	void kernel_border_wrap_top(T *data, T rows, T columns, T height, T width, T channels, T top)
+	void kernel_border_wrap_top(T *data, T rows, T columns, T width, T channels, T top)
 	{
 	}
 
 	// Function template kernel_border_wrap_middle
 	template<class T>
-	void kernel_border_wrap_middle(T *data, T rows, T columns, T height, T width, T channels, T top)
+	void kernel_border_wrap_middle(T *data, T rows, T columns, T width, T channels, T top)
 	{
 	}
 
 	// Function template kernel_border_wrap_bottom
 	template<class T>
-	void kernel_border_wrap_bottom(T *data, T rows, T columns, T height, T width, T channels, T bottom)
+	void kernel_border_wrap_bottom(T *data, T rows, T columns, T width, T channels, T bottom)
 	{
 	}
 
