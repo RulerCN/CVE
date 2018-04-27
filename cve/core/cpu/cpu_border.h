@@ -40,16 +40,16 @@ namespace core
 {
 	// Create a border around the image
 	// Parameters:
-	// 1. index - output matrix.
-	// 2. left - left border width in number of pixels.
-	// 3. top - top border width in number of pixels.
-	// 4. right - right border width in number of pixels.
+	// 1. index  - output matrix.
+	// 2. left   - left border width in number of pixels.
+	// 3. top    - top border width in number of pixels.
+	// 4. right  - right border width in number of pixels.
 	// 5. bottom - bottom border width in number of pixels.
-	// 6. type - border type:
-	//     border_replicte:   Last element is replicated throughout, like this: aaaaaa|abcdefgh|hhhhhhh
-	//     border_reflect:    Border will be mirror reflection of the border elements, like this : fedcba|abcdefgh|hgfedcb
-	//     border_reflect101: Same as above, but with a slight change, like this : gfedcb|abcdefgh|gfedcba
-	//     border_wrap:       Can't explain, it will look like this : cdefgh|abcdefgh|abcdefg
+	// 6. type   - border type:
+	//     border_replicte:   Last element is replicated throughout.
+	//     border_reflect:    Border will be mirror reflection of the border elements.
+	//     border_reflect101: Same as above, but with a slight change.
+	//     border_wrap:       Can't explain, it will look like this.
 	template <class T, class A>
 	matrix<T, A>& cpu_border(matrix<T, A> &index, T left, T top, T right, T bottom, border_type type)
 	{
