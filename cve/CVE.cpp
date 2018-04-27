@@ -49,20 +49,18 @@ int main()
 	core::matrix<unsigned char> input;
 	img::bitmap::decode("data/test.bmp", input);
 
-	size_t left = 482 * 2 + 2;
-	size_t top = 272 * 0 + 20;
-	size_t right = 482 * 2 + 2;
-	size_t bottom = 272 * 0 + 20;
+	size_t left = 482 * 1 + 20;
+	size_t top = 272 * 1 + 20;
+	size_t right = 482 * 1 + 20;
+	size_t bottom = 272 * 1 + 20;
 	size_t rows = input.rows();
 	size_t columns = input.columns();
 	size_t dimension = input.dimension();
 	core::matrix<size_t> index(top + rows + bottom, left + columns + right, dimension);
 
-	index.fill(0);
-
-	core::cpu_border_reflect(index, left, top, right, bottom);
+	core::cpu_border(index, left, top, right, bottom, core::border_wrap);
 	core::matrix<unsigned char> output(input.data(), index);
-	img::bitmap::encode("data/reflect.bmp", output);
+	img::bitmap::encode("data/wrap.bmp", output);
 
 	return 0;
 /*

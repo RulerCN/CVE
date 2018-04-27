@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_BORDER_REPLICTE_H__
 #define __CORE_CPU_KERNEL_BORDER_REPLICTE_H__
 
+#include <cstring>
 #include "../../definition.h"
 #include "../../instruction.h"
 
@@ -39,36 +40,87 @@ namespace core
 	template<class T>
 	void kernel_border_replicte_left(T *data, T /*columns*/, T /*width*/, T channels, T left)
 	{
+		T border = left * channels;
+
+		for (T j = 0; j < channels; ++j)
+			for (T i = j; i < border; i += channels)
+				data[i] = j;
 	}
 
 	// Function template kernel_border_replicte_center
 	template<class T>
-	void kernel_border_replicte_center(T *data, T columns, T width, T channels, T left)
+	void kernel_border_replicte_center(T *data, T /*columns*/, T width, T channels, T left)
 	{
+		T delta = width * channels;
+		T *dst = data + left * channels;
+
+		for (T i = 0; i < delta; ++i)
+			dst[i] = i;
 	}
 
 	// Function template kernel_border_replicte_right
 	template<class T>
 	void kernel_border_replicte_right(T *data, T columns, T width, T channels, T right)
 	{
+		T border = right * channels;
+		T value = (width - 1) * channels;
+		T *dst = data + (columns - right) * channels;
+
+		for (T j = 0; j < channels; ++j)
+		{
+			for (T i = j; i < border; i += channels)
+				dst[i] = value;
+			value += 1;
+		}
 	}
 
 	// Function template kernel_border_replicte_top
 	template<class T>
-	void kernel_border_replicte_top(T *data, T rows, T columns, T width, T channels, T top)
+	void kernel_border_replicte_top(T *data, T columns, T /*height*/, T /*width*/, T channels, T top)
 	{
+		T stride = columns * channels;
+		T size = stride * sizeof(T);
+		T *dst = data - top * stride;
+
+		for (T i = 0; i < top; ++i)
+		{
+			::std::memcpy(dst, data, size);
+			dst += stride;
+		}
 	}
 
 	// Function template kernel_border_replicte_middle
 	template<class T>
-	void kernel_border_replicte_middle(T *data, T rows, T columns, T width, T channels, T top)
+	void kernel_border_replicte_middle(T *data, T columns, T height, T width, T channels, T top)
 	{
+		T delta = width * channels;
+		T stride = columns * channels;
+		T value = delta;
+		T *dst = data + stride;
+
+		for (T j = 1; j < height; ++j)
+		{
+			for (T i = 0; i < stride; ++i)
+				dst[i] = data[i] + value;
+			dst += stride;
+			value += delta;
+		}
 	}
 
 	// Function template kernel_border_replicte_bottom
 	template<class T>
-	void kernel_border_replicte_bottom(T *data, T rows, T columns, T width, T channels, T bottom)
+	void kernel_border_replicte_bottom(T *data, T columns, T height, T /*width*/, T channels, T bottom)
 	{
+		T stride = columns * channels;
+		T size = stride * sizeof(T);
+		T *src = data + (height - 1) * stride;
+		T *dst = src + stride;
+
+		for (T i = 0; i < bottom; ++i)
+		{
+			::std::memcpy(dst, src, size);
+			dst += stride;
+		}
 	}
 
 } // namespace core

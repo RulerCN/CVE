@@ -38,6 +38,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
+	// Create a border around the image
+	// Parameters:
+	// 1. index - output matrix.
+	// 2. left - left border width in number of pixels.
+	// 3. top - top border width in number of pixels.
+	// 4. right - right border width in number of pixels.
+	// 5. bottom - bottom border width in number of pixels.
+	// 6. type - border type:
+	//     border_replicte:   Last element is replicated throughout, like this: aaaaaa|abcdefgh|hhhhhhh
+	//     border_reflect:    Border will be mirror reflection of the border elements, like this : fedcba|abcdefgh|hgfedcb
+	//     border_reflect101: Same as above, but with a slight change, like this : gfedcb|abcdefgh|gfedcba
+	//     border_wrap:       Can't explain, it will look like this : cdefgh|abcdefgh|abcdefg
+	template <class T, class A>
+	matrix<T, A>& cpu_border(matrix<T, A> &index, T left, T top, T right, T bottom, border_type type)
+	{
+		switch (type)
+		{
+		case border_replicte:
+			return cpu_border_replicte(index, left, top, right, bottom);
+		case border_reflect:
+			return cpu_border_reflect(index, left, top, right, bottom);
+		case border_reflect101:
+			return cpu_border_reflect101(index, left, top, right, bottom);
+		case border_wrap:
+			return cpu_border_wrap(index, left, top, right, bottom);
+		default:
+			throw ::std::invalid_argument(invalid_mode_parameters);
+		}
+	}
+
 	// Function template cpu_border_replicte
 	template <class T, class A>
 	matrix<T, A>& cpu_border_replicte(matrix<T, A> &index, T left, T top, T right, T bottom)

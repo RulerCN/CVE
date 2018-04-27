@@ -44,7 +44,7 @@ namespace core
 	// Parameters:
 	// 1. b - output vector.
 	// 2. a - input matrix.
-	// 3. reduce_mode - reduction operation that could be one of the following:
+	// 3. mode - reduction operation that could be one of the following:
 	//     reduce_row_min: return the minimum of each row of matrix.
 	//     reduce_row_max: return the maximum of each row of matrix.
 	//     reduce_row_sum: return the sum of each row of matrix.
@@ -55,9 +55,9 @@ namespace core
 	//     reduce_col_avg: return the mean of each column of matrix.
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce(vector<signed char, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type reduce_mode)
+	vector<signed char, A1>& cpu_reduce(vector<signed char, A1> &b, const matrix<signed char, A2> &a, reduce_mode_type mode)
 	{
-		switch (reduce_mode)
+		switch (mode)
 		{
 		case reduce_col_min:
 			b.fill(int8_max);
