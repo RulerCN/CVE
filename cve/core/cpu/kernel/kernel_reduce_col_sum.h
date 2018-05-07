@@ -51,7 +51,7 @@ namespace core
 	};
 
 	// Class template block_reduce_col_sum
-	template<class T1, class T2, inst_type inst>
+	template<class T1, class T2, cpu_inst_type inst>
 	struct block_reduce_col_sum
 	{
 		// b[j] += a[i][j]
@@ -98,7 +98,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed char, signed int, inst_sse41>
+	struct block_reduce_col_sum<signed char, signed int, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed int *b) const
@@ -190,7 +190,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed char, float, inst_sse41>
+	struct block_reduce_col_sum<signed char, float, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, float *b) const
@@ -282,7 +282,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned char, signed int, inst_sse41>
+	struct block_reduce_col_sum<unsigned char, signed int, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, signed int *b) const
@@ -374,7 +374,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned char, float, inst_sse41>
+	struct block_reduce_col_sum<unsigned char, float, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, float *b) const
@@ -466,7 +466,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed short, signed int, inst_sse41>
+	struct block_reduce_col_sum<signed short, signed int, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed int *b) const
@@ -517,7 +517,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed short, float, inst_sse41>
+	struct block_reduce_col_sum<signed short, float, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, float *b) const
@@ -568,7 +568,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned short, signed int, inst_sse41>
+	struct block_reduce_col_sum<unsigned short, signed int, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, signed int *b) const
@@ -619,7 +619,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned short, float, inst_sse41>
+	struct block_reduce_col_sum<unsigned short, float, cpu_sse41>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, float *b) const
@@ -670,7 +670,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed int, signed int, inst_sse2>
+	struct block_reduce_col_sum<signed int, signed int, cpu_sse2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -702,7 +702,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed int, float, inst_sse2>
+	struct block_reduce_col_sum<signed int, float, cpu_sse2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, float *b) const
@@ -734,7 +734,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned int, float, inst_sse2>
+	struct block_reduce_col_sum<unsigned int, float, cpu_sse2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, float *b) const
@@ -785,7 +785,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<float, float, inst_sse>
+	struct block_reduce_col_sum<float, float, cpu_sse>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -815,7 +815,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<double, double, inst_sse2>
+	struct block_reduce_col_sum<double, double, cpu_sse2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -839,7 +839,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed char, signed int, inst_avx2>
+	struct block_reduce_col_sum<signed char, signed int, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed int *b) const
@@ -932,7 +932,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed char, float, inst_avx2>
+	struct block_reduce_col_sum<signed char, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, float *b) const
@@ -1026,7 +1026,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned char, signed int, inst_avx2>
+	struct block_reduce_col_sum<unsigned char, signed int, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, signed int *b) const
@@ -1119,7 +1119,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned char, float, inst_avx2>
+	struct block_reduce_col_sum<unsigned char, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, float *b) const
@@ -1213,7 +1213,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed short, signed int, inst_avx2>
+	struct block_reduce_col_sum<signed short, signed int, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed int *b) const
@@ -1266,7 +1266,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed short, float, inst_avx2>
+	struct block_reduce_col_sum<signed short, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, float *b) const
@@ -1320,7 +1320,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned short, signed int, inst_avx2>
+	struct block_reduce_col_sum<unsigned short, signed int, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, signed int *b) const
@@ -1373,7 +1373,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned short, float, inst_avx2>
+	struct block_reduce_col_sum<unsigned short, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, float *b) const
@@ -1427,7 +1427,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed int, signed int, inst_avx2>
+	struct block_reduce_col_sum<signed int, signed int, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -1470,7 +1470,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<signed int, float, inst_avx2>
+	struct block_reduce_col_sum<signed int, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, float *b) const
@@ -1514,7 +1514,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<unsigned int, float, inst_avx2>
+	struct block_reduce_col_sum<unsigned int, float, cpu_avx2>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, float *b) const
@@ -1593,7 +1593,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<float, float, inst_avx>
+	struct block_reduce_col_sum<float, float, cpu_avx>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -1635,7 +1635,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_sum<double, double, inst_avx>
+	struct block_reduce_col_sum<double, double, cpu_avx>
 	{
 		// b[j] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -1665,7 +1665,7 @@ namespace core
 	};
 
 	// Class template kernel_reduce_col_sum
-	template<class T1, class T2, size_t block_m, size_t block_n, inst_type inst>
+	template<class T1, class T2, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_col_sum
 	{
 		// b[j] += a[i][j]

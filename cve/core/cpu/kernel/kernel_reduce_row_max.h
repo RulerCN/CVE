@@ -54,7 +54,7 @@ namespace core
 	};
 
 	// Class template block_reduce_row_max
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct block_reduce_row_max
 	{
 		// b[i] = max(b[i], a[i][j])
@@ -104,7 +104,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed char, inst_sse41>
+	struct block_reduce_row_max<signed char, cpu_sse41>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b) const
@@ -233,7 +233,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned char, inst_sse2>
+	struct block_reduce_row_max<unsigned char, cpu_sse2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b) const
@@ -362,7 +362,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed short, inst_sse2>
+	struct block_reduce_row_max<signed short, cpu_sse2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b) const
@@ -435,7 +435,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned short, inst_sse41>
+	struct block_reduce_row_max<unsigned short, cpu_sse41>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b) const
@@ -508,7 +508,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed int, inst_sse41>
+	struct block_reduce_row_max<signed int, cpu_sse41>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -553,7 +553,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned int, inst_sse41>
+	struct block_reduce_row_max<unsigned int, cpu_sse41>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b) const
@@ -598,7 +598,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<float, inst_sse>
+	struct block_reduce_row_max<float, cpu_sse>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -642,7 +642,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<double, inst_sse2>
+	struct block_reduce_row_max<double, cpu_sse2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -672,7 +672,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed char, inst_avx2>
+	struct block_reduce_row_max<signed char, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b) const
@@ -914,7 +914,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned char, inst_avx2>
+	struct block_reduce_row_max<unsigned char, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b) const
@@ -1156,7 +1156,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed short, inst_avx2>
+	struct block_reduce_row_max<signed short, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b) const
@@ -1285,7 +1285,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned short, inst_avx2>
+	struct block_reduce_row_max<unsigned short, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b) const
@@ -1414,7 +1414,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<signed int, inst_avx2>
+	struct block_reduce_row_max<signed int, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -1487,7 +1487,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<unsigned int, inst_avx2>
+	struct block_reduce_row_max<unsigned int, cpu_avx2>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b) const
@@ -1560,7 +1560,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<float, inst_avx>
+	struct block_reduce_row_max<float, cpu_avx>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -1632,7 +1632,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_max<double, inst_avx>
+	struct block_reduce_row_max<double, cpu_avx>
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -1676,7 +1676,7 @@ namespace core
 	};
 
 	// Class template kernel_reduce_row_max
-	template<class T, size_t block_m, size_t block_n, inst_type inst>
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_row_max
 	{
 		// b[i] = max(b[i], a[i][j])

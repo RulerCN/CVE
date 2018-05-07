@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template kernel_convert_float
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct kernel_convert_float
 	{
 		void operator()(size_t n, const float *a, T *b) const
@@ -65,7 +65,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed char, inst_sse2>
+	struct kernel_convert_float<signed char, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, signed char *b) const
 		{
@@ -107,7 +107,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned char, inst_sse2>
+	struct kernel_convert_float<unsigned char, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, unsigned char *b) const
 		{
@@ -149,7 +149,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed short, inst_sse2>
+	struct kernel_convert_float<signed short, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, signed short *b) const
 		{
@@ -207,7 +207,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned short, inst_sse2>
+	struct kernel_convert_float<unsigned short, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, unsigned short *b) const
 		{
@@ -265,7 +265,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed int, inst_sse2>
+	struct kernel_convert_float<signed int, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, signed int *b) const
 		{
@@ -316,7 +316,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned int, inst_sse2>
+	struct kernel_convert_float<unsigned int, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, unsigned int *b) const
 		{
@@ -367,7 +367,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<double, inst_sse2>
+	struct kernel_convert_float<double, cpu_sse2>
 	{
 		void operator()(size_t n, const float *a, double *b) const
 		{
@@ -421,7 +421,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed char, inst_avx2>
+	struct kernel_convert_float<signed char, cpu_avx2>
 	{
 		void operator()(size_t n, const float *a, signed char *b) const
 		{
@@ -472,7 +472,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned char, inst_avx2>
+	struct kernel_convert_float<unsigned char, cpu_avx2>
 	{
 		void operator()(size_t n, const float *a, unsigned char *b) const
 		{
@@ -523,7 +523,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed short, inst_avx2>
+	struct kernel_convert_float<signed short, cpu_avx2>
 	{
 		void operator()(size_t n, const float *a, signed short *b) const
 		{
@@ -564,7 +564,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned short, inst_avx2>
+	struct kernel_convert_float<unsigned short, cpu_avx2>
 	{
 		void operator()(size_t n, const float *a, unsigned short *b) const
 		{
@@ -605,7 +605,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<signed int, inst_avx>
+	struct kernel_convert_float<signed int, cpu_avx>
 	{
 		void operator()(size_t n, const float *a, signed int *b) const
 		{
@@ -656,7 +656,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<unsigned int, inst_avx>
+	struct kernel_convert_float<unsigned int, cpu_avx>
 	{
 		void operator()(size_t n, const float *a, unsigned int *b) const
 		{
@@ -707,7 +707,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_float<double, inst_avx>
+	struct kernel_convert_float<double, cpu_avx>
 	{
 		void operator()(size_t n, const float *a, double *b) const
 		{

@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template kernel_convert_uint8
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct kernel_convert_uint8
 	{
 		void operator()(size_t n, const unsigned char *a, T *b) const
@@ -65,7 +65,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<signed short, inst_sse41>
+	struct kernel_convert_uint8<signed short, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, signed short *b) const
 		{
@@ -97,7 +97,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<unsigned short, inst_sse41>
+	struct kernel_convert_uint8<unsigned short, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, unsigned short *b) const
 		{
@@ -129,7 +129,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<signed int, inst_sse41>
+	struct kernel_convert_uint8<signed int, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, signed int *b) const
 		{
@@ -167,7 +167,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<unsigned int, inst_sse41>
+	struct kernel_convert_uint8<unsigned int, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, unsigned int *b) const
 		{
@@ -205,7 +205,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<float, inst_sse41>
+	struct kernel_convert_uint8<float, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, float *b) const
 		{
@@ -247,7 +247,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<double, inst_sse41>
+	struct kernel_convert_uint8<double, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, double *b) const
 		{
@@ -301,7 +301,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<signed short, inst_avx2>
+	struct kernel_convert_uint8<signed short, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, signed short *b) const
 		{
@@ -352,7 +352,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<unsigned short, inst_avx2>
+	struct kernel_convert_uint8<unsigned short, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, unsigned short *b) const
 		{
@@ -403,7 +403,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<signed int, inst_avx2>
+	struct kernel_convert_uint8<signed int, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, signed int *b) const
 		{
@@ -437,7 +437,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<unsigned int, inst_avx2>
+	struct kernel_convert_uint8<unsigned int, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, unsigned int *b) const
 		{
@@ -471,7 +471,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<float, inst_avx2>
+	struct kernel_convert_uint8<float, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, float *b) const
 		{
@@ -508,7 +508,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_uint8<double, inst_avx2>
+	struct kernel_convert_uint8<double, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, double *b) const
 		{

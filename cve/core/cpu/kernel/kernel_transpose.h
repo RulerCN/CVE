@@ -56,7 +56,7 @@ namespace core
 	};
 
 	// Class template block_transpose
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct block_transpose
 	{
 		// b[j][i] = a[i][j]
@@ -102,7 +102,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed char, inst_sse2>
+	struct block_transpose<signed char, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b, size_t rsb) const
@@ -200,7 +200,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned char, inst_sse2>
+	struct block_transpose<unsigned char, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b, size_t rsb) const
@@ -298,7 +298,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed short, inst_sse2>
+	struct block_transpose<signed short, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b, size_t rsb) const
@@ -372,7 +372,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned short, inst_sse2>
+	struct block_transpose<unsigned short, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b, size_t rsb) const
@@ -446,7 +446,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed int, inst_sse2>
+	struct block_transpose<signed int, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b, size_t rsb) const
@@ -488,7 +488,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned int, inst_sse2>
+	struct block_transpose<unsigned int, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b, size_t rsb) const
@@ -530,7 +530,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<float, inst_sse>
+	struct block_transpose<float, cpu_sse>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b, size_t rsb) const
@@ -572,7 +572,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<double, inst_sse2>
+	struct block_transpose<double, cpu_sse2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, double *b, size_t rsb) const
@@ -600,7 +600,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed char, inst_avx2>
+	struct block_transpose<signed char, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b, size_t rsb) const
@@ -778,7 +778,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned char, inst_avx2>
+	struct block_transpose<unsigned char, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b, size_t rsb) const
@@ -956,7 +956,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed short, inst_avx2>
+	struct block_transpose<signed short, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b, size_t rsb) const
@@ -1046,7 +1046,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned short, inst_avx2>
+	struct block_transpose<unsigned short, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b, size_t rsb) const
@@ -1136,7 +1136,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<signed int, inst_avx2>
+	struct block_transpose<signed int, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b, size_t rsb) const
@@ -1210,7 +1210,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<unsigned int, inst_avx2>
+	struct block_transpose<unsigned int, cpu_avx2>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b, size_t rsb) const
@@ -1284,7 +1284,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<float, inst_avx>
+	struct block_transpose<float, cpu_avx>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b, size_t rsb) const
@@ -1358,7 +1358,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose<double, inst_avx>
+	struct block_transpose<double, cpu_avx>
 	{
 		// b[j][i] = a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, double *b, size_t rsb) const
@@ -1400,7 +1400,7 @@ namespace core
 	};
 
 	// Class template reduce_transpose
-	template<class T, size_t block_m, size_t block_n, inst_type inst>
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_transpose
 	{
 		// b[j][i] = a[i][j]

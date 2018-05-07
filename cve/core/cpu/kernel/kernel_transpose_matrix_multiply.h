@@ -54,7 +54,7 @@ namespace core
 	};
 
 	// Class template block_transpose_matrix_multiply
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct block_transpose_matrix_multiply
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
@@ -103,7 +103,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<float, inst_sse>
+	struct block_transpose_matrix_multiply<float, cpu_sse>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -149,7 +149,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<float, inst_sse | inst_fma>
+	struct block_transpose_matrix_multiply<float, cpu_sse | cpu_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -195,7 +195,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<double, inst_sse2>
+	struct block_transpose_matrix_multiply<double, cpu_sse2>
 	{
 		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -227,7 +227,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<double, inst_sse2 | inst_fma>
+	struct block_transpose_matrix_multiply<double, cpu_sse2 | cpu_fma>
 	{
 		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -259,7 +259,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<float, inst_avx>
+	struct block_transpose_matrix_multiply<float, cpu_avx>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -333,7 +333,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<float, inst_avx | inst_fma>
+	struct block_transpose_matrix_multiply<float, cpu_avx | cpu_fma>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -407,7 +407,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<double, inst_avx>
+	struct block_transpose_matrix_multiply<double, cpu_avx>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -453,7 +453,7 @@ namespace core
 	};
 
 	template<>
-	struct block_transpose_matrix_multiply<double, inst_avx | inst_fma>
+	struct block_transpose_matrix_multiply<double, cpu_avx | cpu_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -499,7 +499,7 @@ namespace core
 	};
 
 	// Class template kernel_transpose_matrix_multiply
-	template<class T, size_t block_n, size_t block_p, inst_type inst>
+	template<class T, size_t block_n, size_t block_p, cpu_inst_type inst>
 	struct kernel_transpose_matrix_multiply
 	{
 		// C(1xn) += A(1xp) * B(nxp)^T

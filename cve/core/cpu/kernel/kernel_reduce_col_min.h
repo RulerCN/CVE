@@ -51,7 +51,7 @@ namespace core
 	};
 
 	// Class template block_reduce_col_min
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct block_reduce_col_min
 	{
 		// b[j] = min(b[j], a[i][j])
@@ -98,7 +98,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed char, inst_sse41>
+	struct block_reduce_col_min<signed char, cpu_sse41>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b) const
@@ -165,7 +165,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned char, inst_sse2>
+	struct block_reduce_col_min<unsigned char, cpu_sse2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b) const
@@ -232,7 +232,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed short, inst_sse2>
+	struct block_reduce_col_min<signed short, cpu_sse2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b) const
@@ -275,7 +275,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned short, inst_sse41>
+	struct block_reduce_col_min<unsigned short, cpu_sse41>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b) const
@@ -318,7 +318,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed int, inst_sse41>
+	struct block_reduce_col_min<signed int, cpu_sse41>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -349,7 +349,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned int, inst_sse41>
+	struct block_reduce_col_min<unsigned int, cpu_sse41>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b) const
@@ -380,7 +380,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<float, inst_sse>
+	struct block_reduce_col_min<float, cpu_sse>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -410,7 +410,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<double, inst_sse2>
+	struct block_reduce_col_min<double, cpu_sse2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -434,7 +434,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed char, inst_avx2>
+	struct block_reduce_col_min<signed char, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed char *a, size_t rsa, signed char *b) const
@@ -501,7 +501,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned char, inst_avx2>
+	struct block_reduce_col_min<unsigned char, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned char *a, size_t rsa, unsigned char *b) const
@@ -568,7 +568,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed short, inst_avx2>
+	struct block_reduce_col_min<signed short, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed short *a, size_t rsa, signed short *b) const
@@ -611,7 +611,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned short, inst_avx2>
+	struct block_reduce_col_min<unsigned short, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned short *b) const
@@ -654,7 +654,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<signed int, inst_avx2>
+	struct block_reduce_col_min<signed int, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
@@ -697,7 +697,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<unsigned int, inst_avx2>
+	struct block_reduce_col_min<unsigned int, cpu_avx2>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const unsigned int *a, size_t rsa, unsigned int *b) const
@@ -740,7 +740,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<float, inst_avx>
+	struct block_reduce_col_min<float, cpu_avx>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
@@ -782,7 +782,7 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_col_min<double, inst_avx>
+	struct block_reduce_col_min<double, cpu_avx>
 	{
 		// b[j] = min(b[j], a[i][j])
 		void operator()(size_t n, const double *a, size_t rsa, double *b) const
@@ -812,7 +812,7 @@ namespace core
 	};
 
 	// Class template kernel_reduce_col_min
-	template<class T, size_t block_m, size_t block_n, inst_type inst>
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_col_min
 	{
 		// b[j] = min(b[j], a[i][j])

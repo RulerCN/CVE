@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template kernel_convert_scale_float
-	template<class T, inst_type inst>
+	template<class T, cpu_inst_type inst>
 	struct kernel_convert_scale_float
 	{
 		void operator()(size_t n, const T *a, float *b, float scale) const
@@ -65,7 +65,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed char, inst_sse41>
+	struct kernel_convert_scale_float<signed char, cpu_sse41>
 	{
 		void operator()(size_t n, const signed char *a, float *b, float scale) const
 		{
@@ -113,7 +113,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned char, inst_sse41>
+	struct kernel_convert_scale_float<unsigned char, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned char *a, float *b, float scale) const
 		{
@@ -161,7 +161,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed short, inst_sse41>
+	struct kernel_convert_scale_float<signed short, cpu_sse41>
 	{
 		void operator()(size_t n, const signed short *a, float *b, float scale) const
 		{
@@ -199,7 +199,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned short, inst_sse41>
+	struct kernel_convert_scale_float<unsigned short, cpu_sse41>
 	{
 		void operator()(size_t n, const unsigned short *a, float *b, float scale) const
 		{
@@ -237,7 +237,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed int, inst_sse2>
+	struct kernel_convert_scale_float<signed int, cpu_sse2>
 	{
 		void operator()(size_t n, const signed int *a, float *b, float scale) const
 		{
@@ -288,7 +288,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned int, inst_sse2>
+	struct kernel_convert_scale_float<unsigned int, cpu_sse2>
 	{
 		void operator()(size_t n, const unsigned int *a, float *b, float scale) const
 		{
@@ -326,7 +326,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<float, inst_sse>
+	struct kernel_convert_scale_float<float, cpu_sse>
 	{
 		void operator()(size_t n, const float *a, float *b, float scale) const
 		{
@@ -378,7 +378,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<double, inst_sse2>
+	struct kernel_convert_scale_float<double, cpu_sse2>
 	{
 		void operator()(size_t n, const double *a, float *b, float scale) const
 		{
@@ -413,7 +413,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed char, inst_avx2>
+	struct kernel_convert_scale_float<signed char, cpu_avx2>
 	{
 		void operator()(size_t n, const signed char *a, float *b, float scale) const
 		{
@@ -454,7 +454,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned char, inst_avx2>
+	struct kernel_convert_scale_float<unsigned char, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned char *a, float *b, float scale) const
 		{
@@ -495,7 +495,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed short, inst_avx2>
+	struct kernel_convert_scale_float<signed short, cpu_avx2>
 	{
 		void operator()(size_t n, const signed short *a, float *b, float scale) const
 		{
@@ -550,7 +550,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned short, inst_avx2>
+	struct kernel_convert_scale_float<unsigned short, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned short *a, float *b, float scale) const
 		{
@@ -605,7 +605,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<signed int, inst_avx>
+	struct kernel_convert_scale_float<signed int, cpu_avx>
 	{
 		void operator()(size_t n, const signed int *a, float *b, float scale) const
 		{
@@ -664,7 +664,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<unsigned int, inst_avx2>
+	struct kernel_convert_scale_float<unsigned int, cpu_avx2>
 	{
 		void operator()(size_t n, const unsigned int *a, float *b, float scale) const
 		{
@@ -702,7 +702,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<float, inst_avx>
+	struct kernel_convert_scale_float<float, cpu_avx>
 	{
 		void operator()(size_t n, const float *a, float *b, float scale) const
 		{
@@ -754,7 +754,7 @@ namespace core
 	};
 
 	template<>
-	struct kernel_convert_scale_float<double, inst_avx>
+	struct kernel_convert_scale_float<double, cpu_avx>
 	{
 		void operator()(size_t n, const double *a, float *b, float scale) const
 		{

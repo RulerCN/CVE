@@ -48,7 +48,7 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_scale_float<T, inst_none>()(a.size(), a.data(), b.data(), scale);
+		kernel_convert_scale_float<T, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -61,11 +61,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -78,11 +78,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -95,11 +95,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -112,11 +112,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -129,11 +129,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<signed int, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<signed int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -146,11 +146,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned int, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<unsigned int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -163,11 +163,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<float, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse())
-			kernel_convert_scale_float<float, inst_sse>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_sse>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<float, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -180,11 +180,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<double, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<double, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<double, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -198,7 +198,7 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_scale_float<T, inst_none>()(a.size(), a.data(), b.data(), scale);
+		kernel_convert_scale_float<T, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -211,11 +211,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -228,11 +228,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -245,11 +245,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -262,11 +262,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -279,11 +279,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<signed int, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<signed int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -296,11 +296,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned int, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<unsigned int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -313,11 +313,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<float, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse())
-			kernel_convert_scale_float<float, inst_sse>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_sse>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<float, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -330,11 +330,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<double, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<double, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<double, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -348,7 +348,7 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_scale_float<T, inst_none>()(a.size(), a.data(), b.data(), scale);
+		kernel_convert_scale_float<T, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -361,11 +361,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -378,11 +378,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -395,11 +395,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -412,11 +412,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -429,11 +429,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<signed int, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<signed int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -446,11 +446,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned int, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<unsigned int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -463,11 +463,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<float, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse())
-			kernel_convert_scale_float<float, inst_sse>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_sse>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<float, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -480,11 +480,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<double, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<double, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<double, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -498,7 +498,7 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		kernel_convert_scale_float<T, inst_none>()(a.size(), a.data(), b.data(), scale);
+		kernel_convert_scale_float<T, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -511,11 +511,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -528,11 +528,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned char, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned char, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned char, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned char, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -545,11 +545,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<signed short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<signed short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -562,11 +562,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned short, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse41())
-			kernel_convert_scale_float<unsigned short, inst_sse41>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned short, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned short, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -579,11 +579,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<signed int, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<signed int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<signed int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<signed int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -596,11 +596,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx2())
-			kernel_convert_scale_float<unsigned int, inst_avx2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<unsigned int, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<unsigned int, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<unsigned int, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -613,11 +613,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<float, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse())
-			kernel_convert_scale_float<float, inst_sse>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_sse>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<float, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<float, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 
@@ -630,11 +630,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu::is_support_avx())
-			kernel_convert_scale_float<double, inst_avx>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_avx>()(a.size(), a.data(), b.data(), scale);
 		else if (cpu::is_support_sse2())
-			kernel_convert_scale_float<double, inst_sse2>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_sse2>()(a.size(), a.data(), b.data(), scale);
 		else
-			kernel_convert_scale_float<double, inst_none>()(a.size(), a.data(), b.data(), scale);
+			kernel_convert_scale_float<double, cpu_none>()(a.size(), a.data(), b.data(), scale);
 		return b;
 	}
 

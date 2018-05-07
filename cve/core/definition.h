@@ -34,20 +34,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Instruction set
-	typedef unsigned char inst_type;
-	static constexpr inst_type          inst_none          = 0x00;
-	static constexpr inst_type          inst_mmx           = 0x01;                       /* MMX instruction */
-	static constexpr inst_type          inst_sse           = 0x02;                       /* SSE instruction */
-	static constexpr inst_type          inst_sse2          = 0x03;                       /* SSE2 instruction */
-	static constexpr inst_type          inst_sse3          = 0x04;                       /* SSE3 instruction */
-	static constexpr inst_type          inst_ssse3         = 0x05;                       /* SSE3S instruction */
-	static constexpr inst_type          inst_sse41         = 0x06;                       /* SSE4.1 instruction */
-	static constexpr inst_type          inst_sse42         = 0x07;                       /* SSE4.2 instruction */
-	static constexpr inst_type          inst_avx           = 0x08;                       /* AVX instruction */
-	static constexpr inst_type          inst_avx2          = 0x09;                       /* AVX2 instruction */
-	static constexpr inst_type          inst_fma           = 0x10;                       /* FMA instruction */
-	static constexpr inst_type          inst_fma4          = 0x20;                       /* FMA4 instruction */
 	// CPU instruction set
 	typedef int cpu_inst_type;
 	static constexpr cpu_inst_type      cpu_none          = 0x00000000;
