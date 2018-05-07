@@ -74,7 +74,6 @@ namespace core
 	template<class T>
 	void kernel_border_wrap_right(T *data, T columns, T width, T channels, T right)
 	{
-		T value;
 		T loop = right / width;
 		T remain = (right % width) * channels;
 		T delta = width * channels;
