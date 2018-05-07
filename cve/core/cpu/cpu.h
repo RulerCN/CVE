@@ -27,8 +27,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_INSTRUCTION_H__
-#define __CORE_INSTRUCTION_H__
+#ifndef __CORE_CPU_H__
+#define __CORE_CPU_H__
+
+#include "../definition.h"
 
 #include <omp.h>
 // Microsoft Visual Studio
@@ -365,22 +367,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class global
-	class global
+	// Class cpu
+	class cpu
 	{
 	public:
 		// Enabling or disabling SIMD
 		static int enable_simd(bool enable = true)
 		{
-			simd_inst = simd_none;
+			cpu_inst = cpu_none;
 			if (enable)
 			{
-				simd_inst |= test_simd_mmx();
-				simd_inst |= test_simd_sse();
-				simd_inst |= test_simd_avx();
-				simd_inst |= test_simd_fma();
+				cpu_inst |= detect_mmx();
+				cpu_inst |= detect_sse();
+				cpu_inst |= detect_avx();
+				cpu_inst |= detect_fma();
 			}
-			return simd_inst;
+			return cpu_inst;
 		}
 		// Enabling or disabling Multi-Processing
 		static int enable_mp(int number = 0)
@@ -397,60 +399,60 @@ namespace core
 			omp_set_num_threads(thread_num);
 			return thread_num;
 		}
-		// Test MMX instruction
+		// Is support MMX instruction set
 		static bool is_support_mmx(void)
 		{
-			return ((simd_inst & simd_mmx) == simd_mmx);
+			return ((cpu_inst & cpu_mmx) == cpu_mmx);
 		}
-		// Test SSE instruction
+		// Is support SSE instruction set
 		static bool is_support_sse(void)
 		{
-			return ((simd_inst & simd_sse) == simd_sse);
+			return ((cpu_inst & cpu_sse) == cpu_sse);
 		}
-		// Test SSE2 instruction
+		// Is support SSE2 instruction set
 		static bool is_support_sse2(void)
 		{
-			return ((simd_inst & simd_sse2) == simd_sse2);
+			return ((cpu_inst & cpu_sse2) == cpu_sse2);
 		}
-		// Test SSE3 instruction
+		// Is support SSE3 instruction set
 		static bool is_support_sse3(void)
 		{
-			return ((simd_inst & simd_sse3) == simd_sse3);
+			return ((cpu_inst & cpu_sse3) == cpu_sse3);
 		}
-		// Test SSE3S instruction
+		// Is support SSE3S instruction set
 		static bool is_support_ssse3(void)
 		{
-			return ((simd_inst & simd_ssse3) == simd_ssse3);
+			return ((cpu_inst & cpu_ssse3) == cpu_ssse3);
 		}
-		// Test SSE4.1 instruction
+		// Is support SSE4.1 instruction set
 		static bool is_support_sse41(void)
 		{
-			return ((simd_inst & simd_sse41) == simd_sse41);
+			return ((cpu_inst & cpu_sse41) == cpu_sse41);
 		}
-		// Test SSE4.2 instruction
+		// Is support SSE4.2 instruction set
 		static bool is_support_sse42(void)
 		{
-			return ((simd_inst & simd_sse42) == simd_sse42);
+			return ((cpu_inst & cpu_sse42) == cpu_sse42);
 		}
-		// Test AVX instruction
+		// Is support AVX instruction set
 		static bool is_support_avx(void)
 		{
-			return ((simd_inst & simd_avx) == simd_avx);
+			return ((cpu_inst & cpu_avx) == cpu_avx);
 		}
-		// Test AVX2 instruction
+		// Is support AVX2 instruction set
 		static bool is_support_avx2(void)
 		{
-			return ((simd_inst & simd_avx2) == simd_avx2);
+			return ((cpu_inst & cpu_avx2) == cpu_avx2);
 		}
-		// Test FMA instruction
+		// Is support FMA instruction set
 		static bool is_support_fma(void)
 		{
-			return ((simd_inst & simd_fma) == simd_fma);
+			return ((cpu_inst & cpu_fma) == cpu_fma);
 		}
-		// Test FMA4 instruction
+		// Is support FMA4 instruction set
 		static bool is_support_fma4(void)
 		{
-			return ((simd_inst & simd_fma4) == simd_fma4);
+			return ((cpu_inst & cpu_fma4) == cpu_fma4);
 		}
 		// Get the maximum number of threads
 		static int get_max_threads(void)
@@ -492,18 +494,18 @@ namespace core
 			get_cpuidex(info, CPUIDFIELD_FID(cpu_field), CPUIDFIELD_FIDSUB(cpu_field));
 			return CPUID_GETBITS32(info[CPUIDFIELD_REG(cpu_field)], CPUIDFIELD_POS(cpu_field), CPUIDFIELD_LEN(cpu_field));
 		}
-		// Test MMX instruction set
-		static int test_simd_mmx(void)
+		// Detect MMX instruction set
+		static int detect_mmx(void)
 		{
-			int rst = simd_none;
+			int rst = cpu_none;
 			int info[4] = { 0 };
 			get_cpuid(info, 1);
 			if (info[3] & edx_mmx)
-				rst |= simd_mmx;
-			if (rst > simd_none)
+				rst |= cpu_mmx;
+			if (rst > cpu_none)
 			{
 #			if defined(_WIN64)
-				rst = simd_none;
+				rst = cpu_none;
 #			else
 				try
 				{
@@ -511,107 +513,92 @@ namespace core
 				}
 				catch (...)
 				{
-					rst = simd_none;
+					rst = cpu_none;
 				}
 #			endif
 			}
 			return rst;
 		}
-		// Test SSE instruction set
-		static int test_simd_sse(void)
+		// Detect SSE instruction set
+		static int detect_sse(void)
 		{
-			int rst = simd_none;
+			int rst = cpu_none;
 			int info[4] = { 0 };
 			get_cpuid(info, 1);
 			if (info[3] & edx_sse)
-				rst |= simd_sse;
+				rst |= cpu_sse;
 			if (info[3] & edx_sse2)
-				rst |= simd_sse2;
+				rst |= cpu_sse2;
 			if (info[2] & ecx_sse3)
-				rst |= simd_sse3;
+				rst |= cpu_sse3;
 			if (info[2] & ecx_ssse3)
-				rst |= simd_ssse3;
+				rst |= cpu_ssse3;
 			if (info[2] & ecx_sse41)
-				rst |= simd_sse41;
+				rst |= cpu_sse41;
 			if (info[2] & ecx_sse42)
-				rst |= simd_sse42;
-			if (rst > simd_none)
+				rst |= cpu_sse42;
+			if (rst > cpu_none)
 			{
 				try
 				{
 					__m128 m = _mm_setzero_ps();
 					int* p = reinterpret_cast<int*>(&m);
 					if (*p != 0)
-						rst = simd_none;
+						rst = cpu_none;
 				}
 				catch (...)
 				{
-					rst = simd_none;
+					rst = cpu_none;
 				}
 			}
 			return rst;
 		}
-		// Test AVX instruction set
-		static int test_simd_avx(void)
+		// Detect AVX instruction set
+		static int detect_avx(void)
 		{
-			int rst = simd_none;
+			int rst = cpu_none;
 			if (get_cpuid_field(CPUF_AVX))
-				rst |= simd_avx;
+				rst |= cpu_avx;
 			if (get_cpuid_field(CPUF_AVX2))
-				rst |= simd_avx2;
-			if (rst > simd_none)
+				rst |= cpu_avx2;
+			if (rst > cpu_none)
 			{
 				if (get_cpuid_field(CPUF_OSXSAVE))
 				{
 					if ((get_cpuid_field(CPUF_XFeatureSupportedMaskLo) & 6) != 6)
-						rst = simd_none;
+						rst = cpu_none;
 				}
 			}
 			return rst;
 		}
-		// Test FMA instruction set
-		static int test_simd_fma(void)
+		// Detect FMA instruction set
+		static int detect_fma(void)
 		{
-			int rst = simd_none;
+			int rst = cpu_none;
 			if (get_cpuid_field(CPUF_FMA))
-				rst |= simd_fma;
+				rst |= cpu_fma;
 			if (get_cpuid_field(CPUF_FMA4))
-				rst |= simd_fma4;
+				rst |= cpu_fma4;
 			return rst;
 		}
 	private:
-		static constexpr int edx_mmx    = 0x00800000;
-		static constexpr int edx_sse    = 0x02000000;
-		static constexpr int edx_sse2   = 0x04000000;
-		static constexpr int ecx_sse3   = 0x00000001;
-		static constexpr int ecx_ssse3  = 0x00000200;
-		static constexpr int ecx_sse41  = 0x00080000;
-		static constexpr int ecx_sse42  = 0x00100000;
+		static constexpr int edx_mmx   = 0x00800000;
+		static constexpr int edx_sse   = 0x02000000;
+		static constexpr int edx_sse2  = 0x04000000;
+		static constexpr int ecx_sse3  = 0x00000001;
+		static constexpr int ecx_ssse3 = 0x00000200;
+		static constexpr int ecx_sse41 = 0x00080000;
+		static constexpr int ecx_sse42 = 0x00100000;
 
-		static constexpr int simd_none  = 0x00000000;
-		static constexpr int simd_mmx   = 0x00000001;
-		static constexpr int simd_sse   = 0x00000100;
-		static constexpr int simd_sse2  = 0x00000200;
-		static constexpr int simd_sse3  = 0x00000400;
-		static constexpr int simd_ssse3 = 0x00000800;
-		static constexpr int simd_sse41 = 0x00001000;
-		static constexpr int simd_sse42 = 0x00002000;
-		static constexpr int simd_avx   = 0x00010000;
-		static constexpr int simd_avx2  = 0x00020000;
-		static constexpr int simd_f16c  = 0x01000000;
-		static constexpr int simd_fma   = 0x02000000;
-		static constexpr int simd_fma4  = 0x04000000;
-		static constexpr int simd_xop   = 0x08000000;
-
-		static int           simd_inst;
-		static int           thread_num;
-		static int           max_thread_num;
+		static cpu_inst_type cpu_inst;
+		static cpu_inst_type thread_num;
+		static cpu_inst_type max_thread_num;
 	};
 
 	// Initialize static variables
-	int global::simd_inst      = simd_none;
-	int global::max_thread_num = 1;
-	int global::thread_num     = 1;
+	cpu_inst_type cpu::cpu_inst       = cpu_none;
+	cpu_inst_type cpu::max_thread_num = 1;
+	cpu_inst_type cpu::thread_num     = 1;
 
 } // namespace core
 

@@ -1,0 +1,25 @@
+body {
+    font-family: Verdana, Tahoma, Helvtica, Arial, Microsoft YaHei, SimSun;
+    font-size: 0.8em;
+    line-height: 150%;
+}
+h1, h2, h3, h4, h5 {
+    line-height: 200%;
+}
+table {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #aaa;
+}
+p {
+    text-indent: 2em;
+}
+td p {
+    text-indent: 0;
+}
+.keyword { color: #04f; }
+.type { color: #f40; }
+.function { color: #04f; }
+.comment { color: #0a0; }

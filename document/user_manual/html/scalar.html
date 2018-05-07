@@ -1,0 +1,485 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>scalar</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+    <h3>core::scalar</h3>
+    <p>
+        <span class="keyword">template</span>
+        <span>&lt;</span><span class="keyword">class</span>
+        <span>T,</span>
+        <span class="keyword">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span class="keyword">class</span>
+        <span>scalar;</span>
+    </p>
+    <h4>Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th width="25%">
+                <span>member type</span>
+            </th>
+            <th width="50%">
+                <span>definition</span>
+            </th>
+            <th width="25%">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">value_type</span>
+            </td>
+            <td>
+                <span>The first template parameter (T)</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">allocator_type</span>
+            </td>
+            <td>
+                <span>The second template parameter (Allocator)</span>
+            </td>
+            <td>
+                <span>defaults to: allocator&lt;T&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reference</span>
+            </td>
+            <td>
+                <span>value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reference</span>
+            </td>
+            <td>
+                <span>const value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">pointer</span>
+            </td>
+            <td>
+                <span>value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_pointer</span>
+            </td>
+            <td>
+                <span>const value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">size_type</span>
+            </td>
+            <td>
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td>
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">difference_type</span>
+            </td>
+            <td>
+                <span>a signed integral type</span>
+            </td>
+            <td>
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4>Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">(constructor)</span>
+            </td>
+            <td width="80%">
+                <span>Construct scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">(destructor)</span>
+            </td>
+            <td>
+                <span>Scalar destructor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator=</span>
+            </td>
+            <td>
+                <span>Assign content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">empty</span>
+            </td>
+            <td width="80%">
+                <span>Test whether container is empty</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">size</span>
+            </td>
+            <td>
+                <span>Return size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">max_size</span>
+            </td>
+            <td>
+                <span>Return maximum size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Element access:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td>
+                <span class="keyword">operator[]</span>
+            </td>
+            <td>
+                <span>Access element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">at</span>
+            </td>
+            <td>
+                <span>Access element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">data</span>
+            </td>
+            <td width="80%">
+                <span>Access data</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">assign</span>
+            </td>
+            <td width="80%">
+                <span>Assign a new scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">create</span>
+            </td>
+            <td>
+                <span>Create a scalar copying the data</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">fill</span>
+            </td>
+            <td>
+                <span>Fill scalar with specified value</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">linear_fill</span>
+            </td>
+            <td>
+                <span>Fill scalar with linear gradient values</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">generate</span>
+            </td>
+            <td>
+                <span>Generate values for scalar with function</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">remap</span>
+            </td>
+            <td>
+                <span>Map source data to a scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">swap</span>
+            </td>
+            <td>
+                <span>Swap content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">clear</span>
+            </td>
+            <td>
+                <span>Clear content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator+=</span>
+            </td>
+            <td width="80%">
+                <span>Add a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator-=</span>
+            </td>
+            <td>
+                <span>Subtract a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator*=</span>
+            </td>
+            <td width="80%">
+                <span>Multiply a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator/=</span>
+            </td>
+            <td>
+                <span>Divided by a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&=</span>
+            </td>
+            <td width="80%">
+                <span>And a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator^=</span>
+            </td>
+            <td width="80%">
+                <span>Xor a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator|=</span>
+            </td>
+            <td width="80%">
+                <span>Or a value or scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">get_allocator</span>
+            </td>
+            <td width="80%">
+                <span>Get allocator</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Non-member function overloads:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator+</span>
+            </td>
+            <td width="80%">
+                <span>Scalar addition</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator-</span>
+            </td>
+            <td width="80%">
+                <span>Scalar subtraction</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator*</span>
+            </td>
+            <td width="80%">
+                <span>Scalar multiplication</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator/</span>
+            </td>
+            <td width="80%">
+                <span>Scalar division</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&</span>
+            </td>
+            <td width="80%">
+                <span>Scalar and</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator^</span>
+            </td>
+            <td width="80%">
+                <span>Scalar xor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator|</span>
+            </td>
+            <td width="80%">
+                <span>Scalar or</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&lt;</span>
+            </td>
+            <td width="80%">
+                <span>Scalar less than</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&gt;</span>
+            </td>
+            <td width="80%">
+                <span>Scalar greater than</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&lt;=</span>
+            </td>
+            <td width="80%">
+                <span>Scalar less than or equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&gt;=</span>
+            </td>
+            <td width="80%">
+                <span>Scalar greater than or equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator==</span>
+            </td>
+            <td width="80%">
+                <span>Scalar equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator!=</span>
+            </td>
+            <td width="80%">
+                <span>Scalar not equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

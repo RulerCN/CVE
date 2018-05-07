@@ -1,0 +1,940 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>tensor</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+    <h3>core::tensor</h3>
+    <p>
+        <span class="keyword">template</span>
+        <span>&lt;</span><span class="keyword">class</span>
+        <span>T,</span>
+        <span class="keyword">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span class="keyword">class</span>
+        <span>tensor;</span>
+    </p>
+    <h4>Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th width="25%">
+                <span>member type</span>
+            </th>
+            <th width="50%">
+                <span>definition</span>
+            </th>
+            <th width="25%">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">value_type</span>
+            </td>
+            <td>
+                <span>The first template parameter (T)</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">allocator_type</span>
+            </td>
+            <td>
+                <span>The second template parameter (Allocator)</span>
+            </td>
+            <td>
+                <span>defaults to: allocator&lt;T&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">scalar_type</span>
+            </td>
+            <td>
+                <span>scalar&lt;T, Allocator&gt;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_scalar_type</span>
+            </td>
+            <td>
+                <span>const scalar_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">vector_type</span>
+            </td>
+            <td>
+                <span>vector&lt;T, Allocator&gt;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_vector_type</span>
+            </td>
+            <td>
+                <span>const vector_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">matrix_type</span>
+            </td>
+            <td>
+                <span>matrix&lt;T, Allocator&gt;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_matrix_type</span>
+            </td>
+            <td>
+                <span>const matrix_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reference</span>
+            </td>
+            <td>
+                <span>value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reference</span>
+            </td>
+            <td>
+                <span>const value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">pointer</span>
+            </td>
+            <td>
+                <span>value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_pointer</span>
+            </td>
+            <td>
+                <span>const value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional iterator to value_type</span>
+            </td>
+            <td>
+                <span>convertible to: const_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reverse_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse iterator to value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reverse_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">size_type</span>
+            </td>
+            <td>
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td>
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">difference_type</span>
+            </td>
+            <td>
+                <span>a signed integral type</span>
+            </td>
+            <td>
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4>Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">(constructor)</span>
+            </td>
+            <td width="80%">
+                <span>Construct tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">(destructor)</span>
+            </td>
+            <td>
+                <span>Tensor destructor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator=</span>
+            </td>
+            <td>
+                <span>Assign content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Iterators:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">begin</span>
+            </td>
+            <td width="80%">
+                <span>Return iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">end</span>
+            </td>
+            <td>
+                <span>Return iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rend</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cbegin</span>
+            </td>
+            <td>
+                <span>Return const_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cend</span>
+            </td>
+            <td>
+                <span>Return const_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">vbegin</span>
+            </td>
+            <td width="80%">
+                <span>Return iterator to begin row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">vend</span>
+            </td>
+            <td>
+                <span>Return iterator to end row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rvbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse begin row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rvend</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse end row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cvbegin</span>
+            </td>
+            <td>
+                <span>Return const_iterator to begin row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cvend</span>
+            </td>
+            <td>
+                <span>Return const_iterator to end row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crvbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse begin row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crvend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse end row</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">mbegin</span>
+            </td>
+            <td width="80%">
+                <span>Return iterator to begin matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">mend</span>
+            </td>
+            <td>
+                <span>Return iterator to end matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rmbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse begin matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rmend</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse end matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cmbegin</span>
+            </td>
+            <td>
+                <span>Return const_iterator to begin matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cmend</span>
+            </td>
+            <td>
+                <span>Return const_iterator to end matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crmbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse begin matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crmend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse end matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">empty</span>
+            </td>
+            <td width="80%">
+                <span>Test whether container is empty</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">dimension</span>
+            </td>
+            <td>
+                <span>Return dimension</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">columns</span>
+            </td>
+            <td>
+                <span>Return columns</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rows</span>
+            </td>
+            <td>
+                <span>Return rows</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">batch</span>
+            </td>
+            <td>
+                <span>Return batch</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">area</span>
+            </td>
+            <td>
+                <span>Return area</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">volume</span>
+            </td>
+            <td>
+                <span>Return volume</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">row_size</span>
+            </td>
+            <td>
+                <span>Return row size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">matrix_size</span>
+            </td>
+            <td>
+                <span>Return matrix size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">size</span>
+            </td>
+            <td>
+                <span>Return size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">max_size</span>
+            </td>
+            <td>
+                <span>Return maximum size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Element access:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td>
+                <span class="keyword">operator[]</span>
+            </td>
+            <td>
+                <span>Access element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">at</span>
+            </td>
+            <td>
+                <span>Access element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">data</span>
+            </td>
+            <td width="80%">
+                <span>Access data</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">scalar</span>
+            </td>
+            <td width="80%">
+                <span>Return the specified scalar</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">vector</span>
+            </td>
+            <td width="80%">
+                <span>Return the specified vector</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">matrix</span>
+            </td>
+            <td width="80%">
+                <span>Return the specified matrix</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">assign</span>
+            </td>
+            <td width="80%">
+                <span>Assign a new tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">create</span>
+            </td>
+            <td>
+                <span>Create a tensor without copying the data</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">fill</span>
+            </td>
+            <td>
+                <span>Fill tensor with specified value</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">linear_fill</span>
+            </td>
+            <td>
+                <span>Fill tensor with linear gradient values</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">value</span>
+            </td>
+            <td>
+                <span>Set tensor elements with specified value</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">linear_value</span>
+            </td>
+            <td>
+                <span>Set tensor elements with linear gradient values</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">generate</span>
+            </td>
+            <td>
+                <span>Generate values for tensor with function</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">remap</span>
+            </td>
+            <td>
+                <span>Map source data to a tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">reshape</span>
+            </td>
+            <td>
+                <span>Changes the shape of the tensor without copying the data</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">swap</span>
+            </td>
+            <td>
+                <span>Swap content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">clear</span>
+            </td>
+            <td>
+                <span>Clear content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator+=</span>
+            </td>
+            <td width="80%">
+                <span>Add a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator-=</span>
+            </td>
+            <td>
+                <span>Subtract a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator*=</span>
+            </td>
+            <td width="80%">
+                <span>Multiply a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator/=</span>
+            </td>
+            <td>
+                <span>Divided by a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&=</span>
+            </td>
+            <td width="80%">
+                <span>And a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator^=</span>
+            </td>
+            <td width="80%">
+                <span>Xor a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator|=</span>
+            </td>
+            <td width="80%">
+                <span>Or a value or tensor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">get_allocator</span>
+            </td>
+            <td width="80%">
+                <span>Get allocator</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Non-member function overloads:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator+</span>
+            </td>
+            <td width="80%">
+                <span>Tensor addition</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator-</span>
+            </td>
+            <td width="80%">
+                <span>Tensor subtraction</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator*</span>
+            </td>
+            <td width="80%">
+                <span>Tensor multiplication</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator/</span>
+            </td>
+            <td width="80%">
+                <span>Tensor division</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&</span>
+            </td>
+            <td width="80%">
+                <span>Tensor and</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator^</span>
+            </td>
+            <td width="80%">
+                <span>Tensor xor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator|</span>
+            </td>
+            <td width="80%">
+                <span>Tensor or</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&lt;</span>
+            </td>
+            <td width="80%">
+                <span>Tensor less than</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&gt;</span>
+            </td>
+            <td width="80%">
+                <span>Tensor greater than</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&lt;=</span>
+            </td>
+            <td width="80%">
+                <span>Tensor less than or equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator&gt;=</span>
+            </td>
+            <td width="80%">
+                <span>Tensor greater than or equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator==</span>
+            </td>
+            <td width="80%">
+                <span>Tensor equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <span class="keyword">operator!=</span>
+            </td>
+            <td width="80%">
+                <span>Tensor not equal to</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

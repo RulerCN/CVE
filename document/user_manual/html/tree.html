@@ -1,0 +1,874 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>tree</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+    <h3>core::tree</h3>
+    <p>
+        <span class="keyword">template</span>
+        <span>&lt;</span><span class="keyword">class</span>
+        <span>T,</span>
+        <span class="keyword">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span class="keyword">class</span>
+        <span>tree;</span>
+    </p>
+    <h4>Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th width="25%">
+                <span>member type</span>
+            </th>
+            <th width="50%">
+                <span>definition</span>
+            </th>
+            <th width="25%">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">value_type</span>
+            </td>
+            <td>
+                <span>The first template parameter (T)</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">allocator_type</span>
+            </td>
+            <td>
+                <span>The second template parameter (Allocator)</span>
+            </td>
+            <td>
+                <span>defaults to: allocator&lt;T&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reference</span>
+            </td>
+            <td>
+                <span>value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reference</span>
+            </td>
+            <td>
+                <span>const value_type&amp;</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">pointer</span>
+            </td>
+            <td>
+                <span>value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_pointer</span>
+            </td>
+            <td>
+                <span>const value_type*</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional iterator to value_type</span>
+            </td>
+            <td>
+                <span>convertible to: const_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reverse_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse iterator to value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reverse_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">primitive_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional primitive iterator to value_type</span>
+            </td>
+            <td>
+                <span>convertible to: const_primitive_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_primitive_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional primitive iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reverse_primitive_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse primitive iterator to value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reverse_primitive_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse primitive iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">sibling_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional sibling iterator to value_type</span>
+            </td>
+            <td>
+                <span>convertible to: const_sibling_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_sibling_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional sibling iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reverse_sibling_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse sibling iterator to value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reverse_sibling_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse sibling iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">leaf_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional leaf iterator to value_type</span>
+            </td>
+            <td>
+                <span>convertible to: const_leaf_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_leaf_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional leaf iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">reverse_leaf_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse leaf iterator to value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">const_reverse_leaf_iterator</span>
+            </td>
+            <td>
+                <span>a bidirectional reverse leaf iterator to const value_type</span>
+            </td>
+            <td>
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">size_type</span>
+            </td>
+            <td>
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td>
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="type">difference_type</span>
+            </td>
+            <td>
+                <span>a signed integral type</span>
+            </td>
+            <td>
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4>Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">(constructor)</span>
+            </td>
+            <td width="80%">
+                <span>Construct tree</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">(destructor)</span>
+            </td>
+            <td>
+                <span>Tree destructor</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">operator=</span>
+            </td>
+            <td>
+                <span>Assign content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Iterators:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">begin</span>
+            </td>
+            <td width="80%">
+                <span>Return iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">end</span>
+            </td>
+            <td>
+                <span>Return iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rend</span>
+            </td>
+            <td>
+                <span>Return reverse_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cbegin</span>
+            </td>
+            <td>
+                <span>Return const_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cend</span>
+            </td>
+            <td>
+                <span>Return const_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">pbegin</span>
+            </td>
+            <td>
+                <span>Return primitive_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">pend</span>
+            </td>
+            <td>
+                <span>Return primitive_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rpbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_primitive_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rpend</span>
+            </td>
+            <td>
+                <span>Return reverse_primitive_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cpbegin</span>
+            </td>
+            <td>
+                <span>Return const_primitive_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">cpend</span>
+            </td>
+            <td>
+                <span>Return const_primitive_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crpbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_primitive_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crpend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_primitive_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">sbegin</span>
+            </td>
+            <td>
+                <span>Return sibling_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">send</span>
+            </td>
+            <td>
+                <span>Return sibling_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rsbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_sibling_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rsend</span>
+            </td>
+            <td>
+                <span>Return reverse_sibling_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">csbegin</span>
+            </td>
+            <td>
+                <span>Return const_sibling_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">csend</span>
+            </td>
+            <td>
+                <span>Return const_sibling_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crsbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_sibling_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crsend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_sibling_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">lbegin</span>
+            </td>
+            <td>
+                <span>Return leaf_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">lend</span>
+            </td>
+            <td>
+                <span>Return leaf_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rlbegin</span>
+            </td>
+            <td>
+                <span>Return reverse_leaf_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">rlend</span>
+            </td>
+            <td>
+                <span>Return reverse_leaf_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">clbegin</span>
+            </td>
+            <td>
+                <span>Return const_leaf_iterator to beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">clend</span>
+            </td>
+            <td>
+                <span>Return const_leaf_iterator to end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crlbegin</span>
+            </td>
+            <td>
+                <span>Return const_reverse_leaf_iterator to reverse beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">crlend</span>
+            </td>
+            <td>
+                <span>Return const_reverse_leaf_iterator to reverse end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">empty</span>
+            </td>
+            <td width="80%">
+                <span>Test whether container is empty</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">size</span>
+            </td>
+            <td>
+                <span>Return size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">max_size</span>
+            </td>
+            <td>
+                <span>Return maximum size</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">assign</span>
+            </td>
+            <td width="80%">
+                <span>Assign new content to container</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">emplace_front</span>
+            </td>
+            <td>
+                <span>Construct and insert an element at beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">push_front</span>
+            </td>
+            <td>
+                <span>Insert elements at beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">pop_front</span>
+            </td>
+            <td>
+                <span>Delete the first element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">emplace_back</span>
+            </td>
+            <td>
+                <span>Construct and insert an element at the end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">push_back</span>
+            </td>
+            <td>
+                <span>Insert elements at the end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">pop_back</span>
+            </td>
+            <td>
+                <span>Delete the last element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">emplace_child_front</span>
+            </td>
+            <td>
+                <span>Construct and insert a child node at beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">emplace_child_back</span>
+            </td>
+            <td>
+                <span>Construct and insert a child node at the end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">prepend_child</span>
+            </td>
+            <td>
+                <span>Add child nodes at beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">append_child</span>
+            </td>
+            <td>
+                <span>Add child nodes at the end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">emplace</span>
+            </td>
+            <td>
+                <span>Construct and insert a element</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">insert</span>
+            </td>
+            <td>
+                <span>Insert elements</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">copy_child_front</span>
+            </td>
+            <td>
+                <span>Copy child nodes at beginning</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">copy_child_back</span>
+            </td>
+            <td>
+                <span>Copy child nodes at the end</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">copy_node</span>
+            </td>
+            <td>
+                <span>Copy nodes</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">erase</span>
+            </td>
+            <td>
+                <span>Erase elements</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">remove_children</span>
+            </td>
+            <td>
+                <span>Remove all child nodes</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">swap</span>
+            </td>
+            <td>
+                <span>Swap content </span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">clear</span>
+            </td>
+            <td>
+                <span>Clear content</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">splice</span>
+            </td>
+            <td width="80%">
+                <span>Transfer elements from node to node</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">merge</span>
+            </td>
+            <td>
+                <span>Merge sorted nodes</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="keyword">sort</span>
+            </td>
+            <td>
+                <span>Sort elements in container</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5>Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td width="20%">
+                <span class="keyword">get_allocator</span>
+            </td>
+            <td width="80%">
+                <span>Get allocator</span>
+                <span class="comment">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -19,9 +19,6 @@
     <ClInclude Include="core\error.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\instruction.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\rb_tree.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -95,9 +92,6 @@
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_multiply.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
     <ClInclude Include="ann\sample_base.h">
@@ -189,6 +183,18 @@
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h">
       <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_matrix_multiply.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_transpose_matrix_multiply.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_multiply.h">
+      <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

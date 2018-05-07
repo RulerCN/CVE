@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>sample_allocator</title>
+</head>
+<body style="font-family: Verdana,Tahoma,Helvtica,Arial;font-size: 0.8em;line-height: 150%;">
+    <h3 style="line-height: 200%;">core::sample_allocator</h3>
+    <p style="text-indent: 2em;">
+        <span style="color: #04f;">template</span>
+        <span>&lt;</span><span style="color: #04f;">class</span>
+        <span>T&gt;</span>
+        <span style="color: #04f;">class</span>
+        <span>sample_allocator;</span>
+    </p>
+    <h4 style="line-height: 200%;">Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <th width="40%" style="border: 1px solid #aaa;">
+                <span>member type</span>
+            </th>
+            <th width="20%" style="border: 1px solid #aaa;">
+                <span>definition</span>
+            </th>
+            <th width="40%" style="border: 1px solid #aaa;">
+                <span>represents</span>
+            </th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>T</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Element type</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>T*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Pointer to element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const T*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Pointer to constant element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>T&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Reference to element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const T&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Reference to constant element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">size_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>size_t</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Quantities of elements</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>ptrdiff_t</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Difference between two pointers</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">rebind&lt;U&gt;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>member class</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Its member type other is the equivalent allocator type to allocate elements of type U</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">propagate_on_container_move_assignment</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>true_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Indicates that allocator shall propagate when the container is move-assigned</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">is_always_equal</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>true_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span> </span>
+            </td>
+        </tr>
+    </table>
+    <h4 style="line-height: 200%;">Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(constructor)</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Construct allocator object</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(destructor)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Allocator destructor</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">address</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return address</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">allocate</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Allocate block of storage</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">deallocate</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Release block of storage</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">max_size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Maximum size possible to allocate</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">construct</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct an object</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">destroy</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Destroy an object</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h4 style="line-height: 200%;">Template specializations</h4>
+    <p style="text-indent: 2em;">
+        <span style="color: #04f;">template</span>
+        <span>&lt;&gt;</span>
+        <span style="color: #04f;">class</span>
+        <span>sample_allocator&lt;</span><span style="color: #04f;">void</span><span>&gt;;</span>
+    </p>
+    <h5 style="line-height: 200%;">Member types</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <th width="40%" style="border: 1px solid #aaa;">
+                <span>member type</span>
+            </th>
+            <th width="20%" style="border: 1px solid #aaa;">
+                <span>definition</span>
+            </th>
+            <th width="40%" style="border: 1px solid #aaa;">
+                <span>represents</span>
+            </th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>void</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Element type</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>void*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Pointer to element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const void*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Pointer to constant element</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">size_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>size_t</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Quantities of elements</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>ptrdiff_t</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Difference between two pointers</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">rebind&lt;U&gt;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>member class</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Its member type other is the equivalent allocator type to allocate elements of type U</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

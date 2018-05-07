@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>rb_tree</title>
+</head>
+<body style="font-family: Verdana,Tahoma,Helvtica,Arial;font-size: 0.8em;line-height: 150%;">
+    <h3 style="line-height: 200%;">core::rb_tree</h3>
+    <p style="text-indent: 2em;">
+        <span style="color: #04f;">template</span>
+        <span>&lt;</span><span style="color: #04f;">class</span>
+        <span>Key,</span>
+        <span style="color: #04f;">class</span>
+        <span>Value,</span>
+        <span style="color: #04f;">class</span>
+        <span>KeyOfValue,</span>
+        <span style="color: #04f;">class</span>
+        <span>KeyCompare = less&lt;Key&gt;,</span>
+        <span style="color: #04f;">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span style="color: #04f;">class</span>
+        <span>rb_tree;</span>
+    </p>
+    <h4 style="line-height: 200%;">Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>member type</span>
+            </th>
+            <th width="50%" style="border: 1px solid #aaa;">
+                <span>definition</span>
+            </th>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">key_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The first template parameter (Key)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The second template parameter (Value)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">key_compare</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The fourth template parameter (KeyCompare)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>defaults to: less&lt;Key&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">allocator_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The fifth template parameter (Allocator)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>defaults to: allocator&lt;Value&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional primitive iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_primitive_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional primitive iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse primitive iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse primitive iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">size_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a signed integral type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4 style="line-height: 200%;">Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(constructor)</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Construct red-black tree</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(destructor)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Red-black destructor</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator=</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Assign content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Iterators:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">begin</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Return iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">end</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return primitive_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return primitive_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_primitive_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_primitive_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_primitive_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_primitive_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_primitive_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_primitive_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">empty</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Test whether container is empty</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">max_size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return maximum size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_equal</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Construct and insert a repeatable element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">insert_equal</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Insert repeatable elements</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_unique</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert a unique element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">insert_unique</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Insert unique elements</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">erase</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Erase elements</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">swap</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Swap content </span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">clear</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Clear content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">find</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Get iterator to element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">lower_bound</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return iterator to lower bound</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">upper_bound</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return iterator to upper bound</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">key_comp</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Return key comparison object</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">get_allocator</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Get allocator</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -61,9 +61,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed char, inst_none>()(a.size(), a.data(), b.data());
@@ -78,9 +78,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
@@ -119,9 +119,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed int, inst_none>()(a.size(), a.data(), b.data());
@@ -136,9 +136,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned int, inst_none>()(a.size(), a.data(), b.data());
@@ -153,9 +153,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<float, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<float, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<float, inst_none>()(a.size(), a.data(), b.data());
@@ -170,9 +170,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<double, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<double, inst_none>()(a.size(), a.data(), b.data());
@@ -201,9 +201,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed char, inst_none>()(a.size(), a.data(), b.data());
@@ -218,9 +218,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
@@ -259,9 +259,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed int, inst_none>()(a.size(), a.data(), b.data());
@@ -276,9 +276,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned int, inst_none>()(a.size(), a.data(), b.data());
@@ -293,9 +293,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<float, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<float, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<float, inst_none>()(a.size(), a.data(), b.data());
@@ -310,9 +310,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<double, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<double, inst_none>()(a.size(), a.data(), b.data());
@@ -341,9 +341,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed char, inst_none>()(a.size(), a.data(), b.data());
@@ -358,9 +358,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
@@ -399,9 +399,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed int, inst_none>()(a.size(), a.data(), b.data());
@@ -416,9 +416,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned int, inst_none>()(a.size(), a.data(), b.data());
@@ -433,9 +433,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<float, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<float, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<float, inst_none>()(a.size(), a.data(), b.data());
@@ -450,9 +450,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<double, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<double, inst_none>()(a.size(), a.data(), b.data());
@@ -481,9 +481,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed char, inst_none>()(a.size(), a.data(), b.data());
@@ -498,9 +498,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned char, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned char, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned char, inst_none>()(a.size(), a.data(), b.data());
@@ -539,9 +539,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<signed int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<signed int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<signed int, inst_none>()(a.size(), a.data(), b.data());
@@ -556,9 +556,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<unsigned int, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<unsigned int, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<unsigned int, inst_none>()(a.size(), a.data(), b.data());
@@ -573,9 +573,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<float, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<float, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<float, inst_none>()(a.size(), a.data(), b.data());
@@ -590,9 +590,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (global::is_support_avx2())
+		if (cpu::is_support_avx2())
 			kernel_convert_int16<double, inst_avx2>()(a.size(), a.data(), b.data());
-		else if (global::is_support_sse41())
+		else if (cpu::is_support_sse41())
 			kernel_convert_int16<double, inst_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int16<double, inst_none>()(a.size(), a.data(), b.data());

@@ -287,3 +287,5 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /cve/data
+/cve/core/cpu/kernel/kernel_matrix_multiply - 副本.h
+/document/algorithm

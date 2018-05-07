@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>tree</title>
+</head>
+<body style="font-family: Verdana,Tahoma,Helvtica,Arial;font-size: 0.8em;line-height: 150%;">
+    <h3 style="line-height: 200%;">core::tree</h3>
+    <p style="text-indent: 2em;">
+        <span style="color: #04f;">template</span>
+        <span>&lt;</span><span style="color: #04f;">class</span>
+        <span>T,</span>
+        <span style="color: #04f;">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span style="color: #04f;">class</span>
+        <span>tree;</span>
+    </p>
+    <h4 style="line-height: 200%;">Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>member type</span>
+            </th>
+            <th width="50%" style="border: 1px solid #aaa;">
+                <span>definition</span>
+            </th>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The first template parameter (T)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">allocator_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The second template parameter (Allocator)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>defaults to: allocator&lt;T&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional primitive iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_primitive_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional primitive iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse primitive iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_primitive_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse primitive iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">sibling_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional sibling iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_sibling_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_sibling_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional sibling iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_sibling_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse sibling iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_sibling_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse sibling iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">leaf_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional leaf iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>convertible to: const_leaf_iterator</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_leaf_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional leaf iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reverse_leaf_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse leaf iterator to value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reverse_leaf_iterator</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a bidirectional reverse leaf iterator to const value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">size_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a signed integral type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4 style="line-height: 200%;">Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(constructor)</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Construct tree</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(destructor)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Tree destructor</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator=</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Assign content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Iterators:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">begin</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Return iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">end</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return primitive_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return primitive_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_primitive_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_primitive_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_primitive_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">cpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_primitive_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crpbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_primitive_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crpend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_primitive_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">sbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return sibling_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">send</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return sibling_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rsbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_sibling_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rsend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_sibling_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">csbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_sibling_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">csend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_sibling_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crsbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_sibling_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crsend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_sibling_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">lbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return leaf_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">lend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return leaf_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rlbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_leaf_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">rlend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return reverse_leaf_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">clbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_leaf_iterator to beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">clend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_leaf_iterator to end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crlbegin</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_leaf_iterator to reverse beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">crlend</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return const_reverse_leaf_iterator to reverse end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">empty</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Test whether container is empty</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">max_size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return maximum size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">assign</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Assign new content to container</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_front</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert an element at beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">push_front</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Insert elements at beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pop_front</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Delete the first element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_back</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert an element at the end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">push_back</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Insert elements at the end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">pop_back</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Delete the last element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_child_front</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert a child node at beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace_child_back</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert a child node at the end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">prepend_child</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Add child nodes at beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">append_child</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Add child nodes at the end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">emplace</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Construct and insert a element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">insert</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Insert elements</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">copy_child_front</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Copy child nodes at beginning</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">copy_child_back</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Copy child nodes at the end</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">copy_node</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Copy nodes</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">erase</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Erase elements</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">remove_children</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Remove all child nodes</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">swap</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Swap content </span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">clear</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Clear content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">splice</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Transfer elements from node to node</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">merge</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Merge sorted nodes</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">sort</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Sort elements in container</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">get_allocator</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Get allocator</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

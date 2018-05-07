@@ -27,17 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_MULTIPLY_H__
-#define __CORE_CPU_KERNEL_MULTIPLY_H__
+#ifndef __CORE_CPU_KERNEL_TRANSPOSE_MATRIX_MULTIPLY_H__
+#define __CORE_CPU_KERNEL_TRANSPOSE_MATRIX_MULTIPLY_H__
 
-#include "../../definition.h"
-#include "../../instruction.h"
+#include "../cpu.h"
 
 namespace core
 {
-	// Class template common_multiply
+	// Class template common_transpose_matrix_multiply
 	template<class T>
-	struct common_multiply
+	struct common_transpose_matrix_multiply
 	{
 		// C(1xn) += A(1xp) * B(nxp)^T
 		void operator()(size_t n, size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -54,9 +53,9 @@ namespace core
 		}
 	};
 
-	// Class template block_multiply
+	// Class template block_transpose_matrix_multiply
 	template<class T, inst_type inst>
-	struct block_multiply
+	struct block_transpose_matrix_multiply
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -65,39 +64,36 @@ namespace core
 			const T *ptr_b1 = ptr_b0 + rsb;
 			const T *ptr_b2 = ptr_b1 + rsb;
 			const T *ptr_b3 = ptr_b2 + rsb;
-			T val_a;
+			T val_a0, val_a1, val_a2, val_a3;
 			T val_c0 = 0, val_c1 = 0, val_c2 = 0, val_c3 = 0;
 
-			for (size_t k = 0; k < p;)
+			for (size_t k = 0; k < p; k += 4)
 			{
-				// k
-				val_a = a[k];
-				val_c0 += val_a * ptr_b0[k];
-				val_c1 += val_a * ptr_b1[k];
-				val_c2 += val_a * ptr_b2[k];
-				val_c3 += val_a * ptr_b3[k];
-				++k;
-				// k + 1
-				val_a = a[k];
-				val_c0 += val_a * ptr_b0[k];
-				val_c1 += val_a * ptr_b1[k];
-				val_c2 += val_a * ptr_b2[k];
-				val_c3 += val_a * ptr_b3[k];
-				++k;
-				// k + 2
-				val_a = a[k];
-				val_c0 += val_a * ptr_b0[k];
-				val_c1 += val_a * ptr_b1[k];
-				val_c2 += val_a * ptr_b2[k];
-				val_c3 += val_a * ptr_b3[k];
-				++k;
-				// k + 3
-				val_a = a[k];
-				val_c0 += val_a * ptr_b0[k];
-				val_c1 += val_a * ptr_b1[k];
-				val_c2 += val_a * ptr_b2[k];
-				val_c3 += val_a * ptr_b3[k];
-				++k;
+				val_a0 = a[0];
+				val_a1 = a[1];
+				val_a2 = a[2];
+				val_a3 = a[3];
+				val_c0 += val_a0 * ptr_b0[0];
+				val_c1 += val_a0 * ptr_b1[0];
+				val_c2 += val_a0 * ptr_b2[0];
+				val_c3 += val_a0 * ptr_b3[0];
+				val_c0 += val_a1 * ptr_b0[1];
+				val_c1 += val_a1 * ptr_b1[1];
+				val_c2 += val_a1 * ptr_b2[1];
+				val_c3 += val_a1 * ptr_b3[1];
+				val_c0 += val_a2 * ptr_b0[2];
+				val_c1 += val_a2 * ptr_b1[2];
+				val_c2 += val_a2 * ptr_b2[2];
+				val_c3 += val_a2 * ptr_b3[2];
+				val_c0 += val_a3 * ptr_b0[3];
+				val_c1 += val_a3 * ptr_b1[3];
+				val_c2 += val_a3 * ptr_b2[3];
+				val_c3 += val_a3 * ptr_b3[3];
+				a += 4;
+				ptr_b0 += 4;
+				ptr_b1 += 4;
+				ptr_b2 += 4;
+				ptr_b3 += 4;
 			}
 			c[0] += val_c0;
 			c[1] += val_c1;
@@ -107,7 +103,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<float, inst_sse>
+	struct block_transpose_matrix_multiply<float, inst_sse>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -125,11 +121,13 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 4)
 			{
+				// load data from memory
 				xmm_a = _mm_loadu_ps(a + k);
 				xmm_b0 = _mm_loadu_ps(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_ps(ptr_b1 + k);
 				xmm_b2 = _mm_loadu_ps(ptr_b2 + k);
 				xmm_b3 = _mm_loadu_ps(ptr_b3 + k);
+				// return the weighted sum
 				xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b0), xmm_c0);
 				xmm_c1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b1), xmm_c1);
 				xmm_c2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b2), xmm_c2);
@@ -151,7 +149,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<float, inst_sse | inst_fma>
+	struct block_transpose_matrix_multiply<float, inst_sse | inst_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -169,11 +167,13 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 4)
 			{
+				// load data from memory
 				xmm_a = _mm_loadu_ps(a + k);
 				xmm_b0 = _mm_loadu_ps(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_ps(ptr_b1 + k);
 				xmm_b2 = _mm_loadu_ps(ptr_b2 + k);
 				xmm_b3 = _mm_loadu_ps(ptr_b3 + k);
+				// return the weighted sum
 				xmm_c0 = _mm_fmadd_ps(xmm_a, xmm_b0, xmm_c0);
 				xmm_c1 = _mm_fmadd_ps(xmm_a, xmm_b1, xmm_c1);
 				xmm_c2 = _mm_fmadd_ps(xmm_a, xmm_b2, xmm_c2);
@@ -195,9 +195,9 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<double, inst_sse2>
+	struct block_transpose_matrix_multiply<double, inst_sse2>
 	{
-		// C(1x4) += A(1xp) * B(4xp)^T
+		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
@@ -207,11 +207,13 @@ namespace core
 			__m128d xmm_c0 = _mm_setzero_pd();
 			__m128d xmm_c1 = _mm_setzero_pd();
 
-			for (size_t k = 0; k < p; k += 4)
+			for (size_t k = 0; k < p; k += 2)
 			{
+				// load data from memory
 				xmm_a = _mm_loadu_pd(a + k);
 				xmm_b0 = _mm_loadu_pd(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_pd(ptr_b1 + k);
+				// return the weighted sum
 				xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b0), xmm_c0);
 				xmm_c1 = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b1), xmm_c1);
 			}
@@ -225,9 +227,9 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<double, inst_sse2 | inst_fma>
+	struct block_transpose_matrix_multiply<double, inst_sse2 | inst_fma>
 	{
-		// C(1x4) += A(1xp) * B(4xp)^T
+		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
@@ -239,9 +241,11 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 4)
 			{
+				// load data from memory
 				xmm_a = _mm_loadu_pd(a + k);
 				xmm_b0 = _mm_loadu_pd(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_pd(ptr_b1 + k);
+				// return the weighted sum
 				xmm_c0 = _mm_fmadd_pd(xmm_a, xmm_b0, xmm_c0);
 				xmm_c1 = _mm_fmadd_pd(xmm_a, xmm_b1, xmm_c1);
 			}
@@ -255,7 +259,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<float, inst_avx>
+	struct block_transpose_matrix_multiply<float, inst_avx>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -281,6 +285,7 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 8)
 			{
+				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + k);
 				ymm_b0 = _mm256_loadu_ps(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_ps(ptr_b1 + k);
@@ -290,6 +295,7 @@ namespace core
 				ymm_b5 = _mm256_loadu_ps(ptr_b5 + k);
 				ymm_b6 = _mm256_loadu_ps(ptr_b6 + k);
 				ymm_b7 = _mm256_loadu_ps(ptr_b7 + k);
+				// return the weighted sum
 				ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b0), ymm_c0);
 				ymm_c1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b1), ymm_c1);
 				ymm_c2 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b2), ymm_c2);
@@ -327,7 +333,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<float, inst_avx | inst_fma>
+	struct block_transpose_matrix_multiply<float, inst_avx | inst_fma>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -353,6 +359,7 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 8)
 			{
+				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + k);
 				ymm_b0 = _mm256_loadu_ps(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_ps(ptr_b1 + k);
@@ -362,6 +369,7 @@ namespace core
 				ymm_b5 = _mm256_loadu_ps(ptr_b5 + k);
 				ymm_b6 = _mm256_loadu_ps(ptr_b6 + k);
 				ymm_b7 = _mm256_loadu_ps(ptr_b7 + k);
+				// return the weighted sum
 				ymm_c0 = _mm256_fmadd_ps(ymm_a, ymm_b0, ymm_c0);
 				ymm_c1 = _mm256_fmadd_ps(ymm_a, ymm_b1, ymm_c1);
 				ymm_c2 = _mm256_fmadd_ps(ymm_a, ymm_b2, ymm_c2);
@@ -399,7 +407,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<double, inst_avx>
+	struct block_transpose_matrix_multiply<double, inst_avx>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -417,11 +425,13 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 4)
 			{
+				// load data from memory
 				ymm_a = _mm256_loadu_pd(a + k);
 				ymm_b0 = _mm256_loadu_pd(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_pd(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_pd(ptr_b2 + k);
 				ymm_b3 = _mm256_loadu_pd(ptr_b3 + k);
+				// return the weighted sum
 				ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b0), ymm_c0);
 				ymm_c1 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b1), ymm_c1);
 				ymm_c2 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b2), ymm_c2);
@@ -443,7 +453,7 @@ namespace core
 	};
 
 	template<>
-	struct block_multiply<double, inst_avx | inst_fma>
+	struct block_transpose_matrix_multiply<double, inst_avx | inst_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -461,11 +471,13 @@ namespace core
 
 			for (size_t k = 0; k < p; k += 4)
 			{
+				// load data from memory
 				ymm_a = _mm256_loadu_pd(a + k);
 				ymm_b0 = _mm256_loadu_pd(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_pd(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_pd(ptr_b2 + k);
 				ymm_b3 = _mm256_loadu_pd(ptr_b3 + k);
+				// return the weighted sum
 				ymm_c0 = _mm256_fmadd_pd(ymm_a, ymm_b0, ymm_c0);
 				ymm_c1 = _mm256_fmadd_pd(ymm_a, ymm_b1, ymm_c1);
 				ymm_c2 = _mm256_fmadd_pd(ymm_a, ymm_b2, ymm_c2);
@@ -486,9 +498,9 @@ namespace core
 		}
 	};
 
-	// Class template kernel_multiply
+	// Class template kernel_transpose_matrix_multiply
 	template<class T, size_t block_n, size_t block_p, inst_type inst>
-	struct kernel_multiply
+	struct kernel_transpose_matrix_multiply
 	{
 		// C(1xn) += A(1xp) * B(nxp)^T
 		void operator()(size_t n, size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -498,15 +510,15 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
-			const struct common_multiply<T> functor;
-			const struct block_multiply<T, inst> special_functor;
+			const struct common_transpose_matrix_multiply<T> functor;
+			const struct block_transpose_matrix_multiply<T, inst> special_functor;
 
 			for (int j = 0; j < aligned_n; j += block_n)
 			{
 				if (aligned_p > 0)
-					special_functor(aligned_p, a, b, rsb, c);
+					special_functor(aligned_p, a, b, rsb, c + j);
 				if (surplus_p > 0)
-					functor(block_n, surplus_p, a, b, rsb, c);
+					functor(block_n, surplus_p, a + aligned_p, b + aligned_p, rsb, c + j);
 				b += block_rsb;
 			}
 			if (surplus_n > 0)
@@ -522,8 +534,8 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
-			const struct common_multiply<T> functor;
-			const struct block_multiply<T, inst> special_functor;
+			const struct common_transpose_matrix_multiply<T> functor;
+			const struct block_transpose_matrix_multiply<T, inst> special_functor;
 
 			for (size_t i = 0; i < m; ++i)
 			{

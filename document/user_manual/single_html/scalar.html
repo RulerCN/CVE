@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>scalar</title>
+</head>
+<body style="font-family: Verdana,Tahoma,Helvtica,Arial;font-size: 0.8em;line-height: 150%;">
+    <h3 style="line-height: 200%;">core::scalar</h3>
+    <p style="text-indent: 2em;">
+        <span style="color: #04f;">template</span>
+        <span>&lt;</span><span style="color: #04f;">class</span>
+        <span>T,</span>
+        <span style="color: #04f;">class</span>
+        <span>Allocator = allocator&lt;T&gt; &gt;</span>
+        <span style="color: #04f;">class</span>
+        <span>scalar;</span>
+    </p>
+    <h4 style="line-height: 200%;">Member types</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>member type</span>
+            </th>
+            <th width="50%" style="border: 1px solid #aaa;">
+                <span>definition</span>
+            </th>
+            <th width="25%" style="border: 1px solid #aaa;">
+                <span>notes</span>
+            </th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">value_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The first template parameter (T)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">allocator_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>The second template parameter (Allocator)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>defaults to: allocator&lt;T&gt;</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_reference</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type&amp;</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">const_pointer</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>const value_type*</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span />
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">size_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>an unsigned integral type that can represent any non-negative value of difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as size_t</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #f40;">difference_type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>a signed integral type</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>usually the same as ptrdiff_t</span>
+            </td>
+        </tr>
+    </table>
+    <h4 style="line-height: 200%;">Member functions</h4>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(constructor)</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Construct scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">(destructor)</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Scalar destructor</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator=</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Assign content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Capacity:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">empty</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Test whether container is empty</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">max_size</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Return maximum size</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Element access:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator[]</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Access element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">at</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Access element</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">data</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Access data</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Modifiers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">assign</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Assign a new scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">create</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Create a scalar copying the data</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">fill</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Fill scalar with specified value</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">linear_fill</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Fill scalar with linear gradient values</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">generate</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Generate values for scalar with function</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">remap</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Map source data to a scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">swap</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Swap content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">clear</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Clear content</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Operations:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator+=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Add a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator-=</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Subtract a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator*=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Multiply a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator/=</span>
+            </td>
+            <td style="border: 1px solid #aaa;">
+                <span>Divided by a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>And a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator^=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Xor a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator|=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Or a value or scalar</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Observers:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">get_allocator</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Get allocator</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+    <h5 style="line-height: 200%;">Non-member function overloads:</h5>
+    <table width="100%" border="1" cellspacing="0" cellpadding="4" style="border: 1px solid #aaa;border-collapse: collapse;">
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator+</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar addition</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator-</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar subtraction</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator*</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar multiplication</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator/</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar division</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar and</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator^</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar xor</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator|</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar or</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&lt;</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar less than</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&gt;</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar greater than</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&lt;=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar less than or equal to</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator&gt;=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar greater than or equal to</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator==</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar equal to</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" style="border: 1px solid #aaa;">
+                <span style="color: #04f;">operator!=</span>
+            </td>
+            <td width="80%" style="border: 1px solid #aaa;">
+                <span>Scalar not equal to</span>
+                <span style="color: #0a0;">(public member function)</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

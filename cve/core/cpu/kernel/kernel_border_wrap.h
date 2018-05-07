@@ -30,8 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_BORDER_REPLICTE101_H__
 #define __CORE_CPU_KERNEL_BORDER_REPLICTE101_H__
 
-#include "../../definition.h"
-#include "../../instruction.h"
+#include "../cpu.h"
 
 namespace core
 {
