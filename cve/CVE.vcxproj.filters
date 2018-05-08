@@ -196,6 +196,12 @@
     <ClInclude Include="core\cpu\cpu_multiply.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mapping.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mapping.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

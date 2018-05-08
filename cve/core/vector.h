@@ -281,18 +281,6 @@ namespace core
 		{
 			assign(dimension, last, last);
 		}
-		template <class U, class A>
-		vector(const_pointer source, const vector<U, A>& maping)
-			: Allocator(A::rebind<value_type>::other())
-			, owner(true)
-			, channels(0)
-			, number(0)
-			, count(0)
-			, buffer(nullptr)
-		{
-			assign(maping.length(), maping.dimension());
-			remap(source, maping);
-		}
 		vector(const vector<T, Allocator>& x)
 			: Allocator(x.get_allocator())
 			, owner(true)
@@ -592,11 +580,15 @@ namespace core
 
 		void fill(const value_type& value)
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			::std::fill_n(buffer, count, value);
 		}
 
 		void fill_n(size_type n, const value_type& value)
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			if (n == 0 || n > count)
 				throw ::std::invalid_argument(invalid_length);
 			::std::fill_n(buffer, n, value);
@@ -605,6 +597,8 @@ namespace core
 		template <class InputIterator>
 		void fill(InputIterator first, InputIterator last)
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			if (static_cast<size_type>(::std::distance(first, last)) != count)
 				throw ::std::invalid_argument(invalid_iterator_distance);
 			::std::copy(first, last, buffer);
@@ -613,6 +607,15 @@ namespace core
 		void fill(::std::initializer_list<T> il)
 		{
 			fill(il.begin(), il.end());
+		}
+
+		void fill(const vector<T, Allocator>& x)
+		{
+			if (empty() || x.empty())
+				throw ::std::domain_error(vector_not_initialized);
+			if (count != x.size())
+				throw ::std::invalid_argument(invalid_length);
+			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
 		}
 
 		void linear_fill(const value_type& init, const value_type& delta)
@@ -664,18 +667,6 @@ namespace core
 		{
 			for (size_type i = 0; i < count; ++i)
 				buffer[i] = g();
-		}
-
-		template <class U, class A>
-		void remap(const_pointer source, const vector<U, A>& maping)
-		{
-			if (empty())
-				throw ::std::domain_error(vector_not_initialized);
-			if (maping.size() != count)
-				throw ::std::invalid_argument(vector_different_size);
-			typename vector<U, A>::const_pointer index = maping.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] = source[index[i]];
 		}
 
 		void reshape(size_type length, size_type dimension)

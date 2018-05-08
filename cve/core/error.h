@@ -77,6 +77,7 @@ namespace core
 	// invalid_argument
 	static const char invalid_power[]             = "Invalid power.";
 	static const char invalid_dimension[]         = "Invalid dimension.";
+	static const char invalid_pointer[]           = "Invalid pointer.";
 	static const char invalid_length[]            = "Invalid length.";
 	static const char invalid_size[]              = "Invalid size.";
 	static const char invalid_shape[]             = "Invalid shape.";

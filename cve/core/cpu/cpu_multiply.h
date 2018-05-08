@@ -37,58 +37,108 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Vector-matrix multiplication: C = A * B or C = A * B^T
+	// Vector-matrix multiplication
 	// Parameters:
-	// 1. c - output vector.
+	// 1. d - output vector.
 	// 2. a - input vector.
 	// 3. b - input matrix.
-	// 4. transpose - whether the matrix B is transposed.
+	// 4. c - input vector.
+	// 5. transpose - whether the matrix B is transposed.
 
+	// D = A * B[^T]
 	template <class A, class A1, class A2>
-	vector<float, A>& cpu_multiply(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b, bool transpose = false)
+	vector<float, A>& cpu_multiply(vector<float, A> &d, const vector<float, A1> &a, const matrix<float, A2> &b, bool transpose = false)
 	{
-		c.fill(0.0F);
+		d.fill(0.0F);
 		if (transpose)
-			return cpu_transpose_matrix_multiply(c, a, b);
+			return cpu_transpose_matrix_multiply(d, a, b);
 		else
-			return cpu_matrix_multiply(c, a, b);
+			return cpu_matrix_multiply(d, a, b);
 	}
 
-	template <class A, class A1, class A2>
-	vector<double, A>& cpu_multiply(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b, bool transpose = false)
+	// D = A * B[^T] + C
+	template <class A, class A1, class A2, class A3>
+	vector<float, A>& cpu_multiply(vector<float, A> &d, const vector<float, A1> &a, const matrix<float, A2> &b, const vector<float, A3> &c, bool transpose = false)
 	{
-		c.fill(0.0);
+		d.fill(c);
 		if (transpose)
-			return cpu_transpose_matrix_multiply(c, a, b);
+			return cpu_transpose_matrix_multiply(d, a, b);
 		else
-			return cpu_matrix_multiply(c, a, b);
+			return cpu_matrix_multiply(d, a, b);
 	}
 
-	// Matrix-matrix multiplication: C = A * B or C = A * B^T
+	// D = A * B[^T]
+	template <class A, class A1, class A2>
+	vector<double, A>& cpu_multiply(vector<double, A> &d, const vector<double, A1> &a, const matrix<double, A2> &b, bool transpose = false)
+	{
+		d.fill(0.0);
+		if (transpose)
+			return cpu_transpose_matrix_multiply(d, a, b);
+		else
+			return cpu_matrix_multiply(d, a, b);
+	}
+
+	// D = A * B[^T] + C
+	template <class A, class A1, class A2, class A3>
+	vector<double, A>& cpu_multiply(vector<double, A> &d, const vector<double, A1> &a, const matrix<double, A2> &b, const vector<double, A3> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			return cpu_transpose_matrix_multiply(d, a, b);
+		else
+			return cpu_matrix_multiply(d, a, b);
+	}
+
+	// Matrix-matrix multiplication
 	// Parameters:
-	// 1. c - output matrix.
+	// 1. d - output matrix.
 	// 2. a - input matrix.
 	// 3. b - input matrix.
-	// 4. transpose - whether the matrix B is transposed.
+	// 4. c - input matrix.
+	// 5. transpose - whether the matrix B is transposed.
 
+	// C = A * B[^T]
 	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_multiply(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b, bool transpose = false)
+	matrix<float, A>& cpu_multiply(matrix<float, A> &d, const matrix<float, A1> &a, const matrix<float, A2> &b, bool transpose = false)
 	{
-		c.fill(0.0F);
+		d.fill(0.0F);
 		if (transpose)
-			return cpu_transpose_matrix_multiply(c, a, b);
+			return cpu_transpose_matrix_multiply(d, a, b);
 		else
-			return cpu_matrix_multiply(c, a, b);
+			return cpu_matrix_multiply(d, a, b);
 	}
 
-	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_multiply(matrix<double , A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b, bool transpose = false)
+	// C = A * B[^T] + C
+	template <class A, class A1, class A2, class A3>
+	matrix<float, A>& cpu_multiply(matrix<float, A> &d, const matrix<float, A1> &a, const matrix<float, A2> &b, const matrix<float, A3> &c, bool transpose = false)
 	{
-		c.fill(0.0);
+		d.fill(c);
 		if (transpose)
-			return cpu_transpose_matrix_multiply(c, a, b);
+			return cpu_transpose_matrix_multiply(d, a, b);
 		else
-			return cpu_matrix_multiply(c, a, b);
+			return cpu_matrix_multiply(d, a, b);
+	}
+
+	// C = A * B[^T]
+	template <class A, class A1, class A2>
+	matrix<double, A>& cpu_multiply(matrix<double, A> &d, const matrix<double, A1> &a, const matrix<double, A2> &b, bool transpose = false)
+	{
+		d.fill(0.0);
+		if (transpose)
+			return cpu_transpose_matrix_multiply(d, a, b);
+		else
+			return cpu_matrix_multiply(d, a, b);
+	}
+
+	// C = A * B[^T] + C
+	template <class A, class A1, class A2, class A3>
+	matrix<double, A>& cpu_multiply(matrix<double, A> &d, const matrix<double, A1> &a, const matrix<double, A2> &b, const matrix<float, A3> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			return cpu_transpose_matrix_multiply(d, a, b);
+		else
+			return cpu_matrix_multiply(d, a, b);
 	}
 
 	// Vector-matrix multiplication: C(1xn) += A(1xp) * B(pxn)

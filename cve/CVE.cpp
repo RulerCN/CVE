@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <chrono>
 #include <iostream>
 #include <iomanip>
 
@@ -10,9 +11,20 @@
 #include "core\cpu\cpu_reduce.h"
 #include "core\cpu\cpu_transpose.h"
 #include "core\cpu\cpu_border.h"
+#include "core\cpu\cpu_mapping.h"
 #include "core\cpu\cpu_multiply.h"
 #include "image\bitmap.h"
 #include "ann\mnist.h"
+
+using std::chrono::time_point;
+using std::chrono::system_clock;
+using std::chrono::duration_cast;
+using std::chrono::microseconds;
+using std::chrono::milliseconds;
+
+//time_point<system_clock> start = system_clock::now();
+//time_point<system_clock> stop = system_clock::now();
+//long long time = duration_cast<milliseconds>(stop - start).count();
 
 // Print vector
 template<class Allocator>
@@ -100,16 +112,25 @@ int main()
 		core::matrix<unsigned char> input;
 		if (img::bitmap::decode(input_image, input))
 		{
-			size_t left = 482 * 1 + 20;
-			size_t top = 272 * 1 + 20;
-			size_t right = 482 * 1 + 20;
-			size_t bottom = 272 * 1 + 20;
+			size_t left = 482 * 2 + 20;
+			size_t top = 272 * 2 + 20;
+			size_t right = 482 * 2 + 20;
+			size_t bottom = 272 * 2 + 20;
 			size_t rows = input.rows();
 			size_t columns = input.columns();
 			size_t dimension = input.dimension();
 			core::matrix<size_t> index(top + rows + bottom, left + columns + right, dimension);
 			core::cpu_border(index, left, top, right, bottom, core::border_wrap);
-			core::matrix<unsigned char> output(input.data(), index);
+
+			time_point<system_clock> start = system_clock::now();
+
+			core::matrix<unsigned char> output(index.rows(), index.columns(), index.dimension());
+			core::cpu_mapping(output, input.data(), index);
+
+			time_point<system_clock> stop = system_clock::now();
+			long long time = duration_cast<milliseconds>(stop - start).count();
+			std::cout << time << " ms" << std::endl;
+
 			img::bitmap::encode(border_wrap, output);
 		}
 		else

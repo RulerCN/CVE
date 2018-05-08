@@ -513,7 +513,7 @@ namespace core
 			const struct common_transpose_matrix_multiply<T> functor;
 			const struct block_transpose_matrix_multiply<T, inst> special_functor;
 
-			for (int j = 0; j < aligned_n; j += block_n)
+			for (size_t j = 0; j < aligned_n; j += block_n)
 			{
 				if (aligned_p > 0)
 					special_functor(aligned_p, a, b, rsb, c + j);
@@ -540,7 +540,7 @@ namespace core
 			for (size_t i = 0; i < m; ++i)
 			{
 				ptr_b = b;
-				for (int j = 0; j < aligned_n; j += block_n)
+				for (size_t j = 0; j < aligned_n; j += block_n)
 				{
 					if (aligned_p > 0)
 						special_functor(aligned_p, a, ptr_b, rsb, c + j);
