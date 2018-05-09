@@ -56,7 +56,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		kernel_reduce_col_sum<T2, T1, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
@@ -70,7 +70,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed char, signed int, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -89,7 +89,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed char, float, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -108,7 +108,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<unsigned char, signed int, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -127,7 +127,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<unsigned char, float, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -146,7 +146,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed short, signed int, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -165,7 +165,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed short, float, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -184,7 +184,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<unsigned short, signed int, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -203,7 +203,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<unsigned short, float, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -222,7 +222,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed int, signed int, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -241,7 +241,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<signed int, float, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -260,7 +260,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx2())
 			kernel_reduce_col_sum<unsigned int, float, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -279,7 +279,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx())
 			kernel_reduce_col_sum<float, float, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
@@ -298,7 +298,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (b.size() != a.row_size())
-			throw ::std::invalid_argument(vector_invalid_size);
+			throw ::std::invalid_argument(invalid_vector_size);
 
 		if (cpu::is_support_avx())
 			kernel_reduce_col_sum<double, double, 4, 4, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());

@@ -81,15 +81,16 @@ namespace core
 	static const char invalid_length[]            = "Invalid length.";
 	static const char invalid_size[]              = "Invalid size.";
 	static const char invalid_shape[]             = "Invalid shape.";
-	static const char invalid_border_size[]       = "Invalid border size.";
 	static const char invalid_initializer_list[]  = "Invalid initializer list.";
 	static const char invalid_iterator_distance[] = "Invalid distance between iterators.";
+	static const char invalid_scalar_size[]       = "Invalid scalar size.";
+	static const char invalid_vector_size[]       = "Invalid vector size.";
+	static const char invalid_matrix_size[]       = "Invalid matrix size.";
+	static const char invalid_tensor_size[]       = "Invalid tensor size.";
+	static const char invalid_border_size[]       = "Invalid border size.";
+	static const char invalid_window_size[]       = "Invalid window size.";
+	static const char invalid_sliding_stride[]    = "Invalid sliding stride.";
 	static const char invalid_mode_parameters[]   = "Invalid mode parameters.";
-	static const char scalar_invalid_size[]       = "Invalid size of the scalar.";
-	static const char vector_invalid_size[]       = "Invalid size of the vector.";
-	static const char matrix_invalid_size[]       = "Invalid size of the matrix.";
-	static const char tensor_invalid_size[]       = "Invalid size of the tensor.";
-	static const char cache_invalid_size[]        = "Invalid size of the cache.";
 	// out_of_range
 	static const char scalar_out_of_range[]       = "Scalar subscript out of range.";
 	static const char vector_out_of_range[]       = "Vector subscript out of range.";

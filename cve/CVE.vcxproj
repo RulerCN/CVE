@@ -168,6 +168,7 @@
     <ClInclude Include="core\cpu\cpu_get_element.h" />
     <ClInclude Include="core\cpu\cpu_mapping.h" />
     <ClInclude Include="core\cpu\cpu_multiply.h" />
+    <ClInclude Include="core\cpu\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_reduce.h" />
     <ClInclude Include="core\cpu\cpu_reduce_col_max.h" />

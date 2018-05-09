@@ -365,7 +365,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(vector_is_initialized);
 			if (length == 0 || dimension == 0)
-				throw ::std::invalid_argument(vector_invalid_size);
+				throw ::std::invalid_argument(invalid_vector_size);
 			owner = true;
 			channels = dimension;
 			number = length;
@@ -379,7 +379,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(vector_is_initialized);
 			if (length == 0 || dimension == 0)
-				throw ::std::invalid_argument(vector_invalid_size);
+				throw ::std::invalid_argument(invalid_vector_size);
 			owner = true;
 			channels = dimension;
 			number = length;
@@ -432,7 +432,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(vector_is_initialized);
 			if (length == 0 || dimension == 0)
-				throw ::std::invalid_argument(vector_invalid_size);
+				throw ::std::invalid_argument(invalid_vector_size);
 			owner = false;
 			channels = dimension;
 			number = length;
@@ -674,7 +674,7 @@ namespace core
 			if (empty())
 				throw ::std::domain_error(vector_not_initialized);
 			if (length * dimension != count)
-				throw ::std::invalid_argument(vector_invalid_size);
+				throw ::std::invalid_argument(invalid_vector_size);
 			channels = dimension;
 			number = length;
 		}

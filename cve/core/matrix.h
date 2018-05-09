@@ -385,7 +385,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(matrix_is_initialized);
 			if (rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(matrix_invalid_size);
+				throw ::std::invalid_argument(invalid_matrix_size);
 			owner = true;
 			channels = dimension;
 			width = columns;
@@ -401,7 +401,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(matrix_is_initialized);
 			if (rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(matrix_invalid_size);
+				throw ::std::invalid_argument(invalid_matrix_size);
 			owner = true;
 			channels = dimension;
 			width = columns;
@@ -460,7 +460,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(matrix_is_initialized);
 			if (rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(matrix_invalid_size);
+				throw ::std::invalid_argument(invalid_matrix_size);
 			owner = false;
 			channels = dimension;
 			width = columns;
@@ -1036,7 +1036,7 @@ namespace core
 			if (empty())
 				throw ::std::domain_error(matrix_not_initialized);
 			if (rows * columns * dimension != count)
-				throw ::std::invalid_argument(matrix_invalid_size);
+				throw ::std::invalid_argument(invalid_matrix_size);
 			channels = dimension;
 			width = columns;
 			height = rows;

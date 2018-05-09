@@ -196,7 +196,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(scalar_is_initialized);
 			if (n == 0)
-				throw ::std::invalid_argument(scalar_invalid_size);
+				throw ::std::invalid_argument(invalid_scalar_size);
 			owner = true;
 			count = n;
 			buffer = this->allocate(count);
@@ -209,7 +209,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(scalar_is_initialized);
 			if (n == 0)
-				throw ::std::invalid_argument(scalar_invalid_size);
+				throw ::std::invalid_argument(invalid_scalar_size);
 			owner = true;
 			count = n;
 			buffer = this->allocate(count);
@@ -256,7 +256,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(scalar_is_initialized);
 			if (n == 0)
-				throw ::std::invalid_argument(scalar_invalid_size);
+				throw ::std::invalid_argument(invalid_scalar_size);
 			owner = false;
 			count = n;
 			buffer = p;

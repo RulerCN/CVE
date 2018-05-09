@@ -11,6 +11,7 @@
 #include "core\cpu\cpu_reduce.h"
 #include "core\cpu\cpu_transpose.h"
 #include "core\cpu\cpu_border.h"
+#include "core\cpu\cpu_sliding_window.h"
 #include "core\cpu\cpu_mapping.h"
 #include "core\cpu\cpu_multiply.h"
 #include "image\bitmap.h"
@@ -58,6 +59,29 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 int main()
 {
 	core::cpu::enable_simd(true);
+
+	std::cout << "mat_mul(): " << std::endl;
+	for (int i = 64; i <= 1024 * 2; i += 64)
+	{
+		const size_t m = i;
+		const size_t n = i;
+		const size_t k = i;
+		const size_t d = 1;
+		core::matrix<float> a(m, k, d);
+		core::matrix<float> b(k, n, d);
+		core::matrix<float> c(m, n, d);
+		a.fill(1.1f);
+		b.fill(1.2f);
+
+		time_point<system_clock> start = system_clock::now();
+		core::cpu_multiply(c, a, b);
+		time_point<system_clock> stop = system_clock::now();
+		long long time = duration_cast<milliseconds>(stop - start).count();
+		std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
+	}
+	std::cout << "OK" << std::endl;
+	return 0;
+
 	try
 	{
 		size_t row = 15;

@@ -389,7 +389,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(tensor_invalid_size);
+				throw ::std::invalid_argument(invalid_tensor_size);
 			owner = true;
 			channels = dimension;
 			width = columns;
@@ -407,7 +407,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(tensor_invalid_size);
+				throw ::std::invalid_argument(invalid_tensor_size);
 			owner = true;
 			channels = dimension;
 			width = columns;
@@ -472,7 +472,7 @@ namespace core
 			if (!empty())
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(tensor_invalid_size);
+				throw ::std::invalid_argument(invalid_tensor_size);
 			owner = false;
 			channels = dimension;
 			width = columns;
@@ -1289,7 +1289,7 @@ namespace core
 			if (empty())
 				throw ::std::domain_error(tensor_not_initialized);
 			if (batch * rows * columns * dimension != count)
-				throw ::std::invalid_argument(tensor_invalid_size);
+				throw ::std::invalid_argument(invalid_tensor_size);
 			channels = dimension;
 			width = columns;
 			height = rows;
