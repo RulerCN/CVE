@@ -60,6 +60,86 @@ int main()
 {
 	core::cpu::enable_simd(true);
 
+	try
+	{
+		std::string input_image = "data/test.bmp";
+		std::string conv_image = "data/conv.bmp";
+
+		img::bitmap_palette palette;
+		core::matrix<unsigned char> img_input;
+		if (img::bitmap::decode(input_image, img_input, palette))
+		{
+			size_t input_h = img_input.rows();
+			size_t input_w = img_input.columns();
+			size_t channels = img_input.dimension();
+			size_t window_h = 3;
+			size_t window_w = 3;
+			size_t stride_h = 1;
+			size_t stride_w = 1;
+			size_t output_h = (input_h - window_h) / stride_h + 1;
+			size_t output_w = (input_w - window_w) / stride_w + 1;
+			core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+			core::matrix<float>  mat_image(input_h, input_w, channels);
+			core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
+			core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
+			core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
+			core::matrix<unsigned char> img_output(output_h, output_w, channels);
+
+			//mat_kernel.fill({
+			//	0.0625F, 0.1250F, 0.0625F,
+			//	0.1250F, 0.2500F, 0.1250F,
+			//	0.0625F, 0.1250F, 0.0625F
+			//});
+
+			//mat_kernel.fill({
+			//	1.0F, 0.0F, -1.0F,
+			//	2.0F, 0.0F, -2.0F,
+			//	1.0F, 0.0F, -1.0F
+			//});
+
+			mat_kernel.fill({
+				1.0F, 2.0F, 1.0F,
+				0.0F, 0.0F, 0.0F,
+				-1.0F, -2.0F, -1.0F
+			});
+
+			time_point<system_clock> time0 = system_clock::now();
+			core::cpu_convert(mat_image, img_input);
+			time_point<system_clock> time1 = system_clock::now();
+			core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
+			time_point<system_clock> time2 = system_clock::now();
+			core::cpu_mapping(mat_input, mat_image.data(), mat_index);
+			time_point<system_clock> time3 = system_clock::now();
+			core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+			time_point<system_clock> time4 = system_clock::now();
+			core::cpu_convert(img_output, mat_output);
+			time_point<system_clock> time5 = system_clock::now();
+
+			long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
+			long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
+			long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
+			long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
+			long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
+			long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
+
+			std::cout << "total              " << _time0 << " ms" << std::endl;
+			std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
+			std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
+			std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
+			std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
+			std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
+
+			img::bitmap::encode(conv_image, img_output);
+		}
+		else
+			std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
+	}
+	catch (std::exception err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+	return 0;
+
 	std::cout << "mat_mul(): " << std::endl;
 	for (int i = 64; i <= 1024 * 2; i += 64)
 	{

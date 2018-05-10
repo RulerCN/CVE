@@ -27,30 +27,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_SLIDING_WINDOW_H__
-#define __CORE_CPU_SLIDING_WINDOW_H__
+#ifndef __CORE_H__
+#define __CORE_H__
 
-#include "../matrix.h"
-#include "kernel/kernel_sliding_window.h"
+#include "sample_allocator.h"
+#include "allocator.h"
+#include "sample_allocator.h"
+#include "scalar.h"
+#include "vector.h"
+#include "matrix.h"
+#include "tensor.h"
+#include "rb_tree.h"
+#include "tree.h"
 
-namespace core
-{
-	template <class T, class A>
-	matrix<T, A>& cpu_sliding_window(matrix<T, A> &index, T rows, T columns, T channels, T window_h, T window_w, T stride_h = 1, T stride_w = 1)
-	{
-		if (index.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (rows <= 0 || columns <= 0 || channels <= 0)
-			throw ::std::invalid_argument(invalid_matrix_size);
-		if (rows <= window_h || columns <= window_w)
-			throw ::std::invalid_argument(invalid_window_size);
-		if (stride_h <= 0 || stride_w <= 0)
-			throw ::std::invalid_argument(invalid_sliding_stride);
-
-		kernel_sliding_window(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
-		return index;
-	}
-
-} // namespace core
+#include "cpu/cpu_convert.h"
+#include "cpu/cpu_convert_scale.h"
+#include "cpu/cpu_reduce.h"
+#include "cpu/cpu_transpose.h"
+#include "cpu/cpu_border.h"
+#include "cpu/cpu_sliding_window.h"
+#include "cpu/cpu_mapping.h"
+#include "cpu/cpu_multiply.h"
 
 #endif

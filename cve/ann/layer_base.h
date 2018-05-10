@@ -27,30 +27,41 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_SLIDING_WINDOW_H__
-#define __CORE_CPU_SLIDING_WINDOW_H__
+#ifndef __ANN_LAYER_BASE_H__
+#define __ANN_LAYER_BASE_H__
 
-#include "../matrix.h"
-#include "kernel/kernel_sliding_window.h"
+#include "../core/core.h"
 
-namespace core
+namespace ann
 {
-	template <class T, class A>
-	matrix<T, A>& cpu_sliding_window(matrix<T, A> &index, T rows, T columns, T channels, T window_h, T window_w, T stride_h = 1, T stride_w = 1)
+	// Class template layer_base
+	template <class T, class Allocator = ::core::allocator<T> >
+	class layer_base
 	{
-		if (index.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (rows <= 0 || columns <= 0 || channels <= 0)
-			throw ::std::invalid_argument(invalid_matrix_size);
-		if (rows <= window_h || columns <= window_w)
-			throw ::std::invalid_argument(invalid_window_size);
-		if (stride_h <= 0 || stride_w <= 0)
-			throw ::std::invalid_argument(invalid_sliding_stride);
+	public:
+		// types:
 
-		kernel_sliding_window(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
-		return index;
-	}
+		typedef Allocator                                       allocator_type;
+		typedef ::std::allocator_traits<Allocator>              allocator_traits_type;
+		typedef ::core::scalar<T, Allocator>                    scalar_type;
+		typedef ::core::vector<T, Allocator>                    vector_type;
+		typedef ::core::matrix<T, Allocator>                    matrix_type;
+		typedef ::core::tensor<T, Allocator>                    tensor_type;
 
-} // namespace core
+		typedef typename allocator_traits_type::value_type      value_type;
+		typedef typename allocator_traits_type::pointer         pointer;
+		typedef typename allocator_traits_type::const_pointer   const_pointer;
+		typedef typename allocator_type::reference              reference;
+		typedef typename allocator_type::const_reference        const_reference;
+		typedef typename allocator_traits_type::size_type       size_type;
+		typedef typename allocator_traits_type::difference_type difference_type;
+
+		// construct/copy/destroy:
+		layer_base(const Allocator& alloc = Allocator())
+		{}
+	private:
+	};
+
+} // namespace ann
 
 #endif

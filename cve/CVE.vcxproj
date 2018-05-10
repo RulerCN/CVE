@@ -100,7 +100,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <AdditionalOptions>/arch:AVX %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -146,11 +146,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ann\conv_layer.h" />
+    <ClInclude Include="ann\layer_base.h" />
+    <ClInclude Include="ann\linear_layer.h" />
     <ClInclude Include="ann\mnist.h" />
     <ClInclude Include="ann\mnist_data.h" />
     <ClInclude Include="ann\sample_base.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
+    <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu\cpu.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
     <ClInclude Include="core\cpu\cpu_convert.h" />

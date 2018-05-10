@@ -44,7 +44,7 @@ namespace core
 		T stride = columns * channels;
 		T window_area = window_h * window_w;
 		T window_size = channels * window_area;
-		T sliding_size = step_w * window_size;
+		T sliding_size = (step_w + 1) * window_size;
 
 		// 1 * window_w
 		value = 0;
@@ -69,27 +69,29 @@ namespace core
 		for (T i = 1; i < channels; ++i)
 		{
 			for (T j = 0; j < window_area; ++j)
-				dst[j] = src[j] + i;
+				dst[j] = src[j] + 1;
 			src += window_area;
 			dst += window_area;
 		}
 		// horizontal sliding window
 		src = data;
 		dst = src + window_size;
+		value = stride_w * channels;
 		for (T i = 0; i < step_w; ++i)
 		{
 			for (T j = 0; j < window_size; ++j)
-				dst[j] = src[j] + stride_w;
+				dst[j] = src[j] + value;
 			src += window_size;
 			dst += window_size;
 		}
 		// vertical sliding window
 		src = data;
 		dst = src + sliding_size;
-		for (T i = 1; i < step_h; ++i)
+		value = stride_h * stride;
+		for (T i = 0; i < step_h; ++i)
 		{
 			for (T j = 0; j < sliding_size; ++j)
-				dst[j] = src[j] + stride_h;
+				dst[j] = src[j] + value;
 			src += sliding_size;
 			dst += sliding_size;
 		}

@@ -208,6 +208,18 @@
     <ClInclude Include="core\cpu\cpu_sliding_window.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="ann\linear_layer.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ann\layer_base.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ann\conv_layer.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="core\core.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

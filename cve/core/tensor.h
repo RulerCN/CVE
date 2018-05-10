@@ -1280,6 +1280,8 @@ namespace core
 		template<class Generator>
 		void generate(Generator g)
 		{
+			if (empty())
+				throw ::std::domain_error(tensor_not_initialized);
 			for (size_type i = 0; i < count; ++i)
 				buffer[i] = g();
 		}
