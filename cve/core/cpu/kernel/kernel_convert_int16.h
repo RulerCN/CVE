@@ -56,11 +56,64 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<T>(a[i]);
+		}
+	};
+
+	template<>
+	struct kernel_convert_int16<signed char, cpu_none>
+	{
+		void operator()(size_t n, const signed short *a, signed char *b) const
+		{
+			constexpr size_t block = 8;
+			constexpr signed short min = static_cast<signed short>(int8_min);
+			constexpr signed short max = static_cast<signed short>(int8_max);
+
+			while (n > block)
 			{
-				*b++ = static_cast<T>(*a++);
-				--n;
+				b[0] = a[0] < min ? int8_min : a[0] > max ? int8_max : static_cast<signed char>(a[0]);
+				b[1] = a[1] < min ? int8_min : a[1] > max ? int8_max : static_cast<signed char>(a[1]);
+				b[2] = a[2] < min ? int8_min : a[2] > max ? int8_max : static_cast<signed char>(a[2]);
+				b[3] = a[3] < min ? int8_min : a[3] > max ? int8_max : static_cast<signed char>(a[3]);
+				b[4] = a[4] < min ? int8_min : a[4] > max ? int8_max : static_cast<signed char>(a[4]);
+				b[5] = a[5] < min ? int8_min : a[5] > max ? int8_max : static_cast<signed char>(a[5]);
+				b[6] = a[6] < min ? int8_min : a[6] > max ? int8_max : static_cast<signed char>(a[6]);
+				b[7] = a[7] < min ? int8_min : a[7] > max ? int8_max : static_cast<signed char>(a[7]);
+				a += block;
+				b += block;
+				n -= block;
 			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? int8_min : a[i] > max ? int8_max : static_cast<signed char>(a[i]);
+		}
+	};
+
+	template<>
+	struct kernel_convert_int16<unsigned char, cpu_none>
+	{
+		void operator()(size_t n, const signed short *a, unsigned char *b) const
+		{
+			constexpr size_t block = 8;
+			constexpr signed short min = static_cast<signed short>(uint8_min);
+			constexpr signed short max = static_cast<signed short>(uint8_max);
+
+			while (n > block)
+			{
+				b[0] = a[0] < min ? uint8_min : a[0] > max ? uint8_max : static_cast<unsigned char>(a[0]);
+				b[1] = a[1] < min ? uint8_min : a[1] > max ? uint8_max : static_cast<unsigned char>(a[1]);
+				b[2] = a[2] < min ? uint8_min : a[2] > max ? uint8_max : static_cast<unsigned char>(a[2]);
+				b[3] = a[3] < min ? uint8_min : a[3] > max ? uint8_max : static_cast<unsigned char>(a[3]);
+				b[4] = a[4] < min ? uint8_min : a[4] > max ? uint8_max : static_cast<unsigned char>(a[4]);
+				b[5] = a[5] < min ? uint8_min : a[5] > max ? uint8_max : static_cast<unsigned char>(a[5]);
+				b[6] = a[6] < min ? uint8_min : a[6] > max ? uint8_max : static_cast<unsigned char>(a[6]);
+				b[7] = a[7] < min ? uint8_min : a[7] > max ? uint8_max : static_cast<unsigned char>(a[7]);
+				a += block;
+				b += block;
+				n -= block;
+			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? uint8_min : a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -106,13 +159,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b = *a < min ? int8_min : *a > max ? int8_max : static_cast<signed char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? int8_min : a[i] > max ? int8_max : static_cast<signed char>(a[i]);
 		}
 	};
 
@@ -123,8 +171,8 @@ namespace core
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 16;
-			constexpr signed short min = static_cast<signed short>(int8_min);
-			constexpr signed short max = static_cast<signed short>(int8_max);
+			constexpr signed short min = static_cast<signed short>(uint8_min);
+			constexpr signed short max = static_cast<signed short>(uint8_max);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128i xmm_b0, xmm_b1;
 
@@ -158,13 +206,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b = *a < min ? int8_min : *a > max ? int8_max : static_cast<signed char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? uint8_min : a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -192,11 +235,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<signed int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -224,11 +264,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<signed int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -258,11 +295,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -298,11 +332,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 
@@ -334,13 +365,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b = *a < min ? int8_min : *a > max ? int8_max : static_cast<signed char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? int8_min : a[i] > max ? int8_max : static_cast<signed char>(a[i]);
 		}
 	};
 
@@ -350,8 +376,8 @@ namespace core
 		void operator()(size_t n, const signed short *a, unsigned char *b) const
 		{
 			constexpr size_t block = 32;
-			constexpr signed short min = static_cast<signed short>(int8_min);
-			constexpr signed short max = static_cast<signed short>(int8_max);
+			constexpr signed short min = static_cast<signed short>(uint8_min);
+			constexpr signed short max = static_cast<signed short>(uint8_max);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m256i ymm_b0, ymm_b1;
 
@@ -372,13 +398,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b = *a < min ? int8_min : *a > max ? int8_max : static_cast<signed char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] < min ? uint8_min : a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -425,11 +446,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<signed int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -476,11 +494,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<signed int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -533,11 +548,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -568,11 +580,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 

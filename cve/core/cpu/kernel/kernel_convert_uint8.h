@@ -56,11 +56,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<T>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<T>(a[i]);
 		}
 	};
 
@@ -88,11 +85,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned short>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed short>(a[i]);
 		}
 	};
 
@@ -120,11 +114,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned short>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned short>(a[i]);
 		}
 	};
 
@@ -158,11 +149,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -196,11 +184,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -238,11 +223,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -292,11 +274,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 
@@ -343,11 +322,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned short>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed short>(a[i]);
 		}
 	};
 
@@ -394,11 +370,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned short>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned short>(a[i]);
 		}
 	};
 
@@ -428,11 +401,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -462,11 +432,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -499,11 +466,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -544,11 +508,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 

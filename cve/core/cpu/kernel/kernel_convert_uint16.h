@@ -56,11 +56,62 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<T>(a[i]);
+		}
+	};
+
+	template<>
+	struct kernel_convert_uint16<signed char, cpu_none>
+	{
+		void operator()(size_t n, const unsigned short *a, signed char *b) const
+		{
+			constexpr size_t block = 8;
+			constexpr unsigned short max = static_cast<unsigned short>(int8_max);
+
+			while (n > block)
 			{
-				*b++ = static_cast<T>(*a++);
-				--n;
+				b[0] = a[0] > max ? int8_max : static_cast<signed char>(a[0]);
+				b[1] = a[1] > max ? int8_max : static_cast<signed char>(a[1]);
+				b[2] = a[2] > max ? int8_max : static_cast<signed char>(a[2]);
+				b[3] = a[3] > max ? int8_max : static_cast<signed char>(a[3]);
+				b[4] = a[4] > max ? int8_max : static_cast<signed char>(a[4]);
+				b[5] = a[5] > max ? int8_max : static_cast<signed char>(a[5]);
+				b[6] = a[6] > max ? int8_max : static_cast<signed char>(a[6]);
+				b[7] = a[7] > max ? int8_max : static_cast<signed char>(a[7]);
+				a += block;
+				b += block;
+				n -= block;
 			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? int8_max : static_cast<signed char>(a[i]);
+		}
+	};
+
+	template<>
+	struct kernel_convert_uint16<unsigned char, cpu_none>
+	{
+		void operator()(size_t n, const unsigned short *a, unsigned char *b) const
+		{
+			constexpr size_t block = 8;
+			constexpr unsigned short max = static_cast<unsigned short>(uint8_max);
+
+			while (n > block)
+			{
+				b[0] = a[0] > max ? uint8_max : static_cast<unsigned char>(a[0]);
+				b[1] = a[1] > max ? uint8_max : static_cast<unsigned char>(a[1]);
+				b[2] = a[2] > max ? uint8_max : static_cast<unsigned char>(a[2]);
+				b[3] = a[3] > max ? uint8_max : static_cast<unsigned char>(a[3]);
+				b[4] = a[4] > max ? uint8_max : static_cast<unsigned char>(a[4]);
+				b[5] = a[5] > max ? uint8_max : static_cast<unsigned char>(a[5]);
+				b[6] = a[6] > max ? uint8_max : static_cast<unsigned char>(a[6]);
+				b[7] = a[7] > max ? uint8_max : static_cast<unsigned char>(a[7]);
+				a += block;
+				b += block;
+				n -= block;
+			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -71,7 +122,7 @@ namespace core
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 16;
-			constexpr unsigned short max = static_cast<unsigned short>(uint8_max);
+			constexpr unsigned short max = static_cast<unsigned short>(int8_max);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128i xmm_b0, xmm_b1;
 
@@ -83,8 +134,8 @@ namespace core
 				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 2);
 				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 3);
 				// data-type conversion
-				xmm_b0 = _mm_packus_epi16(xmm_a0, xmm_a1);
-				xmm_b1 = _mm_packus_epi16(xmm_a2, xmm_a3);
+				xmm_b0 = _mm_packs_epi16(xmm_a0, xmm_a1);
+				xmm_b1 = _mm_packs_epi16(xmm_a2, xmm_a3);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -98,20 +149,15 @@ namespace core
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a) + 1);
 				// data-type conversion
-				xmm_b0 = _mm_packus_epi16(xmm_a0, xmm_a1);
+				xmm_b0 = _mm_packs_epi16(xmm_a0, xmm_a1);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += bit;
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b = *a > max ? uint8_max : static_cast<unsigned char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? int8_max : static_cast<signed char>(a[i]);
 		}
 	};
 
@@ -156,13 +202,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b = *a > max ? uint8_max : static_cast<unsigned char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -190,11 +231,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -222,11 +260,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -256,11 +291,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -296,11 +328,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 
@@ -310,7 +339,7 @@ namespace core
 		void operator()(size_t n, const unsigned short *a, signed char *b) const
 		{
 			constexpr size_t block = 32;
-			constexpr unsigned short max = static_cast<unsigned short>(uint8_max);
+			constexpr unsigned short max = static_cast<unsigned short>(int8_max);
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m256i ymm_b0, ymm_b1;
 
@@ -331,13 +360,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b = *a > max ? uint8_max : static_cast<unsigned char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? int8_max : static_cast<signed char>(a[i]);
 		}
 	};
 
@@ -368,13 +392,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b = *a > max ? uint8_max : static_cast<unsigned char>(*a);
-				++a;
-				++b;
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = a[i] > max ? uint8_max : static_cast<unsigned char>(a[i]);
 		}
 	};
 
@@ -421,11 +440,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<signed int>(a[i]);
 		}
 	};
 
@@ -472,11 +488,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<unsigned int>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<unsigned int>(a[i]);
 		}
 	};
 
@@ -529,11 +542,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<float>(a[i]);
 		}
 	};
 
@@ -564,11 +574,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = static_cast<double>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = static_cast<double>(a[i]);
 		}
 	};
 

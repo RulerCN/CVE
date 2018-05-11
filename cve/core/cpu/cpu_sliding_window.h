@@ -35,8 +35,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	template <class T, class A>
-	matrix<T, A>& cpu_sliding_window(matrix<T, A> &index, T rows, T columns, T channels, T window_h, T window_w, T stride_h = 1, T stride_w = 1)
+	//template <class T, class A>
+	//matrix<T, A>& cpu_sliding_window(matrix<T, A> &index, T rows, T columns, T channels, T window_h, T window_w, T stride_h = 1, T stride_w = 1)
+	//{
+	//	if (index.empty())
+	//		throw ::std::invalid_argument(matrix_not_initialized);
+	//	if (rows <= 0 || columns <= 0 || channels <= 0)
+	//		throw ::std::invalid_argument(invalid_matrix_size);
+	//	if (rows <= window_h || columns <= window_w)
+	//		throw ::std::invalid_argument(invalid_window_size);
+	//	if (stride_h <= 0 || stride_w <= 0)
+	//		throw ::std::invalid_argument(invalid_sliding_stride);
+
+	//	kernel_sliding_window(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+	//	return index;
+	//}
+
+	template <class A>
+	matrix<unsigned int, A>& cpu_sliding_window(matrix<unsigned int, A> &index, const unsigned int rows, const unsigned int columns, const unsigned int channels,
+		const unsigned int window_h, const unsigned int window_w, const unsigned int stride_h = 1, const unsigned int stride_w = 1)
 	{
 		if (index.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -47,7 +64,34 @@ namespace core
 		if (stride_h <= 0 || stride_w <= 0)
 			throw ::std::invalid_argument(invalid_sliding_stride);
 
-		kernel_sliding_window(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		if (cpu::is_support_avx2())
+			kernel_sliding_window<unsigned int, cpu_avx2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		else if (cpu::is_support_sse2())
+			kernel_sliding_window<unsigned int, cpu_sse2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		else
+			kernel_sliding_window<unsigned int, cpu_none>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		return index;
+	}
+
+	template <class A>
+	matrix<unsigned __int64, A>& cpu_sliding_window(matrix<unsigned __int64, A> &index, const unsigned __int64 rows, const unsigned __int64 columns, const unsigned __int64 channels,
+		const unsigned __int64 window_h, const unsigned __int64 window_w, const unsigned __int64 stride_h = 1, const unsigned __int64 stride_w = 1)
+	{
+		if (index.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (rows <= 0 || columns <= 0 || channels <= 0)
+			throw ::std::invalid_argument(invalid_matrix_size);
+		if (rows <= window_h || columns <= window_w)
+			throw ::std::invalid_argument(invalid_window_size);
+		if (stride_h <= 0 || stride_w <= 0)
+			throw ::std::invalid_argument(invalid_sliding_stride);
+
+		if (cpu::is_support_avx2())
+			kernel_sliding_window<unsigned __int64, cpu_avx2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		else if (cpu::is_support_sse2())
+			kernel_sliding_window<unsigned __int64, cpu_sse2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
+		else
+			kernel_sliding_window<unsigned __int64, cpu_none>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
 		return index;
 	}
 
