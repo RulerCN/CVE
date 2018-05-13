@@ -40,40 +40,168 @@ namespace core
 	{
 		void operator()(T *data, const T step, const T stride, const T offset) const
 		{
-			//constexpr T block = 8;
-			T *a = data;
-			T *b = data + stride;
+			T delta = offset;
+			T *pointer = data + stride;
 
-			for (T j = 1; j < step; ++j)
+			for (T j = 0; j < step; ++j)
 			{
 				for (T i = 0; i < stride; ++i)
-					b[i] = a[i] + offset;
-				a += stride;
-				b += stride;
-
-				//i = stride;
-				//while (i > block)
-				//{
-				//	b[0] = a[0] + offset;
-				//	b[1] = a[1] + offset;
-				//	b[2] = a[2] + offset;
-				//	b[3] = a[3] + offset;
-				//	b[4] = a[4] + offset;
-				//	b[5] = a[5] + offset;
-				//	b[6] = a[6] + offset;
-				//	b[7] = a[7] + offset;
-				//	a += block;
-				//	b += block;
-				//	i -= block;
-				//}
-				//while (i > 0)
-				//{
-				//	*b++ = *a++ + offset;
-				//	--i;
-				//}
+					pointer[i] = data[i] + delta;
+				delta += offset;
+				pointer += stride;
 			}
 		}
 	};
+
+	// Function template kernel_sliding_window
+	template<class T, cpu_inst_type inst>
+	void kernel_sliding_window(T *data, const T rows, const T columns, const T channels, const T window_h, const T window_w, const T stride_h, const T stride_w)
+	{
+		T value = 0;
+		T stride = columns * channels;
+		T window_area = window_h * window_w;
+		T window_size = channels * window_area;
+		T step_h = (rows - window_h) / stride_h;
+		T step_w = (columns - window_w) / stride_w;
+		const struct kernel_sliding_block<T, cpu_none> functor;
+
+		// 1 * window_w
+		for (T i = 0; i < window_w; ++i)
+		{
+			data[i] = value;
+			value += channels;
+		}
+		// window_h * window_w
+		functor(data, window_h, window_w, stride);
+		// channels * window_h * window_w
+		functor(data, channels, window_area, 1);
+		// horizontal sliding window
+		functor(data, step_w, window_size, stride_w * channels);
+		// vertical sliding window
+		functor(data, step_h, (step_w + 1) * window_size, stride_h * stride);
+	}
+/*
+		//void operator()(T *data, const T step, const T stride, const T offset) const
+		//{
+		//	constexpr T block = 8;
+		//	T value = offset;
+		//	T *a = data;
+		//	T *b = data + stride;
+
+		//	for (T j = 1; j < step; ++j)
+		//	{
+		//		T *a = data;
+		//		T i = stride;
+		//		while (i > block)
+		//		{
+		//			b[0] = a[0] + value;
+		//			b[1] = a[1] + value;
+		//			b[2] = a[2] + value;
+		//			b[3] = a[3] + value;
+		//			b[4] = a[4] + value;
+		//			b[5] = a[5] + value;
+		//			b[6] = a[6] + value;
+		//			b[7] = a[7] + value;
+		//			a += block;
+		//			b += block;
+		//			i -= block;
+		//		}
+		//		while (i > 0)
+		//		{
+		//			*b++ = *a++ + value;
+		//			--i;
+		//		}
+		//		//b += stride;
+		//		value += offset;
+		//	}
+		//}
+
+		//void operator()(T *data, const T step, const T stride, const T offset) const
+		//{
+		//	T *a = data;
+		//	T *b = data + stride;
+
+		//	for (T j = 1; j < step; ++j)
+		//	{
+		//		for (T i = 0; i < stride; ++i)
+		//			b[i] = a[i] + offset;
+		//		a += stride;
+		//		b += stride;
+		//	}
+		//}
+
+		//void operator()(T *data, const T step, const T stride, const T offset) const
+		//{
+		//	constexpr T block = 4;
+		//	const T block_stride = block * stride;
+		//	const T aligned_step = (step - 1) & ~(block - 1);
+		//	const T surplus_step = step - 1 - aligned_step;
+
+		//	T *p0 = data;
+		//	T *p1 = p0 + stride;
+		//	T *p2 = p1 + stride;
+		//	T *p3 = p2 + stride;
+		//	T *p4 = p3 + stride;
+
+		//	for (T j = 0; j < aligned_step; j += block)
+		//	{
+		//		for (T i = 0; i < stride; ++i)
+		//		{
+		//			p1[i] = p0[i] + offset;
+		//			p2[i] = p1[i] + offset;
+		//			p3[i] = p2[i] + offset;
+		//			p4[i] = p3[i] + offset;
+		//		}
+		//		p0 += block_stride;
+		//		p1 += block_stride;
+		//		p2 += block_stride;
+		//		p3 += block_stride;
+		//		p4 += block_stride;
+		//	}
+		//	for (T j = 0; j < surplus_step; ++j)
+		//	{
+		//		for (T i = 0; i < stride; ++i)
+		//			p1[i] = p0[i] + offset;
+		//		p0 += stride;
+		//		p1 += stride;
+		//	}
+		//}
+
+		//void operator()(T *data, const T step, const T stride, const T offset) const
+		//{
+		//	constexpr T block = 8;
+		//	T *a = data;
+		//	T *b = data + stride;
+
+		//	for (T j = 1; j < step; ++j)
+		//	{
+		//		//for (T i = 0; i < stride; ++i)
+		//		//	b[i] = a[i] + offset;
+		//		//a += stride;
+		//		//b += stride;
+
+		//		T i = stride;
+		//		while (i > block)
+		//		{
+		//			b[0] = a[0] + offset;
+		//			b[1] = a[1] + offset;
+		//			b[2] = a[2] + offset;
+		//			b[3] = a[3] + offset;
+		//			b[4] = a[4] + offset;
+		//			b[5] = a[5] + offset;
+		//			b[6] = a[6] + offset;
+		//			b[7] = a[7] + offset;
+		//			a += block;
+		//			b += block;
+		//			i -= block;
+		//		}
+		//		while (i > 0)
+		//		{
+		//			*b++ = *a++ + offset;
+		//			--i;
+		//		}
+		//	}
+		//}
 
 	// Class template kernel_sliding_block
 	template<>
@@ -275,7 +403,7 @@ namespace core
 
 	// Function template kernel_sliding_window
 	template<class T, cpu_inst_type inst>
-	void kernel_sliding_window(T *data, const T rows, const T columns, const T channels, const T window_h, const T window_w, const T stride_h, const T stride_w)
+	void kernel_sliding_window1(T *data, const T rows, const T columns, const T channels, const T window_h, const T window_w, const T stride_h, const T stride_w)
 	{
 		//T value = 0;
 		//T stride = columns * channels;
@@ -344,33 +472,33 @@ namespace core
 		}
 	}
 
-	//// Function template kernel_sliding_window
-	//template<class T, cpu_inst_type inst>
-	//void kernel_sliding_window(T *data, const T rows, const T columns, const T channels, const T window_h, const T window_w, const T stride_h, const T stride_w)
-	//{
-	//	T value = 0;
-	//	T stride = columns * channels;
-	//	T window_area = window_h * window_w;
-	//	T window_size = channels * window_area;
-	//	T height = 1 + (rows - window_h) / stride_h;
-	//	T width = 1 + (columns - window_w) / stride_w;
-	//	const struct kernel_sliding_block<T, inst> functor;
+	// Function template kernel_sliding_window
+	template<class T, cpu_inst_type inst>
+	void kernel_sliding_window(T *data, const T rows, const T columns, const T channels, const T window_h, const T window_w, const T stride_h, const T stride_w)
+	{
+		T value = 0;
+		T stride = columns * channels;
+		T window_area = window_h * window_w;
+		T window_size = channels * window_area;
+		T height = 1 + (rows - window_h) / stride_h;
+		T width = 1 + (columns - window_w) / stride_w;
+		const struct kernel_sliding_block<T, cpu_none> functor;
 
-	//	// 1 * window_w
-	//	for (T i = 0; i < window_w; ++i)
-	//	{
-	//		data[i] = value;
-	//		value += channels;
-	//	}
-	//	// window_h * window_w
-	//	functor(data, window_h, window_w, stride);
-	//	// channels * window_h * window_w
-	//	functor(data, channels, window_area, 1);
-	//	// horizontal sliding window
-	//	functor(data, width, window_size, stride_w * channels);
-	//	// vertical sliding window
-	//	functor(data, height, width * window_size, stride_h * stride);
-	//}
+		// 1 * window_w
+		for (T i = 0; i < window_w; ++i)
+		{
+			data[i] = value;
+			value += channels;
+		}
+		// window_h * window_w
+		functor(data, window_h, window_w, stride);
+		// channels * window_h * window_w
+		functor(data, channels, window_area, 1);
+		// horizontal sliding window
+		functor(data, width, window_size, stride_w * channels);
+		// vertical sliding window
+		functor(data, height, width * window_size, stride_h * stride);
+	}
 
 	//// Function template kernel_sliding_window
 	//template<class T>
@@ -434,7 +562,7 @@ namespace core
 	//		dst += sliding_size;
 	//	}
 	//}
-
+*/
 } // namespace core
 
 #endif

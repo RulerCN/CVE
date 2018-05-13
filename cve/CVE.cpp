@@ -58,15 +58,7 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 
 int main()
 {
-	core::cpu::enable_simd(false);
-
-	unsigned short a = 600;
-	signed char b = (signed char)a;
-
-	__m128i xmm_a = _mm_set1_epi16(a);
-	__m128i xmm_b = _mm_packs_epi16(xmm_a, xmm_a);
-
-	std::cout << "result: " << b << std::endl;
+	core::cpu::enable_simd(true);
 
 	try
 	{
