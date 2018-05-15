@@ -60,6 +60,12 @@ int main()
 {
 	core::cpu::enable_simd(true);
 
+	__m128 a = _mm_set_ps(1, 2, 3, 4);
+	a = _mm_hadd_ps(a, a);
+	a = _mm_hadd_ps(a, a);
+	float *p = (float*)&a;
+	float d = *p;
+
 	try
 	{
 		std::string input_image = "data/test.bmp";

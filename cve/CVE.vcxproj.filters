@@ -220,6 +220,12 @@
     <ClInclude Include="core\core.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rv_cm.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cv.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
