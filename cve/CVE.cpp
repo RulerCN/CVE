@@ -6,16 +6,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include "core/cpu/cpu_convert.h"
-#include "core/cpu/cpu_convert_scale.h"
-#include "core/cpu/cpu_reduce.h"
-#include "core/cpu/cpu_transpose.h"
-#include "core/cpu/cpu_border.h"
-#include "core/cpu/cpu_sliding_window.h"
-#include "core/cpu/cpu_mapping.h"
-#include "core/cpu/cpu_multiply.h"
-#include "core/cpu/cpu_mul_rv_cm.h"
-#include "core/cpu/cpu_mul_rm_cv.h"
+#include "core/core.h"
 #include "image/bitmap.h"
 #include "ann/mnist.h"
 
@@ -60,7 +51,7 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 
 int main()
 {
-	core::cpu_inst::enable_simd(false);
+	core::cpu_inst::enable_simd(true);
 	try
 	{
 		std::string input_image = "data/test.bmp";

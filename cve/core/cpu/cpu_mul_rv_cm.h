@@ -39,15 +39,15 @@ namespace core
 	// The multiplication of the row vector and the column-major order matrix
 	// Parameters:
 	// 1. c - output row vector.
-	//        | c[1],c[2],c[3],бн,c[n] |
+	//        | c[1],c[2],c[3],...,c[n] |
 	// 2. a - input row vector.
-	//        | a[1],a[2],a[3],бн,a[p] |
+	//        | a[1],a[2],a[3],...,a[p] |
 	// 3. b - input column-major order matrix.
-	//        | b[1][1],b[1][2],b[1][3],бн,b[1][p] |
-	//        | b[2][1],b[2][2],b[2][3],бн,b[2][p] |
-	//        | b[3][1],b[3][2],b[3][3],бн,b[3][p] |
-	//        |    бн  ,   бн  ,   бн,  бн,   бн   |
-	//        | b[n][1],b[n][2],b[n][3],бн,b[n][p] |
+	//        | b[1][1],b[1][2],b[1][3],...,b[1][p] |
+	//        | b[2][1],b[2][2],b[2][3],...,b[2][p] |
+	//        | b[3][1],b[3][2],b[3][3],...,b[3][p] |
+	//        |   ...  ,  ...  ,   ... ,...,  ...   |
+	//        | b[n][1],b[n][2],b[n][3],...,b[n][p] |
 
 	template <class A, class A1, class A2>
 	vector<float, A>& cpu_mul_rv_cm(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)

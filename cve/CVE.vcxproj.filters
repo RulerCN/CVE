@@ -232,6 +232,12 @@
     <ClInclude Include="core\cpu\cpu_inst.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mul_rv_rm.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rv_rm.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
