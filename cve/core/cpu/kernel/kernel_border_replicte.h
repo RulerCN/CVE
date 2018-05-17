@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_KERNEL_BORDER_REPLICTE_H__
 
 #include <cstring>
-#include "../cpu.h"
+#include "../cpu_inst.h"
 
 namespace core
 {

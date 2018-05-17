@@ -71,9 +71,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<signed char, 32, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<signed char, 16, 8, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<signed char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -88,9 +88,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<unsigned char, 32, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<unsigned char, 16, 8, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<unsigned char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -105,9 +105,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<signed short, 16, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<signed short, 8, 8, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<signed short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -122,9 +122,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<unsigned short, 16, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<unsigned short, 8, 8, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<unsigned short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -139,9 +139,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<signed int, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<signed int, 4, 4, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<signed int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -156,9 +156,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_transpose<unsigned int, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<unsigned int, 4, 4, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<unsigned int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -173,9 +173,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 			kernel_transpose<float, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 			kernel_transpose<float, 4, 4, cpu_sse>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<float, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
@@ -190,9 +190,9 @@ namespace core
 		if (b.rows() != a.row_size() || b.row_size() != a.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 			kernel_transpose<double, 4, 4, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_transpose<double, 2, 2, cpu_sse2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
 			kernel_transpose<double, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());

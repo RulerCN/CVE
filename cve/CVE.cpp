@@ -6,16 +6,18 @@
 #include <iostream>
 #include <iomanip>
 
-#include "core\cpu\cpu_convert.h"
-#include "core\cpu\cpu_convert_scale.h"
-#include "core\cpu\cpu_reduce.h"
-#include "core\cpu\cpu_transpose.h"
-#include "core\cpu\cpu_border.h"
-#include "core\cpu\cpu_sliding_window.h"
-#include "core\cpu\cpu_mapping.h"
-#include "core\cpu\cpu_multiply.h"
-#include "image\bitmap.h"
-#include "ann\mnist.h"
+#include "core/cpu/cpu_convert.h"
+#include "core/cpu/cpu_convert_scale.h"
+#include "core/cpu/cpu_reduce.h"
+#include "core/cpu/cpu_transpose.h"
+#include "core/cpu/cpu_border.h"
+#include "core/cpu/cpu_sliding_window.h"
+#include "core/cpu/cpu_mapping.h"
+#include "core/cpu/cpu_multiply.h"
+#include "core/cpu/cpu_mul_rv_cm.h"
+#include "core/cpu/cpu_mul_rm_cv.h"
+#include "image/bitmap.h"
+#include "ann/mnist.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -58,14 +60,7 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 
 int main()
 {
-	core::cpu::enable_simd(true);
-
-	__m128 a = _mm_set_ps(1, 2, 3, 4);
-	a = _mm_hadd_ps(a, a);
-	a = _mm_hadd_ps(a, a);
-	float *p = (float*)&a;
-	float d = *p;
-
+	core::cpu_inst::enable_simd(false);
 	try
 	{
 		std::string input_image = "data/test.bmp";
@@ -84,12 +79,16 @@ int main()
 			size_t stride_w = 1;
 			size_t output_h = (input_h - window_h) / stride_h + 1;
 			size_t output_w = (input_w - window_w) / stride_w + 1;
-			core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+		//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+			core::vector<float>  vec_kernel(window_h * window_w, 1);
 			core::matrix<float>  mat_image(input_h, input_w, channels);
 			core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
 			core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
-			core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
-			core::matrix<unsigned char> img_output(output_h, output_w, channels);
+		//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
+		//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
+			core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
+			core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
+			core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
 
 			//mat_kernel.fill({
 			//	0.0625F, 0.1250F, 0.0625F,
@@ -103,7 +102,7 @@ int main()
 			//	1.0F, 0.0F, -1.0F
 			//});
 
-			mat_kernel.fill({
+			vec_kernel.fill({
 				1.0F, 2.0F, 1.0F,
 				0.0F, 0.0F, 0.0F,
 				-1.0F, -2.0F, -1.0F
@@ -116,9 +115,12 @@ int main()
 			time_point<system_clock> time2 = system_clock::now();
 			core::cpu_mapping(mat_input, mat_image.data(), mat_index);
 			time_point<system_clock> time3 = system_clock::now();
-			core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+		//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+			core::cpu_mul_rm_cv(vec_output, mat_input, vec_kernel);
+
 			time_point<system_clock> time4 = system_clock::now();
-			core::cpu_convert(img_output, mat_output);
+		//	core::cpu_convert(img_output, mat_output);
+			core::cpu_convert(vec_matrix, vec_output);
 			time_point<system_clock> time5 = system_clock::now();
 
 			long long _time0 = duration_cast<milliseconds>(time5 - time0).count();

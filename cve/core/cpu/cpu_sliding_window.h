@@ -64,9 +64,9 @@ namespace core
 		if (stride_h <= 0 || stride_w <= 0)
 			throw ::std::invalid_argument(invalid_sliding_stride);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_sliding_window<unsigned int, cpu_avx2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_sliding_window<unsigned int, cpu_sse2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
 		else
 			kernel_sliding_window<unsigned int, cpu_none>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
@@ -86,9 +86,9 @@ namespace core
 		if (stride_h <= 0 || stride_w <= 0)
 			throw ::std::invalid_argument(invalid_sliding_stride);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_sliding_window<unsigned __int64, cpu_avx2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
-		else if (cpu::is_support_sse2())
+		else if (cpu_inst::is_support_sse2())
 			kernel_sliding_window<unsigned __int64, cpu_sse2>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);
 		else
 			kernel_sliding_window<unsigned __int64, cpu_none>(index.data(), rows, columns, channels, window_h, window_w, stride_h, stride_w);

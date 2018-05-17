@@ -367,22 +367,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class cpu
-	class cpu
+	// Class cpu_inst
+	class cpu_inst
 	{
 	public:
 		// Enabling or disabling SIMD
 		static int enable_simd(bool enable = true)
 		{
-			cpu_inst = cpu_none;
+			instruction_set = cpu_none;
 			if (enable)
 			{
-				cpu_inst |= detect_mmx();
-				cpu_inst |= detect_sse();
-				cpu_inst |= detect_avx();
-				cpu_inst |= detect_fma();
+				instruction_set |= detect_mmx();
+				instruction_set |= detect_sse();
+				instruction_set |= detect_avx();
+				instruction_set |= detect_fma();
 			}
-			return cpu_inst;
+			return instruction_set;
 		}
 		// Enabling or disabling Multi-Processing
 		static int enable_mp(int number = 0)
@@ -402,57 +402,57 @@ namespace core
 		// Is support MMX instruction set
 		static bool is_support_mmx(void)
 		{
-			return ((cpu_inst & cpu_mmx) == cpu_mmx);
+			return ((instruction_set & cpu_mmx) == cpu_mmx);
 		}
 		// Is support SSE instruction set
 		static bool is_support_sse(void)
 		{
-			return ((cpu_inst & cpu_sse) == cpu_sse);
+			return ((instruction_set & cpu_sse) == cpu_sse);
 		}
 		// Is support SSE2 instruction set
 		static bool is_support_sse2(void)
 		{
-			return ((cpu_inst & cpu_sse2) == cpu_sse2);
+			return ((instruction_set & cpu_sse2) == cpu_sse2);
 		}
 		// Is support SSE3 instruction set
 		static bool is_support_sse3(void)
 		{
-			return ((cpu_inst & cpu_sse3) == cpu_sse3);
+			return ((instruction_set & cpu_sse3) == cpu_sse3);
 		}
 		// Is support SSE3S instruction set
 		static bool is_support_ssse3(void)
 		{
-			return ((cpu_inst & cpu_ssse3) == cpu_ssse3);
+			return ((instruction_set & cpu_ssse3) == cpu_ssse3);
 		}
 		// Is support SSE4.1 instruction set
 		static bool is_support_sse41(void)
 		{
-			return ((cpu_inst & cpu_sse41) == cpu_sse41);
+			return ((instruction_set & cpu_sse41) == cpu_sse41);
 		}
 		// Is support SSE4.2 instruction set
 		static bool is_support_sse42(void)
 		{
-			return ((cpu_inst & cpu_sse42) == cpu_sse42);
+			return ((instruction_set & cpu_sse42) == cpu_sse42);
 		}
 		// Is support AVX instruction set
 		static bool is_support_avx(void)
 		{
-			return ((cpu_inst & cpu_avx) == cpu_avx);
+			return ((instruction_set & cpu_avx) == cpu_avx);
 		}
 		// Is support AVX2 instruction set
 		static bool is_support_avx2(void)
 		{
-			return ((cpu_inst & cpu_avx2) == cpu_avx2);
+			return ((instruction_set & cpu_avx2) == cpu_avx2);
 		}
 		// Is support FMA instruction set
 		static bool is_support_fma(void)
 		{
-			return ((cpu_inst & cpu_fma) == cpu_fma);
+			return ((instruction_set & cpu_fma) == cpu_fma);
 		}
 		// Is support FMA4 instruction set
 		static bool is_support_fma4(void)
 		{
-			return ((cpu_inst & cpu_fma4) == cpu_fma4);
+			return ((instruction_set & cpu_fma4) == cpu_fma4);
 		}
 		// Get the maximum number of threads
 		static int get_max_threads(void)
@@ -590,15 +590,15 @@ namespace core
 		static constexpr int ecx_sse41 = 0x00080000;
 		static constexpr int ecx_sse42 = 0x00100000;
 
-		static cpu_inst_type cpu_inst;
+		static cpu_inst_type instruction_set;
 		static cpu_inst_type thread_num;
 		static cpu_inst_type max_thread_num;
 	};
 
 	// Initialize static variables
-	cpu_inst_type cpu::cpu_inst       = cpu_none;
-	cpu_inst_type cpu::max_thread_num = 1;
-	cpu_inst_type cpu::thread_num     = 1;
+	cpu_inst_type cpu_inst::instruction_set = cpu_none;
+	cpu_inst_type cpu_inst::max_thread_num  = 1;
+	cpu_inst_type cpu_inst::thread_num      = 1;
 
 } // namespace core
 

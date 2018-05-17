@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_REDUCE_COL_MIN_H__
 #define __CORE_CPU_KERNEL_REDUCE_COL_MIN_H__
 
-#include "../cpu.h"
+#include "../cpu_inst.h"
 
 namespace core
 {

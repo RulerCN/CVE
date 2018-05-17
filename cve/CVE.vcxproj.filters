@@ -190,9 +190,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_transpose_matrix_multiply.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_multiply.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
@@ -225,6 +222,15 @@
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cv.h">
       <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mul_rv_cm.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mul_rm_cv.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_inst.h">
+      <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

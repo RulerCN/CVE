@@ -85,9 +85,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed short, cpu_none>()(a.size(), a.data(), b.data());
@@ -102,9 +102,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned short, cpu_none>()(a.size(), a.data(), b.data());
@@ -119,9 +119,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed int, cpu_none>()(a.size(), a.data(), b.data());
@@ -136,9 +136,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned int, cpu_none>()(a.size(), a.data(), b.data());
@@ -153,9 +153,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<float, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<float, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<float, cpu_none>()(a.size(), a.data(), b.data());
@@ -170,9 +170,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<double, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<double, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<double, cpu_none>()(a.size(), a.data(), b.data());
@@ -226,9 +226,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed short, cpu_none>()(a.size(), a.data(), b.data());
@@ -243,9 +243,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned short, cpu_none>()(a.size(), a.data(), b.data());
@@ -260,9 +260,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed int, cpu_none>()(a.size(), a.data(), b.data());
@@ -277,9 +277,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned int, cpu_none>()(a.size(), a.data(), b.data());
@@ -294,9 +294,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<float, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<float, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<float, cpu_none>()(a.size(), a.data(), b.data());
@@ -311,9 +311,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<double, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<double, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<double, cpu_none>()(a.size(), a.data(), b.data());
@@ -366,9 +366,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed short, cpu_none>()(a.size(), a.data(), b.data());
@@ -383,9 +383,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned short, cpu_none>()(a.size(), a.data(), b.data());
@@ -400,9 +400,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed int, cpu_none>()(a.size(), a.data(), b.data());
@@ -417,9 +417,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned int, cpu_none>()(a.size(), a.data(), b.data());
@@ -434,9 +434,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<float, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<float, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<float, cpu_none>()(a.size(), a.data(), b.data());
@@ -451,9 +451,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<double, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<double, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<double, cpu_none>()(a.size(), a.data(), b.data());
@@ -506,9 +506,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed short, cpu_none>()(a.size(), a.data(), b.data());
@@ -523,9 +523,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned short, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned short, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned short, cpu_none>()(a.size(), a.data(), b.data());
@@ -540,9 +540,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<signed int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<signed int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<signed int, cpu_none>()(a.size(), a.data(), b.data());
@@ -557,9 +557,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<unsigned int, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<unsigned int, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<unsigned int, cpu_none>()(a.size(), a.data(), b.data());
@@ -574,9 +574,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<float, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<float, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<float, cpu_none>()(a.size(), a.data(), b.data());
@@ -591,9 +591,9 @@ namespace core
 		if (b.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
-		if (cpu::is_support_avx2())
+		if (cpu_inst::is_support_avx2())
 			kernel_convert_int8<double, cpu_avx2>()(a.size(), a.data(), b.data());
-		else if (cpu::is_support_sse41())
+		else if (cpu_inst::is_support_sse41())
 			kernel_convert_int8<double, cpu_sse41>()(a.size(), a.data(), b.data());
 		else
 			kernel_convert_int8<double, cpu_none>()(a.size(), a.data(), b.data());

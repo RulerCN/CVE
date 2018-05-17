@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_BORDER_REFLECT_H__
 #define __CORE_CPU_KERNEL_BORDER_REFLECT_H__
 
-#include "../cpu.h"
+#include "../cpu_inst.h"
 
 namespace core
 {

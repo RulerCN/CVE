@@ -164,16 +164,16 @@ namespace core
 		if (c.length() != b.row_size() || a.length() != b.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_matrix_multiply<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<float, 4, 4, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_matrix_multiply<float, 4, 4, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
@@ -193,16 +193,16 @@ namespace core
 		if (c.length() != b.row_size() || a.length() != b.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_matrix_multiply<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<double, 2, 2, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_matrix_multiply<double, 2, 2, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
@@ -235,16 +235,16 @@ namespace core
 		if (c.length() != b.rows() || a.length() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_transpose_matrix_multiply<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<float, 4, 4, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_transpose_matrix_multiply<float, 4, 4, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
@@ -264,16 +264,16 @@ namespace core
 		if (c.length() != b.rows() || a.length() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_transpose_matrix_multiply<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<double, 2, 2, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
 				kernel_transpose_matrix_multiply<double, 2, 2, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
@@ -312,16 +312,16 @@ namespace core
 		if (c.rows() != a.rows() || c.row_size() != b.row_size() || a.row_size() != b.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<float, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_matrix_multiply<float, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<float, 4, 4, cpu_sse | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_matrix_multiply<float, 4, 4, cpu_sse>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
@@ -339,16 +339,16 @@ namespace core
 		if (c.rows() != a.rows() || c.row_size() != b.row_size() || a.row_size() != b.rows())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<double, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_matrix_multiply<double, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_matrix_multiply<double, 2, 2, cpu_sse | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_matrix_multiply<double, 2, 2, cpu_sse>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
@@ -387,16 +387,16 @@ namespace core
 		if (c.rows() != a.rows() || c.row_size() != b.rows() || a.row_size() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<float, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_transpose_matrix_multiply<float, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<float, 4, 4, cpu_sse | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_transpose_matrix_multiply<float, 4, 4, cpu_sse>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
@@ -414,16 +414,16 @@ namespace core
 		if (c.rows() != a.rows() || c.row_size() != b.rows() || a.row_size() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		if (cpu::is_support_avx())
+		if (cpu_inst::is_support_avx())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<double, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_transpose_matrix_multiply<double, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu::is_support_sse())
+		else if (cpu_inst::is_support_sse())
 		{
-			if (cpu::is_support_fma())
+			if (cpu_inst::is_support_fma())
 				kernel_transpose_matrix_multiply<double, 2, 2, cpu_sse | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
 				kernel_transpose_matrix_multiply<double, 2, 2, cpu_sse>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());

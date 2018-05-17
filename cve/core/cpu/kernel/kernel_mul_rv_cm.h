@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_MUL_RV_CM_H__
 #define __CORE_CPU_KERNEL_MUL_RV_CM_H__
 
-#include "../cpu.h"
+#include "../cpu_inst.h"
 
 namespace core
 {
@@ -524,38 +524,36 @@ namespace core
 			if (surplus_n > 0)
 				functor(surplus_n, p, a, b, rsb, c + aligned_n);
 		}
+		//// C(mxn) += A(mxp) * B(nxp)^T
+		//void operator()(size_t m, size_t n, size_t p, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		//{
+		//	const T *ptr_b;
+		//	const size_t block_rsb = block_n * rsb;
+		//	const size_t aligned_n = n & ~(block_n - 1);
+		//	const size_t aligned_p = p & ~(block_p - 1);
+		//	const size_t surplus_n = n - aligned_n;
+		//	const size_t surplus_p = p - aligned_p;
+		//	const struct common_mul_rv_cm<T> functor;
+		//	const struct block_mul_rv_cm<T, inst> special_functor;
 
-		// C(mxn) += A(mxp) * B(nxp)^T
-		void operator()(size_t m, size_t n, size_t p, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
-		{
-			const T *ptr_b;
-			const size_t block_rsb = block_n * rsb;
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t aligned_p = p & ~(block_p - 1);
-			const size_t surplus_n = n - aligned_n;
-			const size_t surplus_p = p - aligned_p;
-			const struct common_mul_rv_cm<T> functor;
-			const struct block_mul_rv_cm<T, inst> special_functor;
-
-			for (size_t i = 0; i < m; ++i)
-			{
-				ptr_b = b;
-				for (size_t j = 0; j < aligned_n; j += block_n)
-				{
-					if (aligned_p > 0)
-						special_functor(aligned_p, a, ptr_b, rsb, c + j);
-					if (surplus_p > 0)
-						functor(block_n, surplus_p, a + aligned_p, ptr_b + aligned_p, rsb, c + j);
-					ptr_b += block_rsb;
-				}
-				if (surplus_n > 0)
-					functor(surplus_n, p, a, ptr_b, rsb, c + aligned_n);
-				a += rsa;
-				c += rsc;
-			}
-		}
+		//	for (size_t i = 0; i < m; ++i)
+		//	{
+		//		ptr_b = b;
+		//		for (size_t j = 0; j < aligned_n; j += block_n)
+		//		{
+		//			if (aligned_p > 0)
+		//				special_functor(aligned_p, a, ptr_b, rsb, c + j);
+		//			if (surplus_p > 0)
+		//				functor(block_n, surplus_p, a + aligned_p, ptr_b + aligned_p, rsb, c + j);
+		//			ptr_b += block_rsb;
+		//		}
+		//		if (surplus_n > 0)
+		//			functor(surplus_n, p, a, ptr_b, rsb, c + aligned_n);
+		//		a += rsa;
+		//		c += rsc;
+		//	}
+		//}
 	};
-	// TODO: The multiplication of the row vector and the column-major order matrix
 
 } // namespace core
 
