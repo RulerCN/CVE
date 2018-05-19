@@ -42,7 +42,7 @@ namespace core
 	//        | c[1],c[2],c[3],...,c[n] |
 	// 2. a - input row vector.
 	//        | a[1],a[2],a[3],...,a[p] |
-	// 3. b - input column-major order matrix.
+	// 3. b - input row-major order matrix.
 	//        | b[1][1],b[1][2],b[1][3],...,b[1][n] |
 	//        | b[2][1],b[2][2],b[2][3],...,b[2][n] |
 	//        | b[3][1],b[3][2],b[3][3],...,b[3][n] |
