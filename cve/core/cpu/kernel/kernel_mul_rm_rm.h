@@ -34,6 +34,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
+	// Class template common_mul_rm_rm
+	template<class T>
+	struct common_mul_rm_rm
+	{
+		// C(mxn) += A(mxp) * B(pxn)
+		void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		{
+			const *ptr_b;
+			T val_a;
+
+			for (int i = 0; i < m; ++i)
+			{
+				ptr_b = b;
+				for (int k = 0; k < p; ++k)
+				{
+					val_a = a[k];
+					for (int j = 0; j < n; ++j)
+						c[j] += val_a * ptr_b[j];
+					ptr_b += rsb;
+				}
+				a += rsa;
+				c += rsc;
+			}
+		}
+	};
 
 	// Class template block_mul_rv_rm
 	template<class T, cpu_inst_type inst>
@@ -69,6 +94,64 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
+		void operator()(size_t aligned_p, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		{
+			const T *ptr_a0 = a;
+			const T *ptr_a1 = ptr_a0 + rsa;
+			const T *ptr_a2 = ptr_a1 + rsa;
+			const T *ptr_a3 = ptr_a2 + rsa;
+			T *ptr_c0 = c;
+			T *ptr_c1 = ptr_c0 + rsc;
+			T *ptr_c2 = ptr_c1 + rsc;
+			T *ptr_c3 = ptr_c2 + rsc;
+			T val_a0, val_a1, val_a2, val_a3;
+			T val_c0, val_c1, val_c2, val_c3;
+
+			for (size_t k = aligned_p; k < p; ++k)
+			{
+				val_a0 = ptr_a0[k];
+				val_a1 = ptr_a1[k];
+				val_a2 = ptr_a2[k];
+				val_a3 = ptr_a3[k];
+				for (size_t j = 0; j < n; ++j)
+				{
+					ptr_c0[j] += val_a0 * b[j];
+					ptr_c1[j] += val_a1 * b[j];
+					ptr_c2[j] += val_a2 * b[j];
+					ptr_c3[j] += val_a3 * b[j];
+				}
+				b += rsb;
+			}
+		}
+		// C(mxn) += A(mx4) * B(4xn)
+		void operator()(size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		{
+			const T *ptr_b0 = b;
+			const T *ptr_b1 = ptr_b0 + rsb;
+			const T *ptr_b2 = ptr_b1 + rsb;
+			const T *ptr_b3 = ptr_b2 + rsb;
+			T val_a0, val_a1, val_a2, val_a3;
+			T val_c0, val_c1, val_c2, val_c3;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				val_a0 = a[0];
+				val_a1 = a[1];
+				val_a2 = a[2];
+				val_a3 = a[3];
+				for (size_t j = 0; j < n; ++j)
+				{
+					val_c0 = val_a0 * ptr_b0[j];
+					val_c1 = val_a1 * ptr_b1[j];
+					val_c2 = val_a2 * ptr_b2[j];
+					val_c3 = val_a3 * ptr_b3[j];
+					val_c0 = (val_c0 + val_c1) + (val_c2 + val_c3);
+					c[j] += val_c0;
+				}
+				a += rsa;
+				c += rsc;
+			}
+		}
 	};
 
 	template<>
@@ -294,28 +377,6 @@ namespace core
 		}
 	};
 
-	for (size_t i = 0; i < m; ++i)
-	{
-		for (size_t j = 0; j < n; ++j)
-		{
-			c[i][j] += a[i][0] * b[0][j];
-			c[i][j] += a[i][1] * b[1][j];
-			c[i][j] += a[i][2] * b[2][j];
-			c[i][j] += a[i][3] * b[3][j];
-		}
-	}
-
-	//for (size_t i = 0; i < m; ++i)
-	//{
-	//	for (size_t k = 0; k < p; ++k)
-	//	{
-	//		for (size_t j = 0; j < n; ++j)
-	//		{
-	//			c[i][j] += a[i][k] * b[k][j];
-	//		}
-	//	}
-	//}
-
 	template<>
 	struct block_mul_rm_rm<float, cpu_sse | cpu_fma>
 	{
@@ -394,6 +455,141 @@ namespace core
 				}
 			}
 		}
+		// C(4xn) += A(4xp) * B(pxn)
+		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		{
+			const float *ptr_a[4] = { a };
+			const float *ptr_b[4] = { b };
+			float *ptr_c[4] = { c };
+			ptr_a[1] = ptr_a[0] + rsa;
+			ptr_a[2] = ptr_a[1] + rsa;
+			ptr_a[3] = ptr_a[2] + rsa;
+			ptr_b[1] = ptr_b[0] + rsb;
+			ptr_b[2] = ptr_b[1] + rsb;
+			ptr_b[3] = ptr_b[2] + rsb;
+			ptr_c[1] = ptr_c[0] + rsc;
+			ptr_c[2] = ptr_c[1] + rsc;
+			ptr_c[3] = ptr_c[2] + rsc;
+			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
+			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128 xmm_c0, xmm_c1;
+
+			if (aligned_n > 0)
+			{
+				for (size_t k = aligned_p; k < p; ++k)
+				{
+					xmm_a0 = _mm_set1_ps(ptr_a[0][k]);
+					xmm_a1 = _mm_set1_ps(ptr_a[1][k]);
+					xmm_a2 = _mm_set1_ps(ptr_a[2][k]);
+					xmm_a3 = _mm_set1_ps(ptr_a[3][k]);
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_ps(ptr_b[0] + j);
+						xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
+						xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
+						xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
+						// return the weighted sum
+						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
+						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
+						xmm_c0 = _mm_fmadd_ps(xmm_a2, xmm_b2, xmm_c0);
+						xmm_c1 = _mm_fmadd_ps(xmm_a3, xmm_b3, xmm_c1);
+						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+						// store data into memory
+						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
+						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
+						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
+						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+					}
+				}
+			}
+			if (aligned_n < n)
+			{
+				for (size_t k = aligned_p; k < p; ++k)
+				{
+					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set1_ps(ptr_b[k][j]);
+						// return the product
+						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
+						// store data into memory
+						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
+						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
+						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
+						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+					}
+				}
+			}
+		}
+		// C(mxn) += A(mx4) * B(4xn)
+		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		{
+			const float *ptr_a[4] = { a };
+			const float *ptr_b[4] = { b };
+			float *ptr_c[4] = { c };
+			ptr_a[1] = ptr_a[0] + rsa;
+			ptr_a[2] = ptr_a[1] + rsa;
+			ptr_a[3] = ptr_a[2] + rsa;
+			ptr_b[1] = ptr_b[0] + rsb;
+			ptr_b[2] = ptr_b[1] + rsb;
+			ptr_b[3] = ptr_b[2] + rsb;
+			ptr_c[1] = ptr_c[0] + rsc;
+			ptr_c[2] = ptr_c[1] + rsc;
+			ptr_c[3] = ptr_c[2] + rsc;
+			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
+			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128 xmm_c0, xmm_c1;
+
+			if (aligned_n > 0)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					a = ptr_a[i];
+					c = ptr_c[i];
+					xmm_a0 = _mm_set1_ps(a[0]);
+					xmm_a1 = _mm_set1_ps(a[1]);
+					xmm_a2 = _mm_set1_ps(a[2]);
+					xmm_a3 = _mm_set1_ps(a[3]);
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_ps(ptr_b[0] + j);
+						xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
+						xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
+						xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
+						// return the weighted sum
+						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
+						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
+						xmm_c0 = _mm_fmadd_ps(xmm_a2, xmm_b2, xmm_c0);
+						xmm_c1 = _mm_fmadd_ps(xmm_a3, xmm_b3, xmm_c1);
+						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+						// store data into memory
+						_mm_storeu_ps(c, _mm_add_ps(_mm_loadu_ps(c), xmm_c0));
+						c += 4;
+					}
+				}
+			}
+			if (aligned_n < n)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					xmm_a0 = _mm_loadu_ps(ptr_a[i]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set_ps(ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+						// return the product
+						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
+						xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c0);
+						xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c0);
+						// store data into memory
+						ptr_c[i][j] += reinterpret_cast<float*>(&xmm_c0)[0];
+					}
+				}
+			}
+		}
 	};
 
 	template<>
@@ -402,12 +598,9 @@ namespace core
 		// C(2xn) += A(2x2) * B(2xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
-			const double *ptr_a[2] = { a };
-			const double *ptr_b[2] = { b };
-			double *ptr_c[2] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
+			const double *ptr_a[2] = { a, a + rsa };
+			const double *ptr_b[2] = { b, b + rsb };
+			double *ptr_c[2] = { c, c + rsc };
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0, xmm_c1;
@@ -451,6 +644,106 @@ namespace core
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+				}
+			}
+		}
+		// C(2xn) += A(2xp) * B(pxn)
+		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		{
+			const double *ptr_a[2] = { a, a + rsa };
+			const double *ptr_b[2] = { b, b + rsb };
+			double *ptr_c[2] = { c, c + rsc };
+			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_b0, xmm_b1;
+			__m128d xmm_c0, xmm_c1;
+
+			if (aligned_n > 0)
+			{
+				for (size_t k = aligned_p; k < p; ++k)
+				{
+					xmm_a0 = _mm_set1_pd(ptr_a[0][k]);
+					xmm_a1 = _mm_set1_pd(ptr_a[1][k]);
+					for (size_t j = 0; j < aligned_n; j += 2)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_pd(ptr_b[0] + j);
+						xmm_b1 = _mm_loadu_pd(ptr_b[1] + j);
+						// return the weighted sum
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
+						xmm_c0 = _mm_add_pd(xmm_c0, xmm_c1);
+						// store data into memory
+						ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
+						ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+					}
+				}
+			}
+			if (aligned_n < n)
+			{
+				for (size_t k = aligned_p; k < p; ++k)
+				{
+					xmm_a0 = _mm_set_pd(ptr_a[1][k], ptr_a[0][k]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set1_pd(ptr_b[k][j]);
+						// return the product
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						// store data into memory
+						ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
+						ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+					}
+				}
+			}
+		}
+		// C(mxn) += A(mx2) * B(2xn)
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		{
+			const double *ptr_a[2] = { a, a + rsa };
+			const double *ptr_b[2] = { b, b + rsb };
+			double *ptr_c[2] = { c, c + rsc };
+			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_b0, xmm_b1;
+			__m128d xmm_c0, xmm_c1;
+
+			if (aligned_n > 0)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					a = ptr_a[i];
+					c = ptr_c[i];
+					xmm_a0 = _mm_set1_pd(a[0]);
+					xmm_a1 = _mm_set1_pd(a[1]);
+					for (size_t j = 0; j < aligned_n; j += 2)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_pd(ptr_b[0] + j);
+						xmm_b1 = _mm_loadu_pd(ptr_b[1] + j);
+						// return the weighted sum
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
+						xmm_c0 = _mm_add_pd(xmm_c0, xmm_c1);
+						// store data into memory
+						_mm_storeu_pd(c, _mm_add_pd(_mm_loadu_pd(c), xmm_c0));
+						c += 2;
+					}
+				}
+			}
+			if (aligned_n < n)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					xmm_a0 = _mm_loadu_pd(ptr_a[i]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set_pd(ptr_b[1][j], ptr_b[0][j]);
+						// return the product
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c0);
+						// store data into memory
+						ptr_c[i][j] += reinterpret_cast<double*>(&xmm_c0)[0];
+					}
 				}
 			}
 		}
