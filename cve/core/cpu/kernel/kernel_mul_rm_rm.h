@@ -41,7 +41,7 @@ namespace core
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
-			const *ptr_b;
+			const T *ptr_b;
 			T val_a;
 
 			for (int i = 0; i < m; ++i)
@@ -65,7 +65,7 @@ namespace core
 	struct block_mul_rm_rm
 	{
 		// C(4xn) += A(4x4) * B(4xn)
-		void operator()(size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		void operator()(size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
 			const T *ptr_b0 = b;
 			const T *ptr_b1 = ptr_b0 + rsb;
@@ -94,7 +94,7 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t p, size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
 			const T *ptr_a0 = a;
 			const T *ptr_a1 = ptr_a0 + rsa;
@@ -124,7 +124,7 @@ namespace core
 			}
 		}
 		// C(mxn) += A(mx4) * B(4xn)
-		void operator()(size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		void operator()(size_t m, size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
 			const T *ptr_b0 = b;
 			const T *ptr_b1 = ptr_b0 + rsb;
@@ -216,18 +216,15 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					xmm_b0 = _mm_set1_ps(ptr_b[0][j]);
-					xmm_b1 = _mm_set1_ps(ptr_b[1][j]);
-					xmm_b2 = _mm_set1_ps(ptr_b[2][j]);
-					xmm_b3 = _mm_set1_ps(ptr_b[3][j]);
-					// return the weighted sum
+					xmm_b0 = _mm_set_ps(ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-					xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
-					xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b2);
-					xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b3);
-					xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
-					xmm_c2 = _mm_add_ps(xmm_c2, xmm_c3);
-					xmm_c0 = _mm_add_ps(xmm_c0, xmm_c2);
+					xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
+					xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
+					xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
+					xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
+					xmm_c2 = _mm_hadd_ps(xmm_c2, xmm_c3);
+					xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c2);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
@@ -257,27 +254,29 @@ namespace core
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				//for (size_t k = aligned_p; k < p; ++k)
+				for (size_t k = 0; k < p - aligned_p; ++k)
 				{
-					xmm_a0 = _mm_set1_ps(ptr_a[0][k]);
-					xmm_a1 = _mm_set1_ps(ptr_a[1][k]);
-					xmm_a2 = _mm_set1_ps(ptr_a[2][k]);
-					xmm_a3 = _mm_set1_ps(ptr_a[3][k]);
+					//xmm_a0 = _mm_set1_ps(ptr_a[0][k]);
+					//xmm_a1 = _mm_set1_ps(ptr_a[1][k]);
+					//xmm_a2 = _mm_set1_ps(ptr_a[2][k]);
+					//xmm_a3 = _mm_set1_ps(ptr_a[3][k]);
+					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
 					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
-						xmm_b0 = _mm_loadu_ps(ptr_b[0] + j);
-						xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
-						xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
-						xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
+						xmm_b0 = _mm_loadu_ps(ptr_b[k] + j);
+						//xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
+						//xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
+						//xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
 						// return the weighted sum
 						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
-						xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b2);
-						xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b3);
-						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
-						xmm_c2 = _mm_add_ps(xmm_c2, xmm_c3);
-						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c2);
+						//xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
+						//xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
+						//xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
+						//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+						//xmm_c2 = _mm_add_ps(xmm_c2, xmm_c3);
+						//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c2);
 						// store data into memory
 						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
 						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
@@ -288,7 +287,8 @@ namespace core
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				//for (size_t k = aligned_p; k < p; ++k)
+				for (size_t k = 0; k < p - aligned_p; ++k)
 				{
 					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
 					for (size_t j = aligned_n; j < n; ++j)
@@ -397,7 +397,7 @@ namespace core
 			ptr_c[3] = ptr_c[2] + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1;
+			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
 			if (aligned_n > 0)
 			{
@@ -437,16 +437,15 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					xmm_b0 = _mm_set1_ps(ptr_b[0][j]);
-					xmm_b1 = _mm_set1_ps(ptr_b[1][j]);
-					xmm_b2 = _mm_set1_ps(ptr_b[2][j]);
-					xmm_b3 = _mm_set1_ps(ptr_b[3][j]);
-					// return the weighted sum
+					xmm_b0 = _mm_set_ps(ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-					xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
-					xmm_c0 = _mm_fmadd_ps(xmm_a2, xmm_b2, xmm_c0);
-					xmm_c1 = _mm_fmadd_ps(xmm_a3, xmm_b3, xmm_c1);
-					xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+					xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
+					xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
+					xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
+					xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
+					xmm_c2 = _mm_hadd_ps(xmm_c2, xmm_c3);
+					xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c2);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
@@ -635,12 +634,11 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					xmm_b0 = _mm_set1_pd(ptr_b[0][j]);
-					xmm_b1 = _mm_set1_pd(ptr_b[1][j]);
-					// return the weighted sum
+					xmm_b0 = _mm_set_pd(ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
-					xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
-					xmm_c0 = _mm_add_pd(xmm_c0, xmm_c1);
+					xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b0);
+					xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
@@ -763,7 +761,7 @@ namespace core
 			ptr_c[1] = ptr_c[0] + rsc;
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
-			__m128d xmm_c0;
+			__m128d xmm_c0, xmm_c1;
 
 			if (aligned_n > 0)
 			{
@@ -794,11 +792,11 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					xmm_b0 = _mm_set1_pd(ptr_b[0][j]);
-					xmm_b1 = _mm_set1_pd(ptr_b[1][j]);
-					// return the weighted sum
+					xmm_b0 = _mm_set_pd(ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
-					xmm_c0 = _mm_fmadd_pd(xmm_a1, xmm_b1, xmm_c0);
+					xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b0);
+					xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
@@ -901,30 +899,27 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					ymm_b0 = _mm256_set1_ps(ptr_b[0][j]);
-					ymm_b1 = _mm256_set1_ps(ptr_b[1][j]);
-					ymm_b2 = _mm256_set1_ps(ptr_b[2][j]);
-					ymm_b3 = _mm256_set1_ps(ptr_b[3][j]);
-					ymm_b4 = _mm256_set1_ps(ptr_b[4][j]);
-					ymm_b5 = _mm256_set1_ps(ptr_b[5][j]);
-					ymm_b6 = _mm256_set1_ps(ptr_b[6][j]);
-					ymm_b7 = _mm256_set1_ps(ptr_b[7][j]);
-					// return the weighted sum
+					ymm_b0 = _mm256_set_ps(
+						ptr_b[7][j], ptr_b[6][j], ptr_b[5][j], ptr_b[4][j],
+						ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
-					ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
-					ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b2);
-					ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b3);
-					ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b4);
-					ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b5);
-					ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b6);
-					ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b7);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
-					ymm_c2 = _mm256_add_ps(ymm_c2, ymm_c3);
-					ymm_c4 = _mm256_add_ps(ymm_c4, ymm_c5);
-					ymm_c6 = _mm256_add_ps(ymm_c6, ymm_c7);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c2);
-					ymm_c4 = _mm256_add_ps(ymm_c4, ymm_c6);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c4);
+					ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b0);
+					ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b0);
+					ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b0);
+					ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b0);
+					ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b0);
+					ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b0);
+					ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b0);
+					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c1);
+					ymm_c2 = _mm256_hadd_ps(ymm_c2, ymm_c3);
+					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c5);
+					ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
+					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
+					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
+					ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
@@ -987,10 +982,10 @@ namespace core
 						ymm_b1 = _mm256_loadu_ps(ptr_b[1] + j);
 						ymm_b2 = _mm256_loadu_ps(ptr_b[2] + j);
 						ymm_b3 = _mm256_loadu_ps(ptr_b[3] + j);
-						ymm_b0 = _mm256_loadu_ps(ptr_b[4] + j);
-						ymm_b1 = _mm256_loadu_ps(ptr_b[5] + j);
-						ymm_b2 = _mm256_loadu_ps(ptr_b[6] + j);
-						ymm_b3 = _mm256_loadu_ps(ptr_b[7] + j);
+						ymm_b4 = _mm256_loadu_ps(ptr_b[4] + j);
+						ymm_b5 = _mm256_loadu_ps(ptr_b[5] + j);
+						ymm_b6 = _mm256_loadu_ps(ptr_b[6] + j);
+						ymm_b7 = _mm256_loadu_ps(ptr_b[7] + j);
 						// return the weighted sum
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
 						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
@@ -1180,7 +1175,7 @@ namespace core
 			ptr_c[7] = ptr_c[6] + rsc;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
-			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
 
 			if (aligned_n > 0)
 			{
@@ -1238,26 +1233,27 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					ymm_b0 = _mm256_set1_ps(ptr_b[0][j]);
-					ymm_b1 = _mm256_set1_ps(ptr_b[1][j]);
-					ymm_b2 = _mm256_set1_ps(ptr_b[2][j]);
-					ymm_b3 = _mm256_set1_ps(ptr_b[3][j]);
-					ymm_b4 = _mm256_set1_ps(ptr_b[4][j]);
-					ymm_b5 = _mm256_set1_ps(ptr_b[5][j]);
-					ymm_b6 = _mm256_set1_ps(ptr_b[6][j]);
-					ymm_b7 = _mm256_set1_ps(ptr_b[7][j]);
-					// return the weighted sum
+					ymm_b0 = _mm256_set_ps(
+						ptr_b[7][j], ptr_b[6][j], ptr_b[5][j], ptr_b[4][j],
+						ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
-					ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
-					ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b2);
-					ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b3);
-					ymm_c0 = _mm256_fmadd_ps(ymm_a4, ymm_b4, ymm_c0);
-					ymm_c1 = _mm256_fmadd_ps(ymm_a5, ymm_b5, ymm_c1);
-					ymm_c2 = _mm256_fmadd_ps(ymm_a6, ymm_b6, ymm_c2);
-					ymm_c3 = _mm256_fmadd_ps(ymm_a7, ymm_b7, ymm_c3);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
-					ymm_c2 = _mm256_add_ps(ymm_c2, ymm_c3);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c2);
+					ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b0);
+					ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b0);
+					ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b0);
+					ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b0);
+					ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b0);
+					ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b0);
+					ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b0);
+					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c1);
+					ymm_c2 = _mm256_hadd_ps(ymm_c2, ymm_c3);
+					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c5);
+					ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
+					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
+					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
+					ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
@@ -1320,10 +1316,10 @@ namespace core
 						ymm_b1 = _mm256_loadu_ps(ptr_b[1] + j);
 						ymm_b2 = _mm256_loadu_ps(ptr_b[2] + j);
 						ymm_b3 = _mm256_loadu_ps(ptr_b[3] + j);
-						ymm_b0 = _mm256_loadu_ps(ptr_b[4] + j);
-						ymm_b1 = _mm256_loadu_ps(ptr_b[5] + j);
-						ymm_b2 = _mm256_loadu_ps(ptr_b[6] + j);
-						ymm_b3 = _mm256_loadu_ps(ptr_b[7] + j);
+						ymm_b4 = _mm256_loadu_ps(ptr_b[4] + j);
+						ymm_b5 = _mm256_loadu_ps(ptr_b[5] + j);
+						ymm_b6 = _mm256_loadu_ps(ptr_b[6] + j);
+						ymm_b7 = _mm256_loadu_ps(ptr_b[7] + j);
 						// return the weighted sum
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
 						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
@@ -1535,18 +1531,17 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					ymm_b0 = _mm256_set1_pd(ptr_b[0][j]);
-					ymm_b1 = _mm256_set1_pd(ptr_b[1][j]);
-					ymm_b2 = _mm256_set1_pd(ptr_b[2][j]);
-					ymm_b3 = _mm256_set1_pd(ptr_b[3][j]);
-					// return the weighted sum
+					ymm_b0 = _mm256_set_pd(ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
-					ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b1);
-					ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b2);
-					ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b3);
-					ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
-					ymm_c2 = _mm256_add_pd(ymm_c2, ymm_c3);
-					ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c2);
+					ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b0);
+					ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b0);
+					ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
+					ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
+					ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
+					ymm_a0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_a1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_pd(ymm_a0, ymm_a1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
@@ -1717,7 +1712,7 @@ namespace core
 			ptr_c[3] = ptr_c[2] + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
-			__m256d ymm_c0, ymm_c1;
+			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
 			if (aligned_n > 0)
 			{
@@ -1757,16 +1752,17 @@ namespace core
 				for (size_t j = aligned_n; j < n; ++j)
 				{
 					// load data from memory
-					ymm_b0 = _mm256_set1_pd(ptr_b[0][j]);
-					ymm_b1 = _mm256_set1_pd(ptr_b[1][j]);
-					ymm_b2 = _mm256_set1_pd(ptr_b[2][j]);
-					ymm_b3 = _mm256_set1_pd(ptr_b[3][j]);
-					// return the weighted sum
+					ymm_b0 = _mm256_set_pd(ptr_b[3][j], ptr_b[2][j], ptr_b[1][j], ptr_b[0][j]);
+					// return the horizontal weighted sum
 					ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
-					ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b1);
-					ymm_c0 = _mm256_fmadd_pd(ymm_a2, ymm_b2, ymm_c0);
-					ymm_c1 = _mm256_fmadd_pd(ymm_a3, ymm_b3, ymm_c1);
-					ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
+					ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b0);
+					ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b0);
+					ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
+					ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
+					ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
+					ymm_a0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_a1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_pd(ymm_a0, ymm_a1);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
@@ -1921,7 +1917,9 @@ namespace core
 		void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
 			const T *ptr_b;
+			const size_t block_rsa = block_m * rsa;
 			const size_t block_rsb = block_p * rsb;
+			const size_t block_rsc = block_m * rsc;
 			const size_t aligned_m = m & ~(block_m - 1);
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
@@ -1940,41 +1938,22 @@ namespace core
 					ptr_b += block_rsb;
 				}
 				if (surplus_p > 0)
-					functor(surplus_p, n, a + aligned_p, ptr_b, rsb, c);
-				a += rsa;
-				c += rsc;
+					special_functor(aligned_p, p, aligned_n, n, a + aligned_p, rsa, ptr_b, rsb, c, rsc);
+				a += block_rsa;
+				c += block_rsc;
+			}
+			if (surplus_m > 0)
+			{
+				ptr_b = b;
+				for (size_t k = 0; k < aligned_p; k += block_p)
+				{
+					special_functor(surplus_m, aligned_n, n, a + k, rsa, ptr_b, rsb, c, rsc);
+					ptr_b += block_rsb;
+				}
+				if (surplus_p > 0)
+					functor(surplus_m, surplus_p, surplus_n, a + aligned_p, rsa, ptr_b, rsb, c, rsc);
 			}
 		}
-		//// C(mxn) += A(mxp) * B(pxn)
-		//void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
-		//{
-		//	const T *ptr_b;
-		//	const size_t block_rsb = block_p * rsb;
-		//	const size_t aligned_p = p & ~(block_p - 1);
-		//	const size_t aligned_n = n & ~(block_n - 1);
-		//	const size_t surplus_p = p - aligned_p;
-		//	const size_t surplus_n = n - aligned_n;
-		//	const struct common_mul_rv_rm<T> functor;
-		//	const struct block_mul_rv_rm<T, inst> mul_rv_rm;
-		//	const struct block_mul_rm_cv<T, inst> mul_rm_cv;
-
-		//	for (size_t i = 0; i < m; ++i)
-		//	{
-		//		ptr_b = b;
-		//		for (size_t k = 0; k < aligned_p; k += block_p)
-		//		{
-		//			if (aligned_n > 0)
-		//				mul_rv_rm(aligned_n, a + k, ptr_b, rsb, c);
-		//			for (size_t j = aligned_n; j < n; ++j)
-		//				mul_rm_cv(block_p, a + k, rsa, ptr_b + j, c + j, rsc);
-		//			ptr_b += block_rsb;
-		//		}
-		//		if (surplus_p > 0)
-		//			functor(surplus_p, n, a + aligned_p, ptr_b, rsb, c);
-		//		a += rsa;
-		//		c += rsc;
-		//	}
-		//}
 	};
 
 } // namespace core

@@ -244,6 +244,9 @@
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mul_rm_rm.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

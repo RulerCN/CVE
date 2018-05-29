@@ -172,6 +172,7 @@
     <ClInclude Include="core\cpu\cpu_get_element.h" />
     <ClInclude Include="core\cpu\cpu_mapping.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_cv.h" />
+    <ClInclude Include="core\cpu\cpu_mul_rm_rm.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_cm.h" />
     <ClInclude Include="core\cpu\cpu_multiply.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_rm.h" />

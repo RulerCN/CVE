@@ -52,8 +52,8 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 int main()
 {
 	core::cpu_inst::enable_simd(true);
-	try
-	{
+	//try
+	//{
 		//__m256 ymm_c1;
 		//__m256 ymm_c0 = _mm256_set_ps(8, 7, 6, 5, 4, 3, 2, 1);
 		//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c0);
@@ -67,118 +67,118 @@ int main()
 		//ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c0, _MM_SHUFFLE(0, 2, 0, 1));
 		//ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
 
-		std::string input_image = "data/test.bmp";
-		std::string conv_image = "data/conv.bmp";
+	//	std::string input_image = "data/test.bmp";
+	//	std::string conv_image = "data/conv.bmp";
 
-		img::bitmap_palette palette;
-		core::matrix<unsigned char> img_input;
-		if (img::bitmap::decode(input_image, img_input, palette))
-		{
-			size_t input_h = img_input.rows();
-			size_t input_w = img_input.columns();
-			size_t channels = img_input.dimension();
-			size_t window_h = 3;
-			size_t window_w = 3;
-			size_t stride_h = 1;
-			size_t stride_w = 1;
-			size_t output_h = (input_h - window_h) / stride_h + 1;
-			size_t output_w = (input_w - window_w) / stride_w + 1;
-		//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
-			core::vector<float>  vec_kernel(window_h * window_w, 1);
-			core::matrix<float>  mat_image(input_h, input_w, channels);
-			core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
-			core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
-		//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
-		//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
-			core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
-			core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
-			core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
+	//	img::bitmap_palette palette;
+	//	core::matrix<unsigned char> img_input;
+	//	if (img::bitmap::decode(input_image, img_input, palette))
+	//	{
+	//		size_t input_h = img_input.rows();
+	//		size_t input_w = img_input.columns();
+	//		size_t channels = img_input.dimension();
+	//		size_t window_h = 3;
+	//		size_t window_w = 3;
+	//		size_t stride_h = 1;
+	//		size_t stride_w = 1;
+	//		size_t output_h = (input_h - window_h) / stride_h + 1;
+	//		size_t output_w = (input_w - window_w) / stride_w + 1;
+	//	//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+	//		core::vector<float>  vec_kernel(window_h * window_w, 1);
+	//		core::matrix<float>  mat_image(input_h, input_w, channels);
+	//		core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
+	//		core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
+	//	//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
+	//	//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
+	//		core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
+	//		core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
+	//		core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
 
-			//mat_kernel.fill({
-			//	0.0625F, 0.1250F, 0.0625F,
-			//	0.1250F, 0.2500F, 0.1250F,
-			//	0.0625F, 0.1250F, 0.0625F
-			//});
+	//		//mat_kernel.fill({
+	//		//	0.0625F, 0.1250F, 0.0625F,
+	//		//	0.1250F, 0.2500F, 0.1250F,
+	//		//	0.0625F, 0.1250F, 0.0625F
+	//		//});
 
-			//mat_kernel.fill({
-			//	1.0F, 0.0F, -1.0F,
-			//	2.0F, 0.0F, -2.0F,
-			//	1.0F, 0.0F, -1.0F
-			//});
+	//		//mat_kernel.fill({
+	//		//	1.0F, 0.0F, -1.0F,
+	//		//	2.0F, 0.0F, -2.0F,
+	//		//	1.0F, 0.0F, -1.0F
+	//		//});
 
-			vec_kernel.fill({
-				1.0F, 2.0F, 1.0F,
-				0.0F, 0.0F, 0.0F,
-				-1.0F, -2.0F, -1.0F
-			});
+	//		vec_kernel.fill({
+	//			1.0F, 2.0F, 1.0F,
+	//			0.0F, 0.0F, 0.0F,
+	//			-1.0F, -2.0F, -1.0F
+	//		});
 
-			time_point<system_clock> time0 = system_clock::now();
-			core::cpu_convert(mat_image, img_input);
-			time_point<system_clock> time1 = system_clock::now();
-			core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
-			time_point<system_clock> time2 = system_clock::now();
-			core::cpu_mapping(mat_input, mat_image.data(), mat_index);
-			time_point<system_clock> time3 = system_clock::now();
-		//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
-			core::cpu_mul_rm_cv(vec_output, mat_input, vec_kernel);
+	//		time_point<system_clock> time0 = system_clock::now();
+	//		core::cpu_convert(mat_image, img_input);
+	//		time_point<system_clock> time1 = system_clock::now();
+	//		core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
+	//		time_point<system_clock> time2 = system_clock::now();
+	//		core::cpu_mapping(mat_input, mat_image.data(), mat_index);
+	//		time_point<system_clock> time3 = system_clock::now();
+	//	//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+	//		core::cpu_mul_rm_cv(vec_output, mat_input, vec_kernel);
 
-			time_point<system_clock> time4 = system_clock::now();
-		//	core::cpu_convert(img_output, mat_output);
-			core::cpu_convert(vec_matrix, vec_output);
-			time_point<system_clock> time5 = system_clock::now();
+	//		time_point<system_clock> time4 = system_clock::now();
+	//	//	core::cpu_convert(img_output, mat_output);
+	//		core::cpu_convert(vec_matrix, vec_output);
+	//		time_point<system_clock> time5 = system_clock::now();
 
-			long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
-			long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
-			long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
-			long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
-			long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
-			long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
+	//		long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
+	//		long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
+	//		long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
+	//		long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
+	//		long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
+	//		long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
 
-			std::cout << "total              " << _time0 << " ms" << std::endl;
-			std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
-			std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
-			std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
-			std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
-			std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
+	//		std::cout << "total              " << _time0 << " ms" << std::endl;
+	//		std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
+	//		std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
+	//		std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
+	//		std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
+	//		std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
 
-			img::bitmap::encode(conv_image, img_output);
-		}
-		else
-			std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
-	}
-	catch (std::exception err)
-	{
-		std::cout << err.what() << std::endl;
-	}
-	return 0;
+	//		img::bitmap::encode(conv_image, img_output);
+	//	}
+	//	else
+	//		std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
+	//}
+	//catch (std::exception err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+	//return 0;
 
-	std::cout << "mat_mul(): " << std::endl;
-	for (int i = 64; i <= 1024 * 2; i += 64)
-	{
-		const size_t m = i;
-		const size_t n = i;
-		const size_t k = i;
-		const size_t d = 1;
-		core::matrix<float> a(m, k, d);
-		core::matrix<float> b(k, n, d);
-		core::matrix<float> c(m, n, d);
-		a.fill(1.1f);
-		b.fill(1.2f);
+	//std::cout << "mat_mul(): " << std::endl;
+	//for (int i = 64; i <= 1024 * 2; i += 64)
+	//{
+	//	const size_t m = i;
+	//	const size_t n = i;
+	//	const size_t k = i;
+	//	const size_t d = 1;
+	//	core::matrix<float> a(m, k, d);
+	//	core::matrix<float> b(k, n, d);
+	//	core::matrix<float> c(m, n, d);
+	//	a.fill(1.1f);
+	//	b.fill(1.2f);
 
-		time_point<system_clock> start = system_clock::now();
-		core::cpu_multiply(c, a, b);
-		time_point<system_clock> stop = system_clock::now();
-		long long time = duration_cast<milliseconds>(stop - start).count();
-		std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
-	}
-	std::cout << "OK" << std::endl;
-	return 0;
+	//	time_point<system_clock> start = system_clock::now();
+	//	core::cpu_multiply(c, a, b);
+	//	time_point<system_clock> stop = system_clock::now();
+	//	long long time = duration_cast<milliseconds>(stop - start).count();
+	//	std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
+	//}
+	//std::cout << "OK" << std::endl;
+	//return 0;
 
 	try
 	{
-		size_t row = 15;
-		size_t p = 16;
-		size_t col = 17;
+		size_t row = 16;
+		size_t p = 17;
+		size_t col = 16;
 		size_t dim = 1;
 		core::matrix<float> a(row, p, dim);
 		core::matrix<float> b(p, col, dim);
@@ -190,7 +190,10 @@ int main()
 		b.linear_fill(1.0F, 1.0F);
 		core::cpu_transpose(bt, b);
 		// Matrix-matrix multiplication
-		core::cpu_multiply(c, a, b);
+		//core::cpu_multiply(c, a, b);
+
+		core::cpu_mul_rm_rm(c, a, b);
+
 		print("a", a);
 		print("b", b);
 		print("c=a*b", c);

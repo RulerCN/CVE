@@ -51,5 +51,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_mul_rv_rm.h"
 #include "cpu/cpu_mul_rv_cm.h"
 #include "cpu/cpu_mul_rm_cv.h"
+#include "cpu/cpu_mul_rm_rm.h"
 
 #endif
