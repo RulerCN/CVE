@@ -54,6 +54,19 @@ int main()
 	core::cpu_inst::enable_simd(true);
 	try
 	{
+		//__m256 ymm_c1;
+		//__m256 ymm_c0 = _mm256_set_ps(8, 7, 6, 5, 4, 3, 2, 1);
+		//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c0);
+		//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c0);
+		//ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c0, _MM_SHUFFLE(0, 2, 0, 1));
+		//ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
+
+		//__m256d ymm_c1;
+		//__m256d ymm_c0 = _mm256_set_pd(4, 3, 2, 1);
+		//ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c0);
+		//ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c0, _MM_SHUFFLE(0, 2, 0, 1));
+		//ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
+
 		std::string input_image = "data/test.bmp";
 		std::string conv_image = "data/conv.bmp";
 
