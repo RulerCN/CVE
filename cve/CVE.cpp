@@ -52,6 +52,25 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 int main()
 {
 	core::cpu_inst::enable_simd(true);
+
+	//__m256 ymm_c0 = _mm256_set_ps(.0008f, .0007f, .0006f, .0005f, .0004f, .0003f, .0002f, .0001f);
+	//__m256 ymm_c1 = _mm256_set_ps(.008f, .007f, .006f, .005f, .004f, .003f, .002f, .001f);
+	//__m256 ymm_c2 = _mm256_set_ps(.08f, .07f, .06f, .05f, .04f, .03f, .02f, .01f);
+	//__m256 ymm_c3 = _mm256_set_ps(.8f, .7f, .6f, .5f, .4f, .3f, .2f, .1f);
+	//__m256 ymm_c4 = _mm256_set_ps(8, 7, 6, 5, 4, 3, 2, 1);
+	//__m256 ymm_c5 = _mm256_set_ps(80, 70, 60, 50, 40, 30, 20, 10);
+	//__m256 ymm_c6 = _mm256_set_ps(800, 700, 600, 500, 400, 300, 200, 100);
+	//__m256 ymm_c7 = _mm256_set_ps(8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000);
+	//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c1);
+	//ymm_c2 = _mm256_hadd_ps(ymm_c2, ymm_c3);
+	//ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c5);
+	//ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
+	//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
+	//ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
+	//__m256 ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+	//__m256 ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+	//ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
+
 	//try
 	//{
 		//__m256 ymm_c1;
@@ -177,8 +196,8 @@ int main()
 	try
 	{
 		size_t row = 16;
-		size_t p = 17;
-		size_t col = 16;
+		size_t p = 16;
+		size_t col = 18;
 		size_t dim = 1;
 		core::matrix<float> a(row, p, dim);
 		core::matrix<float> b(p, col, dim);

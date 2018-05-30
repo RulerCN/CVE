@@ -379,8 +379,8 @@ namespace core
 			{
 				instruction_set |= detect_mmx();
 				instruction_set |= detect_sse();
-			//	instruction_set |= detect_avx();
-			//	instruction_set |= detect_fma();
+				instruction_set |= detect_avx();
+				instruction_set |= detect_fma();
 			}
 			return instruction_set;
 		}

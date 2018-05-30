@@ -94,7 +94,7 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
 			const T *ptr_a0 = a;
 			const T *ptr_a1 = ptr_a0 + rsa;
@@ -107,7 +107,7 @@ namespace core
 			T val_a0, val_a1, val_a2, val_a3;
 			T val_c0, val_c1, val_c2, val_c3;
 
-			for (size_t k = aligned_p; k < p; ++k)
+			for (size_t k = 0; k < surplus_p; ++k)
 			{
 				val_a0 = ptr_a0[k];
 				val_a1 = ptr_a1[k];
@@ -234,75 +234,67 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_a[4] = { a };
-			const float *ptr_b[4] = { b };
-			float *ptr_c[4] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
+			const float *ptr_a0 = a;
+			const float *ptr_a1 = ptr_a0 + rsa;
+			const float *ptr_a2 = ptr_a1 + rsa;
+			const float *ptr_a3 = ptr_a2 + rsa;
+			const float *ptr_b = nullptr;
+			float *ptr_c0 = c;
+			float *ptr_c1 = ptr_c0 + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
-			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128 xmm_b0;
 			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
 			if (aligned_n > 0)
 			{
-				//for (size_t k = aligned_p; k < p; ++k)
-				for (size_t k = 0; k < p - aligned_p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					//xmm_a0 = _mm_set1_ps(ptr_a[0][k]);
-					//xmm_a1 = _mm_set1_ps(ptr_a[1][k]);
-					//xmm_a2 = _mm_set1_ps(ptr_a[2][k]);
-					//xmm_a3 = _mm_set1_ps(ptr_a[3][k]);
-					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					xmm_a0 = _mm_set1_ps(ptr_a0[k]);
+					xmm_a1 = _mm_set1_ps(ptr_a1[k]);
+					xmm_a2 = _mm_set1_ps(ptr_a2[k]);
+					xmm_a3 = _mm_set1_ps(ptr_a3[k]);
 					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
-						xmm_b0 = _mm_loadu_ps(ptr_b[k] + j);
-						//xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
-						//xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
-						//xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
-						// return the weighted sum
+						xmm_b0 = _mm_loadu_ps(ptr_b + j);
+						// return the product
 						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-						//xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
-						//xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
-						//xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
-						//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
-						//xmm_c2 = _mm_add_ps(xmm_c2, xmm_c3);
-						//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c2);
+						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
+						xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
+						xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+						_mm_storeu_ps(ptr_c0 + j, _mm_add_ps(_mm_loadu_ps(ptr_c0 + j), xmm_c0));
+						_mm_storeu_ps(ptr_c1 + j, _mm_add_ps(_mm_loadu_ps(ptr_c1 + j), xmm_c1));
+						_mm_storeu_ps(ptr_c2 + j, _mm_add_ps(_mm_loadu_ps(ptr_c2 + j), xmm_c2));
+						_mm_storeu_ps(ptr_c3 + j, _mm_add_ps(_mm_loadu_ps(ptr_c3 + j), xmm_c3));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				//for (size_t k = aligned_p; k < p; ++k)
-				for (size_t k = 0; k < p - aligned_p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					xmm_a0 = _mm_set_ps(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						xmm_b0 = _mm_set1_ps(ptr_b[k][j]);
+						xmm_b0 = _mm_set1_ps(ptr_b[j]);
 						// return the product
 						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+						ptr_c0[j] += reinterpret_cast<float*>(&xmm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<float*>(&xmm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<float*>(&xmm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<float*>(&xmm_c0)[3];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -455,70 +447,67 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_a[4] = { a };
-			const float *ptr_b[4] = { b };
-			float *ptr_c[4] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
+			const float *ptr_a0 = a;
+			const float *ptr_a1 = ptr_a0 + rsa;
+			const float *ptr_a2 = ptr_a1 + rsa;
+			const float *ptr_a3 = ptr_a2 + rsa;
+			const float *ptr_b = nullptr;
+			float *ptr_c0 = c;
+			float *ptr_c1 = ptr_c0 + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
-			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1;
+			__m128 xmm_b0;
+			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					xmm_a0 = _mm_set1_ps(ptr_a[0][k]);
-					xmm_a1 = _mm_set1_ps(ptr_a[1][k]);
-					xmm_a2 = _mm_set1_ps(ptr_a[2][k]);
-					xmm_a3 = _mm_set1_ps(ptr_a[3][k]);
+					xmm_a0 = _mm_set1_ps(ptr_a0[k]);
+					xmm_a1 = _mm_set1_ps(ptr_a1[k]);
+					xmm_a2 = _mm_set1_ps(ptr_a2[k]);
+					xmm_a3 = _mm_set1_ps(ptr_a3[k]);
 					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
-						xmm_b0 = _mm_loadu_ps(ptr_b[0] + j);
-						xmm_b1 = _mm_loadu_ps(ptr_b[1] + j);
-						xmm_b2 = _mm_loadu_ps(ptr_b[2] + j);
-						xmm_b3 = _mm_loadu_ps(ptr_b[3] + j);
-						// return the weighted sum
+						xmm_b0 = _mm_loadu_ps(ptr_b + j);
+						// return the product
 						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
-						xmm_c0 = _mm_fmadd_ps(xmm_a2, xmm_b2, xmm_c0);
-						xmm_c1 = _mm_fmadd_ps(xmm_a3, xmm_b3, xmm_c1);
-						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+						xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b0);
+						xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b0);
+						xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+						_mm_storeu_ps(ptr_c0 + j, _mm_add_ps(_mm_loadu_ps(ptr_c0 + j), xmm_c0));
+						_mm_storeu_ps(ptr_c1 + j, _mm_add_ps(_mm_loadu_ps(ptr_c1 + j), xmm_c1));
+						_mm_storeu_ps(ptr_c2 + j, _mm_add_ps(_mm_loadu_ps(ptr_c2 + j), xmm_c2));
+						_mm_storeu_ps(ptr_c3 + j, _mm_add_ps(_mm_loadu_ps(ptr_c3 + j), xmm_c3));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					xmm_a0 = _mm_set_ps(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					xmm_a0 = _mm_set_ps(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						xmm_b0 = _mm_set1_ps(ptr_b[k][j]);
+						xmm_b0 = _mm_set1_ps(ptr_b[j]);
 						// return the product
 						xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&xmm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&xmm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&xmm_c0)[3];
+						ptr_c0[j] += reinterpret_cast<float*>(&xmm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<float*>(&xmm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<float*>(&xmm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<float*>(&xmm_c0)[3];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -646,51 +635,55 @@ namespace core
 			}
 		}
 		// C(2xn) += A(2xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
-			const double *ptr_a[2] = { a, a + rsa };
-			const double *ptr_b[2] = { b, b + rsb };
-			double *ptr_c[2] = { c, c + rsc };
+			const double *ptr_a0 = a;
+			const double *ptr_a1 = ptr_a0 + rsa;
+			const double *ptr_b = nullptr;
+			double *ptr_c0 = c;
+			double *ptr_c1 = ptr_c0 + rsc;
 			__m128d xmm_a0, xmm_a1;
-			__m128d xmm_b0, xmm_b1;
+			__m128d xmm_b0;
 			__m128d xmm_c0, xmm_c1;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					xmm_a0 = _mm_set1_pd(ptr_a[0][k]);
-					xmm_a1 = _mm_set1_pd(ptr_a[1][k]);
+					xmm_a0 = _mm_set1_pd(ptr_a0[k]);
+					xmm_a1 = _mm_set1_pd(ptr_a1[k]);
 					for (size_t j = 0; j < aligned_n; j += 2)
 					{
 						// load data from memory
-						xmm_b0 = _mm_loadu_pd(ptr_b[0] + j);
-						xmm_b1 = _mm_loadu_pd(ptr_b[1] + j);
-						// return the weighted sum
+						xmm_b0 = _mm_loadu_pd(ptr_b + j);
+						// return the product
 						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
-						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
-						xmm_c0 = _mm_add_pd(xmm_c0, xmm_c1);
+						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+						_mm_storeu_pd(ptr_c0 + j, _mm_add_pd(_mm_loadu_pd(ptr_c0 + j), xmm_c0));
+						_mm_storeu_pd(ptr_c1 + j, _mm_add_pd(_mm_loadu_pd(ptr_c1 + j), xmm_c1));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					xmm_a0 = _mm_set_pd(ptr_a[1][k], ptr_a[0][k]);
+					xmm_a0 = _mm_set_pd(ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						xmm_b0 = _mm_set1_pd(ptr_b[k][j]);
+						xmm_b0 = _mm_set1_pd(ptr_b[j]);
 						// return the product
 						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+						ptr_c0[j] += reinterpret_cast<double*>(&xmm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<double*>(&xmm_c0)[1];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -753,12 +746,9 @@ namespace core
 		// C(2xn) += A(2x2) * B(2xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
-			const double *ptr_a[2] = { a };
-			const double *ptr_b[2] = { b };
-			double *ptr_c[2] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
+			const double *ptr_a[2] = { a, a + rsa };
+			const double *ptr_b[2] = { b, b + rsb };
+			double *ptr_c[2] = { c, c + rsc };
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0, xmm_c1;
@@ -800,6 +790,109 @@ namespace core
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&xmm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&xmm_c0)[1];
+				}
+			}
+		}
+		// C(2xn) += A(2xp) * B(pxn)
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		{
+			const double *ptr_a0 = a;
+			const double *ptr_a1 = ptr_a0 + rsa;
+			const double *ptr_b = nullptr;
+			double *ptr_c0 = c;
+			double *ptr_c1 = ptr_c0 + rsc;
+			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_b0;
+			__m128d xmm_c0, xmm_c1;
+
+			if (aligned_n > 0)
+			{
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
+				{
+					xmm_a0 = _mm_set1_pd(ptr_a0[k]);
+					xmm_a1 = _mm_set1_pd(ptr_a1[k]);
+					for (size_t j = 0; j < aligned_n; j += 2)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_pd(ptr_b + j);
+						// return the product
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b0);
+						// store data into memory
+						_mm_storeu_pd(ptr_c0 + j, _mm_add_pd(_mm_loadu_pd(ptr_c0 + j), xmm_c0));
+						_mm_storeu_pd(ptr_c1 + j, _mm_add_pd(_mm_loadu_pd(ptr_c1 + j), xmm_c1));
+					}
+					ptr_b += rsb;
+				}
+			}
+			if (aligned_n < n)
+			{
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
+				{
+					xmm_a0 = _mm_set_pd(ptr_a1[k], ptr_a0[k]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set1_pd(ptr_b[j]);
+						// return the product
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						// store data into memory
+						ptr_c0[j] += reinterpret_cast<double*>(&xmm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<double*>(&xmm_c0)[1];
+					}
+					ptr_b += rsb;
+				}
+			}
+		}
+		// C(mxn) += A(mx2) * B(2xn)
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		{
+			const double *ptr_a[2] = { a, a + rsa };
+			const double *ptr_b[2] = { b, b + rsb };
+			double *ptr_c[2] = { c, c + rsc };
+			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_b0, xmm_b1;
+			__m128d xmm_c0;
+
+			if (aligned_n > 0)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					a = ptr_a[i];
+					c = ptr_c[i];
+					xmm_a0 = _mm_set1_pd(a[0]);
+					xmm_a1 = _mm_set1_pd(a[1]);
+					for (size_t j = 0; j < aligned_n; j += 2)
+					{
+						// load data from memory
+						xmm_b0 = _mm_loadu_pd(ptr_b[0] + j);
+						xmm_b1 = _mm_loadu_pd(ptr_b[1] + j);
+						// return the weighted sum
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c0 = _mm_fmadd_pd(xmm_a1, xmm_b1, xmm_c0);
+						// store data into memory
+						_mm_storeu_pd(c, _mm_add_pd(_mm_loadu_pd(c), xmm_c0));
+						c += 2;
+					}
+				}
+			}
+			if (aligned_n < n)
+			{
+				for (size_t i = 0; i < m; ++i)
+				{
+					xmm_a0 = _mm_loadu_pd(ptr_a[i]);
+					for (size_t j = aligned_n; j < n; ++j)
+					{
+						// load data from memory
+						xmm_b0 = _mm_set_pd(ptr_b[1][j], ptr_b[0][j]);
+						// return the product
+						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+						xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c0);
+						// store data into memory
+						ptr_c[i][j] += reinterpret_cast<double*>(&xmm_c0)[0];
+					}
 				}
 			}
 		}
@@ -933,110 +1026,93 @@ namespace core
 			}
 		}
 		// C(8xn) += A(8xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_a[8] = { a };
-			const float *ptr_b[8] = { b };
-			float *ptr_c[8] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_a[4] = ptr_a[3] + rsa;
-			ptr_a[5] = ptr_a[4] + rsa;
-			ptr_a[6] = ptr_a[5] + rsa;
-			ptr_a[7] = ptr_a[6] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_b[4] = ptr_b[3] + rsb;
-			ptr_b[5] = ptr_b[4] + rsb;
-			ptr_b[6] = ptr_b[5] + rsb;
-			ptr_b[7] = ptr_b[6] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
-			ptr_c[4] = ptr_c[3] + rsc;
-			ptr_c[5] = ptr_c[4] + rsc;
-			ptr_c[6] = ptr_c[5] + rsc;
-			ptr_c[7] = ptr_c[6] + rsc;
+			const float *ptr_a0 = a;
+			const float *ptr_a1 = ptr_a0 + rsa;
+			const float *ptr_a2 = ptr_a1 + rsa;
+			const float *ptr_a3 = ptr_a2 + rsa;
+			const float *ptr_a4 = ptr_a3 + rsa;
+			const float *ptr_a5 = ptr_a4 + rsa;
+			const float *ptr_a6 = ptr_a5 + rsa;
+			const float *ptr_a7 = ptr_a6 + rsa;
+			const float *ptr_b = nullptr;
+			float *ptr_c0 = c;
+			float *ptr_c1 = ptr_c0 + rsa;
+			float *ptr_c2 = ptr_c1 + rsa;
+			float *ptr_c3 = ptr_c2 + rsa;
+			float *ptr_c4 = ptr_c3 + rsa;
+			float *ptr_c5 = ptr_c4 + rsa;
+			float *ptr_c6 = ptr_c5 + rsa;
+			float *ptr_c7 = ptr_c6 + rsa;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
+			__m256 ymm_b0;
 			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set1_ps(ptr_a[0][k]);
-					ymm_a1 = _mm256_set1_ps(ptr_a[1][k]);
-					ymm_a2 = _mm256_set1_ps(ptr_a[2][k]);
-					ymm_a3 = _mm256_set1_ps(ptr_a[3][k]);
-					ymm_a4 = _mm256_set1_ps(ptr_a[4][k]);
-					ymm_a5 = _mm256_set1_ps(ptr_a[5][k]);
-					ymm_a6 = _mm256_set1_ps(ptr_a[6][k]);
-					ymm_a7 = _mm256_set1_ps(ptr_a[7][k]);
+					ymm_a0 = _mm256_set1_ps(ptr_a0[k]);
+					ymm_a1 = _mm256_set1_ps(ptr_a1[k]);
+					ymm_a2 = _mm256_set1_ps(ptr_a2[k]);
+					ymm_a3 = _mm256_set1_ps(ptr_a3[k]);
+					ymm_a4 = _mm256_set1_ps(ptr_a4[k]);
+					ymm_a5 = _mm256_set1_ps(ptr_a5[k]);
+					ymm_a6 = _mm256_set1_ps(ptr_a6[k]);
+					ymm_a7 = _mm256_set1_ps(ptr_a7[k]);
 					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_loadu_ps(ptr_b[0] + j);
-						ymm_b1 = _mm256_loadu_ps(ptr_b[1] + j);
-						ymm_b2 = _mm256_loadu_ps(ptr_b[2] + j);
-						ymm_b3 = _mm256_loadu_ps(ptr_b[3] + j);
-						ymm_b4 = _mm256_loadu_ps(ptr_b[4] + j);
-						ymm_b5 = _mm256_loadu_ps(ptr_b[5] + j);
-						ymm_b6 = _mm256_loadu_ps(ptr_b[6] + j);
-						ymm_b7 = _mm256_loadu_ps(ptr_b[7] + j);
-						// return the weighted sum
+						ymm_b0 = _mm256_loadu_ps(ptr_b + j);
+						// return the product
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
-						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
-						ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b2);
-						ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b3);
-						ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b4);
-						ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b5);
-						ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b6);
-						ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b7);
-						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
-						ymm_c2 = _mm256_add_ps(ymm_c2, ymm_c3);
-						ymm_c4 = _mm256_add_ps(ymm_c4, ymm_c5);
-						ymm_c6 = _mm256_add_ps(ymm_c6, ymm_c7);
-						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c2);
-						ymm_c4 = _mm256_add_ps(ymm_c4, ymm_c6);
-						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c4);
+						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b0);
+						ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b0);
+						ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b0);
+						ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b0);
+						ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b0);
+						ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b0);
+						ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&ymm_c0)[3];
-						ptr_c[4][j] += reinterpret_cast<float*>(&ymm_c0)[4];
-						ptr_c[5][j] += reinterpret_cast<float*>(&ymm_c0)[5];
-						ptr_c[6][j] += reinterpret_cast<float*>(&ymm_c0)[6];
-						ptr_c[7][j] += reinterpret_cast<float*>(&ymm_c0)[7];
+						_mm256_storeu_ps(ptr_c0 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c0 + j), ymm_c0));
+						_mm256_storeu_ps(ptr_c1 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c1 + j), ymm_c1));
+						_mm256_storeu_ps(ptr_c2 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c2 + j), ymm_c2));
+						_mm256_storeu_ps(ptr_c3 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c3 + j), ymm_c3));
+						_mm256_storeu_ps(ptr_c4 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c4 + j), ymm_c4));
+						_mm256_storeu_ps(ptr_c5 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c5 + j), ymm_c5));
+						_mm256_storeu_ps(ptr_c6 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c6 + j), ymm_c6));
+						_mm256_storeu_ps(ptr_c7 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c7 + j), ymm_c7));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
 					ymm_a0 = _mm256_set_ps(
-						ptr_a[7][k], ptr_a[6][k], ptr_a[5][k], ptr_a[4][k],
-						ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+						ptr_a7[k], ptr_a6[k], ptr_a5[k], ptr_a4[k],
+						ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_set1_ps(ptr_b[k][j]);
+						ymm_b0 = _mm256_set1_ps(ptr_b[j]);
 						// return the product
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&ymm_c0)[3];
-						ptr_c[4][j] += reinterpret_cast<float*>(&ymm_c0)[4];
-						ptr_c[5][j] += reinterpret_cast<float*>(&ymm_c0)[5];
-						ptr_c[6][j] += reinterpret_cast<float*>(&ymm_c0)[6];
-						ptr_c[7][j] += reinterpret_cast<float*>(&ymm_c0)[7];
+						ptr_c0[j] += reinterpret_cast<float*>(&ymm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<float*>(&ymm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<float*>(&ymm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<float*>(&ymm_c0)[3];
+						ptr_c4[j] += reinterpret_cast<float*>(&ymm_c0)[4];
+						ptr_c5[j] += reinterpret_cast<float*>(&ymm_c0)[5];
+						ptr_c6[j] += reinterpret_cast<float*>(&ymm_c0)[6];
+						ptr_c7[j] += reinterpret_cast<float*>(&ymm_c0)[7];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -1267,106 +1343,93 @@ namespace core
 			}
 		}
 		// C(8xn) += A(8xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_a[8] = { a };
-			const float *ptr_b[8] = { b };
-			float *ptr_c[8] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_a[4] = ptr_a[3] + rsa;
-			ptr_a[5] = ptr_a[4] + rsa;
-			ptr_a[6] = ptr_a[5] + rsa;
-			ptr_a[7] = ptr_a[6] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_b[4] = ptr_b[3] + rsb;
-			ptr_b[5] = ptr_b[4] + rsb;
-			ptr_b[6] = ptr_b[5] + rsb;
-			ptr_b[7] = ptr_b[6] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
-			ptr_c[4] = ptr_c[3] + rsc;
-			ptr_c[5] = ptr_c[4] + rsc;
-			ptr_c[6] = ptr_c[5] + rsc;
-			ptr_c[7] = ptr_c[6] + rsc;
+			const float *ptr_a0 = a;
+			const float *ptr_a1 = ptr_a0 + rsa;
+			const float *ptr_a2 = ptr_a1 + rsa;
+			const float *ptr_a3 = ptr_a2 + rsa;
+			const float *ptr_a4 = ptr_a3 + rsa;
+			const float *ptr_a5 = ptr_a4 + rsa;
+			const float *ptr_a6 = ptr_a5 + rsa;
+			const float *ptr_a7 = ptr_a6 + rsa;
+			const float *ptr_b = nullptr;
+			float *ptr_c0 = c;
+			float *ptr_c1 = ptr_c0 + rsa;
+			float *ptr_c2 = ptr_c1 + rsa;
+			float *ptr_c3 = ptr_c2 + rsa;
+			float *ptr_c4 = ptr_c3 + rsa;
+			float *ptr_c5 = ptr_c4 + rsa;
+			float *ptr_c6 = ptr_c5 + rsa;
+			float *ptr_c7 = ptr_c6 + rsa;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
-			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+			__m256 ymm_b0;
+			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set1_ps(ptr_a[0][k]);
-					ymm_a1 = _mm256_set1_ps(ptr_a[1][k]);
-					ymm_a2 = _mm256_set1_ps(ptr_a[2][k]);
-					ymm_a3 = _mm256_set1_ps(ptr_a[3][k]);
-					ymm_a4 = _mm256_set1_ps(ptr_a[4][k]);
-					ymm_a5 = _mm256_set1_ps(ptr_a[5][k]);
-					ymm_a6 = _mm256_set1_ps(ptr_a[6][k]);
-					ymm_a7 = _mm256_set1_ps(ptr_a[7][k]);
+					ymm_a0 = _mm256_set1_ps(ptr_a0[k]);
+					ymm_a1 = _mm256_set1_ps(ptr_a1[k]);
+					ymm_a2 = _mm256_set1_ps(ptr_a2[k]);
+					ymm_a3 = _mm256_set1_ps(ptr_a3[k]);
+					ymm_a4 = _mm256_set1_ps(ptr_a4[k]);
+					ymm_a5 = _mm256_set1_ps(ptr_a5[k]);
+					ymm_a6 = _mm256_set1_ps(ptr_a6[k]);
+					ymm_a7 = _mm256_set1_ps(ptr_a7[k]);
 					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_loadu_ps(ptr_b[0] + j);
-						ymm_b1 = _mm256_loadu_ps(ptr_b[1] + j);
-						ymm_b2 = _mm256_loadu_ps(ptr_b[2] + j);
-						ymm_b3 = _mm256_loadu_ps(ptr_b[3] + j);
-						ymm_b4 = _mm256_loadu_ps(ptr_b[4] + j);
-						ymm_b5 = _mm256_loadu_ps(ptr_b[5] + j);
-						ymm_b6 = _mm256_loadu_ps(ptr_b[6] + j);
-						ymm_b7 = _mm256_loadu_ps(ptr_b[7] + j);
-						// return the weighted sum
+						ymm_b0 = _mm256_loadu_ps(ptr_b + j);
+						// return the product
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
-						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
-						ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b2);
-						ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b3);
-						ymm_c0 = _mm256_fmadd_ps(ymm_a4, ymm_b4, ymm_c0);
-						ymm_c1 = _mm256_fmadd_ps(ymm_a5, ymm_b5, ymm_c1);
-						ymm_c2 = _mm256_fmadd_ps(ymm_a6, ymm_b6, ymm_c2);
-						ymm_c3 = _mm256_fmadd_ps(ymm_a7, ymm_b7, ymm_c3);
-						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
-						ymm_c2 = _mm256_add_ps(ymm_c2, ymm_c3);
-						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c2);
+						ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b0);
+						ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b0);
+						ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b0);
+						ymm_c4 = _mm256_mul_ps(ymm_a4, ymm_b0);
+						ymm_c5 = _mm256_mul_ps(ymm_a5, ymm_b0);
+						ymm_c6 = _mm256_mul_ps(ymm_a6, ymm_b0);
+						ymm_c7 = _mm256_mul_ps(ymm_a7, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&ymm_c0)[3];
-						ptr_c[4][j] += reinterpret_cast<float*>(&ymm_c0)[4];
-						ptr_c[5][j] += reinterpret_cast<float*>(&ymm_c0)[5];
-						ptr_c[6][j] += reinterpret_cast<float*>(&ymm_c0)[6];
-						ptr_c[7][j] += reinterpret_cast<float*>(&ymm_c0)[7];
+						_mm256_storeu_ps(ptr_c0 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c0 + j), ymm_c0));
+						_mm256_storeu_ps(ptr_c1 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c1 + j), ymm_c1));
+						_mm256_storeu_ps(ptr_c2 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c2 + j), ymm_c2));
+						_mm256_storeu_ps(ptr_c3 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c3 + j), ymm_c3));
+						_mm256_storeu_ps(ptr_c4 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c4 + j), ymm_c4));
+						_mm256_storeu_ps(ptr_c5 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c5 + j), ymm_c5));
+						_mm256_storeu_ps(ptr_c6 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c6 + j), ymm_c6));
+						_mm256_storeu_ps(ptr_c7 + j, _mm256_add_ps(_mm256_loadu_ps(ptr_c7 + j), ymm_c7));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
 					ymm_a0 = _mm256_set_ps(
-						ptr_a[7][k], ptr_a[6][k], ptr_a[5][k], ptr_a[4][k],
-						ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+						ptr_a7[k], ptr_a6[k], ptr_a5[k], ptr_a4[k],
+						ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_set1_ps(ptr_b[k][j]);
+						ymm_b0 = _mm256_set1_ps(ptr_b[j]);
 						// return the product
 						ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<float*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<float*>(&ymm_c0)[3];
-						ptr_c[4][j] += reinterpret_cast<float*>(&ymm_c0)[4];
-						ptr_c[5][j] += reinterpret_cast<float*>(&ymm_c0)[5];
-						ptr_c[6][j] += reinterpret_cast<float*>(&ymm_c0)[6];
-						ptr_c[7][j] += reinterpret_cast<float*>(&ymm_c0)[7];
+						ptr_c0[j] += reinterpret_cast<float*>(&ymm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<float*>(&ymm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<float*>(&ymm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<float*>(&ymm_c0)[3];
+						ptr_c4[j] += reinterpret_cast<float*>(&ymm_c0)[4];
+						ptr_c5[j] += reinterpret_cast<float*>(&ymm_c0)[5];
+						ptr_c6[j] += reinterpret_cast<float*>(&ymm_c0)[6];
+						ptr_c7[j] += reinterpret_cast<float*>(&ymm_c0)[7];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -1551,72 +1614,67 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
-			const double *ptr_a[4] = { a };
-			const double *ptr_b[4] = { b };
-			double *ptr_c[4] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
+			const double *ptr_a0 = a;
+			const double *ptr_a1 = ptr_a0 + rsa;
+			const double *ptr_a2 = ptr_a1 + rsa;
+			const double *ptr_a3 = ptr_a2 + rsa;
+			const double *ptr_b = nullptr;
+			double *ptr_c0 = c;
+			double *ptr_c1 = ptr_c0 + rsc;
+			double *ptr_c2 = ptr_c1 + rsc;
+			double *ptr_c3 = ptr_c2 + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
-			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
+			__m256d ymm_b0;
 			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set1_pd(ptr_a[0][k]);
-					ymm_a1 = _mm256_set1_pd(ptr_a[1][k]);
-					ymm_a2 = _mm256_set1_pd(ptr_a[2][k]);
-					ymm_a3 = _mm256_set1_pd(ptr_a[3][k]);
+					ymm_a0 = _mm256_set1_pd(ptr_a0[k]);
+					ymm_a1 = _mm256_set1_pd(ptr_a1[k]);
+					ymm_a2 = _mm256_set1_pd(ptr_a2[k]);
+					ymm_a3 = _mm256_set1_pd(ptr_a3[k]);
 					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_loadu_pd(ptr_b[0] + j);
-						ymm_b1 = _mm256_loadu_pd(ptr_b[1] + j);
-						ymm_b2 = _mm256_loadu_pd(ptr_b[2] + j);
-						ymm_b3 = _mm256_loadu_pd(ptr_b[3] + j);
-						// return the weighted sum
+						ymm_b0 = _mm256_loadu_pd(ptr_b + j);
+						// return the product
 						ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
-						ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b1);
-						ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b2);
-						ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b3);
-						ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
-						ymm_c2 = _mm256_add_pd(ymm_c2, ymm_c3);
-						ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c2);
+						ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b0);
+						ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b0);
+						ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<double*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<double*>(&ymm_c0)[3];
+						_mm256_storeu_pd(ptr_c0 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c0 + j), ymm_c0));
+						_mm256_storeu_pd(ptr_c1 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c1 + j), ymm_c1));
+						_mm256_storeu_pd(ptr_c2 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c2 + j), ymm_c2));
+						_mm256_storeu_pd(ptr_c3 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c3 + j), ymm_c3));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set_pd(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					ymm_a0 = _mm256_set_pd(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_set1_pd(ptr_b[k][j]);
+						ymm_b0 = _mm256_set1_pd(ptr_b[j]);
 						// return the product
 						ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<double*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<double*>(&ymm_c0)[3];
+						ptr_c0[j] += reinterpret_cast<double*>(&ymm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<double*>(&ymm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<double*>(&ymm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<double*>(&ymm_c0)[3];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -1772,70 +1830,67 @@ namespace core
 			}
 		}
 		// C(4xn) += A(4xp) * B(pxn)
-		void operator()(size_t aligned_p, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		void operator()(size_t aligned_p, size_t surplus_p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
-			const double *ptr_a[4] = { a };
-			const double *ptr_b[4] = { b };
-			double *ptr_c[4] = { c };
-			ptr_a[1] = ptr_a[0] + rsa;
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_b[1] = ptr_b[0] + rsb;
-			ptr_b[2] = ptr_b[1] + rsb;
-			ptr_b[3] = ptr_b[2] + rsb;
-			ptr_c[1] = ptr_c[0] + rsc;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
+			const double *ptr_a0 = a;
+			const double *ptr_a1 = ptr_a0 + rsa;
+			const double *ptr_a2 = ptr_a1 + rsa;
+			const double *ptr_a3 = ptr_a2 + rsa;
+			const double *ptr_b = nullptr;
+			double *ptr_c0 = c;
+			double *ptr_c1 = ptr_c0 + rsc;
+			double *ptr_c2 = ptr_c1 + rsc;
+			double *ptr_c3 = ptr_c2 + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
-			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
-			__m256d ymm_c0, ymm_c1;
+			__m256d ymm_b0;
+			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
 			if (aligned_n > 0)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set1_pd(ptr_a[0][k]);
-					ymm_a1 = _mm256_set1_pd(ptr_a[1][k]);
-					ymm_a2 = _mm256_set1_pd(ptr_a[2][k]);
-					ymm_a3 = _mm256_set1_pd(ptr_a[3][k]);
+					ymm_a0 = _mm256_set1_pd(ptr_a0[k]);
+					ymm_a1 = _mm256_set1_pd(ptr_a1[k]);
+					ymm_a2 = _mm256_set1_pd(ptr_a2[k]);
+					ymm_a3 = _mm256_set1_pd(ptr_a3[k]);
 					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_loadu_pd(ptr_b[0] + j);
-						ymm_b1 = _mm256_loadu_pd(ptr_b[1] + j);
-						ymm_b2 = _mm256_loadu_pd(ptr_b[2] + j);
-						ymm_b3 = _mm256_loadu_pd(ptr_b[3] + j);
-						// return the weighted sum
+						ymm_b0 = _mm256_loadu_pd(ptr_b + j);
+						// return the product
 						ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
-						ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b1);
-						ymm_c0 = _mm256_fmadd_pd(ymm_a2, ymm_b2, ymm_c0);
-						ymm_c1 = _mm256_fmadd_pd(ymm_a3, ymm_b3, ymm_c1);
-						ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
+						ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b0);
+						ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b0);
+						ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<double*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<double*>(&ymm_c0)[3];
+						_mm256_storeu_pd(ptr_c0 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c0 + j), ymm_c0));
+						_mm256_storeu_pd(ptr_c1 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c1 + j), ymm_c1));
+						_mm256_storeu_pd(ptr_c2 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c2 + j), ymm_c2));
+						_mm256_storeu_pd(ptr_c3 + j, _mm256_add_pd(_mm256_loadu_pd(ptr_c3 + j), ymm_c3));
 					}
+					ptr_b += rsb;
 				}
 			}
 			if (aligned_n < n)
 			{
-				for (size_t k = aligned_p; k < p; ++k)
+				ptr_b = b;
+				for (size_t k = 0; k < surplus_p; ++k)
 				{
-					ymm_a0 = _mm256_set_pd(ptr_a[3][k], ptr_a[2][k], ptr_a[1][k], ptr_a[0][k]);
+					ymm_a0 = _mm256_set_pd(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 					for (size_t j = aligned_n; j < n; ++j)
 					{
 						// load data from memory
-						ymm_b0 = _mm256_set1_pd(ptr_b[k][j]);
+						ymm_b0 = _mm256_set1_pd(ptr_b[j]);
 						// return the product
 						ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
 						// store data into memory
-						ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
-						ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
-						ptr_c[2][j] += reinterpret_cast<double*>(&ymm_c0)[2];
-						ptr_c[3][j] += reinterpret_cast<double*>(&ymm_c0)[3];
+						ptr_c0[j] += reinterpret_cast<double*>(&ymm_c0)[0];
+						ptr_c1[j] += reinterpret_cast<double*>(&ymm_c0)[1];
+						ptr_c2[j] += reinterpret_cast<double*>(&ymm_c0)[2];
+						ptr_c3[j] += reinterpret_cast<double*>(&ymm_c0)[3];
 					}
+					ptr_b += rsb;
 				}
 			}
 		}
@@ -1938,7 +1993,7 @@ namespace core
 					ptr_b += block_rsb;
 				}
 				if (surplus_p > 0)
-					special_functor(aligned_p, p, aligned_n, n, a + aligned_p, rsa, ptr_b, rsb, c, rsc);
+					special_functor(aligned_p, surplus_p, aligned_n, n, a + aligned_p, rsa, ptr_b, rsb, c, rsc);
 				a += block_rsa;
 				c += block_rsc;
 			}
