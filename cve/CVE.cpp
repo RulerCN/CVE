@@ -51,8 +51,6 @@ void print(const char *name, const core::matrix<unsigned long long, Allocator> &
 
 int main()
 {
-	core::cpu_inst::enable_simd(true);
-
 	//__m256 ymm_c0 = _mm256_set_ps(.0008f, .0007f, .0006f, .0005f, .0004f, .0003f, .0002f, .0001f);
 	//__m256 ymm_c1 = _mm256_set_ps(.008f, .007f, .006f, .005f, .004f, .003f, .002f, .001f);
 	//__m256 ymm_c2 = _mm256_set_ps(.08f, .07f, .06f, .05f, .04f, .03f, .02f, .01f);
@@ -193,11 +191,12 @@ int main()
 	//std::cout << "OK" << std::endl;
 	//return 0;
 
+	core::cpu_inst::enable_simd(true);
 	try
 	{
-		size_t row = 16;
-		size_t p = 16;
-		size_t col = 18;
+		size_t row = 10;
+		size_t p = 11;
+		size_t col = 13;
 		size_t dim = 1;
 		core::matrix<float> a(row, p, dim);
 		core::matrix<float> b(p, col, dim);
@@ -209,15 +208,16 @@ int main()
 		b.linear_fill(1.0F, 1.0F);
 		core::cpu_transpose(bt, b);
 		// Matrix-matrix multiplication
-		//core::cpu_multiply(c, a, b);
-
 		core::cpu_mul_rm_rm(c, a, b);
 
+		//core::cpu_multiply(d, a, b);
+		const core::common_mul_rm_rm<float> mul;
+		mul(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), d.data(), d.row_size());
 		print("a", a);
 		print("b", b);
 		print("c=a*b", c);
-		core::cpu_multiply(d, a, bt, true);
-		print("d=a*b^t", d);
+		//core::cpu_multiply(d, a, bt, true);
+		print("d=a*b", d);
 	}
 	catch (std::exception err)
 	{

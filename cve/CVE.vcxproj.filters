@@ -247,6 +247,18 @@
     <ClInclude Include="core\cpu\cpu_mul_rm_rm.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm00.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm01.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm10.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm11.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

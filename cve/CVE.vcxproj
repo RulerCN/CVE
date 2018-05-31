@@ -186,6 +186,9 @@
     <ClInclude Include="core\cpu\kernel\kernel_matrix_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cv.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm01.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm10.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm11.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rv_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rv_rm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_col_max.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="core\cpu\cpu_reduce_row_sum.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose_matrix_multiply.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm00.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\matrix.h" />
