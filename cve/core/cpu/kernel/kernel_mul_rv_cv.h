@@ -27,31 +27,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_H__
-#define __CORE_H__
+#ifndef __CORE_CPU_KERNEL_MUL_RV_CV_H__
+#define __CORE_CPU_KERNEL_MUL_RV_CV_H__
 
-#include "sample_allocator.h"
-#include "allocator.h"
-#include "sample_allocator.h"
-#include "scalar.h"
-#include "vector.h"
-#include "matrix.h"
-#include "tensor.h"
-#include "rb_tree.h"
-#include "tree.h"
+#include "../cpu_inst.h"
 
-#include "cpu/cpu_convert.h"
-#include "cpu/cpu_convert_scale.h"
-#include "cpu/cpu_reduce.h"
-#include "cpu/cpu_transpose.h"
-#include "cpu/cpu_border.h"
-#include "cpu/cpu_sliding_window.h"
-#include "cpu/cpu_mapping.h"
-#include "cpu/cpu_multiply.h"
-#include "cpu/cpu_mul_cv_rv.h"
-#include "cpu/cpu_mul_rv_rm.h"
-#include "cpu/cpu_mul_rv_cm.h"
-#include "cpu/cpu_mul_rm_cv.h"
-#include "cpu/cpu_mul_rm_rm.h"
+namespace core
+{
+	// Class template block_mul_rv_cv
+
+} // namespace core
 
 #endif

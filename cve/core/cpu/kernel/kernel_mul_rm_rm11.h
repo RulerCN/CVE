@@ -39,10 +39,10 @@ namespace core
 	struct block_mul_rm_rm11
 	{
 		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
-			const float *ptr_b = nullptr;
-			float val_a;
+			const T *ptr_b = nullptr;
+			T val_a;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -88,8 +88,9 @@ namespace core
 					{
 						// load data from memory
 						xmm_b = _mm_loadu_ps(ptr_b + j);
+						xmm_c = _mm_loadu_ps(c + j);
 						// return the weighted sum
-						xmm_c = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b), _mm_loadu_ps(c + j));
+						xmm_c = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b), xmm_c);
 						// store data into memory
 						_mm_storeu_ps(c + j, xmm_c);
 					}
@@ -124,8 +125,9 @@ namespace core
 					{
 						// load data from memory
 						xmm_b = _mm_loadu_ps(ptr_b + j);
+						xmm_c = _mm_loadu_ps(c + j);
 						// return the weighted sum
-						xmm_c = _mm_fmadd_ps(xmm_a, xmm_b, _mm_loadu_ps(c + j));
+						xmm_c = _mm_fmadd_ps(xmm_a, xmm_b, xmm_c);
 						// store data into memory
 						_mm_storeu_ps(c + j, xmm_c);
 					}
@@ -160,8 +162,9 @@ namespace core
 					{
 						// load data from memory
 						xmm_b = _mm_loadu_pd(ptr_b + j);
+						xmm_c = _mm_loadu_pd(c + j);
 						// return the weighted sum
-						xmm_c = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b), _mm_loadu_pd(c + j));
+						xmm_c = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b), xmm_c);
 						// store data into memory
 						_mm_storeu_pd(c + j, xmm_c);
 					}
@@ -196,8 +199,9 @@ namespace core
 					{
 						// load data from memory
 						xmm_b = _mm_loadu_pd(ptr_b + j);
+						xmm_c = _mm_loadu_pd(c + j);
 						// return the weighted sum
-						xmm_c = _mm_fmadd_pd(xmm_a, xmm_b, _mm_loadu_pd(c + j));
+						xmm_c = _mm_fmadd_pd(xmm_a, xmm_b, xmm_c);
 						// store data into memory
 						_mm_storeu_pd(c + j, xmm_c);
 					}
@@ -232,8 +236,9 @@ namespace core
 					{
 						// load data from memory
 						ymm_b = _mm256_loadu_ps(ptr_b + j);
+						ymm_c = _mm256_loadu_ps(c + j);
 						// return the weighted sum
-						ymm_c = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b), _mm256_loadu_ps(c + j));
+						ymm_c = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b), ymm_c);
 						// store data into memory
 						_mm256_storeu_ps(c + j, ymm_c);
 					}
@@ -268,8 +273,9 @@ namespace core
 					{
 						// load data from memory
 						ymm_b = _mm256_loadu_ps(ptr_b + j);
+						ymm_c = _mm256_loadu_ps(c + j);
 						// return the weighted sum
-						ymm_c = _mm256_fmadd_ps(ymm_a, ymm_b, _mm256_loadu_ps(c + j));
+						ymm_c = _mm256_fmadd_ps(ymm_a, ymm_b, ymm_c);
 						// store data into memory
 						_mm256_storeu_ps(c + j, ymm_c);
 					}
@@ -304,8 +310,9 @@ namespace core
 					{
 						// load data from memory
 						ymm_b = _mm256_loadu_pd(ptr_b + j);
+						ymm_c = _mm256_loadu_pd(c + j);
 						// return the weighted sum
-						ymm_c = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b), _mm256_loadu_pd(c + j));
+						ymm_c = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b), ymm_c);
 						// store data into memory
 						_mm256_storeu_pd(c + j, ymm_c);
 					}
@@ -340,6 +347,7 @@ namespace core
 					{
 						// load data from memory
 						ymm_b = _mm256_loadu_pd(ptr_b + j);
+						ymm_c = _mm256_loadu_pd(c + j);
 						// return the weighted sum
 						ymm_c = _mm256_fmadd_pd(ymm_a, ymm_b, _mm256_loadu_pd(c + j));
 						// store data into memory

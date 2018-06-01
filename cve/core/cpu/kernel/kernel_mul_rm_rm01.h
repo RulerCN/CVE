@@ -103,11 +103,15 @@ namespace core
 					{
 						// load data from memory
 						xmm_b0 = _mm_loadu_ps(ptr_b + j);
+						xmm_c0 = _mm_loadu_ps(ptr_c0 + j);
+						xmm_c1 = _mm_loadu_ps(ptr_c1 + j);
+						xmm_c2 = _mm_loadu_ps(ptr_c2 + j);
+						xmm_c3 = _mm_loadu_ps(ptr_c3 + j);
 						// return the weighted sum
-						xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b0), _mm_loadu_ps(ptr_c0 + j));
-						xmm_c1 = _mm_add_ps(_mm_mul_ps(xmm_a1, xmm_b0), _mm_loadu_ps(ptr_c1 + j));
-						xmm_c2 = _mm_add_ps(_mm_mul_ps(xmm_a2, xmm_b0), _mm_loadu_ps(ptr_c2 + j));
-						xmm_c3 = _mm_add_ps(_mm_mul_ps(xmm_a3, xmm_b0), _mm_loadu_ps(ptr_c3 + j));
+						xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b0), xmm_c0);
+						xmm_c1 = _mm_add_ps(_mm_mul_ps(xmm_a1, xmm_b0), xmm_c1);
+						xmm_c2 = _mm_add_ps(_mm_mul_ps(xmm_a2, xmm_b0), xmm_c2);
+						xmm_c3 = _mm_add_ps(_mm_mul_ps(xmm_a3, xmm_b0), xmm_c3);
 						// store data into memory
 						_mm_storeu_ps(ptr_c0 + j, xmm_c0);
 						_mm_storeu_ps(ptr_c1 + j, xmm_c1);
@@ -173,11 +177,15 @@ namespace core
 					{
 						// load data from memory
 						xmm_b0 = _mm_loadu_ps(ptr_b + j);
+						xmm_c0 = _mm_loadu_ps(ptr_c0 + j);
+						xmm_c1 = _mm_loadu_ps(ptr_c1 + j);
+						xmm_c2 = _mm_loadu_ps(ptr_c2 + j);
+						xmm_c3 = _mm_loadu_ps(ptr_c3 + j);
 						// return the weighted sum
-						xmm_c0 = _mm_fmadd_ps(xmm_a0, xmm_b0, _mm_loadu_ps(ptr_c0 + j));
-						xmm_c1 = _mm_fmadd_ps(xmm_a1, xmm_b0, _mm_loadu_ps(ptr_c1 + j));
-						xmm_c2 = _mm_fmadd_ps(xmm_a2, xmm_b0, _mm_loadu_ps(ptr_c2 + j));
-						xmm_c3 = _mm_fmadd_ps(xmm_a3, xmm_b0, _mm_loadu_ps(ptr_c3 + j));
+						xmm_c0 = _mm_fmadd_ps(xmm_a0, xmm_b0, xmm_c0);
+						xmm_c1 = _mm_fmadd_ps(xmm_a1, xmm_b0, xmm_c1);
+						xmm_c2 = _mm_fmadd_ps(xmm_a2, xmm_b0, xmm_c2);
+						xmm_c3 = _mm_fmadd_ps(xmm_a3, xmm_b0, xmm_c3);
 						// store data into memory
 						_mm_storeu_ps(ptr_c0 + j, xmm_c0);
 						_mm_storeu_ps(ptr_c1 + j, xmm_c1);
@@ -237,9 +245,11 @@ namespace core
 					{
 						// load data from memory
 						xmm_b0 = _mm_loadu_pd(ptr_b + j);
+						xmm_c0 = _mm_loadu_pd(ptr_c0 + j);
+						xmm_c1 = _mm_loadu_pd(ptr_c1 + j);
 						// return the weighted sum
-						xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b0), _mm_loadu_pd(ptr_c0 + j));
-						xmm_c1 = _mm_add_pd(_mm_mul_pd(xmm_a1, xmm_b0), _mm_loadu_pd(ptr_c1 + j));
+						xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b0), xmm_c0);
+						xmm_c1 = _mm_add_pd(_mm_mul_pd(xmm_a1, xmm_b0), xmm_c1);
 						// store data into memory
 						_mm_storeu_pd(ptr_c0 + j, xmm_c0);
 						_mm_storeu_pd(ptr_c1 + j, xmm_c1);
@@ -295,9 +305,11 @@ namespace core
 					{
 						// load data from memory
 						xmm_b0 = _mm_loadu_pd(ptr_b + j);
+						xmm_c0 = _mm_loadu_pd(ptr_c0 + j);
+						xmm_c1 = _mm_loadu_pd(ptr_c1 + j);
 						// return the weighted sum
-						xmm_c0 = _mm_fmadd_pd(xmm_a0, xmm_b0, _mm_loadu_pd(ptr_c0 + j));
-						xmm_c1 = _mm_fmadd_pd(xmm_a1, xmm_b0, _mm_loadu_pd(ptr_c1 + j));
+						xmm_c0 = _mm_fmadd_pd(xmm_a0, xmm_b0, xmm_c0);
+						xmm_c1 = _mm_fmadd_pd(xmm_a1, xmm_b0, xmm_c1);
 						// store data into memory
 						_mm_storeu_pd(ptr_c0 + j, xmm_c0);
 						_mm_storeu_pd(ptr_c1 + j, xmm_c1);
@@ -371,15 +383,23 @@ namespace core
 					{
 						// load data from memory
 						ymm_b0 = _mm256_loadu_ps(ptr_b + j);
+						ymm_c0 = _mm256_loadu_ps(ptr_c0 + j);
+						ymm_c1 = _mm256_loadu_ps(ptr_c1 + j);
+						ymm_c2 = _mm256_loadu_ps(ptr_c2 + j);
+						ymm_c3 = _mm256_loadu_ps(ptr_c3 + j);
+						ymm_c4 = _mm256_loadu_ps(ptr_c4 + j);
+						ymm_c5 = _mm256_loadu_ps(ptr_c5 + j);
+						ymm_c6 = _mm256_loadu_ps(ptr_c6 + j);
+						ymm_c7 = _mm256_loadu_ps(ptr_c7 + j);
 						// return the weighted sum
-						ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b0), _mm256_loadu_ps(ptr_c0 + j));
-						ymm_c1 = _mm256_add_ps(_mm256_mul_ps(ymm_a1, ymm_b0), _mm256_loadu_ps(ptr_c1 + j));
-						ymm_c2 = _mm256_add_ps(_mm256_mul_ps(ymm_a2, ymm_b0), _mm256_loadu_ps(ptr_c2 + j));
-						ymm_c3 = _mm256_add_ps(_mm256_mul_ps(ymm_a3, ymm_b0), _mm256_loadu_ps(ptr_c3 + j));
-						ymm_c4 = _mm256_add_ps(_mm256_mul_ps(ymm_a4, ymm_b0), _mm256_loadu_ps(ptr_c4 + j));
-						ymm_c5 = _mm256_add_ps(_mm256_mul_ps(ymm_a5, ymm_b0), _mm256_loadu_ps(ptr_c5 + j));
-						ymm_c6 = _mm256_add_ps(_mm256_mul_ps(ymm_a6, ymm_b0), _mm256_loadu_ps(ptr_c6 + j));
-						ymm_c7 = _mm256_add_ps(_mm256_mul_ps(ymm_a7, ymm_b0), _mm256_loadu_ps(ptr_c7 + j));
+						ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b0), ymm_c0);
+						ymm_c1 = _mm256_add_ps(_mm256_mul_ps(ymm_a1, ymm_b0), ymm_c1);
+						ymm_c2 = _mm256_add_ps(_mm256_mul_ps(ymm_a2, ymm_b0), ymm_c2);
+						ymm_c3 = _mm256_add_ps(_mm256_mul_ps(ymm_a3, ymm_b0), ymm_c3);
+						ymm_c4 = _mm256_add_ps(_mm256_mul_ps(ymm_a4, ymm_b0), ymm_c4);
+						ymm_c5 = _mm256_add_ps(_mm256_mul_ps(ymm_a5, ymm_b0), ymm_c5);
+						ymm_c6 = _mm256_add_ps(_mm256_mul_ps(ymm_a6, ymm_b0), ymm_c6);
+						ymm_c7 = _mm256_add_ps(_mm256_mul_ps(ymm_a7, ymm_b0), ymm_c7);
 						// store data into memory
 						_mm256_storeu_ps(ptr_c0 + j, ymm_c0);
 						_mm256_storeu_ps(ptr_c1 + j, ymm_c1);
@@ -467,15 +487,23 @@ namespace core
 					{
 						// load data from memory
 						ymm_b0 = _mm256_loadu_ps(ptr_b + j);
+						ymm_c0 = _mm256_loadu_ps(ptr_c0 + j);
+						ymm_c1 = _mm256_loadu_ps(ptr_c1 + j);
+						ymm_c2 = _mm256_loadu_ps(ptr_c2 + j);
+						ymm_c3 = _mm256_loadu_ps(ptr_c3 + j);
+						ymm_c4 = _mm256_loadu_ps(ptr_c4 + j);
+						ymm_c5 = _mm256_loadu_ps(ptr_c5 + j);
+						ymm_c6 = _mm256_loadu_ps(ptr_c6 + j);
+						ymm_c7 = _mm256_loadu_ps(ptr_c7 + j);
 						// return the weighted sum
-						ymm_c0 = _mm256_fmadd_ps(ymm_a0, ymm_b0, _mm256_loadu_ps(ptr_c0 + j));
-						ymm_c1 = _mm256_fmadd_ps(ymm_a1, ymm_b0, _mm256_loadu_ps(ptr_c1 + j));
-						ymm_c2 = _mm256_fmadd_ps(ymm_a2, ymm_b0, _mm256_loadu_ps(ptr_c2 + j));
-						ymm_c3 = _mm256_fmadd_ps(ymm_a3, ymm_b0, _mm256_loadu_ps(ptr_c3 + j));
-						ymm_c4 = _mm256_fmadd_ps(ymm_a4, ymm_b0, _mm256_loadu_ps(ptr_c4 + j));
-						ymm_c5 = _mm256_fmadd_ps(ymm_a5, ymm_b0, _mm256_loadu_ps(ptr_c5 + j));
-						ymm_c6 = _mm256_fmadd_ps(ymm_a6, ymm_b0, _mm256_loadu_ps(ptr_c6 + j));
-						ymm_c7 = _mm256_fmadd_ps(ymm_a7, ymm_b0, _mm256_loadu_ps(ptr_c7 + j));
+						ymm_c0 = _mm256_fmadd_ps(ymm_a0, ymm_b0, ymm_c0);
+						ymm_c1 = _mm256_fmadd_ps(ymm_a1, ymm_b0, ymm_c1);
+						ymm_c2 = _mm256_fmadd_ps(ymm_a2, ymm_b0, ymm_c2);
+						ymm_c3 = _mm256_fmadd_ps(ymm_a3, ymm_b0, ymm_c3);
+						ymm_c4 = _mm256_fmadd_ps(ymm_a4, ymm_b0, ymm_c4);
+						ymm_c5 = _mm256_fmadd_ps(ymm_a5, ymm_b0, ymm_c5);
+						ymm_c6 = _mm256_fmadd_ps(ymm_a6, ymm_b0, ymm_c6);
+						ymm_c7 = _mm256_fmadd_ps(ymm_a7, ymm_b0, ymm_c7);
 						// store data into memory
 						_mm256_storeu_ps(ptr_c0 + j, ymm_c0);
 						_mm256_storeu_ps(ptr_c1 + j, ymm_c1);
@@ -551,11 +579,15 @@ namespace core
 					{
 						// load data from memory
 						ymm_b0 = _mm256_loadu_pd(ptr_b + j);
+						ymm_c0 = _mm256_loadu_pd(ptr_c0 + j);
+						ymm_c1 = _mm256_loadu_pd(ptr_c1 + j);
+						ymm_c2 = _mm256_loadu_pd(ptr_c2 + j);
+						ymm_c3 = _mm256_loadu_pd(ptr_c3 + j);
 						// return the weighted sum
-						ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b0), _mm256_loadu_pd(ptr_c0 + j));
-						ymm_c1 = _mm256_add_pd(_mm256_mul_pd(ymm_a1, ymm_b0), _mm256_loadu_pd(ptr_c1 + j));
-						ymm_c2 = _mm256_add_pd(_mm256_mul_pd(ymm_a2, ymm_b0), _mm256_loadu_pd(ptr_c2 + j));
-						ymm_c3 = _mm256_add_pd(_mm256_mul_pd(ymm_a3, ymm_b0), _mm256_loadu_pd(ptr_c3 + j));
+						ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b0), ymm_c0);
+						ymm_c1 = _mm256_add_pd(_mm256_mul_pd(ymm_a1, ymm_b0), ymm_c1);
+						ymm_c2 = _mm256_add_pd(_mm256_mul_pd(ymm_a2, ymm_b0), ymm_c2);
+						ymm_c3 = _mm256_add_pd(_mm256_mul_pd(ymm_a3, ymm_b0), ymm_c3);
 						// store data into memory
 						_mm256_storeu_pd(ptr_c0 + j, ymm_c0);
 						_mm256_storeu_pd(ptr_c1 + j, ymm_c1);
@@ -621,11 +653,15 @@ namespace core
 					{
 						// load data from memory
 						ymm_b0 = _mm256_loadu_pd(ptr_b + j);
+						ymm_c0 = _mm256_loadu_pd(ptr_c0 + j);
+						ymm_c1 = _mm256_loadu_pd(ptr_c1 + j);
+						ymm_c2 = _mm256_loadu_pd(ptr_c2 + j);
+						ymm_c3 = _mm256_loadu_pd(ptr_c3 + j);
 						// return the weighted sum
-						ymm_c0 = _mm256_fmadd_pd(ymm_a0, ymm_b0, _mm256_loadu_pd(ptr_c0 + j));
-						ymm_c1 = _mm256_fmadd_pd(ymm_a1, ymm_b0, _mm256_loadu_pd(ptr_c1 + j));
-						ymm_c2 = _mm256_fmadd_pd(ymm_a2, ymm_b0, _mm256_loadu_pd(ptr_c2 + j));
-						ymm_c3 = _mm256_fmadd_pd(ymm_a3, ymm_b0, _mm256_loadu_pd(ptr_c3 + j));
+						ymm_c0 = _mm256_fmadd_pd(ymm_a0, ymm_b0, ymm_c0);
+						ymm_c1 = _mm256_fmadd_pd(ymm_a1, ymm_b0, ymm_c1);
+						ymm_c2 = _mm256_fmadd_pd(ymm_a2, ymm_b0, ymm_c2);
+						ymm_c3 = _mm256_fmadd_pd(ymm_a3, ymm_b0, ymm_c3);
 						// store data into memory
 						_mm256_storeu_pd(ptr_c0 + j, ymm_c0);
 						_mm256_storeu_pd(ptr_c1 + j, ymm_c1);
