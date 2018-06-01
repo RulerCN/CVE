@@ -75,9 +75,7 @@ namespace core
 		{
 			const float *ptr_b = nullptr;
 			float val_a;
-			__m128 xmm_a;
-			__m128 xmm_b;
-			__m128 xmm_c;
+			__m128 xmm_a, xmm_b, xmm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -113,9 +111,7 @@ namespace core
 		{
 			const float *ptr_b = nullptr;
 			float val_a;
-			__m128 xmm_a;
-			__m128 xmm_b;
-			__m128 xmm_c;
+			__m128 xmm_a, xmm_b, xmm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -151,9 +147,7 @@ namespace core
 		{
 			const double *ptr_b = nullptr;
 			double val_a;
-			__m128d xmm_a;
-			__m128d xmm_b;
-			__m128d xmm_c;
+			__m128d xmm_a, xmm_b, xmm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -189,9 +183,7 @@ namespace core
 		{
 			const double *ptr_b = nullptr;
 			double val_a;
-			__m128d xmm_a;
-			__m128d xmm_b;
-			__m128d xmm_c;
+			__m128d xmm_a, xmm_b, xmm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -227,9 +219,7 @@ namespace core
 		{
 			const float *ptr_b = nullptr;
 			float val_a;
-			__m256 ymm_a;
-			__m256 ymm_b;
-			__m256 ymm_c;
+			__m256 ymm_a, ymm_b, ymm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -265,9 +255,7 @@ namespace core
 		{
 			const float *ptr_b = nullptr;
 			float val_a;
-			__m256 ymm_a;
-			__m256 ymm_b;
-			__m256 ymm_c;
+			__m256 ymm_a, ymm_b, ymm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -303,9 +291,7 @@ namespace core
 		{
 			const double *ptr_b = nullptr;
 			double val_a;
-			__m256d ymm_a;
-			__m256d ymm_b;
-			__m256d ymm_c;
+			__m256d ymm_a, ymm_b, ymm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -341,9 +327,7 @@ namespace core
 		{
 			const double *ptr_b = nullptr;
 			double val_a;
-			__m256d ymm_a;
-			__m256d ymm_b;
-			__m256d ymm_c;
+			__m256d ymm_a, ymm_b, ymm_c;
 
 			for (size_t i = 0; i < m; ++i)
 			{

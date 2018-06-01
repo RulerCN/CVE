@@ -41,14 +41,14 @@ namespace core
 		// C(4xn) += A(4xp) * B(pxn)
 		void operator()(size_t p, size_t, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
 		{
-			const T *ptr_a0 = a;
-			const T *ptr_a1 = a + rsa;
-			const T *ptr_a2 = ptr_a1 + rsa;
-			const T *ptr_a3 = ptr_a2 + rsa;
 			T *ptr_c0 = c;
 			T *ptr_c1 = c + rsc;
 			T *ptr_c2 = ptr_c1 + rsc;
 			T *ptr_c3 = ptr_c2 + rsc;
+			const T *ptr_a0 = a;
+			const T *ptr_a1 = a + rsa;
+			const T *ptr_a2 = ptr_a1 + rsa;
+			const T *ptr_a3 = ptr_a2 + rsa;
 			T val_a0, val_a1, val_a2, val_a3;
 			T val_b0;
 
@@ -77,15 +77,15 @@ namespace core
 		// C(4xn) += A(4xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c0 = c;
+			float *ptr_c1 = c + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
 			const float *ptr_a0 = a;
 			const float *ptr_a1 = a + rsa;
 			const float *ptr_a2 = ptr_a1 + rsa;
 			const float *ptr_a3 = ptr_a2 + rsa;
 			const float *ptr_b = nullptr;
-			float *ptr_c0 = c;
-			float *ptr_c1 = c + rsc;
-			float *ptr_c2 = ptr_c1 + rsc;
-			float *ptr_c3 = ptr_c2 + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0;
 			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -147,15 +147,15 @@ namespace core
 		// C(4xn) += A(4xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c0 = c;
+			float *ptr_c1 = c + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
 			const float *ptr_a0 = a;
 			const float *ptr_a1 = a + rsa;
 			const float *ptr_a2 = ptr_a1 + rsa;
 			const float *ptr_a3 = ptr_a2 + rsa;
 			const float *ptr_b = nullptr;
-			float *ptr_c0 = c;
-			float *ptr_c1 = c + rsc;
-			float *ptr_c2 = ptr_c1 + rsc;
-			float *ptr_c3 = ptr_c2 + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0;
 			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -217,11 +217,11 @@ namespace core
 		// C(2xn) += A(2xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c0 = c;
+			double *ptr_c1 = c + rsc;
 			const double *ptr_a0 = a;
 			const double *ptr_a1 = a + rsa;
 			const double *ptr_b = nullptr;
-			double *ptr_c0 = c;
-			double *ptr_c1 = c + rsc;
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0;
 			__m128d xmm_c0, xmm_c1;
@@ -275,11 +275,11 @@ namespace core
 		// C(2xn) += A(2xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c0 = c;
+			double *ptr_c1 = c + rsc;
 			const double *ptr_a0 = a;
 			const double *ptr_a1 = a + rsa;
 			const double *ptr_b = nullptr;
-			double *ptr_c0 = c;
-			double *ptr_c1 = c + rsc;
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0;
 			__m128d xmm_c0, xmm_c1;
@@ -333,6 +333,14 @@ namespace core
 		// C(8xn) += A(8xp) * B(8xn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c0 = c;
+			float *ptr_c1 = c + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
+			float *ptr_c4 = ptr_c3 + rsc;
+			float *ptr_c5 = ptr_c4 + rsc;
+			float *ptr_c6 = ptr_c5 + rsc;
+			float *ptr_c7 = ptr_c6 + rsc;
 			const float *ptr_a0 = a;
 			const float *ptr_a1 = a + rsa;
 			const float *ptr_a2 = ptr_a1 + rsa;
@@ -342,14 +350,6 @@ namespace core
 			const float *ptr_a6 = ptr_a5 + rsa;
 			const float *ptr_a7 = ptr_a6 + rsa;
 			const float *ptr_b = nullptr;
-			float *ptr_c0 = c;
-			float *ptr_c1 = c + rsc;
-			float *ptr_c2 = ptr_c1 + rsc;
-			float *ptr_c3 = ptr_c2 + rsc;
-			float *ptr_c4 = ptr_c3 + rsc;
-			float *ptr_c5 = ptr_c4 + rsc;
-			float *ptr_c6 = ptr_c5 + rsc;
-			float *ptr_c7 = ptr_c6 + rsc;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0;
 			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
@@ -429,6 +429,14 @@ namespace core
 		// C(8xn) += A(8xp) * B(8xn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c0 = c;
+			float *ptr_c1 = c + rsc;
+			float *ptr_c2 = ptr_c1 + rsc;
+			float *ptr_c3 = ptr_c2 + rsc;
+			float *ptr_c4 = ptr_c3 + rsc;
+			float *ptr_c5 = ptr_c4 + rsc;
+			float *ptr_c6 = ptr_c5 + rsc;
+			float *ptr_c7 = ptr_c6 + rsc;
 			const float *ptr_a0 = a;
 			const float *ptr_a1 = a + rsa;
 			const float *ptr_a2 = ptr_a1 + rsa;
@@ -438,14 +446,6 @@ namespace core
 			const float *ptr_a6 = ptr_a5 + rsa;
 			const float *ptr_a7 = ptr_a6 + rsa;
 			const float *ptr_b = nullptr;
-			float *ptr_c0 = c;
-			float *ptr_c1 = c + rsc;
-			float *ptr_c2 = ptr_c1 + rsc;
-			float *ptr_c3 = ptr_c2 + rsc;
-			float *ptr_c4 = ptr_c3 + rsc;
-			float *ptr_c5 = ptr_c4 + rsc;
-			float *ptr_c6 = ptr_c5 + rsc;
-			float *ptr_c7 = ptr_c6 + rsc;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0;
 			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
@@ -525,15 +525,15 @@ namespace core
 		// C(4xn) += A(4xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c0 = c;
+			double *ptr_c1 = c + rsc;
+			double *ptr_c2 = ptr_c1 + rsc;
+			double *ptr_c3 = ptr_c2 + rsc;
 			const double *ptr_a0 = a;
 			const double *ptr_a1 = a + rsa;
 			const double *ptr_a2 = ptr_a1 + rsa;
 			const double *ptr_a3 = ptr_a2 + rsa;
 			const double *ptr_b = nullptr;
-			double *ptr_c0 = c;
-			double *ptr_c1 = c + rsc;
-			double *ptr_c2 = ptr_c1 + rsc;
-			double *ptr_c3 = ptr_c2 + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0;
 			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
@@ -595,15 +595,15 @@ namespace core
 		// C(4xn) += A(4xp) * B(pxn)
 		void operator()(size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c0 = c;
+			double *ptr_c1 = c + rsc;
+			double *ptr_c2 = ptr_c1 + rsc;
+			double *ptr_c3 = ptr_c2 + rsc;
 			const double *ptr_a0 = a;
 			const double *ptr_a1 = a + rsa;
 			const double *ptr_a2 = ptr_a1 + rsa;
 			const double *ptr_a3 = ptr_a2 + rsa;
 			const double *ptr_b = nullptr;
-			double *ptr_c0 = c;
-			double *ptr_c1 = c + rsc;
-			double *ptr_c2 = ptr_c1 + rsc;
-			double *ptr_c3 = ptr_c2 + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0;
 			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;

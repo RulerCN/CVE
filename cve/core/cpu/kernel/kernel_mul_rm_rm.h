@@ -79,7 +79,6 @@ namespace core
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
 			const size_t surplus_p = p - aligned_p;
-			const size_t surplus_n = n - aligned_n;
 			const struct block_mul_rm_rm00<T, inst> functor00;
 			const struct block_mul_rm_rm01<T, inst> functor01;
 			const struct block_mul_rm_rm10<T, inst> functor10;

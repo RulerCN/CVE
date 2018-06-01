@@ -75,16 +75,12 @@ namespace core
 		// C(4xn) += A(4x4) * B(4xn)
 		void operator()(size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c[4];
+			const float *ptr_a[4];
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			const float *ptr_a[4] = { a, a + rsa };
-			float *ptr_c[4] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -93,8 +89,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 4; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					xmm_a0 = _mm_set1_ps(a[0]);
 					xmm_a1 = _mm_set1_ps(a[1]);
 					xmm_a2 = _mm_set1_ps(a[2]);
@@ -115,9 +111,10 @@ namespace core
 						xmm_c2 = _mm_add_ps(xmm_c2, xmm_c3);
 						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c2);
 						// store data into memory
-						_mm_storeu_ps(c, _mm_add_ps(_mm_loadu_ps(c), xmm_c0));
-						c += 4;
+						_mm_storeu_ps(c + j, _mm_add_ps(_mm_loadu_ps(c + j), xmm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -154,16 +151,12 @@ namespace core
 		// C(4xn) += A(4x4) * B(4xn)
 		void operator()(size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c[4];
+			const float *ptr_a[4];
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			const float *ptr_a[4] = { a, a + rsa };
-			float *ptr_c[4] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -172,8 +165,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 4; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					xmm_a0 = _mm_set1_ps(a[0]);
 					xmm_a1 = _mm_set1_ps(a[1]);
 					xmm_a2 = _mm_set1_ps(a[2]);
@@ -192,9 +185,10 @@ namespace core
 						xmm_c1 = _mm_fmadd_ps(xmm_a3, xmm_b3, xmm_c1);
 						xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
 						// store data into memory
-						_mm_storeu_ps(c, _mm_add_ps(_mm_loadu_ps(c), xmm_c0));
-						c += 4;
+						_mm_storeu_ps(c + j, _mm_add_ps(_mm_loadu_ps(c + j), xmm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -231,10 +225,10 @@ namespace core
 		// C(2xn) += A(2x2) * B(2xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c[2];
+			const double *ptr_a[2];
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			const double *ptr_a[2] = { a, a + rsa };
-			double *ptr_c[2] = { c, c + rsc };
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0, xmm_c1;
@@ -243,8 +237,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 2; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					xmm_a0 = _mm_set1_pd(a[0]);
 					xmm_a1 = _mm_set1_pd(a[1]);
 					for (size_t j = 0; j < aligned_n; j += 2)
@@ -257,9 +251,10 @@ namespace core
 						xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
 						xmm_c0 = _mm_add_pd(xmm_c0, xmm_c1);
 						// store data into memory
-						_mm_storeu_pd(c, _mm_add_pd(_mm_loadu_pd(c), xmm_c0));
-						c += 2;
+						_mm_storeu_pd(c + j, _mm_add_pd(_mm_loadu_pd(c + j), xmm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -288,10 +283,10 @@ namespace core
 		// C(2xn) += A(2x2) * B(2xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c[2];
+			const double *ptr_a[2];
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			const double *ptr_a[2] = { a, a + rsa };
-			double *ptr_c[2] = { c, c + rsc };
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0, xmm_c1;
@@ -300,8 +295,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 2; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					xmm_a0 = _mm_set1_pd(a[0]);
 					xmm_a1 = _mm_set1_pd(a[1]);
 					for (size_t j = 0; j < aligned_n; j += 2)
@@ -313,9 +308,10 @@ namespace core
 						xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
 						xmm_c0 = _mm_fmadd_pd(xmm_a1, xmm_b1, xmm_c0);
 						// store data into memory
-						_mm_storeu_pd(c, _mm_add_pd(_mm_loadu_pd(c), xmm_c0));
-						c += 2;
+						_mm_storeu_pd(c + j, _mm_add_pd(_mm_loadu_pd(c + j), xmm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -344,6 +340,8 @@ namespace core
 		// C(8xn) += A(8x8) * B(8xn)
 		void operator()(size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c[8];
+			const float *ptr_a[8];
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
@@ -352,20 +350,6 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			const float *ptr_a[8] = { a, a + rsa };
-			float *ptr_c[8] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_a[4] = ptr_a[3] + rsa;
-			ptr_a[5] = ptr_a[4] + rsa;
-			ptr_a[6] = ptr_a[5] + rsa;
-			ptr_a[7] = ptr_a[6] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
-			ptr_c[4] = ptr_c[3] + rsc;
-			ptr_c[5] = ptr_c[4] + rsc;
-			ptr_c[6] = ptr_c[5] + rsc;
-			ptr_c[7] = ptr_c[6] + rsc;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
@@ -374,8 +358,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 8; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					ymm_a0 = _mm256_set1_ps(a[0]);
 					ymm_a1 = _mm256_set1_ps(a[1]);
 					ymm_a2 = _mm256_set1_ps(a[2]);
@@ -412,9 +396,10 @@ namespace core
 						ymm_c4 = _mm256_add_ps(ymm_c4, ymm_c6);
 						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c4);
 						// store data into memory
-						_mm256_storeu_ps(c, _mm256_add_ps(_mm256_loadu_ps(c), ymm_c0));
-						c += 8;
+						_mm256_storeu_ps(c + j, _mm256_add_ps(_mm256_loadu_ps(c + j), ymm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -471,6 +456,8 @@ namespace core
 		// C(8xn) += A(8x8) * B(8xn)
 		void operator()(size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
+			float *ptr_c[8];
+			const float *ptr_a[8];
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
@@ -479,20 +466,6 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			const float *ptr_a[8] = { a, a + rsa };
-			float *ptr_c[8] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_a[4] = ptr_a[3] + rsa;
-			ptr_a[5] = ptr_a[4] + rsa;
-			ptr_a[6] = ptr_a[5] + rsa;
-			ptr_a[7] = ptr_a[6] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
-			ptr_c[4] = ptr_c[3] + rsc;
-			ptr_c[5] = ptr_c[4] + rsc;
-			ptr_c[6] = ptr_c[5] + rsc;
-			ptr_c[7] = ptr_c[6] + rsc;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3, ymm_c4, ymm_c5, ymm_c6, ymm_c7;
@@ -501,8 +474,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 8; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					ymm_a0 = _mm256_set1_ps(a[0]);
 					ymm_a1 = _mm256_set1_ps(a[1]);
 					ymm_a2 = _mm256_set1_ps(a[2]);
@@ -535,9 +508,10 @@ namespace core
 						ymm_c2 = _mm256_add_ps(ymm_c2, ymm_c3);
 						ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c2);
 						// store data into memory
-						_mm256_storeu_ps(c, _mm256_add_ps(_mm256_loadu_ps(c), ymm_c0));
-						c += 8;
+						_mm256_storeu_ps(c + j, _mm256_add_ps(_mm256_loadu_ps(c + j), ymm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -594,16 +568,12 @@ namespace core
 		// C(4xn) += A(4x4) * B(4xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c[4];
+			const double *ptr_a[4];
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			const double *ptr_a[4] = { a, a + rsa };
-			double *ptr_c[4] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
@@ -612,8 +582,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 4; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					ymm_a0 = _mm256_set1_pd(a[0]);
 					ymm_a1 = _mm256_set1_pd(a[1]);
 					ymm_a2 = _mm256_set1_pd(a[2]);
@@ -634,9 +604,10 @@ namespace core
 						ymm_c2 = _mm256_add_pd(ymm_c2, ymm_c3);
 						ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c2);
 						// store data into memory
-						_mm256_storeu_pd(c, _mm256_add_pd(_mm256_loadu_pd(c), ymm_c0));
-						c += 4;
+						_mm256_storeu_pd(c + j, _mm256_add_pd(_mm256_loadu_pd(c + j), ymm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)
@@ -675,16 +646,12 @@ namespace core
 		// C(4xn) += A(4x4) * B(4xn)
 		void operator()(size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
+			double *ptr_c[4];
+			const double *ptr_a[4];
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			const double *ptr_a[4] = { a, a + rsa };
-			double *ptr_c[4] = { c, c + rsc };
-			ptr_a[2] = ptr_a[1] + rsa;
-			ptr_a[3] = ptr_a[2] + rsa;
-			ptr_c[2] = ptr_c[1] + rsc;
-			ptr_c[3] = ptr_c[2] + rsc;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
@@ -693,8 +660,8 @@ namespace core
 			{
 				for (size_t i = 0; i < 4; ++i)
 				{
-					a = ptr_a[i];
-					c = ptr_c[i];
+					ptr_a[i] = a;
+					ptr_c[i] = c;
 					ymm_a0 = _mm256_set1_pd(a[0]);
 					ymm_a1 = _mm256_set1_pd(a[1]);
 					ymm_a2 = _mm256_set1_pd(a[2]);
@@ -713,9 +680,10 @@ namespace core
 						ymm_c1 = _mm256_fmadd_pd(ymm_a3, ymm_b3, ymm_c1);
 						ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
 						// store data into memory
-						_mm256_storeu_pd(c, _mm256_add_pd(_mm256_loadu_pd(c), ymm_c0));
-						c += 4;
+						_mm256_storeu_pd(c + j, _mm256_add_pd(_mm256_loadu_pd(c + j), ymm_c0));
 					}
+					a += rsa;
+					c += rsc;
 				}
 			}
 			if (aligned_n < n)

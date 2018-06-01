@@ -61,7 +61,7 @@ namespace core
 		void operator()(size_t p, const T *a, const T *b, size_t rsb, T *c) const
 		{
 			const T *ptr_b0 = b;
-			const T *ptr_b1 = ptr_b0 + rsb;
+			const T *ptr_b1 = b + rsb;
 			const T *ptr_b2 = ptr_b1 + rsb;
 			const T *ptr_b3 = ptr_b2 + rsb;
 			T val_a0, val_a1, val_a2, val_a3;
@@ -109,7 +109,7 @@ namespace core
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			__m128 xmm_a;
@@ -155,7 +155,7 @@ namespace core
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			__m128 xmm_a;
@@ -201,7 +201,7 @@ namespace core
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			__m128d xmm_a;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0 = _mm_setzero_pd();
@@ -233,7 +233,7 @@ namespace core
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			__m128d xmm_a;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0 = _mm_setzero_pd();
@@ -265,7 +265,7 @@ namespace core
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			const float *ptr_b4 = ptr_b3 + rsb;
@@ -339,7 +339,7 @@ namespace core
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			const float *ptr_b4 = ptr_b3 + rsb;
@@ -413,7 +413,7 @@ namespace core
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
 			__m256d ymm_a;
@@ -459,7 +459,7 @@ namespace core
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
 			__m256d ymm_a;
@@ -524,35 +524,6 @@ namespace core
 			if (surplus_n > 0)
 				functor(surplus_n, p, a, b, rsb, c + aligned_n);
 		}
-		//// C(mxn) += A(mxp) * B(nxp)^T
-		//void operator()(size_t m, size_t n, size_t p, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
-		//{
-		//	const T *ptr_b;
-		//	const size_t block_rsb = block_n * rsb;
-		//	const size_t aligned_n = n & ~(block_n - 1);
-		//	const size_t aligned_p = p & ~(block_p - 1);
-		//	const size_t surplus_n = n - aligned_n;
-		//	const size_t surplus_p = p - aligned_p;
-		//	const struct common_mul_rv_cm<T> functor;
-		//	const struct block_mul_rv_cm<T, inst> special_functor;
-
-		//	for (size_t i = 0; i < m; ++i)
-		//	{
-		//		ptr_b = b;
-		//		for (size_t j = 0; j < aligned_n; j += block_n)
-		//		{
-		//			if (aligned_p > 0)
-		//				special_functor(aligned_p, a, ptr_b, rsb, c + j);
-		//			if (surplus_p > 0)
-		//				functor(block_n, surplus_p, a + aligned_p, ptr_b + aligned_p, rsb, c + j);
-		//			ptr_b += block_rsb;
-		//		}
-		//		if (surplus_n > 0)
-		//			functor(surplus_n, p, a, ptr_b, rsb, c + aligned_n);
-		//		a += rsa;
-		//		c += rsc;
-		//	}
-		//}
 	};
 
 } // namespace core

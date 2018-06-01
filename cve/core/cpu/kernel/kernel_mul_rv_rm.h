@@ -60,7 +60,7 @@ namespace core
 		void operator()(size_t n, const T *a, const T *b, size_t rsb, T *c) const
 		{
 			const T *ptr_b0 = b;
-			const T *ptr_b1 = ptr_b0 + rsb;
+			const T *ptr_b1 = b + rsb;
 			const T *ptr_b2 = ptr_b1 + rsb;
 			const T *ptr_b3 = ptr_b2 + rsb;
 			T val_a0 = a[0];
@@ -107,7 +107,7 @@ namespace core
 		void operator()(size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			__m128 xmm_a0 = _mm_set1_ps(a[0]);
@@ -146,7 +146,7 @@ namespace core
 		void operator()(size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			__m128 xmm_a0 = _mm_set1_ps(a[0]);
@@ -183,7 +183,7 @@ namespace core
 		void operator()(size_t n, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			__m128d xmm_a0 = _mm_set1_pd(a[0]);
 			__m128d xmm_a1 = _mm_set1_pd(a[1]);
 			__m128d xmm_b0, xmm_b1;
@@ -212,7 +212,7 @@ namespace core
 		void operator()(size_t n, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			__m128d xmm_a0 = _mm_set1_pd(a[0]);
 			__m128d xmm_a1 = _mm_set1_pd(a[1]);
 			__m128d xmm_b0, xmm_b1;
@@ -240,7 +240,7 @@ namespace core
 		void operator()(size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			const float *ptr_b4 = ptr_b3 + rsb;
@@ -299,7 +299,7 @@ namespace core
 		void operator()(size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
-			const float *ptr_b1 = ptr_b0 + rsb;
+			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
 			const float *ptr_b4 = ptr_b3 + rsb;
@@ -354,7 +354,7 @@ namespace core
 		void operator()(size_t n, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
 			__m256d ymm_a0 = _mm256_set1_pd(a[0]);
@@ -393,7 +393,7 @@ namespace core
 		void operator()(size_t n, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
-			const double *ptr_b1 = ptr_b0 + rsb;
+			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
 			__m256d ymm_a0 = _mm256_set1_pd(a[0]);
