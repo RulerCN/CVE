@@ -171,6 +171,7 @@
     <ClInclude Include="core\cpu\cpu_convert_uint8.h" />
     <ClInclude Include="core\cpu\cpu_get_element.h" />
     <ClInclude Include="core\cpu\cpu_mapping.h" />
+    <ClInclude Include="core\cpu\cpu_mul.h" />
     <ClInclude Include="core\cpu\cpu_mul_cv_rv.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_cv.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_rm.h" />
