@@ -30,7 +30,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_MUL_H__
 #define __CORE_CPU_MUL_H__
 
-//#include "cpu_mul_rv_cv.h"
 #include "cpu_mul_cv_rv.h"
 #include "cpu_mul_rm_cv.h"
 #include "cpu_mul_rv_rm.h"

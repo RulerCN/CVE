@@ -176,7 +176,6 @@
     <ClInclude Include="core\cpu\cpu_mul_rm_cv.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_rm.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_cm.h" />
-    <ClInclude Include="core\cpu\cpu_multiply.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_rm.h" />
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_cm.h" />
@@ -185,7 +184,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_wrap.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
-    <ClInclude Include="core\cpu\kernel\kernel_matrix_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_cv_rv.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cv.h" />
@@ -222,7 +220,6 @@
     <ClInclude Include="core\cpu\cpu_reduce_row_min.h" />
     <ClInclude Include="core\cpu\cpu_reduce_row_sum.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
-    <ClInclude Include="core\cpu\kernel\kernel_transpose_matrix_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm00.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
