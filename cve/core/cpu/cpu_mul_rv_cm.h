@@ -66,12 +66,12 @@ namespace core
 			else
 				kernel_mul_rv_cm<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu_inst::is_support_sse())
+		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<float, 4, 4, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_mul_rv_cm<float, 4, 4, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<float, 4, 4, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_mul_rv_cm<float, 4, 4, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
 			kernel_mul_rv_cm<float, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
@@ -95,12 +95,12 @@ namespace core
 			else
 				kernel_mul_rv_cm<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
-		else if (cpu_inst::is_support_sse2())
+		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<double, 2, 2, cpu_sse2 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_mul_rv_cm<double, 2, 2, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<double, 2, 2, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_mul_rv_cm<double, 2, 2, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
 			kernel_mul_rv_cm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());

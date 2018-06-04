@@ -245,7 +245,7 @@ namespace core
 	template<>
 	struct block_mul_rm_cv<float, cpu_avx>
 	{
-		// C(4x1) += A(4xp) * B(1xp)^T
+		// C(8x1) += A(8xp) * B(1xp)^T
 		void operator()(size_t p, const float *a, size_t rsa, const float *b, float *c) const
 		{
 			const float *ptr_a0 = a;
@@ -296,9 +296,9 @@ namespace core
 			ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
 			ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
 			ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
-			ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-			ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-			ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
+			ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+			ymm_c5 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+			ymm_c0 = _mm256_add_ps(ymm_c1, ymm_c5);
 			// store data into memory
 			_mm256_storeu_ps(c, _mm256_add_ps(_mm256_loadu_ps(c), ymm_c0));
 		}
@@ -307,7 +307,7 @@ namespace core
 	template<>
 	struct block_mul_rm_cv<float, cpu_avx | cpu_fma>
 	{
-		// C(4x1) += A(4xp) * B(1xp)^T
+		// C(8x1) += A(8xp) * B(1xp)^T
 		void operator()(size_t p, const float *a, size_t rsa, const float *b, float *c) const
 		{
 			const float *ptr_a0 = a;
@@ -358,9 +358,9 @@ namespace core
 			ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
 			ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
 			ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
-			ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-			ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-			ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
+			ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+			ymm_c5 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+			ymm_c0 = _mm256_add_ps(ymm_c1, ymm_c5);
 			// store data into memory
 			_mm256_storeu_ps(c, _mm256_add_ps(_mm256_loadu_ps(c), ymm_c0));
 		}
@@ -400,9 +400,9 @@ namespace core
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
 			ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
-			ymm_a0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
-			ymm_a1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
-			ymm_c0 = _mm256_add_pd(ymm_a0, ymm_a1);
+			ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+			ymm_c3 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+			ymm_c0 = _mm256_add_pd(ymm_c1, ymm_c3);
 			// store data into memory
 			_mm256_storeu_pd(c, _mm256_add_pd(_mm256_loadu_pd(c), ymm_c0));
 		}
@@ -442,9 +442,9 @@ namespace core
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
 			ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
-			ymm_a0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
-			ymm_a1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
-			ymm_c0 = _mm256_add_pd(ymm_a0, ymm_a1);
+			ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+			ymm_c3 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+			ymm_c0 = _mm256_add_pd(ymm_c1, ymm_c3);
 			// store data into memory
 			_mm256_storeu_pd(c, _mm256_add_pd(_mm256_loadu_pd(c), ymm_c0));
 		}

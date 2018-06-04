@@ -433,9 +433,9 @@ namespace core
 					ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
 					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
 					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
-					ymm_b0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-					ymm_b1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-					ymm_c0 = _mm256_add_ps(ymm_b0, ymm_b1);
+					ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_c5 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_ps(ymm_c1, ymm_c5);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
@@ -545,9 +545,9 @@ namespace core
 					ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
 					ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
 					ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
-					ymm_b0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-					ymm_b1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-					ymm_c0 = _mm256_add_ps(ymm_b0, ymm_b1);
+					ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_c5 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_ps(ymm_c1, ymm_c5);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<float*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<float*>(&ymm_c0)[1];
@@ -627,9 +627,9 @@ namespace core
 					ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
 					ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
 					ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
-					ymm_b0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
-					ymm_b1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
-					ymm_c0 = _mm256_add_pd(ymm_b0, ymm_b1);
+					ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_c3 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_pd(ymm_c1, ymm_c3);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];
@@ -703,9 +703,9 @@ namespace core
 					ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b0);
 					ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
 					ymm_c2 = _mm256_hadd_pd(ymm_c2, ymm_c3);
-					ymm_b0 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
-					ymm_b1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
-					ymm_c0 = _mm256_add_pd(ymm_b0, ymm_b1);
+					ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 2, 0, 0));
+					ymm_c3 = _mm256_permute2f128_pd(ymm_c0, ymm_c2, _MM_SHUFFLE(0, 3, 0, 1));
+					ymm_c0 = _mm256_add_pd(ymm_c1, ymm_c3);
 					// store data into memory
 					ptr_c[0][j] += reinterpret_cast<double*>(&ymm_c0)[0];
 					ptr_c[1][j] += reinterpret_cast<double*>(&ymm_c0)[1];

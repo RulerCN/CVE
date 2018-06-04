@@ -69,6 +69,55 @@ int main()
 	//__m256 ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
 	//ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
 
+	//__m128 xmm_c0 = _mm_set_ps(.0004f, .0003f, .0002f, .0001f);
+	//__m128 xmm_c1 = _mm_set_ps(.004f, .003f, .002f, .001f);
+	//__m128 xmm_c2 = _mm_set_ps(.04f, .03f, .02f, .01f);
+	//__m128 xmm_c3 = _mm_set_ps(.4f, .3f, .2f, .1f);
+	//__m128 xmm_c4 = _mm_set_ps(4, 3, 2, 1);
+	//__m128 xmm_c5 = _mm_set_ps(40, 30, 20, 10);
+	//__m128 xmm_c6 = _mm_set_ps(400, 300, 200, 100);
+	//__m128 xmm_c7 = _mm_set_ps(4000, 3000, 2000, 1000);
+
+	//xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
+	//xmm_c2 = _mm_hadd_ps(xmm_c2, xmm_c3);
+	//xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c2);
+
+	//__m128 xmm_b0 = _mm_shuffle_ps(xmm_c0, xmm_c1, _MM_SHUFFLE(1, 0, 1, 0));
+	//__m128 xmm_b1 = _mm_shuffle_ps(xmm_c2, xmm_c3, _MM_SHUFFLE(1, 0, 1, 0));
+	//__m128 xmm_b2 = _mm_shuffle_ps(xmm_c0, xmm_c1, _MM_SHUFFLE(3, 2, 3, 2));
+	//__m128 xmm_b3 = _mm_shuffle_ps(xmm_c2, xmm_c3, _MM_SHUFFLE(3, 2, 3, 2));
+	//xmm_b0 = _mm_add_ps(xmm_b0, xmm_b2);
+	//xmm_b1 = _mm_add_ps(xmm_b1, xmm_b3);
+	//xmm_c0 = _mm_shuffle_ps(xmm_b0, xmm_b1, _MM_SHUFFLE(2, 0, 2, 0));
+	//xmm_c1 = _mm_shuffle_ps(xmm_b0, xmm_b1, _MM_SHUFFLE(3, 1, 3, 1));
+	//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+
+	__m256i ymm_c0 = _mm256_set_epi32(8, 7, 6, 5, 4, 3, 2, 1);
+	__m256i ymm_c1 = _mm256_set_epi32(80, 70, 60, 50, 40, 30, 20, 10);
+	__m256i ymm_c2 = _mm256_set_epi32(800, 700, 600, 500, 400, 300, 200, 100);
+	__m256i ymm_c3 = _mm256_set_epi32(8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000);
+	__m256i ymm_c4 = _mm256_set_epi32(80000, 70000, 60000, 50000, 40000, 30000, 20000, 10000);
+	__m256i ymm_c5 = _mm256_set_epi32(800000, 700000, 600000, 500000, 400000, 300000, 200000, 100000);
+	__m256i ymm_c6 = _mm256_set_epi32(8000000, 7000000, 6000000, 5000000, 4000000, 3000000, 2000000, 1000000);
+	__m256i ymm_c7 = _mm256_set_epi32(80000000, 70000000, 60000000, 50000000, 40000000, 30000000, 20000000, 10000000);
+
+	ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c1);
+	ymm_c2 = _mm256_hadd_epi32(ymm_c2, ymm_c3);
+	ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c5);
+	ymm_c6 = _mm256_hadd_epi32(ymm_c6, ymm_c7);
+	ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c2);
+	ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c6);
+	ymm_c1 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+	ymm_c5 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+	ymm_c0 = _mm256_add_epi32(ymm_c1, ymm_c5);
+
+	//xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
+
+	//xmm_b0 = _mm_shuffle_pd(xmm_c0, xmm_c1, _MM_SHUFFLE(0, 0, 0, 0));
+	//xmm_b1 = _mm_shuffle_pd(xmm_c0, xmm_c1, _MM_SHUFFLE(0, 0, 3, 3));
+	//xmm_c0 = _mm_add_pd(xmm_b0, xmm_b1);
+
+
 	//try
 	//{
 		//__m256 ymm_c1;

@@ -1228,13 +1228,15 @@ namespace core
 				ymm_a6 = _mm256_cvtepi16_epi32(xmm_a6);
 				ymm_a7 = _mm256_cvtepi16_epi32(xmm_a7);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1283,13 +1285,15 @@ namespace core
 				ymm_a6 = _mm256_cvtepi16_epi32(xmm_a6);
 				ymm_a7 = _mm256_cvtepi16_epi32(xmm_a7);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1336,13 +1340,15 @@ namespace core
 				ymm_a6 = _mm256_cvtepu16_epi32(xmm_a6);
 				ymm_a7 = _mm256_cvtepu16_epi32(xmm_a7);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1390,13 +1396,15 @@ namespace core
 				ymm_a6 = _mm256_cvtepu16_epi32(xmm_a6);
 				ymm_a7 = _mm256_cvtepu16_epi32(xmm_a7);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1433,13 +1441,15 @@ namespace core
 				ymm_a6 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_a6 + j));
 				ymm_a7 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_a7 + j));
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1477,13 +1487,15 @@ namespace core
 				ymm_a6 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_a6 + j));
 				ymm_a7 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_a7 + j));
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_epi32(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_epi32(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_epi32(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_epi32(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_epi32(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_epi32(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_si256(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_epi32(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1557,13 +1569,15 @@ namespace core
 				ymm_t6 = _mm256_add_ps(ymm_t6, _mm256_cvtepi32_ps(ymm_a6));
 				ymm_t7 = _mm256_add_ps(ymm_t7, _mm256_cvtepi32_ps(ymm_a7));
 				// return the horizontal sum
-				ymm_t0 = _mm256_hadd_ps(ymm_t0, ymm_t4);
-				ymm_t1 = _mm256_hadd_ps(ymm_t1, ymm_t5);
-				ymm_t2 = _mm256_hadd_ps(ymm_t2, ymm_t6);
-				ymm_t3 = _mm256_hadd_ps(ymm_t3, ymm_t7);
-				ymm_t0 = _mm256_hadd_ps(ymm_t0, ymm_t2);
-				ymm_t1 = _mm256_hadd_ps(ymm_t1, ymm_t3);
 				ymm_t0 = _mm256_hadd_ps(ymm_t0, ymm_t1);
+				ymm_t2 = _mm256_hadd_ps(ymm_t2, ymm_t3);
+				ymm_t4 = _mm256_hadd_ps(ymm_t4, ymm_t5);
+				ymm_t6 = _mm256_hadd_ps(ymm_t6, ymm_t7);
+				ymm_t0 = _mm256_hadd_ps(ymm_t0, ymm_t2);
+				ymm_t4 = _mm256_hadd_ps(ymm_t4, ymm_t6);
+				ymm_t1 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_t5 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_t0 = _mm256_add_ps(ymm_t1, ymm_t5);
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
 			}
 			// store data into memory
@@ -1600,13 +1614,15 @@ namespace core
 				ymm_a6 = _mm256_loadu_ps(ptr_a6 + j);
 				ymm_a7 = _mm256_loadu_ps(ptr_a7 + j);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_ps(ymm_a0, ymm_a4);
-				ymm_a1 = _mm256_hadd_ps(ymm_a1, ymm_a5);
-				ymm_a2 = _mm256_hadd_ps(ymm_a2, ymm_a6);
-				ymm_a3 = _mm256_hadd_ps(ymm_a3, ymm_a7);
-				ymm_a0 = _mm256_hadd_ps(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_ps(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_ps(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_ps(ymm_a2, ymm_a3);
+				ymm_a4 = _mm256_hadd_ps(ymm_a4, ymm_a5);
+				ymm_a6 = _mm256_hadd_ps(ymm_a6, ymm_a7);
+				ymm_a0 = _mm256_hadd_ps(ymm_a0, ymm_a2);
+				ymm_a4 = _mm256_hadd_ps(ymm_a4, ymm_a6);
+				ymm_a1 = _mm256_permute2f128_ps(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a5 = _mm256_permute2f128_ps(ymm_a0, ymm_a4, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_ps(ymm_a1, ymm_a5);
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_a0);
 			}
 			// store data into memory
@@ -1635,9 +1651,11 @@ namespace core
 				ymm_a2 = _mm256_loadu_pd(ptr_a2 + j);
 				ymm_a3 = _mm256_loadu_pd(ptr_a3 + j);
 				// return the horizontal sum
-				ymm_a0 = _mm256_hadd_pd(ymm_a0, ymm_a2);
-				ymm_a1 = _mm256_hadd_pd(ymm_a1, ymm_a3);
 				ymm_a0 = _mm256_hadd_pd(ymm_a0, ymm_a1);
+				ymm_a2 = _mm256_hadd_pd(ymm_a2, ymm_a3);
+				ymm_a1 = _mm256_permute2f128_pd(ymm_a0, ymm_a2, _MM_SHUFFLE(0, 2, 0, 0));
+				ymm_a3 = _mm256_permute2f128_pd(ymm_a0, ymm_a2, _MM_SHUFFLE(0, 3, 0, 1));
+				ymm_a0 = _mm256_add_pd(ymm_a1, ymm_a3);
 				ymm_b0 = _mm256_add_pd(ymm_b0, ymm_a0);
 			}
 			// store data into memory
