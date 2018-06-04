@@ -257,7 +257,7 @@ int main()
 		b.linear_fill(1.0F, 1.0F);
 		core::cpu_transpose(bt, b);
 		// Matrix-matrix multiplication
-		core::cpu_mul_rm_rm(c, a, b);
+		core::cpu_mul(c, a, b);
 
 		//core::cpu_multiply(d, a, b);
 		const core::common_mul_rm_rm<float> mul;

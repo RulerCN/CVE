@@ -179,7 +179,7 @@
     <ClInclude Include="core\cpu\cpu_multiply.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_rm.h" />
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
-    <ClInclude Include="core\cpu\cup_mul_rm_rm.h" />
+    <ClInclude Include="core\cpu\cpu_mul_rm_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h" />
@@ -187,6 +187,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_matrix_multiply.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_cv_rv.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cv.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm01.h" />

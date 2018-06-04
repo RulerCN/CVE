@@ -32,13 +32,97 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //#include "cpu_mul_rv_cv.h"
 #include "cpu_mul_cv_rv.h"
+#include "cpu_mul_rm_cv.h"
 #include "cpu_mul_rv_rm.h"
 #include "cpu_mul_rv_cm.h"
-#include "cpu_mul_rm_cv.h"
 #include "cpu_mul_rm_rm.h"
+#include "cpu_mul_rm_cm.h"
 
 namespace core
 {
+	// The multiplication of the column vector and the row vector
+	// D = A * B
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b)
+	{
+		d.fill(0);
+		return cpu_mul_cv_rv(d, a, b);
+	}
+
+	// The multiplication of the column vector and the row vector
+	// D = A * B + C
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const matrix<T, A> &c)
+	{
+		d.fill(c);
+		return cpu_mul_cv_rv(d, a, b);
+	}
+
+	// The multiplication of the matrix and the column vector
+	// D = A * B
+	template <class T, class A, class A1, class A2>
+	vector<T, A>& cpu_mul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A2> &b)
+	{
+		d.fill(0);
+		return cpu_mul_rm_cv(d, a, b);
+	}
+
+	// The multiplication of the matrix and the column vector
+	// D = A * B + C
+	template <class T, class A, class A1, class A2>
+	vector<T, A>& cpu_mul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A> &c, const vector<T, A2> &b)
+	{
+		d.fill(c);
+		return cpu_mul_rm_cv(d, a, b);
+	}
+
+	// The multiplication of the row vector and the matrix
+	// D = A * B
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
+	{
+		d.fill(0);
+		if (row_major)
+			return cpu_mul_rv_rm(d, a, b);
+		else
+			return cpu_mul_rv_cm(d, a, b);
+	}
+
+	// The multiplication of the row vector and the matrix
+	// D = A * B + C
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A> &c, bool row_major = true)
+	{
+		d.fill(c);
+		if (row_major)
+			return cpu_mul_rv_rm(d, a, b);
+		else
+			return cpu_mul_rv_cm(d, a, b);
+	}
+
+	// The multiplication of the matrix and the matrix
+	// D = A * B
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
+	{
+		d.fill(0);
+		if (row_major)
+			return cpu_mul_rm_rm(d, a, b);
+		else
+			return cpu_mul_rm_cm(d, a, b);
+	}
+
+	// The multiplication of the matrix and the matrix
+	// D = A * B + C
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_mul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A2> &c, bool row_major = true)
+	{
+		d.fill(c);
+		if (row_major)
+			return cpu_mul_rm_rm(d, a, b);
+		else
+			return cpu_mul_rm_cm(d, a, b);
+	}
 
 } // namespace core
 

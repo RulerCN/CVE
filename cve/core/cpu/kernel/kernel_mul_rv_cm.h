@@ -112,7 +112,7 @@ namespace core
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			__m128 xmm_a;
+			__m128 xmm_a0;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_c0 = _mm_setzero_ps();
 			__m128 xmm_c1 = _mm_setzero_ps();
@@ -122,16 +122,16 @@ namespace core
 			for (size_t k = 0; k < p; k += 4)
 			{
 				// load data from memory
-				xmm_a = _mm_loadu_ps(a + k);
+				xmm_a0 = _mm_loadu_ps(a + k);
 				xmm_b0 = _mm_loadu_ps(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_ps(ptr_b1 + k);
 				xmm_b2 = _mm_loadu_ps(ptr_b2 + k);
 				xmm_b3 = _mm_loadu_ps(ptr_b3 + k);
 				// return the weighted sum
-				xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b0), xmm_c0);
-				xmm_c1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b1), xmm_c1);
-				xmm_c2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b2), xmm_c2);
-				xmm_c3 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b3), xmm_c3);
+				xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b0), xmm_c0);
+				xmm_c1 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b1), xmm_c1);
+				xmm_c2 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b2), xmm_c2);
+				xmm_c3 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b3), xmm_c3);
 			}
 			// return the horizontal sum
 			xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
@@ -152,7 +152,7 @@ namespace core
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			__m128 xmm_a;
+			__m128 xmm_a0;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_c0 = _mm_setzero_ps();
 			__m128 xmm_c1 = _mm_setzero_ps();
@@ -162,16 +162,16 @@ namespace core
 			for (size_t k = 0; k < p; k += 4)
 			{
 				// load data from memory
-				xmm_a = _mm_loadu_ps(a + k);
+				xmm_a0 = _mm_loadu_ps(a + k);
 				xmm_b0 = _mm_loadu_ps(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_ps(ptr_b1 + k);
 				xmm_b2 = _mm_loadu_ps(ptr_b2 + k);
 				xmm_b3 = _mm_loadu_ps(ptr_b3 + k);
 				// return the weighted sum
-				xmm_c0 = _mm_fmadd_ps(xmm_a, xmm_b0, xmm_c0);
-				xmm_c1 = _mm_fmadd_ps(xmm_a, xmm_b1, xmm_c1);
-				xmm_c2 = _mm_fmadd_ps(xmm_a, xmm_b2, xmm_c2);
-				xmm_c3 = _mm_fmadd_ps(xmm_a, xmm_b3, xmm_c3);
+				xmm_c0 = _mm_fmadd_ps(xmm_a0, xmm_b0, xmm_c0);
+				xmm_c1 = _mm_fmadd_ps(xmm_a0, xmm_b1, xmm_c1);
+				xmm_c2 = _mm_fmadd_ps(xmm_a0, xmm_b2, xmm_c2);
+				xmm_c3 = _mm_fmadd_ps(xmm_a0, xmm_b3, xmm_c3);
 			}
 			// return the horizontal sum
 			xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
@@ -190,7 +190,7 @@ namespace core
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			__m128d xmm_a;
+			__m128d xmm_a0;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0 = _mm_setzero_pd();
 			__m128d xmm_c1 = _mm_setzero_pd();
@@ -198,12 +198,12 @@ namespace core
 			for (size_t k = 0; k < p; k += 2)
 			{
 				// load data from memory
-				xmm_a = _mm_loadu_pd(a + k);
+				xmm_a0 = _mm_loadu_pd(a + k);
 				xmm_b0 = _mm_loadu_pd(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_pd(ptr_b1 + k);
 				// return the weighted sum
-				xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b0), xmm_c0);
-				xmm_c1 = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b1), xmm_c1);
+				xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b0), xmm_c0);
+				xmm_c1 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b1), xmm_c1);
 			}
 			// return the horizontal sum
 			xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
@@ -220,7 +220,7 @@ namespace core
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			__m128d xmm_a;
+			__m128d xmm_a0;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_c0 = _mm_setzero_pd();
 			__m128d xmm_c1 = _mm_setzero_pd();
@@ -228,12 +228,12 @@ namespace core
 			for (size_t k = 0; k < p; k += 2)
 			{
 				// load data from memory
-				xmm_a = _mm_loadu_pd(a + k);
+				xmm_a0 = _mm_loadu_pd(a + k);
 				xmm_b0 = _mm_loadu_pd(ptr_b0 + k);
 				xmm_b1 = _mm_loadu_pd(ptr_b1 + k);
 				// return the weighted sum
-				xmm_c0 = _mm_fmadd_pd(xmm_a, xmm_b0, xmm_c0);
-				xmm_c1 = _mm_fmadd_pd(xmm_a, xmm_b1, xmm_c1);
+				xmm_c0 = _mm_fmadd_pd(xmm_a0, xmm_b0, xmm_c0);
+				xmm_c1 = _mm_fmadd_pd(xmm_a0, xmm_b1, xmm_c1);
 			}
 			// return the horizontal sum
 			xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
@@ -256,7 +256,7 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			__m256 ymm_a;
+			__m256 ymm_a0;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_c0 = _mm256_setzero_ps();
 			__m256 ymm_c1 = _mm256_setzero_ps();
@@ -270,7 +270,7 @@ namespace core
 			for (size_t k = 0; k < p; k += 8)
 			{
 				// load data from memory
-				ymm_a = _mm256_loadu_ps(a + k);
+				ymm_a0 = _mm256_loadu_ps(a + k);
 				ymm_b0 = _mm256_loadu_ps(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_ps(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_ps(ptr_b2 + k);
@@ -280,14 +280,14 @@ namespace core
 				ymm_b6 = _mm256_loadu_ps(ptr_b6 + k);
 				ymm_b7 = _mm256_loadu_ps(ptr_b7 + k);
 				// return the weighted sum
-				ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b0), ymm_c0);
-				ymm_c1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b1), ymm_c1);
-				ymm_c2 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b2), ymm_c2);
-				ymm_c3 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b3), ymm_c3);
-				ymm_c4 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b4), ymm_c4);
-				ymm_c5 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b5), ymm_c5);
-				ymm_c6 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b6), ymm_c6);
-				ymm_c7 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b7), ymm_c7);
+				ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b0), ymm_c0);
+				ymm_c1 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b1), ymm_c1);
+				ymm_c2 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b2), ymm_c2);
+				ymm_c3 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b3), ymm_c3);
+				ymm_c4 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b4), ymm_c4);
+				ymm_c5 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b5), ymm_c5);
+				ymm_c6 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b6), ymm_c6);
+				ymm_c7 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b7), ymm_c7);
 			}
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c1);
@@ -318,7 +318,7 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			__m256 ymm_a;
+			__m256 ymm_a0;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_c0 = _mm256_setzero_ps();
 			__m256 ymm_c1 = _mm256_setzero_ps();
@@ -332,7 +332,7 @@ namespace core
 			for (size_t k = 0; k < p; k += 8)
 			{
 				// load data from memory
-				ymm_a = _mm256_loadu_ps(a + k);
+				ymm_a0 = _mm256_loadu_ps(a + k);
 				ymm_b0 = _mm256_loadu_ps(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_ps(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_ps(ptr_b2 + k);
@@ -342,14 +342,14 @@ namespace core
 				ymm_b6 = _mm256_loadu_ps(ptr_b6 + k);
 				ymm_b7 = _mm256_loadu_ps(ptr_b7 + k);
 				// return the weighted sum
-				ymm_c0 = _mm256_fmadd_ps(ymm_a, ymm_b0, ymm_c0);
-				ymm_c1 = _mm256_fmadd_ps(ymm_a, ymm_b1, ymm_c1);
-				ymm_c2 = _mm256_fmadd_ps(ymm_a, ymm_b2, ymm_c2);
-				ymm_c3 = _mm256_fmadd_ps(ymm_a, ymm_b3, ymm_c3);
-				ymm_c4 = _mm256_fmadd_ps(ymm_a, ymm_b4, ymm_c4);
-				ymm_c5 = _mm256_fmadd_ps(ymm_a, ymm_b5, ymm_c5);
-				ymm_c6 = _mm256_fmadd_ps(ymm_a, ymm_b6, ymm_c6);
-				ymm_c7 = _mm256_fmadd_ps(ymm_a, ymm_b7, ymm_c7);
+				ymm_c0 = _mm256_fmadd_ps(ymm_a0, ymm_b0, ymm_c0);
+				ymm_c1 = _mm256_fmadd_ps(ymm_a0, ymm_b1, ymm_c1);
+				ymm_c2 = _mm256_fmadd_ps(ymm_a0, ymm_b2, ymm_c2);
+				ymm_c3 = _mm256_fmadd_ps(ymm_a0, ymm_b3, ymm_c3);
+				ymm_c4 = _mm256_fmadd_ps(ymm_a0, ymm_b4, ymm_c4);
+				ymm_c5 = _mm256_fmadd_ps(ymm_a0, ymm_b5, ymm_c5);
+				ymm_c6 = _mm256_fmadd_ps(ymm_a0, ymm_b6, ymm_c6);
+				ymm_c7 = _mm256_fmadd_ps(ymm_a0, ymm_b7, ymm_c7);
 			}
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c1);
@@ -376,7 +376,7 @@ namespace core
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			__m256d ymm_a;
+			__m256d ymm_a0;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_c0 = _mm256_setzero_pd();
 			__m256d ymm_c1 = _mm256_setzero_pd();
@@ -386,16 +386,16 @@ namespace core
 			for (size_t k = 0; k < p; k += 4)
 			{
 				// load data from memory
-				ymm_a = _mm256_loadu_pd(a + k);
+				ymm_a0 = _mm256_loadu_pd(a + k);
 				ymm_b0 = _mm256_loadu_pd(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_pd(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_pd(ptr_b2 + k);
 				ymm_b3 = _mm256_loadu_pd(ptr_b3 + k);
 				// return the weighted sum
-				ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b0), ymm_c0);
-				ymm_c1 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b1), ymm_c1);
-				ymm_c2 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b2), ymm_c2);
-				ymm_c3 = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b3), ymm_c3);
+				ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b0), ymm_c0);
+				ymm_c1 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b1), ymm_c1);
+				ymm_c2 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b2), ymm_c2);
+				ymm_c3 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b3), ymm_c3);
 			}
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);
@@ -418,7 +418,7 @@ namespace core
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			__m256d ymm_a;
+			__m256d ymm_a0;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_c0 = _mm256_setzero_pd();
 			__m256d ymm_c1 = _mm256_setzero_pd();
@@ -428,16 +428,16 @@ namespace core
 			for (size_t k = 0; k < p; k += 4)
 			{
 				// load data from memory
-				ymm_a = _mm256_loadu_pd(a + k);
+				ymm_a0 = _mm256_loadu_pd(a + k);
 				ymm_b0 = _mm256_loadu_pd(ptr_b0 + k);
 				ymm_b1 = _mm256_loadu_pd(ptr_b1 + k);
 				ymm_b2 = _mm256_loadu_pd(ptr_b2 + k);
 				ymm_b3 = _mm256_loadu_pd(ptr_b3 + k);
 				// return the weighted sum
-				ymm_c0 = _mm256_fmadd_pd(ymm_a, ymm_b0, ymm_c0);
-				ymm_c1 = _mm256_fmadd_pd(ymm_a, ymm_b1, ymm_c1);
-				ymm_c2 = _mm256_fmadd_pd(ymm_a, ymm_b2, ymm_c2);
-				ymm_c3 = _mm256_fmadd_pd(ymm_a, ymm_b3, ymm_c3);
+				ymm_c0 = _mm256_fmadd_pd(ymm_a0, ymm_b0, ymm_c0);
+				ymm_c1 = _mm256_fmadd_pd(ymm_a0, ymm_b1, ymm_c1);
+				ymm_c2 = _mm256_fmadd_pd(ymm_a0, ymm_b2, ymm_c2);
+				ymm_c3 = _mm256_fmadd_pd(ymm_a0, ymm_b3, ymm_c3);
 			}
 			// return the horizontal sum
 			ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c1);

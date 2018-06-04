@@ -27,15 +27,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_RM_RM_H__
-#define __CORE_CPU_MUL_RM_RM_H__
+#ifndef __CORE_CPU_MUL_RM_CM_H__
+#define __CORE_CPU_MUL_RM_CM_H__
 
 #include "../matrix.h"
-#include "kernel/kernel_mul_rm_rm.h"
+#include "kernel/kernel_mul_rm_cm.h"
 
 namespace core
 {
-	// The multiplication of the row-major order matrix and the row-major order matrix
+	// The multiplication of the row-major order matrix and the column-major order matrix
 	// Parameters:
 	// 1. c - output row-major order matrix.
 	//        | c[1][1],c[1][2],c[1][3],...,c[1][n] |
@@ -49,64 +49,64 @@ namespace core
 	//        | a[3][1],a[3][2],a[3][3],...,a[3][p] |
 	//        |   ...  ,  ...  ,  ...  ,...,  ...   |
 	//        | a[m][1],a[m][2],a[m][3],...,a[m][p] |
-	// 3. b - input row-major order matrix.
-	//        | b[1][1],b[1][2],b[1][3],...,b[1][n] |
-	//        | b[2][1],b[2][2],b[2][3],...,b[2][n] |
-	//        | b[3][1],b[3][2],b[3][3],...,b[3][n] |
+	// 3. b - input column-major order matrix.
+	//        | b[1][1],b[1][2],b[1][3],...,b[1][p] |
+	//        | b[2][1],b[2][2],b[2][3],...,b[2][p] |
+	//        | b[3][1],b[3][2],b[3][3],...,b[3][p] |
 	//        |   ...  ,  ...  ,  ...  ,...,  ...   |
-	//        | b[p][1],b[p][2],b[p][3],...,b[p][n] |
+	//        | b[n][1],b[n][2],b[n][3],...,b[n][p] |
 
 	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_mul_rm_rm(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
+	matrix<float, A>& cpu_mul_rm_cm(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (c.rows() != a.rows() || c.row_size() != b.row_size() || a.row_size() != b.rows())
+		if (c.rows() != a.rows() || c.row_size() != b.rows() || a.row_size() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<float, 8, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<float, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<float, 8, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<float, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<float, 4, 4, 4, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<float, 4, 4, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<float, 4, 4, 4, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<float, 4, 4, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else
-			kernel_mul_rm_rm<float, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+			kernel_mul_rm_cm<float, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		return c;
 	}
 
 	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_mul_rm_rm(matrix<double, A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b)
+	matrix<double, A>& cpu_mul_rm_cm(matrix<double, A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (c.rows() != a.rows() || c.row_size() != b.row_size() || a.row_size() != b.rows())
+		if (c.rows() != a.rows() || c.row_size() != b.rows() || a.row_size() != b.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<double, 4, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<double, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<double, 4, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<double, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu_inst::is_support_ss3e())
+		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<double, 2, 2, 2, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<double, 2, 2, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<double, 2, 2, 2, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_mul_rm_cm<double, 2, 2, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else
-			kernel_mul_rm_rm<double, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+			kernel_mul_rm_cm<double, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		return c;
 	}
 

@@ -238,9 +238,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_mul_rv_rm.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cup_mul_rm_rm.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_mul_rm_rm.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
@@ -269,6 +266,12 @@
       <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_mul.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_mul_rm_cm.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mul_rm_cm.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>

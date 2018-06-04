@@ -27,35 +27,47 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_RM_RM_H__
-#define __CORE_CPU_MUL_RM_RM_H__
+#ifndef __CORE_CPU_KERNEL_MUL_RM_CM_H__
+#define __CORE_CPU_KERNEL_MUL_RM_CM_H__
 
-#include "../vector.h"
-#include "../matrix.h"
-#include "kernel/kernel_mul_rm_rm.h"
+#include "kernel_mul_rv_cm.h"
 
 namespace core
 {
-	// The multiplication of the row-major order matrix and the row-major order matrix
-	// Parameters:
-	// 1. c - output row-major order matrix.
-	//        | c[1][1],c[1][2],c[1][3],...,c[1][n] |
-	//        | c[2][1],c[2][2],c[2][3],...,c[2][n] |
-	//        | c[3][1],c[3][2],c[3][3],...,c[3][n] |
-	//        |   ...  ,  ...  ,  ...  ,...,  ...   |
-	//        | c[m][1],c[m][2],c[m][3],...,c[m][n] |
-	// 2. a - input row-major order matrix.
-	//        | a[1][1],a[1][2],a[1][3],...,a[1][p] |
-	//        | a[2][1],a[2][2],a[2][3],...,a[2][p] |
-	//        | a[3][1],a[3][2],a[3][3],...,a[3][p] |
-	//        |   ...  ,  ...  ,  ...  ,...,  ...   |
-	//        | a[m][1],a[m][2],a[m][3],...,a[m][p] |
-	// 3. b - input row-major order matrix.
-	//        | b[1][1],b[1][2],b[1][3],...,b[1][n] |
-	//        | b[2][1],b[2][2],b[2][3],...,b[2][n] |
-	//        | b[3][1],b[3][2],b[3][3],...,b[3][n] |
-	//        |   ...  ,  ...  ,  ...,  ...,  ...   |
-	//        | b[p][1],b[p][2],b[p][3],...,b[p][n] |
+	// Class template kernel_mul_rm_cm
+	template<class T, size_t block_n, size_t block_p, cpu_inst_type inst>
+	struct kernel_mul_rm_cm
+	{
+		// C(mxn) += A(mxp) * B(nxp)^T
+		void operator()(size_t m, size_t n, size_t p, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		{
+			const T *ptr_b;
+			const size_t block_rsb = block_n * rsb;
+			const size_t aligned_n = n & ~(block_n - 1);
+			const size_t aligned_p = p & ~(block_p - 1);
+			const size_t surplus_n = n - aligned_n;
+			const size_t surplus_p = p - aligned_p;
+			const struct common_mul_rv_cm<T> functor;
+			const struct block_mul_rv_cm<T, inst> special_functor;
+
+			for (size_t i = 0; i < m; ++i)
+			{
+				ptr_b = b;
+				for (size_t j = 0; j < aligned_n; j += block_n)
+				{
+					if (aligned_p > 0)
+						special_functor(aligned_p, a, ptr_b, rsb, c + j);
+					if (surplus_p > 0)
+						functor(block_n, surplus_p, a + aligned_p, ptr_b + aligned_p, rsb, c + j);
+					ptr_b += block_rsb;
+				}
+				if (surplus_n > 0)
+					functor(surplus_n, p, a, b, rsb, c + aligned_n);
+				a += rsa;
+				c += rsc;
+			}
+		}
+	};
 
 } // namespace core
 
