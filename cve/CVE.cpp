@@ -65,182 +65,139 @@ int main()
 	//ymm_c6 = _mm256_hadd_ps(ymm_c6, ymm_c7);
 	//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c2);
 	//ymm_c4 = _mm256_hadd_ps(ymm_c4, ymm_c6);
-	//__m256 ymm_a0 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-	//__m256 ymm_a1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-	//ymm_c0 = _mm256_add_ps(ymm_a0, ymm_a1);
+	//ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+	//ymm_c5 = _mm256_permute2f128_ps(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+	//ymm_c0 = _mm256_add_ps(ymm_c1, ymm_c5);
 
-	//__m128 xmm_c0 = _mm_set_ps(.0004f, .0003f, .0002f, .0001f);
-	//__m128 xmm_c1 = _mm_set_ps(.004f, .003f, .002f, .001f);
-	//__m128 xmm_c2 = _mm_set_ps(.04f, .03f, .02f, .01f);
-	//__m128 xmm_c3 = _mm_set_ps(.4f, .3f, .2f, .1f);
-	//__m128 xmm_c4 = _mm_set_ps(4, 3, 2, 1);
-	//__m128 xmm_c5 = _mm_set_ps(40, 30, 20, 10);
-	//__m128 xmm_c6 = _mm_set_ps(400, 300, 200, 100);
-	//__m128 xmm_c7 = _mm_set_ps(4000, 3000, 2000, 1000);
+	//__m256i ymm_c0 = _mm256_set_epi32(8, 7, 6, 5, 4, 3, 2, 1);
+	//__m256i ymm_c1 = _mm256_set_epi32(80, 70, 60, 50, 40, 30, 20, 10);
+	//__m256i ymm_c2 = _mm256_set_epi32(800, 700, 600, 500, 400, 300, 200, 100);
+	//__m256i ymm_c3 = _mm256_set_epi32(8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000);
+	//__m256i ymm_c4 = _mm256_set_epi32(80000, 70000, 60000, 50000, 40000, 30000, 20000, 10000);
+	//__m256i ymm_c5 = _mm256_set_epi32(800000, 700000, 600000, 500000, 400000, 300000, 200000, 100000);
+	//__m256i ymm_c6 = _mm256_set_epi32(8000000, 7000000, 6000000, 5000000, 4000000, 3000000, 2000000, 1000000);
+	//__m256i ymm_c7 = _mm256_set_epi32(80000000, 70000000, 60000000, 50000000, 40000000, 30000000, 20000000, 10000000);
+	//ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c1);
+	//ymm_c2 = _mm256_hadd_epi32(ymm_c2, ymm_c3);
+	//ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c5);
+	//ymm_c6 = _mm256_hadd_epi32(ymm_c6, ymm_c7);
+	//ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c2);
+	//ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c6);
+	//ymm_c1 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
+	//ymm_c5 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
+	//ymm_c0 = _mm256_add_epi32(ymm_c1, ymm_c5);
 
-	//xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c1);
-	//xmm_c2 = _mm_hadd_ps(xmm_c2, xmm_c3);
-	//xmm_c0 = _mm_hadd_ps(xmm_c0, xmm_c2);
+	try
+	{
+		std::string input_image = "data/test.bmp";
+		std::string conv_image = "data/conv.bmp";
 
-	//__m128 xmm_b0 = _mm_shuffle_ps(xmm_c0, xmm_c1, _MM_SHUFFLE(1, 0, 1, 0));
-	//__m128 xmm_b1 = _mm_shuffle_ps(xmm_c2, xmm_c3, _MM_SHUFFLE(1, 0, 1, 0));
-	//__m128 xmm_b2 = _mm_shuffle_ps(xmm_c0, xmm_c1, _MM_SHUFFLE(3, 2, 3, 2));
-	//__m128 xmm_b3 = _mm_shuffle_ps(xmm_c2, xmm_c3, _MM_SHUFFLE(3, 2, 3, 2));
-	//xmm_b0 = _mm_add_ps(xmm_b0, xmm_b2);
-	//xmm_b1 = _mm_add_ps(xmm_b1, xmm_b3);
-	//xmm_c0 = _mm_shuffle_ps(xmm_b0, xmm_b1, _MM_SHUFFLE(2, 0, 2, 0));
-	//xmm_c1 = _mm_shuffle_ps(xmm_b0, xmm_b1, _MM_SHUFFLE(3, 1, 3, 1));
-	//xmm_c0 = _mm_add_ps(xmm_c0, xmm_c1);
+		img::bitmap_palette palette;
+		core::matrix<unsigned char> img_input;
+		if (img::bitmap::decode(input_image, img_input, palette))
+		{
+			size_t input_h = img_input.rows();
+			size_t input_w = img_input.columns();
+			size_t channels = img_input.dimension();
+			size_t window_h = 3;
+			size_t window_w = 3;
+			size_t stride_h = 1;
+			size_t stride_w = 1;
+			size_t output_h = (input_h - window_h) / stride_h + 1;
+			size_t output_w = (input_w - window_w) / stride_w + 1;
+		//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+			core::vector<float>  vec_kernel(window_h * window_w, 1);
+			core::matrix<float>  mat_image(input_h, input_w, channels);
+			core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
+			core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
+		//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
+		//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
+			core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
+			core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
+			core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
 
-	__m256i ymm_c0 = _mm256_set_epi32(8, 7, 6, 5, 4, 3, 2, 1);
-	__m256i ymm_c1 = _mm256_set_epi32(80, 70, 60, 50, 40, 30, 20, 10);
-	__m256i ymm_c2 = _mm256_set_epi32(800, 700, 600, 500, 400, 300, 200, 100);
-	__m256i ymm_c3 = _mm256_set_epi32(8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000);
-	__m256i ymm_c4 = _mm256_set_epi32(80000, 70000, 60000, 50000, 40000, 30000, 20000, 10000);
-	__m256i ymm_c5 = _mm256_set_epi32(800000, 700000, 600000, 500000, 400000, 300000, 200000, 100000);
-	__m256i ymm_c6 = _mm256_set_epi32(8000000, 7000000, 6000000, 5000000, 4000000, 3000000, 2000000, 1000000);
-	__m256i ymm_c7 = _mm256_set_epi32(80000000, 70000000, 60000000, 50000000, 40000000, 30000000, 20000000, 10000000);
+			//mat_kernel.fill({
+			//	0.0625F, 0.1250F, 0.0625F,
+			//	0.1250F, 0.2500F, 0.1250F,
+			//	0.0625F, 0.1250F, 0.0625F
+			//});
 
-	ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c1);
-	ymm_c2 = _mm256_hadd_epi32(ymm_c2, ymm_c3);
-	ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c5);
-	ymm_c6 = _mm256_hadd_epi32(ymm_c6, ymm_c7);
-	ymm_c0 = _mm256_hadd_epi32(ymm_c0, ymm_c2);
-	ymm_c4 = _mm256_hadd_epi32(ymm_c4, ymm_c6);
-	ymm_c1 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 2, 0, 0));
-	ymm_c5 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
-	ymm_c0 = _mm256_add_epi32(ymm_c1, ymm_c5);
+			//mat_kernel.fill({
+			//	1.0F, 0.0F, -1.0F,
+			//	2.0F, 0.0F, -2.0F,
+			//	1.0F, 0.0F, -1.0F
+			//});
 
-	//xmm_c0 = _mm_hadd_pd(xmm_c0, xmm_c1);
+			vec_kernel.fill({
+				1.0F, 2.0F, 1.0F,
+				0.0F, 0.0F, 0.0F,
+				-1.0F, -2.0F, -1.0F
+			});
 
-	//xmm_b0 = _mm_shuffle_pd(xmm_c0, xmm_c1, _MM_SHUFFLE(0, 0, 0, 0));
-	//xmm_b1 = _mm_shuffle_pd(xmm_c0, xmm_c1, _MM_SHUFFLE(0, 0, 3, 3));
-	//xmm_c0 = _mm_add_pd(xmm_b0, xmm_b1);
+			time_point<system_clock> time0 = system_clock::now();
+			core::cpu_convert(mat_image, img_input);
+			time_point<system_clock> time1 = system_clock::now();
+			core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
+			time_point<system_clock> time2 = system_clock::now();
+			core::cpu_mapping(mat_input, mat_image.data(), mat_index);
+			time_point<system_clock> time3 = system_clock::now();
+		//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+			core::cpu_mul(vec_output, mat_input, vec_kernel);
 
+			time_point<system_clock> time4 = system_clock::now();
+		//	core::cpu_convert(img_output, mat_output);
+			core::cpu_convert(vec_matrix, vec_output);
+			time_point<system_clock> time5 = system_clock::now();
 
-	//try
-	//{
-		//__m256 ymm_c1;
-		//__m256 ymm_c0 = _mm256_set_ps(8, 7, 6, 5, 4, 3, 2, 1);
-		//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c0);
-		//ymm_c0 = _mm256_hadd_ps(ymm_c0, ymm_c0);
-		//ymm_c1 = _mm256_permute2f128_ps(ymm_c0, ymm_c0, _MM_SHUFFLE(0, 2, 0, 1));
-		//ymm_c0 = _mm256_add_ps(ymm_c0, ymm_c1);
+			long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
+			long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
+			long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
+			long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
+			long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
+			long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
 
-		//__m256d ymm_c1;
-		//__m256d ymm_c0 = _mm256_set_pd(4, 3, 2, 1);
-		//ymm_c0 = _mm256_hadd_pd(ymm_c0, ymm_c0);
-		//ymm_c1 = _mm256_permute2f128_pd(ymm_c0, ymm_c0, _MM_SHUFFLE(0, 2, 0, 1));
-		//ymm_c0 = _mm256_add_pd(ymm_c0, ymm_c1);
+			std::cout << "total              " << _time0 << " ms" << std::endl;
+			std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
+			std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
+			std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
+			std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
+			std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
 
-	//	std::string input_image = "data/test.bmp";
-	//	std::string conv_image = "data/conv.bmp";
-
-	//	img::bitmap_palette palette;
-	//	core::matrix<unsigned char> img_input;
-	//	if (img::bitmap::decode(input_image, img_input, palette))
-	//	{
-	//		size_t input_h = img_input.rows();
-	//		size_t input_w = img_input.columns();
-	//		size_t channels = img_input.dimension();
-	//		size_t window_h = 3;
-	//		size_t window_w = 3;
-	//		size_t stride_h = 1;
-	//		size_t stride_w = 1;
-	//		size_t output_h = (input_h - window_h) / stride_h + 1;
-	//		size_t output_w = (input_w - window_w) / stride_w + 1;
-	//	//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
-	//		core::vector<float>  vec_kernel(window_h * window_w, 1);
-	//		core::matrix<float>  mat_image(input_h, input_w, channels);
-	//		core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
-	//		core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
-	//	//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
-	//	//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
-	//		core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
-	//		core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
-	//		core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
-
-	//		//mat_kernel.fill({
-	//		//	0.0625F, 0.1250F, 0.0625F,
-	//		//	0.1250F, 0.2500F, 0.1250F,
-	//		//	0.0625F, 0.1250F, 0.0625F
-	//		//});
-
-	//		//mat_kernel.fill({
-	//		//	1.0F, 0.0F, -1.0F,
-	//		//	2.0F, 0.0F, -2.0F,
-	//		//	1.0F, 0.0F, -1.0F
-	//		//});
-
-	//		vec_kernel.fill({
-	//			1.0F, 2.0F, 1.0F,
-	//			0.0F, 0.0F, 0.0F,
-	//			-1.0F, -2.0F, -1.0F
-	//		});
-
-	//		time_point<system_clock> time0 = system_clock::now();
-	//		core::cpu_convert(mat_image, img_input);
-	//		time_point<system_clock> time1 = system_clock::now();
-	//		core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
-	//		time_point<system_clock> time2 = system_clock::now();
-	//		core::cpu_mapping(mat_input, mat_image.data(), mat_index);
-	//		time_point<system_clock> time3 = system_clock::now();
-	//	//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
-	//		core::cpu_mul_rm_cv(vec_output, mat_input, vec_kernel);
-
-	//		time_point<system_clock> time4 = system_clock::now();
-	//	//	core::cpu_convert(img_output, mat_output);
-	//		core::cpu_convert(vec_matrix, vec_output);
-	//		time_point<system_clock> time5 = system_clock::now();
-
-	//		long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
-	//		long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
-	//		long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
-	//		long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
-	//		long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
-	//		long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
-
-	//		std::cout << "total              " << _time0 << " ms" << std::endl;
-	//		std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
-	//		std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
-	//		std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
-	//		std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
-	//		std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
-
-	//		img::bitmap::encode(conv_image, img_output);
-	//	}
-	//	else
-	//		std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
-	//}
-	//catch (std::exception err)
-	//{
-	//	std::cout << err.what() << std::endl;
-	//}
-	//return 0;
-
-	//std::cout << "mat_mul(): " << std::endl;
-	//for (int i = 64; i <= 1024 * 2; i += 64)
-	//{
-	//	const size_t m = i;
-	//	const size_t n = i;
-	//	const size_t k = i;
-	//	const size_t d = 1;
-	//	core::matrix<float> a(m, k, d);
-	//	core::matrix<float> b(k, n, d);
-	//	core::matrix<float> c(m, n, d);
-	//	a.fill(1.1f);
-	//	b.fill(1.2f);
-
-	//	time_point<system_clock> start = system_clock::now();
-	//	core::cpu_multiply(c, a, b);
-	//	time_point<system_clock> stop = system_clock::now();
-	//	long long time = duration_cast<milliseconds>(stop - start).count();
-	//	std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
-	//}
-	//std::cout << "OK" << std::endl;
-	//return 0;
+			img::bitmap::encode(conv_image, img_output);
+		}
+		else
+			std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
+	}
+	catch (std::exception err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+	return 0;
 
 	core::cpu_inst::enable_simd(true);
+
+	std::cout << "mat_mul(): " << std::endl;
+	for (int i = 64; i <= 1024 * 2; i += 64)
+	{
+		const size_t m = i;
+		const size_t n = i;
+		const size_t k = i;
+		const size_t d = 1;
+		core::matrix<float> a(m, k, d);
+		core::matrix<float> b(k, n, d);
+		core::matrix<float> c(m, n, d);
+		a.fill(1.1f);
+		b.fill(1.2f);
+
+		time_point<system_clock> start = system_clock::now();
+		core::cpu_mul(c, a, b, true);
+		time_point<system_clock> stop = system_clock::now();
+		long long time = duration_cast<milliseconds>(stop - start).count();
+		std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
+	}
+	std::cout << "OK" << std::endl;
+	return 0;
+
 	try
 	{
 		size_t row = 13;

@@ -103,7 +103,7 @@ namespace core
 				kernel_mul_rv_rm<double, 2, 2, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_matrix_multiply<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_mul_rv_rm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
