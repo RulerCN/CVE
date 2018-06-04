@@ -47,7 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_border.h"
 #include "cpu/cpu_sliding_window.h"
 #include "cpu/cpu_mapping.h"
-#include "cpu/cpu_multiply.h"
 #include "cpu/cpu_mul.h"
 
 #endif
