@@ -109,7 +109,17 @@ namespace ann
 			input.reshape(batch, 1, input.matrix_size(), 1);
 			// TODO: OPenMP
 			for (size_type i = 0; i < batch; ++i)
-				::core::cpu_multiply(output[i], input[i], weight, bias);
+				::core::cpu_mul(output[i], input[i], weight, bias);
+		}
+
+		// Back propagation
+		void backward(const tensor_type &input, const tensor_type &loss, T learning_rate)
+		{
+			if (weight.empty())
+				throw ::std::domain_error(::core::matrix_not_initialized);
+			if (input.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+
 		}
 	private:
 		matrix_type weight;
