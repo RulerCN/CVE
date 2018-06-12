@@ -152,9 +152,12 @@
     <ClInclude Include="ann\mnist.h" />
     <ClInclude Include="ann\mnist_data.h" />
     <ClInclude Include="ann\sample_base.h" />
+    <ClInclude Include="ann\sigmoid_layer.h" />
+    <ClInclude Include="ann\softmax_layer.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
     <ClInclude Include="core\cpu\cpu_convert.h" />
@@ -181,7 +184,7 @@
     <ClInclude Include="core\cpu\cpu_mul_rm_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h" />
-    <ClInclude Include="core\cpu\kernel\kernel_border_replicte.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_border_replicate.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_wrap.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mul_cv_rv.h" />
@@ -210,6 +213,8 @@
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_max.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_replicate_matrix.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_replicate_vector.h" />
     <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_reduce.h" />

@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_BORDER_H__
 
 #include "../matrix.h"
-#include "kernel/kernel_border_replicte.h"
+#include "kernel/kernel_border_replicate.h"
 #include "kernel/kernel_border_reflect.h"
 #include "kernel/kernel_border_reflect101.h"
 #include "kernel/kernel_border_wrap.h"
@@ -46,7 +46,7 @@ namespace core
 	// 4. right  - right border width in number of pixels.
 	// 5. bottom - bottom border width in number of pixels.
 	// 6. type   - border type:
-	//     border_replicte:   Last element is replicated throughout.
+	//     border_replicate:  Last element is replicated throughout.
 	//     border_reflect:    Border will be mirror reflection of the border elements.
 	//     border_reflect101: Same as above, but with a slight change.
 	//     border_wrap:       Can't explain, it will look like this.
@@ -55,8 +55,8 @@ namespace core
 	{
 		switch (type)
 		{
-		case border_replicte:
-			return cpu_border_replicte(index, left, top, right, bottom);
+		case border_replicate:
+			return cpu_border_replicate(index, left, top, right, bottom);
 		case border_reflect:
 			return cpu_border_reflect(index, left, top, right, bottom);
 		case border_reflect101:
@@ -68,9 +68,9 @@ namespace core
 		}
 	}
 
-	// Function template cpu_border_replicte
+	// Function template cpu_border_replicate
 	template <class T, class A>
-	matrix<T, A>& cpu_border_replicte(matrix<T, A> &index, T left, T top, T right, T bottom)
+	matrix<T, A>& cpu_border_replicate(matrix<T, A> &index, T left, T top, T right, T bottom)
 	{
 		if (index.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -82,20 +82,20 @@ namespace core
 
 		// left border
 		if (left > 0)
-			kernel_border_replicte_left(data, index.columns(), width, index.dimension(), left);
+			kernel_border_replicate_left(data, index.columns(), width, index.dimension(), left);
 		// center data
-		kernel_border_replicte_center(data, index.columns(), width, index.dimension(), left);
+		kernel_border_replicate_center(data, index.columns(), width, index.dimension(), left);
 		// right border
 		if (right > 0)
-			kernel_border_replicte_right(data, index.columns(), width, index.dimension(), right);
+			kernel_border_replicate_right(data, index.columns(), width, index.dimension(), right);
 		// top border
 		if (top > 0)
-			kernel_border_replicte_top(data, index.columns(), height, width, index.dimension(), top);
+			kernel_border_replicate_top(data, index.columns(), height, width, index.dimension(), top);
 		// middle data
-		kernel_border_replicte_middle(data, index.columns(), height, width, index.dimension(), top);
+		kernel_border_replicate_middle(data, index.columns(), height, width, index.dimension(), top);
 		// bottom border
 		if (bottom > 0)
-			kernel_border_replicte_bottom(data, index.columns(), height, width, index.dimension(), bottom);
+			kernel_border_replicate_bottom(data, index.columns(), height, width, index.dimension(), bottom);
 		return index;
 	}
 

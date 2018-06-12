@@ -9,6 +9,8 @@
 #include "core/core.h"
 #include "image/bitmap.h"
 #include "ann/mnist.h"
+#include "ann/linear_layer.h"
+#include "ann/sigmoid_layer.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -159,225 +161,253 @@ int main()
 	//ymm_c5 = _mm256_permute2f128_si256(ymm_c0, ymm_c4, _MM_SHUFFLE(0, 3, 0, 1));
 	//ymm_c0 = _mm256_add_epi32(ymm_c1, ymm_c5);
 
-	try
-	{
-		std::string input_image = "data/test.bmp";
-		std::string conv_image = "data/conv.bmp";
+	//try
+	//{
+	//	std::string input_image = "data/test.bmp";
+	//	std::string conv_image = "data/conv.bmp";
 
-		img::bitmap_palette palette;
-		core::matrix<unsigned char> img_input;
-		if (img::bitmap::decode(input_image, img_input, palette))
-		{
-			size_t input_h = img_input.rows();
-			size_t input_w = img_input.columns();
-			size_t channels = img_input.dimension();
-			size_t window_h = 3;
-			size_t window_w = 3;
-			size_t stride_h = 1;
-			size_t stride_w = 1;
-			size_t output_h = (input_h - window_h) / stride_h + 1;
-			size_t output_w = (input_w - window_w) / stride_w + 1;
-		//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
-			core::vector<float>  vec_kernel(window_h * window_w, 1);
-			core::matrix<float>  mat_image(input_h, input_w, channels);
-			core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
-			core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
-		//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
-		//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
-			core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
-			core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
-			core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
+	//	img::bitmap_palette palette;
+	//	core::matrix<unsigned char> img_input;
+	//	if (img::bitmap::decode(input_image, img_input, palette))
+	//	{
+	//		size_t input_h = img_input.rows();
+	//		size_t input_w = img_input.columns();
+	//		size_t channels = img_input.dimension();
+	//		size_t window_h = 3;
+	//		size_t window_w = 3;
+	//		size_t stride_h = 1;
+	//		size_t stride_w = 1;
+	//		size_t output_h = (input_h - window_h) / stride_h + 1;
+	//		size_t output_w = (input_w - window_w) / stride_w + 1;
+	//	//	core::matrix<float>  mat_kernel(1, window_h * window_w, 1);
+	//		core::vector<float>  vec_kernel(window_h * window_w, 1);
+	//		core::matrix<float>  mat_image(input_h, input_w, channels);
+	//		core::matrix<size_t> mat_index(output_h * output_w * channels, window_h * window_w, 1);
+	//		core::matrix<float>  mat_input(output_h * output_w * channels, window_h * window_w, 1);
+	//	//	core::matrix<float>  mat_output(output_h * output_w * channels, 1, 1);
+	//	//	core::matrix<unsigned char> img_output(output_h, output_w, channels);
+	//		core::vector<float>  vec_output(output_h * output_w * channels, 1, 0.0F);
+	//		core::vector<unsigned char> vec_matrix(output_h * output_w * channels, 1);
+	//		core::matrix<unsigned char> img_output(output_h, output_w, channels, vec_matrix.data());
 
-			//mat_kernel.fill({
-			//	0.0625F, 0.1250F, 0.0625F,
-			//	0.1250F, 0.2500F, 0.1250F,
-			//	0.0625F, 0.1250F, 0.0625F
-			//});
+	//		//mat_kernel.fill({
+	//		//	0.0625F, 0.1250F, 0.0625F,
+	//		//	0.1250F, 0.2500F, 0.1250F,
+	//		//	0.0625F, 0.1250F, 0.0625F
+	//		//});
 
-			//mat_kernel.fill({
-			//	1.0F, 0.0F, -1.0F,
-			//	2.0F, 0.0F, -2.0F,
-			//	1.0F, 0.0F, -1.0F
-			//});
+	//		//mat_kernel.fill({
+	//		//	1.0F, 0.0F, -1.0F,
+	//		//	2.0F, 0.0F, -2.0F,
+	//		//	1.0F, 0.0F, -1.0F
+	//		//});
 
-			vec_kernel.fill({
-				1.0F, 2.0F, 1.0F,
-				0.0F, 0.0F, 0.0F,
-				-1.0F, -2.0F, -1.0F
-			});
+	//		vec_kernel.fill({
+	//			1.0F, 2.0F, 1.0F,
+	//			0.0F, 0.0F, 0.0F,
+	//			-1.0F, -2.0F, -1.0F
+	//		});
 
-			time_point<system_clock> time0 = system_clock::now();
-			core::cpu_convert(mat_image, img_input);
-			time_point<system_clock> time1 = system_clock::now();
-			core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
-			time_point<system_clock> time2 = system_clock::now();
-			core::cpu_mapping(mat_input, mat_image.data(), mat_index);
-			time_point<system_clock> time3 = system_clock::now();
-		//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
-			core::cpu_mul(vec_output, mat_input, vec_kernel);
+	//		time_point<system_clock> time0 = system_clock::now();
+	//		core::cpu_convert(mat_image, img_input);
+	//		time_point<system_clock> time1 = system_clock::now();
+	//		core::cpu_sliding_window(mat_index, input_h, input_w, channels, window_h, window_w, stride_h, stride_w);
+	//		time_point<system_clock> time2 = system_clock::now();
+	//		core::cpu_mapping(mat_input, mat_image.data(), mat_index);
+	//		time_point<system_clock> time3 = system_clock::now();
+	//	//	core::cpu_multiply(mat_output, mat_input, mat_kernel, true);
+	//		core::cpu_mul(vec_output, mat_input, vec_kernel);
 
-			time_point<system_clock> time4 = system_clock::now();
-		//	core::cpu_convert(img_output, mat_output);
-			core::cpu_convert(vec_matrix, vec_output);
-			time_point<system_clock> time5 = system_clock::now();
+	//		time_point<system_clock> time4 = system_clock::now();
+	//	//	core::cpu_convert(img_output, mat_output);
+	//		core::cpu_convert(vec_matrix, vec_output);
+	//		time_point<system_clock> time5 = system_clock::now();
 
-			long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
-			long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
-			long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
-			long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
-			long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
-			long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
+	//		long long _time0 = duration_cast<milliseconds>(time5 - time0).count();
+	//		long long _time1 = duration_cast<milliseconds>(time1 - time0).count();
+	//		long long _time2 = duration_cast<milliseconds>(time2 - time1).count();
+	//		long long _time3 = duration_cast<milliseconds>(time3 - time2).count();
+	//		long long _time4 = duration_cast<milliseconds>(time4 - time3).count();
+	//		long long _time5 = duration_cast<milliseconds>(time5 - time4).count();
 
-			std::cout << "total              " << _time0 << " ms" << std::endl;
-			std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
-			std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
-			std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
-			std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
-			std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
+	//		std::cout << "total              " << _time0 << " ms" << std::endl;
+	//		std::cout << "cpu_convert        " << _time1 << " ms" << std::endl;
+	//		std::cout << "cpu_sliding_window " << _time2 << " ms" << std::endl;
+	//		std::cout << "cpu_mapping        " << _time3 << " ms" << std::endl;
+	//		std::cout << "cpu_multiply       " << _time4 << " ms" << std::endl;
+	//		std::cout << "cpu_convert        " << _time5 << " ms" << std::endl;
 
-			img::bitmap::encode(conv_image, img_output);
-		}
-		else
-			std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
-	}
-	catch (std::exception err)
-	{
-		std::cout << err.what() << std::endl;
-	}
-	return 0;
+	//		img::bitmap::encode(conv_image, img_output);
+	//	}
+	//	else
+	//		std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
+	//}
+	//catch (std::exception err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+	//return 0;
 
-	core::cpu_inst::enable_simd(true);
+	//core::cpu_inst::enable_simd(true);
 
-	std::cout << "mat_mul(): " << std::endl;
-	for (int i = 64; i <= 1024 * 2; i += 64)
-	{
-		const size_t m = i;
-		const size_t n = i;
-		const size_t k = i;
-		const size_t d = 1;
-		core::matrix<float> a(m, k, d);
-		core::matrix<float> b(k, n, d);
-		core::matrix<float> c(m, n, d);
-		a.fill(1.1f);
-		b.fill(1.2f);
+	//std::cout << "mat_mul(): " << std::endl;
+	//for (int i = 64; i <= 1024 * 2; i += 64)
+	//{
+	//	const size_t m = i;
+	//	const size_t n = i;
+	//	const size_t k = i;
+	//	const size_t d = 1;
+	//	core::matrix<float> a(m, k, d);
+	//	core::matrix<float> b(k, n, d);
+	//	core::matrix<float> c(m, n, d);
+	//	a.fill(1.1f);
+	//	b.fill(1.2f);
 
-		time_point<system_clock> start = system_clock::now();
-		core::cpu_mul(c, a, b, true);
-		time_point<system_clock> stop = system_clock::now();
-		long long time = duration_cast<milliseconds>(stop - start).count();
-		std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
-	}
-	std::cout << "OK" << std::endl;
-	return 0;
+	//	time_point<system_clock> start = system_clock::now();
+	//	core::cpu_mul(c, a, b, true);
+	//	time_point<system_clock> stop = system_clock::now();
+	//	long long time = duration_cast<milliseconds>(stop - start).count();
+	//	std::cout << i << ".\t" << m * n * k / 1073741824.0 * (2000.0 / time) << " FLOPS" << std::endl;
+	//}
+	//std::cout << "OK" << std::endl;
+	//return 0;
 
-	try
-	{
-		size_t row = 13;
-		size_t p = 14;
-		size_t col = 15;
-		size_t dim = 1;
-		core::matrix<float> a(row, p, dim);
-		core::matrix<float> b(p, col, dim);
-		core::matrix<float> bt(col, p, dim);
-		core::matrix<float> c(row, col, dim, 0.0F);
-		core::matrix<float> d(row, col, dim, 0.0F);
-		// Initialization matrix
-		a.linear_fill(1.0F, 1.0F);
-		b.linear_fill(1.0F, 1.0F);
-		core::cpu_transpose(bt, b);
-		// Matrix-matrix multiplication
-		core::cpu_mul(c, a, b);
+	//try
+	//{
+	//	size_t row = 13;
+	//	size_t p = 14;
+	//	size_t col = 15;
+	//	size_t dim = 1;
+	//	core::matrix<float> a(row, p, dim);
+	//	core::matrix<float> b(p, col, dim);
+	//	core::matrix<float> bt(col, p, dim);
+	//	core::matrix<float> c(row, col, dim, 0.0F);
+	//	core::matrix<float> d(row, col, dim, 0.0F);
+	//	// Initialization matrix
+	//	a.linear_fill(1.0F, 1.0F);
+	//	b.linear_fill(1.0F, 1.0F);
+	//	core::cpu_transpose(bt, b);
+	//	// Matrix-matrix multiplication
+	//	core::cpu_mul(c, a, b);
 
-		//core::cpu_multiply(d, a, b);
-		const core::common_mul_rm_rm<float> mul;
-		mul(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), d.data(), d.row_size());
-		print("a", a);
-		print("b", b);
-		print("c=a*b", c);
-		//core::cpu_multiply(d, a, bt, true);
-		print("d=a*b", d);
-	}
-	catch (std::exception err)
-	{
-		std::cout << err.what() << std::endl;
-	}
-	return 0;
+	//	//core::cpu_multiply(d, a, b);
+	//	const core::common_mul_rm_rm<float> mul;
+	//	mul(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), d.data(), d.row_size());
+	//	print("a", a);
+	//	print("b", b);
+	//	print("c=a*b", c);
+	//	//core::cpu_multiply(d, a, bt, true);
+	//	print("d=a*b", d);
+	//}
+	//catch (std::exception err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+	//return 0;
 
-	try
-	{
-		std::string input_image = "data/test.bmp";
-		std::string border_wrap = "data/wrap.bmp";
+	//try
+	//{
+	//	std::string input_image = "data/test.bmp";
+	//	std::string border_wrap = "data/wrap.bmp";
 
-		core::matrix<unsigned char> input;
-		if (img::bitmap::decode(input_image, input))
-		{
-			size_t left = 482 * 2 + 20;
-			size_t top = 272 * 2 + 20;
-			size_t right = 482 * 2 + 20;
-			size_t bottom = 272 * 2 + 20;
-			size_t rows = input.rows();
-			size_t columns = input.columns();
-			size_t dimension = input.dimension();
-			core::matrix<size_t> index(top + rows + bottom, left + columns + right, dimension);
-			core::cpu_border(index, left, top, right, bottom, core::border_wrap);
+	//	core::matrix<unsigned char> input;
+	//	if (img::bitmap::decode(input_image, input))
+	//	{
+	//		size_t left = 482 * 2 + 20;
+	//		size_t top = 272 * 2 + 20;
+	//		size_t right = 482 * 2 + 20;
+	//		size_t bottom = 272 * 2 + 20;
+	//		size_t rows = input.rows();
+	//		size_t columns = input.columns();
+	//		size_t dimension = input.dimension();
+	//		core::matrix<size_t> index(top + rows + bottom, left + columns + right, dimension);
+	//		core::cpu_border(index, left, top, right, bottom, core::border_wrap);
 
-			time_point<system_clock> start = system_clock::now();
+	//		time_point<system_clock> start = system_clock::now();
 
-			core::matrix<unsigned char> output(index.rows(), index.columns(), index.dimension());
-			core::cpu_mapping(output, input.data(), index);
+	//		core::matrix<unsigned char> output(index.rows(), index.columns(), index.dimension());
+	//		core::cpu_mapping(output, input.data(), index);
 
-			time_point<system_clock> stop = system_clock::now();
-			long long time = duration_cast<milliseconds>(stop - start).count();
-			std::cout << time << " ms" << std::endl;
+	//		time_point<system_clock> stop = system_clock::now();
+	//		long long time = duration_cast<milliseconds>(stop - start).count();
+	//		std::cout << time << " ms" << std::endl;
 
-			img::bitmap::encode(border_wrap, output);
-		}
-		else
-			std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
-	}
-	catch (std::exception err)
-	{
-		std::cout << err.what() << std::endl;
-	}
-	return 0;
-/*
-	const size_t batch     = 10;
-	const size_t rows      = 28;
-	const size_t columns   = 28;
-	const size_t length    = 10;
-	const size_t dimension = 1;
+	//		img::bitmap::encode(border_wrap, output);
+	//	}
+	//	else
+	//		std::cout << "Can't load image file '" << input_image.data() << "'." << std::endl;
+	//}
+	//catch (std::exception err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+	//return 0;
 
+	const size_t batch      = 100;
+	const size_t rows       = 28;
+	const size_t columns    = 28;
+	const size_t input_dim  = rows * columns;
+	const size_t hide_dim   = 50;
+	const size_t output_dim = 10;
+	const size_t dimension  = 1;
 	ann::mnist<> mnist("data/mnist");
-	core::tensor<float> train_images_flt(batch, rows, columns, dimension);
-	core::tensor<unsigned char> train_images(batch, rows, columns, dimension);
-	core::vector<unsigned char> train_labels(length, dimension);
-	core::tensor<unsigned char> test_images(batch, rows, columns, dimension);
-	core::vector<unsigned char> test_labels(length, dimension);
+	core::tensor<float> train_images(batch, rows, columns, dimension);
+	core::vector<float> train_labels(batch, dimension);
+
+	ann::linear_layer<float> layer1(input_dim, hide_dim);
+	ann::sigmoid_layer<float> layer2;
+	ann::linear_layer<float> layer3(hide_dim, output_dim);
+	ann::sigmoid_layer<float> layer4;
+	core::tensor<float> tensor1(1, batch, hide_dim, 1);
+	core::tensor<float> tensor2(1, batch, hide_dim, 1);
+	core::tensor<float> tensor3(1, batch, output_dim, 1);
+	core::tensor<float> tensor4(1, batch, output_dim, 1);
+
+	layer1.initialize_normal(0.F, 0.01F, 1U);
+	layer3.initialize_normal(0.F, 0.01F, 1U);
 
 	mnist.train.shuffle(1U);
-	mnist.train.next_batch(train_images_flt, train_labels);
-	core::cpu_convert(train_images, train_images_flt);
+	mnist.train.next_batch(train_images, train_labels);
 
-	img::bitmap::encode("data/train/1.bmp", train_images[0]);
-	img::bitmap::encode("data/train/2.bmp", train_images[1]);
-	img::bitmap::encode("data/train/3.bmp", train_images[2]);
-	img::bitmap::encode("data/train/4.bmp", train_images[3]);
-	img::bitmap::encode("data/train/5.bmp", train_images[4]);
-	img::bitmap::encode("data/train/6.bmp", train_images[5]);
-	img::bitmap::encode("data/train/7.bmp", train_images[6]);
-	img::bitmap::encode("data/train/8.bmp", train_images[7]);
+	// Change the shape of the input tensor
+	train_images.reshape(1, batch, train_images.matrix_size(), 1);
 
-	mnist.test.shuffle(1U);
-	mnist.test.next_batch(test_images, test_labels);
-	img::bitmap::encode("data/test/1.bmp", test_images[0]);
-	img::bitmap::encode("data/test/2.bmp", test_images[1]);
-	img::bitmap::encode("data/test/3.bmp", test_images[2]);
-	img::bitmap::encode("data/test/4.bmp", test_images[3]);
-	img::bitmap::encode("data/test/5.bmp", test_images[4]);
-	img::bitmap::encode("data/test/6.bmp", test_images[5]);
-	img::bitmap::encode("data/test/7.bmp", test_images[6]);
-	img::bitmap::encode("data/test/8.bmp", test_images[7]);
-*/
+	// linear layer
+	layer1.forward(train_images, tensor1);
+	// sigmoid layer
+	layer2.forward(tensor1, tensor2);
+	// linear layer
+	layer3.forward(tensor2, tensor3);
+	// sigmoid layer
+	layer4.forward(tensor3, tensor4);
+
+	//print("hide:", layer1[0]);
+	//print("hide:", layer2[0]);
+
+
+	//core::tensor<unsigned char> test_images(batch, rows, columns, dimension);
+	//core::vector<unsigned char> test_labels(length, dimension);
+	//core::tensor<unsigned char> train_images(batch, rows, columns, dimension);
+	//core::cpu_convert(train_images, train_images_flt);
+	//img::bitmap::encode("data/train/1.bmp", train_images[0]);
+	//img::bitmap::encode("data/train/2.bmp", train_images[1]);
+	//img::bitmap::encode("data/train/3.bmp", train_images[2]);
+	//img::bitmap::encode("data/train/4.bmp", train_images[3]);
+	//img::bitmap::encode("data/train/5.bmp", train_images[4]);
+	//img::bitmap::encode("data/train/6.bmp", train_images[5]);
+	//img::bitmap::encode("data/train/7.bmp", train_images[6]);
+	//img::bitmap::encode("data/train/8.bmp", train_images[7]);
+	//mnist.test.shuffle(1U);
+	//mnist.test.next_batch(test_images, test_labels);
+	//img::bitmap::encode("data/test/1.bmp", test_images[0]);
+	//img::bitmap::encode("data/test/2.bmp", test_images[1]);
+	//img::bitmap::encode("data/test/3.bmp", test_images[2]);
+	//img::bitmap::encode("data/test/4.bmp", test_images[3]);
+	//img::bitmap::encode("data/test/5.bmp", test_images[4]);
+	//img::bitmap::encode("data/test/6.bmp", test_images[5]);
+	//img::bitmap::encode("data/test/7.bmp", test_images[6]);
+	//img::bitmap::encode("data/test/8.bmp", test_images[7]);
+
 	//size_t row = 13;
 	//size_t col = 17;
 	//size_t dim = 1;

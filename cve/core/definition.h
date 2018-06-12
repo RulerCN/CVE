@@ -147,7 +147,7 @@ namespace core
 	// Border type
 	typedef unsigned char border_type;
 	static constexpr border_type        border_constant    = 0x00;                       /* iiii|abcdefgh|iiii */
-	static constexpr border_type        border_replicte    = 0x01;                       /* aaaa|abcdefgh|hhhh */
+	static constexpr border_type        border_replicate   = 0x01;                       /* aaaa|abcdefgh|hhhh */
 	static constexpr border_type        border_reflect     = 0x02;                       /* dcba|abcdefgh|hgfe */
 	static constexpr border_type        border_reflect101  = 0x03;                       /* edcb|abcdefgh|gfed */
 	static constexpr border_type        border_wrap        = 0x04;                       /* efgh|abcdefgh|abcd */

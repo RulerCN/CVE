@@ -67,8 +67,8 @@ namespace core
 	static const char matrix_not_initialized[]    = "Matrix not initialized.";
 	static const char tensor_is_initialized[]     = "Tensor is initialized.";
 	static const char tensor_not_initialized[]    = "Tensor not initialized.";
-	static const char cache_is_initialized[]      = "Cache is initialized.";
-	static const char cache_not_initialized[]     = "Cache not initialized.";
+	static const char layer_is_initialized[]      = "Layer is initialized.";
+	static const char layer_not_initialized[]     = "Layer not initialized.";
 	static const char scalar_different_size[]     = "Unable to operate scalars of different size.";
 	static const char vector_different_size[]     = "Unable to operate vectors of different size.";
 	static const char matrix_different_size[]     = "Unable to operate matrixs of different size.";

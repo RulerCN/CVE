@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __ANN_LINEAR_LAYER_H__
-#define __ANN_LINEAR_LAYER_H__
+#ifndef __ANN_SOFTMAX_LAYER_H__
+#define __ANN_SOFTMAX_LAYER_H__
 
 #include "layer_base.h"
 
@@ -36,7 +36,7 @@ namespace ann
 {
 	// Class template linear_layer
 	template <class T, class Allocator = ::core::allocator<T> >
-	class linear_layer : public layer_base<T, Allocator>
+	class softmax_layer : public layer_base<T, Allocator>
 	{
 	public:
 		// types:
@@ -76,85 +76,56 @@ namespace ann
 
 		// construct/copy/destroy:
 
-		linear_layer(const Allocator& alloc = Allocator())
+		softmax_layer(const Allocator& alloc = Allocator())
 		{}
 
-		linear_layer(size_type input_row_size, size_type output_row_size, bool training = false)
+		softmax_layer(size_type length)
 		{
-			assign(input_row_size, output_row_size, training);
+			assign(length);
 		}
 
-		void assign(size_type input_row_size, size_type output_row_size, bool training = false)
+		void assign(size_type length)
 		{
 			const size_type dimension = 1;
-			weight.assign(input_row_size, output_row_size, dimension);
-			bias.assign(output_row_size, dimension);
-			if (training)
-			{
-				// The gradient of weight
-				weight_gradient.assign(input_row_size, output_row_size, dimension);
-				// The gradient of bias
-				bias_gradient.assign(output_row_size, dimension);
-				// The mean vector of the input
-				input_mean.assign(input_row_size, dimension);
-				// The mean vector of the loss
-				loss_mean.assign(output_row_size, dimension);
-			}
-		}
-
-		// Initialize linear layer
-
-		void initialize_uniform(T min, T max, unsigned int seed = 1U)
-		{
-			::std::default_random_engine engine(seed);
-			::std::uniform_real_distribution<T> distribution(min, max);
-			::std::function<T(void)> generator = ::std::bind(distribution, engine);
-			weight.generate(generator);
-			bias.fill(0);
-		}
-
-		void initialize_normal(T mean, T sigma, unsigned int seed = 1U)
-		{
-			::std::default_random_engine engine(seed);
-			::std::normal_distribution<T> distribution(mean, sigma);
-			::std::function<T(void)> generator = ::std::bind(distribution, engine);
-			weight.generate(generator);
-			bias.fill(0);
+			input_max.assign(length, dimension);
 		}
 
 		// Forward propagation
 		void forward(const_tensor_reference input, tensor_reference output)
 		{
-			if (input.batch() != 1 || output.batch() != 1)
-				throw ::std::invalid_argument(::core::invalid_shape);
+			if (input.empty() || output.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (input.size() != output.size())
+				throw ::std::domain_error(::core::tensor_different_size);
 
-			::core::cpu_mul(output[0], input[0], weight);
+			::core::reduce(input_max, input[0], ::core::reduce_col_max);
+
+			const_pointer x = input.data();
+			pointer y = output.data();
+			size_type size = input.size();
+			for (size_type i = 0; i < size; ++i)
+				y[i] = 1 / (1 + exp(-x[i]));
+
 			this->bind(input, output);
 		}
 
 		// Back propagation
-		void backward(const_tensor_reference input, tensor_reference output, T rate)
+		void backward(const_tensor_reference input, tensor_reference output)
 		{
-			if (input.batch() != 1 || output.batch() != 1)
-				throw ::std::invalid_argument(::core::invalid_shape);
+			if (input.empty() || output.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (input.size() != output.size())
+				throw ::std::domain_error(::core::tensor_different_size);
 
-			// Mean vector of input data
-			::core::reduce(input_mean, *this->input[0], ::core::reduce_col_avg);
-			// Mean vector of loss data
-			::core::reduce(loss_mean, input[0], ::core::reduce_col_avg);
-			// Calculate the gradient of weight
-			::core::cpu_mul(weight_gradient, input_mean, loss_mean);
-			// Update the weights
-			weight_gradient *= rate;
-			weight -= weight_gradient;
+			const_pointer input_loss = input.data();
+			pointer y = this->output()->data();
+			pointer output_loss = output.data();
+			size_type size = this->input_loss_pointer->size();
+			for (size_type i = 0; i < size; ++i)
+				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
 		}
 	private:
-		matrix_type weight;
-		matrix_type weight_gradient;
-		vector_type bias;
-		vector_type bias_gradient;
-		vector_type input_mean;
-		vector_type loss_mean;
+		vector_type input_max;
 	};
 
 } // namespace ann

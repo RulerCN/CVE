@@ -30,6 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __ANN_LAYER_BASE_H__
 #define __ANN_LAYER_BASE_H__
 
+#include <random>
+#include <functional>
 #include "../core/core.h"
 
 namespace ann
@@ -43,10 +45,27 @@ namespace ann
 
 		typedef Allocator                                       allocator_type;
 		typedef ::std::allocator_traits<Allocator>              allocator_traits_type;
+
 		typedef ::core::scalar<T, Allocator>                    scalar_type;
 		typedef ::core::vector<T, Allocator>                    vector_type;
 		typedef ::core::matrix<T, Allocator>                    matrix_type;
 		typedef ::core::tensor<T, Allocator>                    tensor_type;
+		typedef scalar_type*                                    scalar_pointer;
+		typedef	vector_type*                                    vector_pointer;
+		typedef	matrix_type*                                    matrix_pointer;
+		typedef	tensor_type*                                    tensor_pointer;
+		typedef const scalar_type*                              const_scalar_pointer;
+		typedef	const vector_type*                              const_vector_pointer;
+		typedef	const matrix_type*                              const_matrix_pointer;
+		typedef	const tensor_type*                              const_tensor_pointer;
+		typedef scalar_type&                                    scalar_reference;
+		typedef	vector_type&                                    vector_reference;
+		typedef	matrix_type&                                    matrix_reference;
+		typedef	tensor_type&                                    tensor_reference;
+		typedef const scalar_type&                              const_scalar_reference;
+		typedef	const vector_type&                              const_vector_reference;
+		typedef	const matrix_type&                              const_matrix_reference;
+		typedef	const tensor_type&                              const_tensor_reference;
 
 		typedef typename allocator_traits_type::value_type      value_type;
 		typedef typename allocator_traits_type::pointer         pointer;
@@ -57,9 +76,38 @@ namespace ann
 		typedef typename allocator_traits_type::difference_type difference_type;
 
 		// construct/copy/destroy:
-		layer_base(const Allocator& alloc = Allocator())
+		layer_base(void)
+			: input_pointer(nullptr)
+			, output_pointer(nullptr)
 		{}
+
+	protected:
+
+		// Data binding
+		void bind(const_tensor_reference input, tensor_reference output)
+		{
+			if (input.empty() || output.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			input_pointer = &input;
+			output_pointer = &output;
+		}
+
+		const_tensor_pointer input(void) const
+		{
+			if (input_pointer == nullptr)
+				throw ::std::invalid_argument(::core::invalid_pointer);
+			return input_pointer;
+		}
+
+		tensor_pointer output(void) const
+		{
+			if (output_pointer == nullptr)
+				throw ::std::invalid_argument(::core::invalid_pointer);
+			return output_pointer;
+		}
 	private:
+		const_tensor_pointer input_pointer;
+		tensor_pointer       output_pointer;
 	};
 
 } // namespace ann
