@@ -32,11 +32,66 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../vector.h"
 #include "../matrix.h"
-#include "kernel/kernel_replicate_vector.h"
-#include "kernel/kernel_replicate_matrix.h"
+#include "kernel/kernel_replicate.h"
 
 namespace core
 {
+	// Replicate and tile a vector to a matrix
+	//----------------------------------------------------------------
+	// 1. b - output matrix.
+	//        | a[1][1],...,a[1][n],a[1][1],...,a[1][n],... |
+	//        | a[2][1],...,a[2][n],a[2][1],...,a[2][n],... |
+	//        | a[3][1],...,a[3][n],a[3][1],...,a[3][n],... |
+	//        |   ...  ,...,  ...  ,  ...  ,...,  ...  ,... |
+	// 2. a - input vector.
+	//        | a[1],a[2],a[3],...,a[n] |
+	//----------------------------------------------------------------
+
+	template <class T, class A1, class A2>
+	matrix<T, A1>& cpu_replicate(matrix<T, A1> &b, const vector<T, A2> &a, size_t m, size_t n)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (|| b.rows() != m || b.row_size() != a.size() * n)
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_replicate(m, n, a.data(), a.size(), b.data(), b.row_size());
+		return b;
+	}
+
+	// Replicate and tile a matrix to a matrix
+	//----------------------------------------------------------------
+	// 1. b - output matrix.
+	//        | a[1][1],...,a[1][n],a[1][1],...,a[1][n],... |
+	//        |   ...  ,...,  ...  ,  ...  ,...,  ...  ,... |
+	//        | a[m][1],...,a[m][n],a[m][1],...,a[m][n],... |
+	//        | a[1][1],...,a[1][n],a[1][1],...,a[1][n],... |
+	//        |   ...  ,...,  ...  ,  ...  ,...,  ...  ,... |
+	//        | a[m][1],...,a[m][n],a[m][1],...,a[m][n],... |
+	//        |   ...  ,...,  ...  ,  ...  ,...,  ...  ,... |
+	// 2. a - input vector.
+	//        | a[1][1],a[1][2],a[1][3],...,a[1][n] |
+	//        | a[2][1],a[2][2],a[2][3],...,a[2][n] |
+	//        | a[3][1],a[3][2],a[3][3],...,a[3][n] |
+	//        |   ...  ,  ...  ,  ...  ,...,  ...   |
+	//        | a[m][1],a[m][2],a[m][3],...,a[m][n] |
+	//----------------------------------------------------------------
+
+	template <class T, class A1, class A2>
+	matrix<T, A1>& cpu_replicate(matrix<T, A1> &b, const matrix<T, A2> &a, size_t m, size_t n)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.rows() != a.rows() * m || b.row_size() != a.row_size() * n)
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_replicate(m, n, a.data(), a.row_size(), a.rows(), b.data(), b.row_size());
+		return b;
+	}
 
 } // namespace core
 

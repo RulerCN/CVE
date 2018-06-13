@@ -127,7 +127,6 @@ namespace ann
 		{
 			if (input.batch() != 1 || output.batch() != 1)
 				throw ::std::invalid_argument(::core::invalid_shape);
-
 			::core::cpu_mul(output[0], input[0], weight);
 			this->bind(input, output);
 		}
@@ -137,7 +136,6 @@ namespace ann
 		{
 			if (input.batch() != 1 || output.batch() != 1)
 				throw ::std::invalid_argument(::core::invalid_shape);
-
 			// Mean vector of input data
 			::core::reduce(input_mean, *this->input[0], ::core::reduce_col_avg);
 			// Mean vector of loss data

@@ -343,6 +343,19 @@ int main()
 	//}
 	//return 0;
 
+
+	std::string input_image = "data/test.bmp";
+	std::string replicate = "data/replicate.bmp";
+
+	core::matrix<unsigned char> input;
+	if (img::bitmap::decode(input_image, input))
+	{
+		core::matrix<unsigned char> output(input.rows() * 2, input.columns() * 3, input.dimension());
+		core::cpu_replicate(output, input, 2, 3);
+		img::bitmap::encode(replicate, output);
+	}
+
+
 	const size_t batch      = 100;
 	const size_t rows       = 28;
 	const size_t columns    = 28;

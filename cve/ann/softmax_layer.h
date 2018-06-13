@@ -98,7 +98,7 @@ namespace ann
 			if (input.size() != output.size())
 				throw ::std::domain_error(::core::tensor_different_size);
 
-			::core::reduce(input_max, input[0], ::core::reduce_col_max);
+			::core::cpu_reduce(input_max, input[0], ::core::reduce_col_max);
 
 			const_pointer x = input.data();
 			pointer y = output.data();

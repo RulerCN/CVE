@@ -27,16 +27,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_REPLICATE_MATRIX_H__
-#define __CORE_CPU_KERNEL_REPLICATE_MATRIX_H__
+#ifndef __CORE_CPU_KERNEL_REPLICATE_H__
+#define __CORE_CPU_KERNEL_REPLICATE_H__
 
 #include <cstring>
 
 namespace core
 {
-	// Function template kernel_replicate_matrix
+	// Function template kernel_replicate
+
 	template<class T>
-	void kernel_replicate_matrix(size_t m, size_t n, const T *a, size_t rsa, size_t rows, T *b, size_t rsb)
+	void kernel_replicate(size_t m, size_t n, const T *a, size_t rsa, T *b, size_t rsb)
+	{
+		size_t size = rsa * sizeof(T);
+		T *ptr_b = b;
+
+		for (size_t i = 0; i < n; ++i)
+		{
+			::std::memcpy(ptr_b, a, size);
+			ptr_b += rsa;
+		}
+		size = n * size;
+		ptr_b = b + rsb;
+		for (size_t i = 1; i < m; ++i)
+		{
+			::std::memcpy(ptr_b, b, size);
+			ptr_b += rsb;
+		}
+	}
+
+	template<class T>
+	void kernel_replicate(size_t m, size_t n, const T *a, size_t rsa, size_t rows, T *b, size_t rsb)
 	{
 		size_t size = rsa * sizeof(T);
 		const T *ptr_a = a;
@@ -54,7 +75,7 @@ namespace core
 			ptr_b += rsb;
 		}
 		size = n * size;
-		for (size_t k = 1; k < m; ++k)
+		for (size_t i = 1; i < m; ++i)
 		{
 			ptr = b;
 			for (size_t j = 0; j < rows; ++j)
