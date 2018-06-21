@@ -343,9 +343,32 @@ int main()
 	//}
 	//return 0;
 
-
 	std::string input_image = "data/test.bmp";
 	std::string replicate = "data/replicate.bmp";
+
+	float f[9];
+	f[0] = 0.0F;
+	f[1] = 1.0F;            // 1/1!
+	f[2] = 1.0F / 2.0F;     // 1/2!
+	f[3] = 1.0F / 6.0F;     // 1/3!
+	f[4] = 1.0F / 24.0F;    // 1/4!
+	f[5] = 1.0F / 120.0F;   // 1/5!
+	f[6] = 1.0F / 720.0F;   // 1/6!
+	f[7] = 1.0F / 5040.0F;  // 1/7!
+	f[8] = 1.0F / 40320.0F; // 1/8!
+
+	double log2e = log2(core::dbl_e);
+
+	double d[9];
+	d[0] = 0.0;
+	d[1] = 1.0;           // 1/1!
+	d[2] = 1.0 / 2.0;     // 1/2!
+	d[3] = 1.0 / 6.0;     // 1/3!
+	d[4] = 1.0 / 24.0;    // 1/4!
+	d[5] = 1.0 / 120.0;   // 1/5!
+	d[6] = 1.0 / 720.0;   // 1/6!
+	d[7] = 1.0 / 5040.0;  // 1/7!
+	d[8] = 1.0 / 40320.0; // 1/8!
 
 	core::matrix<unsigned char> input;
 	if (img::bitmap::decode(input_image, input))

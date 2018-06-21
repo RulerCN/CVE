@@ -277,6 +277,12 @@
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_math_avx.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_math.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

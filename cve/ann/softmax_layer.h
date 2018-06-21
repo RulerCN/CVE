@@ -100,6 +100,7 @@ namespace ann
 
 			::core::cpu_reduce(input_max, input[0], ::core::reduce_col_max);
 
+			// https://blog.csdn.net/tianrolin/article/details/52594975
 			const_pointer x = input.data();
 			pointer y = output.data();
 			size_type size = input.size();
