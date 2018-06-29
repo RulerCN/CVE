@@ -216,6 +216,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h" />
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_sigmoid.h" />
     <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_reduce.h" />

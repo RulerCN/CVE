@@ -38,14 +38,14 @@ POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	static const __m128  xmm_one      = _mm_set1_ps( 1.000000000F);
-	static const __m128  xmm_log2e    = _mm_set1_ps( 1.442695041F);
+	static const __m128  xmm_one      = _mm_set1_ps( 1.00000000F);
+	static const __m128  xmm_log2e    = _mm_set1_ps( 1.44269502F);
 	static const __m128i xmm_0x7f     = _mm_set1_epi32(0x0000007F);
 
-	static const __m128  xmm_exp_hi   = _mm_set1_ps( 88.37626266F);
-	static const __m128  xmm_exp_lo   = _mm_set1_ps(-88.37626266F);
+	static const __m128  xmm_exp_min  = _mm_set1_ps(-87.3365479F);    //-126.000000/log2e;
+	static const __m128  xmm_exp_max  = _mm_set1_ps( 88.3762589F);    // 127.499992/log2e;
 	static const __m128  xmm_ln2_hi   = _mm_set1_ps( 0.693359375F);
-	static const __m128  xmm_ln2_lo   = _mm_set1_ps(-2.12194440e-4F);
+	static const __m128  xmm_ln2_lo   = _mm_set1_ps(-2.12194442e-4F);
 	static const __m128  xmm_exp_p1   = _mm_set1_ps( 1.000000000F);
 	static const __m128  xmm_exp_p2   = _mm_set1_ps( 5.000000000e-1F);
 	static const __m128  xmm_exp_p3   = _mm_set1_ps( 1.666666667e-1F);
@@ -58,8 +58,8 @@ namespace core
 	static const __m128d xmmd_log2e   = _mm_set1_pd( 1.442695040888963);
 	static const __m128i xmmd_0x3ff   = _mm_set1_epi64x(0x00000000000003FF);
 
-	static const __m128d xmmd_exp_hi  = _mm_set1_pd( 88.3762626647949);
-	static const __m128d xmmd_exp_lo  = _mm_set1_pd(-88.3762626647949);
+	static const __m128d xmmd_exp_hi  = _mm_set1_pd( 709.78271289338397);
+	static const __m128d xmmd_exp_lo  = _mm_set1_pd(-709.78271289338397);
 	static const __m128d xmmd_ln2_hi  = _mm_set1_pd( 0.693145751953125);
 	static const __m128d xmmd_ln2_lo  = _mm_set1_pd( 1.428606820309417e-6);
 	static const __m128d xmmd_exp_p1  = _mm_set1_pd( 1.000000000000000);
@@ -81,15 +81,20 @@ namespace core
 
 	__m128 _mm_exp_ps(__m128 x)
 	{
-		x = _mm_min_ps(x, xmm_exp_hi);
-		x = _mm_max_ps(x, xmm_exp_lo);
-		// t = x * log2(e)
+		// x = max(x, min);
+		x = _mm_max_ps(x, xmm_exp_min);
+		// x = min(x, max);
+		x = _mm_min_ps(x, xmm_exp_max);
+		// t = x * log2(e);
 		__m128 t = _mm_mul_ps(x, xmm_log2e);
-		// r = round(t)
+		// r = round(t);
 		__m128 r = _mm_round_ps(t, _MM_FROUND_NINT);
-		// x -= r * ln2_hi
+		// if (r > t) r -= 1;
+		__m128 mask = _mm_cmpgt_ps(r, t);
+		r = _mm_sub_ps(r, _mm_and_ps(mask, xmm_one));
+		// x -= r * ln2_hi;
 		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_hi));
-		// x -= r * ln2_lo
+		// x -= r * ln2_lo;
 		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_lo));
 		// Taylor expansion of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
@@ -101,52 +106,52 @@ namespace core
 		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p2);
 		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p1);
 		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_one);
-		// i = 2^r
+		// i = 2^r;
 		__m128i i = _mm_cvttps_epi32(r);
 		i = _mm_add_epi32(i, xmm_0x7f);
 		i = _mm_slli_epi32(i, 23);
-		// y += i
+		// y += i;
 		y = _mm_mul_ps(y, _mm_castsi128_ps(i));
 		return y;
 	}
 
-	//__m128d _mm_exp_pd(__m128d x)
-	//{
-	//	x = _mm_min_pd(x, xmmd_exp_hi);
-	//	x = _mm_max_pd(x, xmmd_exp_lo);
-	//	// t = x * log2(e)
-	//	__m128d t = _mm_mul_pd(x, xmmd_log2e);
-	//	// r = round(t)
-	//	__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
-	//	// x -= r * ln2_hi
-	//	x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_hi));
-	//	// x -= r * ln2_lo
-	//	x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_lo));
-	//	// Taylor expansion of e^x:
-	//	// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-	//	//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
-	//	__m128d y = xmmd_exp_p13;
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p12);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p11);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p10);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p9);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p8);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p7);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p6);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p5);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p4);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p3);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p2);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p1);
-	//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_one);
-	//	// i = 2^r
-	//	__m128i i = _mm_cvttpd_epi64(r);
-	//	i = _mm_add_epi64(i, xmmd_0x3ff);
-	//	i = _mm_slli_epi64(i, 52);
-	//	// y += i
-	//	y = _mm_mul_pd(y, _mm_castsi128_pd(i));
-	//	return y;
-	//}
+	__m128d _mm_exp_pd(__m128d x)
+	{
+		x = _mm_min_pd(x, xmmd_exp_hi);
+		x = _mm_max_pd(x, xmmd_exp_lo);
+		// t = x * log2(e)
+		__m128d t = _mm_mul_pd(x, xmmd_log2e);
+		// r = round(t)
+		__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
+		// x -= r * ln2_hi
+		x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_hi));
+		// x -= r * ln2_lo
+		x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_lo));
+		// Taylor expansion of e^x:
+		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
+		//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
+		__m128d y = xmmd_exp_p13;
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p12);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p11);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p10);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p9);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p8);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p7);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p6);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p5);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p4);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p3);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p2);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p1);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_one);
+		// i = 2^r
+		__m128i i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(r));
+		i = _mm_add_epi64(i, xmmd_0x3ff);
+		i = _mm_slli_epi64(i, 52);
+		// y += i
+		y = _mm_mul_pd(y, _mm_castsi128_pd(i));
+		return y;
+	}
 
 /*
 	static const __m128i xmm_0x7f          = _mm_set1_epi32(0x0000007f);
