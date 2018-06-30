@@ -110,7 +110,7 @@ namespace core
 		__m128i i = _mm_cvttps_epi32(r);
 		i = _mm_add_epi32(i, xmm_0x7f);
 		i = _mm_slli_epi32(i, 23);
-		// y += i;
+		// y *= i;
 		y = _mm_mul_ps(y, _mm_castsi128_ps(i));
 		return y;
 	}
