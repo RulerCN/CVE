@@ -295,6 +295,12 @@
     <ClInclude Include="core\cpu\cpu_sigmoid_derivative.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\kernel_exp.h">
+      <Filter>core\cpu\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_exp.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

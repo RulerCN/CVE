@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// The derivative of the sigmoid activation function for scalar
+	// The derivative of the sigmoid function for scalar
 
 	template <class A, class A1, class A2>
 	scalar<float, A>& cpu_sigmoid_derivative(scalar<float, A> &c, const scalar<float, A1> &a, const scalar<float, A2> &b)
@@ -74,7 +74,7 @@ namespace core
 		return c;
 	}
 
-	// The derivative of the sigmoid activation function for vector
+	// The derivative of the sigmoid function for vector
 
 	template <class A, class A1, class A2>
 	vector<float, A>& cpu_sigmoid_derivative(vector<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
@@ -110,7 +110,7 @@ namespace core
 		return c;
 	}
 
-	// The derivative of the sigmoid activation function for matrix
+	// The derivative of the sigmoid function for matrix
 
 	template <class A, class A1, class A2>
 	matrix<float, A>& cpu_sigmoid_derivative(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
@@ -146,7 +146,7 @@ namespace core
 		return c;
 	}
 
-	// The derivative of the sigmoid activation function for tensor
+	// The derivative of the sigmoid function for tensor
 
 	template <class A, class A1, class A2>
 	tensor<float, A>& cpu_sigmoid_derivative(tensor<float, A> &c, const tensor<float, A1> &a, const tensor<float, A2> &b)

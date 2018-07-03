@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace ann
 {
-	// Class template linear_layer
+	// Class template softmax_layer
 	template <class T, class Allocator = ::core::allocator<T> >
 	class softmax_layer : public layer_base<T, Allocator>
 	{

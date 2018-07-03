@@ -27,20 +27,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_SIGMOID_H__
-#define __CORE_CPU_SIGMOID_H__
+#ifndef __CORE_CPU_EXP_H__
+#define __CORE_CPU_EXP_H__
 
 #include "../scalar.h"
 #include "../vector.h"
 #include "../matrix.h"
 #include "../tensor.h"
-#include "kernel/kernel_sigmoid.h"
+#include "kernel/kernel_exp.h"
 
 namespace core
 {
-	// The sigmoid function for scalar
+	// The exponential function for scalar
 	template <class T, class A1, class A2>
-	scalar<T, A1>& cpu_sigmoid(scalar<T, A1> &b, const scalar<T, A2> &a)
+	scalar<T, A1>& cpu_exp(scalar<T, A1> &b, const scalar<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -50,25 +50,25 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_exp<T, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The sigmoid function for vector
+	// The exponential function for vector
 	template <class T, class A1, class A2>
-	vector<T, A1>& cpu_sigmoid(vector<T, A1> &b, const vector<T, A2> &a)
+	vector<T, A1>& cpu_exp(vector<T, A1> &b, const vector<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -78,25 +78,25 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_exp<T, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The sigmoid function for matrix
+	// The exponential function for matrix
 	template <class T, class A1, class A2>
-	matrix<T, A1>& cpu_sigmoid(matrix<T, A1> &b, const matrix<T, A2> &a)
+	matrix<T, A1>& cpu_exp(matrix<T, A1> &b, const matrix<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -106,25 +106,25 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_exp<T, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The sigmoid function for tensor
+	// The exponential function for tensor
 	template <class T, class A1, class A2>
-	tensor<T, A1>& cpu_sigmoid(tensor<T, A1> &b, const tensor<T, A2> &a)
+	tensor<T, A1>& cpu_exp(tensor<T, A1> &b, const tensor<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -134,19 +134,19 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_exp<T, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_exp<T, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 

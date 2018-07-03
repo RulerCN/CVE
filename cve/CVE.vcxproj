@@ -157,6 +157,7 @@
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\cpu\cpu_exp.h" />
     <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="core\cpu\kernel\kernel_sigmoid.h" />
     <ClInclude Include="core\cpu\kernel\kernel_sigmoid_derivative.h" />
     <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_exp.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_reduce.h" />
     <ClInclude Include="core\cpu\cpu_reduce_col_max.h" />

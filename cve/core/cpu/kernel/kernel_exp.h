@@ -31,17 +31,17 @@ POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_SIGMOID_H__
-#define __CORE_CPU_KERNEL_SIGMOID_H__
+#ifndef __CORE_CPU_KERNEL_EXP_H__
+#define __CORE_CPU_KERNEL_EXP_H__
 
 #include "kernel_math.h"
 
 namespace core
 {
-	// Class template kernel_sigmoid
+	// Class template kernel_exp
 
 	template<class T, cpu_inst_type inst>
-	struct kernel_sigmoid
+	struct kernel_exp
 	{
 		void operator()(size_t n, const T *a, T *b) const
 		{
@@ -50,21 +50,21 @@ namespace core
 
 			while (n > block)
 			{
-				b[0] = one / (one + exp(-a[0]));
-				b[1] = one / (one + exp(-a[1]));
-				b[2] = one / (one + exp(-a[2]));
-				b[3] = one / (one + exp(-a[3]));
+				b[0] = exp(a[0]);
+				b[1] = exp(a[1]);
+				b[2] = exp(a[2]);
+				b[3] = exp(a[3]);
 				a += block;
 				b += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] = one / (one + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<float, cpu_sse41>
+	struct kernel_exp<float, cpu_sse41>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -72,14 +72,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m128i xmm_i;
 			__m128 xmm_a, xmm_t, xmm_r;
-			__m128 xmm_b, xmm_c, xmm_mask;
+			__m128 xmm_b, xmm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				xmm_a = _mm_loadu_ps(a + i);
-				// a = -a;
-				xmm_a = _mm_xor_ps(xmm_a, _mm_castsi128_ps(xmm_flt_sign));
 				// a = max(a, exp_min);
 				xmm_a = _mm_max_ps(xmm_a, xmm_expf_min);
 				// a = min(a, exp_max);
@@ -109,22 +107,18 @@ namespace core
 				xmm_i = _mm_cvttps_epi32(xmm_r);
 				xmm_i = _mm_add_epi32(xmm_i, xmm_flt_base);
 				xmm_i = _mm_slli_epi32(xmm_i, 23);
-				// c = (float) i;
-				xmm_c = _mm_castsi128_ps(xmm_i);
-				// b = b * c + 1;
-				xmm_b = _mm_add_ps(_mm_mul_ps(xmm_b, xmm_c), xmm_onef);
-				// b = 1 / b;
-				xmm_b = _mm_div_ps(xmm_onef, xmm_b);
+				// b *= (float) i;
+				xmm_b = _mm_mul_ps(xmm_b, _mm_castsi128_ps(xmm_i));
 				// store data into memory
 				_mm_storeu_ps(b + i, xmm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0F / (1.0F + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<float, cpu_sse41 | cpu_fma>
+	struct kernel_exp<float, cpu_sse41 | cpu_fma>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -132,14 +126,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m128i xmm_i;
 			__m128 xmm_a, xmm_t, xmm_r;
-			__m128 xmm_b, xmm_c, xmm_mask;
+			__m128 xmm_b, xmm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				xmm_a = _mm_loadu_ps(a + i);
-				// a = -a;
-				xmm_a = _mm_xor_ps(xmm_a, _mm_castsi128_ps(xmm_flt_sign));
 				// a = max(a, exp_min);
 				xmm_a = _mm_max_ps(xmm_a, xmm_expf_min);
 				// a = min(a, exp_max);
@@ -169,22 +161,18 @@ namespace core
 				xmm_i = _mm_cvttps_epi32(xmm_r);
 				xmm_i = _mm_add_epi32(xmm_i, xmm_flt_base);
 				xmm_i = _mm_slli_epi32(xmm_i, 23);
-				// c = (float) i;
-				xmm_c = _mm_castsi128_ps(xmm_i);
-				// b = b * c + 1;
-				xmm_b = _mm_fmadd_ps(xmm_b, xmm_c, xmm_onef);
-				// b = 1 / b;
-				xmm_b = _mm_div_ps(xmm_onef, xmm_b);
+				// b *= (float) i;
+				xmm_b = _mm_mul_ps(xmm_b, _mm_castsi128_ps(xmm_i));
 				// store data into memory
 				_mm_storeu_ps(b + i, xmm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0F / (1.0F + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<double, cpu_sse41>
+	struct kernel_exp<double, cpu_sse41>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -192,14 +180,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m128i xmm_i;
 			__m128d xmm_a, xmm_t, xmm_r;
-			__m128d xmm_b, xmm_c, xmm_mask;
+			__m128d xmm_b, xmm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				xmm_a = _mm_loadu_pd(a + i);
-				// a = -a;
-				xmm_a = _mm_xor_pd(xmm_a, _mm_castsi128_pd(xmm_dbl_sign));
 				// a = max(a, exp_min);
 				xmm_a = _mm_max_pd(xmm_a, xmm_expd_min);
 				// a = min(a, exp_max);
@@ -236,22 +222,18 @@ namespace core
 				xmm_i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(xmm_r));
 				xmm_i = _mm_add_epi64(xmm_i, xmm_dbl_base);
 				xmm_i = _mm_slli_epi64(xmm_i, 52);
-				// c = (double) i;
-				xmm_c = _mm_castsi128_pd(xmm_i);
-				// b = b * c + 1;
-				xmm_b = _mm_add_pd(_mm_mul_pd(xmm_b, xmm_c), xmm_oned);
-				// b = 1 / b;
-				xmm_b = _mm_div_pd(xmm_oned, xmm_b);
+				// b *= (double) i;
+				xmm_b = _mm_mul_pd(xmm_b, _mm_castsi128_pd(xmm_i));
 				// store data into memory
 				_mm_storeu_pd(b + i, xmm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0 / (1.0 + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<double, cpu_sse41 | cpu_fma>
+	struct kernel_exp<double, cpu_sse41 | cpu_fma>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -259,14 +241,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m128i xmm_i;
 			__m128d xmm_a, xmm_t, xmm_r;
-			__m128d xmm_b, xmm_c, xmm_mask;
+			__m128d xmm_b, xmm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				xmm_a = _mm_loadu_pd(a + i);
-				// a = -a;
-				xmm_a = _mm_xor_pd(xmm_a, _mm_castsi128_pd(xmm_dbl_sign));
 				// a = max(a, exp_min);
 				xmm_a = _mm_max_pd(xmm_a, xmm_expd_min);
 				// a = min(a, exp_max);
@@ -303,22 +283,18 @@ namespace core
 				xmm_i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(xmm_r));
 				xmm_i = _mm_add_epi64(xmm_i, xmm_dbl_base);
 				xmm_i = _mm_slli_epi64(xmm_i, 52);
-				// c = (double) i;
-				xmm_c = _mm_castsi128_pd(xmm_i);
-				// b = b * c + 1;
-				xmm_b = _mm_fmadd_pd(xmm_b, xmm_c, xmm_oned);
-				// b = 1 / b;
-				xmm_b = _mm_div_pd(xmm_oned, xmm_b);
+				// b *= (double) i;
+				xmm_b = _mm_mul_pd(xmm_b, _mm_castsi128_pd(xmm_i));
 				// store data into memory
 				_mm_storeu_pd(b + i, xmm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0 / (1.0 + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<float, cpu_avx2>
+	struct kernel_exp<float, cpu_avx2>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -326,14 +302,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m256i ymm_i;
 			__m256 ymm_a, ymm_t, ymm_r;
-			__m256 ymm_b, ymm_c, ymm_mask;
+			__m256 ymm_b, ymm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + i);
-				// a = -a;
-				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_dbl_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_ps(ymm_a, ymm_expf_min);
 				// a = min(a, exp_max);
@@ -363,22 +337,18 @@ namespace core
 				ymm_i = _mm256_cvttps_epi32(ymm_r);
 				ymm_i = _mm256_add_epi32(ymm_i, ymm_flt_base);
 				ymm_i = _mm256_slli_epi32(ymm_i, 23);
-				// c = (float) i;
-				ymm_c = _mm256_castsi256_ps(ymm_i);
-				// b = b * c + 1;
-				ymm_b = _mm256_add_ps(_mm256_mul_ps(ymm_b, ymm_c), ymm_onef);
-				// b = 1 / b;
-				ymm_b = _mm256_div_ps(ymm_onef, ymm_b);
+				// b *= (float) i;
+				ymm_b = _mm256_mul_ps(ymm_b, _mm256_castsi256_ps(ymm_i));
 				// store data into memory
 				_mm256_storeu_ps(b + i, ymm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0F / (1.0F + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<float, cpu_avx2 | cpu_fma>
+	struct kernel_exp<float, cpu_avx2 | cpu_fma>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -386,14 +356,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m256i ymm_i;
 			__m256 ymm_a, ymm_t, ymm_r;
-			__m256 ymm_b, ymm_c, ymm_mask;
+			__m256 ymm_b, ymm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + i);
-				// a = -a;
-				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_dbl_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_ps(ymm_a, ymm_expf_min);
 				// a = min(a, exp_max);
@@ -423,22 +391,18 @@ namespace core
 				ymm_i = _mm256_cvttps_epi32(ymm_r);
 				ymm_i = _mm256_add_epi32(ymm_i, ymm_flt_base);
 				ymm_i = _mm256_slli_epi32(ymm_i, 23);
-				// c = (float) i;
-				ymm_c = _mm256_castsi256_ps(ymm_i);
-				// b = b * c + 1;
-				ymm_b = _mm256_add_ps(_mm256_mul_ps(ymm_b, ymm_c), ymm_onef);
-				// b = 1 / b;
-				ymm_b = _mm256_div_ps(ymm_onef, ymm_b);
+				// b *= (float) i;
+				ymm_b = _mm256_mul_ps(ymm_b, _mm256_castsi256_ps(ymm_i));
 				// store data into memory
 				_mm256_storeu_ps(b + i, ymm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0F / (1.0F + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<double, cpu_avx2>
+	struct kernel_exp<double, cpu_avx2>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -446,14 +410,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m256i ymm_i;
 			__m256d ymm_a, ymm_t, ymm_r;
-			__m256d ymm_b, ymm_c, ymm_mask;
+			__m256d ymm_b, ymm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				ymm_a = _mm256_loadu_pd(a + i);
-				// a = -a;
-				ymm_a = _mm256_xor_pd(ymm_a, _mm256_castsi256_pd(ymm_dbl_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_pd(ymm_a, ymm_expd_min);
 				// a = min(a, exp_max);
@@ -490,22 +452,18 @@ namespace core
 				ymm_i = _mm256_cvtepi32_epi64(_mm256_cvttpd_epi32(ymm_r));
 				ymm_i = _mm256_add_epi64(ymm_i, ymm_dbl_base);
 				ymm_i = _mm256_slli_epi64(ymm_i, 52);
-				// c = (double) i;
-				ymm_c = _mm256_castsi256_pd(ymm_i);
-				// b = b * c + 1;
-				ymm_b = _mm256_add_pd(_mm256_mul_pd(ymm_b, ymm_c), ymm_oned);
-				// b = 1 / b;
-				ymm_b = _mm256_div_pd(ymm_oned, ymm_b);
+				// b *= (double) i;
+				ymm_b = _mm256_mul_pd(ymm_b, _mm256_castsi256_pd(ymm_i));
 				// store data into memory
 				_mm256_storeu_pd(b + i, ymm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0 / (1.0 + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
 	template<>
-	struct kernel_sigmoid<double, cpu_avx2 | cpu_fma>
+	struct kernel_exp<double, cpu_avx2 | cpu_fma>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -513,14 +471,12 @@ namespace core
 			const size_t aligned = n & ~(block - 1);
 			__m256i ymm_i;
 			__m256d ymm_a, ymm_t, ymm_r;
-			__m256d ymm_b, ymm_c, ymm_mask;
+			__m256d ymm_b, ymm_mask;
 
 			for (size_t i = 0; i < aligned; i += block)
 			{
 				// load data from memory
 				ymm_a = _mm256_loadu_pd(a + i);
-				// a = -a;
-				ymm_a = _mm256_xor_pd(ymm_a, _mm256_castsi256_pd(ymm_dbl_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_pd(ymm_a, ymm_expd_min);
 				// a = min(a, exp_max);
@@ -557,17 +513,13 @@ namespace core
 				ymm_i = _mm256_cvtepi32_epi64(_mm256_cvttpd_epi32(ymm_r));
 				ymm_i = _mm256_add_epi64(ymm_i, ymm_dbl_base);
 				ymm_i = _mm256_slli_epi64(ymm_i, 52);
-				// c = (double) i;
-				ymm_c = _mm256_castsi256_pd(ymm_i);
-				// b = b * c + 1;
-				ymm_b = _mm256_fmadd_pd(ymm_b, ymm_c, ymm_oned);
-				// b = 1 / b;
-				ymm_b = _mm256_div_pd(ymm_oned, ymm_b);
+				// b *= (double) i;
+				ymm_b = _mm256_mul_pd(ymm_b, _mm256_castsi256_pd(ymm_i));
 				// store data into memory
 				_mm256_storeu_pd(b + i, ymm_b);
 			}
 			for (size_t i = aligned; i < n; ++i)
-				b[i] = 1.0 / (1.0 + exp(-a[i]));
+				b[i] = exp(a[i]);
 		}
 	};
 
