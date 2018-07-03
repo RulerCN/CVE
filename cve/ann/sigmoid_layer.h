@@ -82,11 +82,6 @@ namespace ann
 		// Forward propagation
 		void forward(const_tensor_reference input, tensor_reference output)
 		{
-			if (input.empty() || output.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.size() != output.size())
-				throw ::std::domain_error(::core::tensor_different_size);
-
 			::core::cpu_sigmoid(output, input);
 			this->bind(input, output);
 		}
@@ -94,17 +89,7 @@ namespace ann
 		// Back propagation
 		void backward(const_tensor_reference input, tensor_reference output)
 		{
-			if (input.empty() || output.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.size() != output.size())
-				throw ::std::domain_error(::core::tensor_different_size);
-
-			const_pointer input_loss = input.data();
-			pointer y = this->output()->data();
-			pointer output_loss = output.data();
-			size_type size = this->input_loss_pointer->size();
-			for (size_type i = 0; i < size; ++i)
-				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
+			::core::cpu_sigmoid_derivative(output, input, this->output());
 		}
 	};
 

@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Sigmoid activation function for scalar
+	// The sigmoid activation function for scalar
 	template <class T, class A1, class A2>
-	scalar<T, A1>& cpu_sigmoid(scalar<T, A1> &b, const scalar<signed char, A2> &a)
+	scalar<T, A1>& cpu_sigmoid(scalar<T, A1> &b, const scalar<T, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -66,7 +66,7 @@ namespace core
 		return b;
 	}
 
-	// Sigmoid activation function for vector
+	// The sigmoid activation function for vector
 	template <class T, class A1, class A2>
 	vector<T, A1>& cpu_sigmoid(vector<T, A1> &b, const vector<T, A2> &a)
 	{
@@ -94,7 +94,7 @@ namespace core
 		return b;
 	}
 
-	// Sigmoid activation function for matrix
+	// The sigmoid activation function for matrix
 	template <class T, class A1, class A2>
 	matrix<T, A1>& cpu_sigmoid(matrix<T, A1> &b, const matrix<T, A2> &a)
 	{
@@ -122,7 +122,7 @@ namespace core
 		return b;
 	}
 
-	// Sigmoid activation function for tensor
+	// The sigmoid activation function for tensor
 	template <class T, class A1, class A2>
 	tensor<T, A1>& cpu_sigmoid(tensor<T, A1> &b, const tensor<T, A2> &a)
 	{
