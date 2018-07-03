@@ -30,7 +30,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __ANN_SIGMOID_LAYER_H__
 #define __ANN_SIGMOID_LAYER_H__
 
-#include <cmath>
 #include "layer_base.h"
 
 namespace ann
@@ -88,12 +87,7 @@ namespace ann
 			if (input.size() != output.size())
 				throw ::std::domain_error(::core::tensor_different_size);
 
-			const_pointer x = input.data();
-			pointer y = output.data();
-			size_type size = input.size();
-			for (size_type i = 0; i < size; ++i)
-				y[i] = 1 / (1 + exp(-x[i]));
-
+			::core::cpu_sigmoid(output, input);
 			this->bind(input, output);
 		}
 

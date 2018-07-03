@@ -180,6 +180,7 @@
     <ClInclude Include="core\cpu\cpu_mul_rm_rm.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_cm.h" />
     <ClInclude Include="core\cpu\cpu_mul_rv_rm.h" />
+    <ClInclude Include="core\cpu\cpu_sigmoid.h" />
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\cpu_mul_rm_cm.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h" />

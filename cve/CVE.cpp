@@ -346,157 +346,73 @@ int main()
 	std::string input_image = "data/test.bmp";
 	std::string replicate = "data/replicate.bmp";
 
-	//float flt_max = 3.402823466e+38F;
-	//float flt_exp_max = log(flt_max);
-	//float x = exp(flt_exp_max);
+	static const __m128i xmm_expd_base = _mm_set1_epi64x(0x00000000000003FF);
+	static const __m128d xmm_oned      = _mm_set1_pd( 1.000000000000000);
+	static const __m128d xmm_log2ed    = _mm_set1_pd( 1.442695040888963);
+	static const __m128d xmm_expd_min  = _mm_set1_pd(-708.39641853226431);    //-1022.0000000000000/log2e;
+	static const __m128d xmm_expd_max  = _mm_set1_pd( 709.43613930310414);    // 1023.4999999999999/log2e;
+	static const __m128d xmm_ln2d_hi   = _mm_set1_pd( 0.693145751953125);
+	static const __m128d xmm_ln2d_lo   = _mm_set1_pd( 1.428606820309417e-6);
+	static const __m128d xmm_expd_p1   = _mm_set1_pd( 1.000000000000000);
+	static const __m128d xmm_expd_p2   = _mm_set1_pd( 5.000000000000000e-1);
+	static const __m128d xmm_expd_p3   = _mm_set1_pd( 1.666666666666667e-1);
+	static const __m128d xmm_expd_p4   = _mm_set1_pd( 4.166666666666667e-2);
+	static const __m128d xmm_expd_p5   = _mm_set1_pd( 8.333333333333333e-3);
+	static const __m128d xmm_expd_p6   = _mm_set1_pd( 1.388888888888889e-3);
+	static const __m128d xmm_expd_p7   = _mm_set1_pd( 1.984126984126984e-4);
+	static const __m128d xmm_expd_p8   = _mm_set1_pd( 2.480158730158730e-5);
+	static const __m128d xmm_expd_p9   = _mm_set1_pd( 2.755731922398589e-6);
+	static const __m128d xmm_expd_p10  = _mm_set1_pd( 2.755731922398589e-7);
+	static const __m128d xmm_expd_p11  = _mm_set1_pd( 2.505210838544172e-8);
+	static const __m128d xmm_expd_p12  = _mm_set1_pd( 2.087675698786810e-9);
+	static const __m128d xmm_expd_p13  = _mm_set1_pd( 1.605904383682161e-10);
 
-	__m128  xmm_sigmoid_p0 = _mm_set1_ps( 5.00000000000000000000000000000e-1F); //   1/2
-	__m128  xmm_sigmoid_p1 = _mm_set1_ps( 2.50000000000000000000000000000e-1F); //   1/4
-	__m128  xmm_sigmoid_p2 = _mm_set1_ps(-2.08333333333333333333333333333e-2F); //  -1/48
-	__m128  xmm_sigmoid_p3 = _mm_set1_ps( 2.08333333333333333333333333333e-3F); //   1/480
-	__m128  xmm_sigmoid_p4 = _mm_set1_ps(-2.10813492063492063492063492063e-4F); // -17/80640
-	__m128  xmm_sigmoid_p5 = _mm_set1_ps( 2.13569223985890652557319223986e-5F); //  31/1451520
-	__m128  xmm_sigmoid_p6 = _mm_set1_ps(-2.16387586179252845919512586179e-6F); // 691/319334400
+	__m128d  xmm_max_e = _mm_set1_pd( 1023.4999999999999);
+	__m128d  xmm_min_e = _mm_set1_pd(-1022.0000000000000);
+	__m128d  xmm_max   = _mm_div_pd(xmm_max_e, xmm_log2ed);
+	__m128d  xmm_min   = _mm_div_pd(xmm_min_e, xmm_log2ed);
 
-	//float fx = -0.5F;
-	//double dx = -0.5F;
-	//__m128 x = _mm_set1_ps(fx);
-	//// t = x * x
-	//__m128 t = _mm_mul_ps(x, x);
-	//// Taylor expansion of e^x:
-	//// y = 1/2 + x/4 - x^3/48 + x^5/480 - 17*x^7/80640 + 31*x^9/1451520 - 691*x^11/319334400
-	//__m128 y = xmm_sigmoid_p6;
-	//y = _mm_add_ps(_mm_mul_ps(y, t), xmm_sigmoid_p5);
-	//y = _mm_add_ps(_mm_mul_ps(y, t), xmm_sigmoid_p4);
-	//y = _mm_add_ps(_mm_mul_ps(y, t), xmm_sigmoid_p3);
-	//y = _mm_add_ps(_mm_mul_ps(y, t), xmm_sigmoid_p2);
-	//y = _mm_add_ps(_mm_mul_ps(y, t), xmm_sigmoid_p1);
-	//y = _mm_add_ps(_mm_mul_ps(y, x), xmm_sigmoid_p0);
-	//float fy = 1.0F / (1.0F + exp(-fx));
-	//double dy = 1.0 / (1.0 + exp(-dx));
-	//double dd = dy - fy;
-
-	__m128  xmm_one     = _mm_set1_ps(1.00000000F);
-	__m128  xmm_log2e   = _mm_set1_ps(1.44269502F);
-	__m128i xmm_0x7f    = _mm_set1_epi32(0x0000007F);
-
-	__m128  xmm_exp_min = _mm_set1_ps(-87.3365479F);    // -126.000000/log2e
-	__m128  xmm_exp_max = _mm_set1_ps( 88.3762589F);    //  127.499992/log2e
-	__m128  xmm_ln2_hi  = _mm_set1_ps(0.693359375F);
-	__m128  xmm_ln2_lo  = _mm_set1_ps(-2.12194442e-4F);
-	__m128  xmm_exp_p1  = _mm_set1_ps(1.000000000F);
-	__m128  xmm_exp_p2  = _mm_set1_ps(5.000000000e-1F);
-	__m128  xmm_exp_p3  = _mm_set1_ps(1.666666667e-1F);
-	__m128  xmm_exp_p4  = _mm_set1_ps(4.166666667e-2F);
-	__m128  xmm_exp_p5  = _mm_set1_ps(8.333333333e-3F);
-	__m128  xmm_exp_p6  = _mm_set1_ps(1.388888889e-3F);
-	__m128  xmm_exp_p7  = _mm_set1_ps(1.984126984e-4F);
-
-	__m128  xmm_max_e   = _mm_set1_ps( 127.499992F);
-	__m128  xmm_min_e   = _mm_set1_ps(-126.000000F);
-	__m128  xmm_max     = _mm_div_ps(xmm_max_e, xmm_log2e);
-	__m128  xmm_min     = _mm_div_ps(xmm_min_e, xmm_log2e);
-
-	__m128 x = xmm_min;
-
-	//// x = max(x, min);
-	//x = _mm_max_ps(x, xmm_exp_min);
-	//// x = min(x, max);
-	//x = _mm_min_ps(x, xmm_exp_max);
-	// t = x * log2(e);
-	__m128 t = _mm_mul_ps(x, xmm_log2e);
-	// r = round(t);
-	__m128 r = _mm_round_ps(t, _MM_FROUND_NINT);
-	// if (r > t) r -= 1;
-	__m128 mask = _mm_cmpgt_ps(r, t);
-	r = _mm_sub_ps(r, _mm_and_ps(mask, xmm_one));
-	// x -= r * ln2_hi;
-	x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_hi));
-	// x -= r * ln2_lo;
-	x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_lo));
+	__m128d x = xmm_expd_min;
+	// x = max(x, min);
+	x = _mm_max_pd(x, xmm_expd_min);
+	// x = min(x, max);
+	x = _mm_min_pd(x, xmm_expd_max);
+	// t = x * log2(e)
+	__m128d t = _mm_mul_pd(x, xmm_log2ed);
+	// r = round(t)
+	__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
+	// x -= r * ln2_hi
+	x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_hi));
+	// x -= r * ln2_lo
+	x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_lo));
 	// Taylor expansion of e^x:
 	// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-	__m128 y = xmm_exp_p7;
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p6);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p5);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p4);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p3);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p2);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p1);
-	y = _mm_add_ps(_mm_mul_ps(y, x), xmm_one);
-	// i = 2^r;
-	__m128i i = _mm_cvttps_epi32(r);
-	i = _mm_add_epi32(i, xmm_0x7f);
-	i = _mm_slli_epi32(i, 23);
-	__m128 di = _mm_castsi128_ps(i);
-	// y += i;
-	y = _mm_mul_ps(y, _mm_castsi128_ps(i));
-	// 1.66240633e-38
-	float cy = exp(-87.3365479);
+	//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
+	__m128d y = xmm_expd_p13;
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p12);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p11);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p10);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p9);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p8);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p7);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p6);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p5);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p4);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p3);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p2);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p1);
+	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_oned);
+	// i = 2^r
+	__m128i i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(r));
+	i = _mm_add_epi64(i, xmm_expd_base);
+	i = _mm_slli_epi64(i, 52);
+	// y += i
+	y = _mm_mul_pd(y, _mm_castsi128_pd(i));
 
-	static const __m128d xmmd_one     = _mm_set1_pd( 1.000000000000000);
-//	static const __m128d xmmd_log2e   = _mm_set1_pd( 1.442695040888963);
-//	static const __m128i xmmd_0x3ff   = _mm_set1_epi64x(0x00000000000003FF);
-//
-//	static const __m128d xmmd_exp_hi  = _mm_set1_pd( 709.43613930310414);
-//	static const __m128d xmmd_exp_lo  = _mm_set1_pd(-709.43613930310414);
-//	static const __m128d xmmd_ln2_hi  = _mm_set1_pd( 0.693145751953125);
-//	static const __m128d xmmd_ln2_lo  = _mm_set1_pd( 1.428606820309417e-6);
-//	static const __m128d xmmd_exp_p1  = _mm_set1_pd( 1.000000000000000);
-//	static const __m128d xmmd_exp_p2  = _mm_set1_pd( 5.000000000000000e-1);
-//	static const __m128d xmmd_exp_p3  = _mm_set1_pd( 1.666666666666667e-1);
-//	static const __m128d xmmd_exp_p4  = _mm_set1_pd( 4.166666666666667e-2);
-//	static const __m128d xmmd_exp_p5  = _mm_set1_pd( 8.333333333333333e-3);
-//	static const __m128d xmmd_exp_p6  = _mm_set1_pd( 1.388888888888889e-3);
-//	static const __m128d xmmd_exp_p7  = _mm_set1_pd( 1.984126984126984e-4);
-//	static const __m128d xmmd_exp_p8  = _mm_set1_pd( 2.480158730158730e-5);
-//	static const __m128d xmmd_exp_p9  = _mm_set1_pd( 2.755731922398589e-6);
-//	static const __m128d xmmd_exp_p10 = _mm_set1_pd( 2.755731922398589e-7);
-//	static const __m128d xmmd_exp_p11 = _mm_set1_pd( 2.505210838544172e-8);
-//	static const __m128d xmmd_exp_p12 = _mm_set1_pd( 2.087675698786810e-9);
-//	static const __m128d xmmd_exp_p13 = _mm_set1_pd( 1.605904383682161e-10);
-//
-//	__m128d x = _mm_set1_pd(-709.43613930310414);
-//	__m128d x = _mm_set1_pd(709.78271289338397);
-//	x = _mm_min_pd(x, xmmd_exp_hi);
-//	x = _mm_max_pd(x, xmmd_exp_lo);
-//	// t = x * log2(e)
-//	__m128d t = _mm_mul_pd(x, xmmd_log2e);
-//	// r = round(t)
-//	__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
-//	// if (r > t) r -= 1;
-//	__m128d mask = _mm_cmpgt_pd(r, t);
-//	r = _mm_sub_pd(r, _mm_and_pd(mask, xmmd_one));
-//	// x -= r * ln2_hi
-//	x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_hi));
-//	// x -= r * ln2_lo
-//	x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_lo));
-//	// Taylor expansion of e^x:
-//	// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-//	//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
-//	__m128d y = xmmd_exp_p13;
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p12);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p11);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p10);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p9);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p8);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p7);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p6);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p5);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p4);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p3);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p2);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p1);
-//	y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_one);
-//	// i = 2^r
-//	__m128i i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(r));
-//	i = _mm_add_epi64(i, xmmd_0x3ff);
-//	i = _mm_slli_epi64(i, 52);
-//	// y += i
-//	__m128d di = _mm_castsi128_pd(i);
-//	y = _mm_mul_pd(y, _mm_castsi128_pd(i));
-//
-//	double y1 = exp(-709.43613930310414);
+	__m128d yy = _mm_add_pd(xmm_oned, y);
+
+	double y1 = exp(-708.39641853226431);
+	double y2 = 1.0 + y1;
 
 	core::matrix<unsigned char> input;
 	if (img::bitmap::decode(input_image, input))

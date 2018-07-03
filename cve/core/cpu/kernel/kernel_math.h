@@ -38,43 +38,42 @@ POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	static const __m128  xmm_one      = _mm_set1_ps( 1.00000000F);
-	static const __m128  xmm_log2e    = _mm_set1_ps( 1.44269502F);
-	static const __m128i xmm_0x7f     = _mm_set1_epi32(0x0000007F);
+	//rcp
+	static const __m128i xmm_flt_base  = _mm_set1_epi32(0x0000007F);
+	static const __m128  xmm_onef      = _mm_set1_ps( 1.00000000F);
+	static const __m128  xmm_log2ef    = _mm_set1_ps( 1.44269502F);
+	static const __m128  xmm_expf_min  = _mm_set1_ps(-87.3365479F);           //-126.000000/log2e;
+	static const __m128  xmm_expf_max  = _mm_set1_ps( 88.3762589F);           // 127.499992/log2e;
+	static const __m128  xmm_ln2f_hi   = _mm_set1_ps( 0.693359375F);
+	static const __m128  xmm_ln2f_lo   = _mm_set1_ps(-2.12194442e-4F);
+	static const __m128  xmm_expf_p1   = _mm_set1_ps( 1.000000000F);
+	static const __m128  xmm_expf_p2   = _mm_set1_ps( 5.000000000e-1F);
+	static const __m128  xmm_expf_p3   = _mm_set1_ps( 1.666666667e-1F);
+	static const __m128  xmm_expf_p4   = _mm_set1_ps( 4.166666667e-2F);
+	static const __m128  xmm_expf_p5   = _mm_set1_ps( 8.333333333e-3F);
+	static const __m128  xmm_expf_p6   = _mm_set1_ps( 1.388888889e-3F);
+	static const __m128  xmm_expf_p7   = _mm_set1_ps( 1.984126984e-4F);
 
-	static const __m128  xmm_exp_min  = _mm_set1_ps(-87.3365479F);    //-126.000000/log2e;
-	static const __m128  xmm_exp_max  = _mm_set1_ps( 88.3762589F);    // 127.499992/log2e;
-	static const __m128  xmm_ln2_hi   = _mm_set1_ps( 0.693359375F);
-	static const __m128  xmm_ln2_lo   = _mm_set1_ps(-2.12194442e-4F);
-	static const __m128  xmm_exp_p1   = _mm_set1_ps( 1.000000000F);
-	static const __m128  xmm_exp_p2   = _mm_set1_ps( 5.000000000e-1F);
-	static const __m128  xmm_exp_p3   = _mm_set1_ps( 1.666666667e-1F);
-	static const __m128  xmm_exp_p4   = _mm_set1_ps( 4.166666667e-2F);
-	static const __m128  xmm_exp_p5   = _mm_set1_ps( 8.333333333e-3F);
-	static const __m128  xmm_exp_p6   = _mm_set1_ps( 1.388888889e-3F);
-	static const __m128  xmm_exp_p7   = _mm_set1_ps( 1.984126984e-4F);
-
-	static const __m128d xmmd_one     = _mm_set1_pd( 1.000000000000000);
-	static const __m128d xmmd_log2e   = _mm_set1_pd( 1.442695040888963);
-	static const __m128i xmmd_0x3ff   = _mm_set1_epi64x(0x00000000000003FF);
-
-	static const __m128d xmmd_exp_hi  = _mm_set1_pd( 709.78271289338397);
-	static const __m128d xmmd_exp_lo  = _mm_set1_pd(-709.78271289338397);
-	static const __m128d xmmd_ln2_hi  = _mm_set1_pd( 0.693145751953125);
-	static const __m128d xmmd_ln2_lo  = _mm_set1_pd( 1.428606820309417e-6);
-	static const __m128d xmmd_exp_p1  = _mm_set1_pd( 1.000000000000000);
-	static const __m128d xmmd_exp_p2  = _mm_set1_pd( 5.000000000000000e-1);
-	static const __m128d xmmd_exp_p3  = _mm_set1_pd( 1.666666666666667e-1);
-	static const __m128d xmmd_exp_p4  = _mm_set1_pd( 4.166666666666667e-2);
-	static const __m128d xmmd_exp_p5  = _mm_set1_pd( 8.333333333333333e-3);
-	static const __m128d xmmd_exp_p6  = _mm_set1_pd( 1.388888888888889e-3);
-	static const __m128d xmmd_exp_p7  = _mm_set1_pd( 1.984126984126984e-4);
-	static const __m128d xmmd_exp_p8  = _mm_set1_pd( 2.480158730158730e-5);
-	static const __m128d xmmd_exp_p9  = _mm_set1_pd( 2.755731922398589e-6);
-	static const __m128d xmmd_exp_p10 = _mm_set1_pd( 2.755731922398589e-7);
-	static const __m128d xmmd_exp_p11 = _mm_set1_pd( 2.505210838544172e-8);
-	static const __m128d xmmd_exp_p12 = _mm_set1_pd( 2.087675698786810e-9);
-	static const __m128d xmmd_exp_p13 = _mm_set1_pd( 1.605904383682161e-10);
+	static const __m128i xmm_dbl_base  = _mm_set1_epi64x(0x00000000000003FF);
+	static const __m128d xmm_oned      = _mm_set1_pd( 1.000000000000000);
+	static const __m128d xmm_log2ed    = _mm_set1_pd( 1.442695040888963);
+	static const __m128d xmm_expd_min  = _mm_set1_pd(-708.39641853226431);    //-1022.0000000000000/log2e;
+	static const __m128d xmm_expd_max  = _mm_set1_pd( 709.43613930310414);    // 1023.4999999999999/log2e;
+	static const __m128d xmm_ln2d_hi   = _mm_set1_pd( 0.693145751953125);
+	static const __m128d xmm_ln2d_lo   = _mm_set1_pd( 1.428606820309417e-6);
+	static const __m128d xmm_expd_p1   = _mm_set1_pd( 1.000000000000000);
+	static const __m128d xmm_expd_p2   = _mm_set1_pd( 5.000000000000000e-1);
+	static const __m128d xmm_expd_p3   = _mm_set1_pd( 1.666666666666667e-1);
+	static const __m128d xmm_expd_p4   = _mm_set1_pd( 4.166666666666667e-2);
+	static const __m128d xmm_expd_p5   = _mm_set1_pd( 8.333333333333333e-3);
+	static const __m128d xmm_expd_p6   = _mm_set1_pd( 1.388888888888889e-3);
+	static const __m128d xmm_expd_p7   = _mm_set1_pd( 1.984126984126984e-4);
+	static const __m128d xmm_expd_p8   = _mm_set1_pd( 2.480158730158730e-5);
+	static const __m128d xmm_expd_p9   = _mm_set1_pd( 2.755731922398589e-6);
+	static const __m128d xmm_expd_p10  = _mm_set1_pd( 2.755731922398589e-7);
+	static const __m128d xmm_expd_p11  = _mm_set1_pd( 2.505210838544172e-8);
+	static const __m128d xmm_expd_p12  = _mm_set1_pd( 2.087675698786810e-9);
+	static const __m128d xmm_expd_p13  = _mm_set1_pd( 1.605904383682161e-10);
 
 
 	// Exponential function
@@ -82,33 +81,33 @@ namespace core
 	__m128 _mm_exp_ps(__m128 x)
 	{
 		// x = max(x, min);
-		x = _mm_max_ps(x, xmm_exp_min);
+		x = _mm_max_ps(x, xmm_expf_min);
 		// x = min(x, max);
-		x = _mm_min_ps(x, xmm_exp_max);
+		x = _mm_min_ps(x, xmm_expf_max);
 		// t = x * log2(e);
-		__m128 t = _mm_mul_ps(x, xmm_log2e);
+		__m128 t = _mm_mul_ps(x, xmm_log2ef);
 		// r = round(t);
 		__m128 r = _mm_round_ps(t, _MM_FROUND_NINT);
 		// if (r > t) r -= 1;
 		__m128 mask = _mm_cmpgt_ps(r, t);
-		r = _mm_sub_ps(r, _mm_and_ps(mask, xmm_one));
+		r = _mm_sub_ps(r, _mm_and_ps(mask, xmm_onef));
 		// x -= r * ln2_hi;
-		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_hi));
+		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2f_hi));
 		// x -= r * ln2_lo;
-		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2_lo));
+		x = _mm_sub_ps(x, _mm_mul_ps(r, xmm_ln2f_lo));
 		// Taylor expansion of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m128 y = xmm_exp_p7;
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p6);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p5);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p4);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p3);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p2);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_exp_p1);
-		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_one);
+		__m128 y = xmm_expf_p7;
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p6);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p5);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p4);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p3);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p2);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_expf_p1);
+		y = _mm_add_ps(_mm_mul_ps(y, x), xmm_onef);
 		// i = 2^r;
 		__m128i i = _mm_cvttps_epi32(r);
-		i = _mm_add_epi32(i, xmm_0x7f);
+		i = _mm_add_epi32(i, xmm_flt_base);
 		i = _mm_slli_epi32(i, 23);
 		// y *= i;
 		y = _mm_mul_ps(y, _mm_castsi128_ps(i));
@@ -117,36 +116,38 @@ namespace core
 
 	__m128d _mm_exp_pd(__m128d x)
 	{
-		x = _mm_min_pd(x, xmmd_exp_hi);
-		x = _mm_max_pd(x, xmmd_exp_lo);
+		// x = max(x, min);
+		x = _mm_max_pd(x, xmm_expd_min);
+		// x = min(x, max);
+		x = _mm_min_pd(x, xmm_expd_max);
 		// t = x * log2(e)
-		__m128d t = _mm_mul_pd(x, xmmd_log2e);
+		__m128d t = _mm_mul_pd(x, xmm_log2ed);
 		// r = round(t)
 		__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
 		// x -= r * ln2_hi
-		x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_hi));
+		x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_hi));
 		// x -= r * ln2_lo
-		x = _mm_sub_pd(x, _mm_mul_pd(r, xmmd_ln2_lo));
+		x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_lo));
 		// Taylor expansion of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
 		//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
-		__m128d y = xmmd_exp_p13;
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p12);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p11);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p10);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p9);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p8);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p7);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p6);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p5);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p4);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p3);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p2);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_exp_p1);
-		y = _mm_add_pd(_mm_mul_pd(y, x), xmmd_one);
+		__m128d y = xmm_expd_p13;
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p12);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p11);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p10);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p9);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p8);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p7);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p6);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p5);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p4);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p3);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p2);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p1);
+		y = _mm_add_pd(_mm_mul_pd(y, x), xmm_oned);
 		// i = 2^r
 		__m128i i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(r));
-		i = _mm_add_epi64(i, xmmd_0x3ff);
+		i = _mm_add_epi64(i, xmm_dbl_base);
 		i = _mm_slli_epi64(i, 52);
 		// y += i
 		y = _mm_mul_pd(y, _mm_castsi128_pd(i));
