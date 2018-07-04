@@ -45,8 +45,7 @@ namespace core
 	{
 		void operator()(size_t n, const T *a, T *b) const
 		{
-			const T one = 1;
-			constexpr size_t block = 4;
+			constexpr size_t block = 8;
 
 			while (n > block)
 			{
@@ -54,6 +53,10 @@ namespace core
 				b[1] = exp(a[1]);
 				b[2] = exp(a[2]);
 				b[3] = exp(a[3]);
+				b[4] = exp(a[4]);
+				b[5] = exp(a[5]);
+				b[6] = exp(a[6]);
+				b[7] = exp(a[7]);
 				a += block;
 				b += block;
 				n -= block;

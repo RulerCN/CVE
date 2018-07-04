@@ -56,11 +56,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -104,11 +101,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -152,11 +146,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -190,11 +181,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -228,11 +216,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -279,11 +264,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -317,11 +299,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -369,11 +348,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * (*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * a[i];
 		}
 	};
 
@@ -404,11 +380,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -445,11 +418,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -486,11 +456,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -541,11 +508,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -596,11 +560,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -655,11 +616,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -693,11 +651,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 
@@ -745,11 +700,8 @@ namespace core
 				b += bit;
 				n -= bit;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * (*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * a[i];
 		}
 	};
 
@@ -781,11 +733,8 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > 0)
-			{
-				*b++ = scale * static_cast<float>(*a++);
-				--n;
-			}
+			for (size_t i = 0; i < n; ++i)
+				b[i] = scale * static_cast<float>(a[i]);
 		}
 	};
 

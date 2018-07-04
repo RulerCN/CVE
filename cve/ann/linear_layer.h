@@ -143,6 +143,8 @@ namespace ann
 			// Calculate the gradient of weight
 			::core::cpu_mul(weight_gradient, input_mean, loss_mean);
 			// Update the weights
+			::core::cpu_muladd(weight, -rate, weight_gradient, weight);
+
 			weight_gradient *= rate;
 			weight -= weight_gradient;
 		}

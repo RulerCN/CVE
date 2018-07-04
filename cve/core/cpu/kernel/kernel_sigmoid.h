@@ -45,8 +45,8 @@ namespace core
 	{
 		void operator()(size_t n, const T *a, T *b) const
 		{
-			const T one = 1;
-			constexpr size_t block = 4;
+			constexpr T one = 1;
+			constexpr size_t block = 8;
 
 			while (n > block)
 			{
@@ -54,6 +54,10 @@ namespace core
 				b[1] = one / (one + exp(-a[1]));
 				b[2] = one / (one + exp(-a[2]));
 				b[3] = one / (one + exp(-a[3]));
+				b[4] = one / (one + exp(-a[4]));
+				b[5] = one / (one + exp(-a[5]));
+				b[6] = one / (one + exp(-a[6]));
+				b[7] = one / (one + exp(-a[7]));
 				a += block;
 				b += block;
 				n -= block;
@@ -333,7 +337,7 @@ namespace core
 				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + i);
 				// a = -a;
-				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_dbl_sign));
+				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_flt_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_ps(ymm_a, ymm_expf_min);
 				// a = min(a, exp_max);
@@ -393,7 +397,7 @@ namespace core
 				// load data from memory
 				ymm_a = _mm256_loadu_ps(a + i);
 				// a = -a;
-				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_dbl_sign));
+				ymm_a = _mm256_xor_ps(ymm_a, _mm256_castsi256_ps(ymm_flt_sign));
 				// a = max(a, exp_min);
 				ymm_a = _mm256_max_ps(ymm_a, ymm_expf_min);
 				// a = min(a, exp_max);
