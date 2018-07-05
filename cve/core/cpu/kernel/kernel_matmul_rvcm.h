@@ -27,16 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_MUL_RV_CM_H__
-#define __CORE_CPU_KERNEL_MUL_RV_CM_H__
+#ifndef __CORE_CPU_KERNEL_MATMUL_RVCM_H__
+#define __CORE_CPU_KERNEL_MATMUL_RVCM_H__
 
 #include "../cpu_inst.h"
 
 namespace core
 {
-	// Class template common_mul_rv_cm
+	// Class template common_matmul_rvcm
 	template<class T>
-	struct common_mul_rv_cm
+	struct common_matmul_rvcm
 	{
 		// C(1xn) += A(1xp) * B(nxp)^T
 		void operator()(size_t n, size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -53,9 +53,9 @@ namespace core
 		}
 	};
 
-	// Class template block_mul_rv_cm
+	// Class template block_matmul_rvcm
 	template<class T, cpu_inst_type inst>
-	struct block_mul_rv_cm
+	struct block_matmul_rvcm
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -103,7 +103,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<float, cpu_sse3>
+	struct block_matmul_rvcm<float, cpu_sse3>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -143,7 +143,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<float, cpu_sse3 | cpu_fma>
+	struct block_matmul_rvcm<float, cpu_sse3 | cpu_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -183,7 +183,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<double, cpu_sse3>
+	struct block_matmul_rvcm<double, cpu_sse3>
 	{
 		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -213,7 +213,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<double, cpu_sse3 | cpu_fma>
+	struct block_matmul_rvcm<double, cpu_sse3 | cpu_fma>
 	{
 		// C(1x2) += A(1xp) * B(2xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -243,7 +243,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<float, cpu_avx>
+	struct block_matmul_rvcm<float, cpu_avx>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -305,7 +305,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<float, cpu_avx | cpu_fma>
+	struct block_matmul_rvcm<float, cpu_avx | cpu_fma>
 	{
 		// C(1x8) += A(1xp) * B(8xp)^T
 		void operator()(size_t p, const float *a, const float *b, size_t rsb, float *c) const
@@ -367,7 +367,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<double, cpu_avx>
+	struct block_matmul_rvcm<double, cpu_avx>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -409,7 +409,7 @@ namespace core
 	};
 
 	template<>
-	struct block_mul_rv_cm<double, cpu_avx | cpu_fma>
+	struct block_matmul_rvcm<double, cpu_avx | cpu_fma>
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
 		void operator()(size_t p, const double *a, const double *b, size_t rsb, double *c) const
@@ -450,9 +450,9 @@ namespace core
 		}
 	};
 
-	// Class template kernel_mul_rv_cm
+	// Class template kernel_matmul_rvcm
 	template<class T, size_t block_n, size_t block_p, cpu_inst_type inst>
-	struct kernel_mul_rv_cm
+	struct kernel_matmul_rvcm
 	{
 		// C(1xn) += A(1xp) * B(nxp)^T
 		void operator()(size_t n, size_t p, const T *a, const T *b, size_t rsb, T *c) const
@@ -462,8 +462,8 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
-			const struct common_mul_rv_cm<T> functor;
-			const struct block_mul_rv_cm<T, inst> special_functor;
+			const struct common_matmul_rvcm<T> functor;
+			const struct block_matmul_rvcm<T, inst> special_functor;
 
 			for (size_t j = 0; j < aligned_n; j += block_n)
 			{

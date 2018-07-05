@@ -27,12 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_RV_CM_H__
-#define __CORE_CPU_MUL_RV_CM_H__
+#ifndef __CORE_CPU_MATMUL_RVCM_H__
+#define __CORE_CPU_MATMUL_RVCM_H__
 
 #include "../vector.h"
 #include "../matrix.h"
-#include "kernel/kernel_mul_rv_cm.h"
+#include "kernel/kernel_matmul_rvcm.h"
 
 namespace core
 {
@@ -50,7 +50,7 @@ namespace core
 	//        | b[n][1],b[n][2],b[n][3],...,b[n][p] |
 
 	template <class A, class A1, class A2>
-	vector<float, A>& cpu_mul_rv_cm(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)
+	vector<float, A>& cpu_matmul_rvcm(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -62,24 +62,24 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<float, 4, 4, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<float, 4, 4, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<float, 4, 4, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<float, 4, 4, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_mul_rv_cm<float, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_matmul_rvcm<float, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
 	template <class A, class A1, class A2>
-	vector<double, A>& cpu_mul_rv_cm(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b)
+	vector<double, A>& cpu_matmul_rvcm(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -91,19 +91,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_cm<double, 2, 2, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<double, 2, 2, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_cm<double, 2, 2, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvcm<double, 2, 2, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_mul_rv_cm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_matmul_rvcm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 

@@ -27,12 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_CV_RV_H__
-#define __CORE_CPU_MUL_CV_RV_H__
+#ifndef __CORE_CPU_MATMUL_CVRV_H__
+#define __CORE_CPU_MATMUL_CVRV_H__
 
 #include "../vector.h"
 #include "../matrix.h"
-#include "kernel/kernel_mul_cv_rv.h"
+#include "kernel/kernel_matmul_cvrv.h"
 
 namespace core
 {
@@ -50,7 +50,7 @@ namespace core
 	//        | b[1],b[2],b[3],...,b[n] |
 
 	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_mul_rv_cm(matrix<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
+	matrix<float, A>& cpu_matmul_rvcm(matrix<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
 	{
 		if (c.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -79,7 +79,7 @@ namespace core
 	}
 
 	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_mul_rv_cm(matrix<double, A> &c, const vector<double, A1> &a, const vector<double, A2> &b)
+	matrix<double, A>& cpu_matmul_rvcm(matrix<double, A> &c, const vector<double, A1> &a, const vector<double, A2> &b)
 	{
 		if (c.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);

@@ -27,19 +27,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_MUL_RM_RM_H__
-#define __CORE_CPU_KERNEL_MUL_RM_RM_H__
+#ifndef __CORE_CPU_KERNEL_MATMUL_RMRM_H__
+#define __CORE_CPU_KERNEL_MATMUL_RMRM_H__
 
-#include "kernel_mul_rm_rm00.h"
-#include "kernel_mul_rm_rm01.h"
-#include "kernel_mul_rm_rm10.h"
-#include "kernel_mul_rm_rm11.h"
+#include "kernel_matmul_rmrm00.h"
+#include "kernel_matmul_rmrm01.h"
+#include "kernel_matmul_rmrm10.h"
+#include "kernel_matmul_rmrm11.h"
 
 namespace core
 {
-	// Class template common_mul_rm_rm
+	// Class template common_matmul_rmrm
 	template<class T>
-	struct common_mul_rm_rm
+	struct common_matmul_rmrm
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
@@ -63,9 +63,9 @@ namespace core
 		}
 	};
 
-	// Class template kernel_mul_rm_rm
+	// Class template kernel_matmul_rmrm
 	template<class T, size_t block_m, size_t block_p, size_t block_n, cpu_inst_type inst>
-	struct kernel_mul_rm_rm
+	struct kernel_matmul_rmrm
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
@@ -79,10 +79,10 @@ namespace core
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
 			const size_t surplus_p = p - aligned_p;
-			const struct block_mul_rm_rm00<T, inst> functor00;
-			const struct block_mul_rm_rm01<T, inst> functor01;
-			const struct block_mul_rm_rm10<T, inst> functor10;
-			const struct block_mul_rm_rm11<T, inst> functor11;
+			const struct block_matmul_rmrm00<T, inst> functor00;
+			const struct block_matmul_rmrm01<T, inst> functor01;
+			const struct block_matmul_rmrm10<T, inst> functor10;
+			const struct block_matmul_rmrm11<T, inst> functor11;
 
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{

@@ -343,85 +343,16 @@ int main()
 	//}
 	//return 0;
 
-	std::string input_image = "data/test.bmp";
-	std::string replicate = "data/replicate.bmp";
+	//std::string input_image = "data/test.bmp";
+	//std::string replicate = "data/replicate.bmp";
 
-	static const __m128i xmm_expd_base = _mm_set1_epi64x(0x00000000000003FF);
-	static const __m128d xmm_oned      = _mm_set1_pd( 1.000000000000000);
-	static const __m128d xmm_log2ed    = _mm_set1_pd( 1.442695040888963);
-	static const __m128d xmm_expd_min  = _mm_set1_pd(-708.39641853226431);    //-1022.0000000000000/log2e;
-	static const __m128d xmm_expd_max  = _mm_set1_pd( 709.43613930310414);    // 1023.4999999999999/log2e;
-	static const __m128d xmm_ln2d_hi   = _mm_set1_pd( 0.693145751953125);
-	static const __m128d xmm_ln2d_lo   = _mm_set1_pd( 1.428606820309417e-6);
-	static const __m128d xmm_expd_p1   = _mm_set1_pd( 1.000000000000000);
-	static const __m128d xmm_expd_p2   = _mm_set1_pd( 5.000000000000000e-1);
-	static const __m128d xmm_expd_p3   = _mm_set1_pd( 1.666666666666667e-1);
-	static const __m128d xmm_expd_p4   = _mm_set1_pd( 4.166666666666667e-2);
-	static const __m128d xmm_expd_p5   = _mm_set1_pd( 8.333333333333333e-3);
-	static const __m128d xmm_expd_p6   = _mm_set1_pd( 1.388888888888889e-3);
-	static const __m128d xmm_expd_p7   = _mm_set1_pd( 1.984126984126984e-4);
-	static const __m128d xmm_expd_p8   = _mm_set1_pd( 2.480158730158730e-5);
-	static const __m128d xmm_expd_p9   = _mm_set1_pd( 2.755731922398589e-6);
-	static const __m128d xmm_expd_p10  = _mm_set1_pd( 2.755731922398589e-7);
-	static const __m128d xmm_expd_p11  = _mm_set1_pd( 2.505210838544172e-8);
-	static const __m128d xmm_expd_p12  = _mm_set1_pd( 2.087675698786810e-9);
-	static const __m128d xmm_expd_p13  = _mm_set1_pd( 1.605904383682161e-10);
-
-	__m128d  xmm_max_e = _mm_set1_pd( 1023.4999999999999);
-	__m128d  xmm_min_e = _mm_set1_pd(-1022.0000000000000);
-	__m128d  xmm_max   = _mm_div_pd(xmm_max_e, xmm_log2ed);
-	__m128d  xmm_min   = _mm_div_pd(xmm_min_e, xmm_log2ed);
-
-	__m128d x = xmm_expd_min;
-	// x = max(x, min);
-	x = _mm_max_pd(x, xmm_expd_min);
-	// x = min(x, max);
-	x = _mm_min_pd(x, xmm_expd_max);
-	// t = x * log2(e)
-	__m128d t = _mm_mul_pd(x, xmm_log2ed);
-	// r = round(t)
-	__m128d r = _mm_round_pd(t, _MM_FROUND_NINT);
-	// x -= r * ln2_hi
-	x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_hi));
-	// x -= r * ln2_lo
-	x = _mm_sub_pd(x, _mm_mul_pd(r, xmm_ln2d_lo));
-	// Taylor expansion of e^x:
-	// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-	//   + x^8/8! + x^9/9! + x^10/10! + x^11/11! + + x^12/12! + + x^13/13!
-	__m128d y = xmm_expd_p13;
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p12);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p11);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p10);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p9);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p8);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p7);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p6);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p5);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p4);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p3);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p2);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_expd_p1);
-	y = _mm_add_pd(_mm_mul_pd(y, x), xmm_oned);
-	// i = 2^r
-	__m128i i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(r));
-	i = _mm_add_epi64(i, xmm_expd_base);
-	i = _mm_slli_epi64(i, 52);
-	// y += i
-	y = _mm_mul_pd(y, _mm_castsi128_pd(i));
-
-	__m128d yy = _mm_add_pd(xmm_oned, y);
-
-	double y1 = exp(-708.39641853226431);
-	double y2 = 1.0 + y1;
-
-	core::matrix<unsigned char> input;
-	if (img::bitmap::decode(input_image, input))
-	{
-		core::matrix<unsigned char> output(input.rows() * 2, input.columns() * 3, input.dimension());
-		core::cpu_replicate(output, input, 2, 3);
-		img::bitmap::encode(replicate, output);
-	}
-
+	//core::matrix<unsigned char> input;
+	//if (img::bitmap::decode(input_image, input))
+	//{
+	//	core::matrix<unsigned char> output(input.rows() * 2, input.columns() * 3, input.dimension());
+	//	core::cpu_replicate(output, input, 2, 3);
+	//	img::bitmap::encode(replicate, output);
+	//}
 
 	const size_t batch      = 100;
 	const size_t rows       = 28;

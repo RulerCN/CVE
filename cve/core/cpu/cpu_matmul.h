@@ -27,100 +27,100 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_H__
-#define __CORE_CPU_MUL_H__
+#ifndef __CORE_CPU_MATMUL_H__
+#define __CORE_CPU_MATMUL_H__
 
-#include "cpu_mul_cv_rv.h"
-#include "cpu_mul_rm_cv.h"
-#include "cpu_mul_rv_rm.h"
-#include "cpu_mul_rv_cm.h"
-#include "cpu_mul_rm_rm.h"
-#include "cpu_mul_rm_cm.h"
+#include "cpu_matmul_cvrv.h"
+#include "cpu_matmul_rmcv.h"
+#include "cpu_matmul_rvrm.h"
+#include "cpu_matmul_rvcm.h"
+#include "cpu_matmul_rmrm.h"
+#include "cpu_matmul_rmcm.h"
 
 namespace core
 {
 	// The multiplication of the column vector and the row vector
 	// D = A * B
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b)
 	{
 		d.fill(0);
-		return cpu_mul_cv_rv(d, a, b);
+		return cpu_matmul_cvrv(d, a, b);
 	}
 
 	// The multiplication of the column vector and the row vector
 	// D = A * B + C
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const matrix<T, A> &c)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const matrix<T, A> &c)
 	{
 		d.fill(c);
-		return cpu_mul_cv_rv(d, a, b);
+		return cpu_matmul_cvrv(d, a, b);
 	}
 
 	// The multiplication of the matrix and the column vector
 	// D = A * B
 	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_mul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A2> &b)
+	vector<T, A>& cpu_matmul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A2> &b)
 	{
 		d.fill(0);
-		return cpu_mul_rm_cv(d, a, b);
+		return cpu_matmul_rmcv(d, a, b);
 	}
 
 	// The multiplication of the matrix and the column vector
 	// D = A * B + C
 	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_mul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A> &c, const vector<T, A2> &b)
+	vector<T, A>& cpu_matmul(vector<T, A> &d, const matrix<T, A1> &a, const vector<T, A> &c, const vector<T, A2> &b)
 	{
 		d.fill(c);
-		return cpu_mul_rm_cv(d, a, b);
+		return cpu_matmul_rmcv(d, a, b);
 	}
 
 	// The multiplication of the row vector and the matrix
 	// D = A * B
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
 	{
 		d.fill(0);
 		if (row_major)
-			return cpu_mul_rv_rm(d, a, b);
+			return cpu_matmul_rvrm(d, a, b);
 		else
-			return cpu_mul_rv_cm(d, a, b);
+			return cpu_matmul_rvcm(d, a, b);
 	}
 
 	// The multiplication of the row vector and the matrix
 	// D = A * B + C
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A> &c, bool row_major = true)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const vector<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A> &c, bool row_major = true)
 	{
 		d.fill(c);
 		if (row_major)
-			return cpu_mul_rv_rm(d, a, b);
+			return cpu_matmul_rvrm(d, a, b);
 		else
-			return cpu_mul_rv_cm(d, a, b);
+			return cpu_matmul_rvcm(d, a, b);
 	}
 
 	// The multiplication of the matrix and the matrix
 	// D = A * B
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, bool row_major = true)
 	{
 		d.fill(0);
 		if (row_major)
-			return cpu_mul_rm_rm(d, a, b);
+			return cpu_matmul_rmrm(d, a, b);
 		else
-			return cpu_mul_rm_cm(d, a, b);
+			return cpu_matmul_rmcm(d, a, b);
 	}
 
 	// The multiplication of the matrix and the matrix
 	// D = A * B + C
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_mul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A2> &c, bool row_major = true)
+	matrix<T, A>& cpu_matmul(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A2> &c, bool row_major = true)
 	{
 		d.fill(c);
 		if (row_major)
-			return cpu_mul_rm_rm(d, a, b);
+			return cpu_matmul_rmrm(d, a, b);
 		else
-			return cpu_mul_rm_cm(d, a, b);
+			return cpu_matmul_rmcm(d, a, b);
 	}
 
 } // namespace core

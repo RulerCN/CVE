@@ -27,16 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_MUL_RM_CM_H__
-#define __CORE_CPU_KERNEL_MUL_RM_CM_H__
+#ifndef __CORE_CPU_KERNEL_MATMUL_RMCM_H__
+#define __CORE_CPU_KERNEL_MATMUL_RMCM_H__
 
-#include "kernel_mul_rv_cm.h"
+#include "kernel_matmul_rvcm.h"
 
 namespace core
 {
-	// Class template kernel_mul_rm_cm
+	// Class template kernel_matmul_rmcm
 	template<class T, size_t block_n, size_t block_p, cpu_inst_type inst>
-	struct kernel_mul_rm_cm
+	struct kernel_matmul_rmcm
 	{
 		// C(mxn) += A(mxp) * B(nxp)^T
 		void operator()(size_t m, size_t n, size_t p, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
@@ -47,8 +47,8 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
-			const struct common_mul_rv_cm<T> functor;
-			const struct block_mul_rv_cm<T, inst> special_functor;
+			const struct common_matmul_rvcm<T> functor;
+			const struct block_matmul_rvcm<T, inst> special_functor;
 
 			for (size_t i = 0; i < m; ++i)
 			{

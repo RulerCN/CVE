@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_sub.h"
 #include "cpu/cpu_muladd.h"
 #include "cpu/cpu_mulsub.h"
-#include "cpu/cpu_mul.h"
+#include "cpu/cpu_matmul.h"
 #include "cpu/cpu_exp.h"
 #include "cpu/cpu_sigmoid.h"
 #include "cpu/cpu_sigmoid_derivative.h"

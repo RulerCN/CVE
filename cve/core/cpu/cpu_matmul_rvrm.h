@@ -27,12 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_RV_RM_H__
-#define __CORE_CPU_MUL_RV_RM_H__
+#ifndef __CORE_CPU_MATMUL_RVRM_H__
+#define __CORE_CPU_MATMUL_RVRM_H__
 
 #include "../vector.h"
 #include "../matrix.h"
-#include "kernel/kernel_mul_rv_rm.h"
+#include "kernel/kernel_matmul_rvrm.h"
 
 namespace core
 {
@@ -50,7 +50,7 @@ namespace core
 	//        | b[p][1],b[p][2],b[p][3],...,b[p][n] |
 
 	template <class A, class A1, class A2>
-	vector<float, A>& cpu_mul_rv_rm(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)
+	vector<float, A>& cpu_matmul_rvrm(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -62,24 +62,24 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_rm<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<float, 8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_rm<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<float, 8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_rm<float, 4, 4, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<float, 4, 4, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_rm<float, 4, 4, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<float, 4, 4, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_mul_rv_rm<float, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_matmul_rvrm<float, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
 	template <class A, class A1, class A2>
-	vector<double, A>& cpu_mul_rv_rm(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b)
+	vector<double, A>& cpu_matmul_rvrm(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -91,19 +91,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_rm<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<double, 4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_rm<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<double, 4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rv_rm<double, 2, 2, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<double, 2, 2, cpu_sse | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_mul_rv_rm<double, 2, 2, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_matmul_rvrm<double, 2, 2, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_mul_rv_rm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_matmul_rvrm<double, 4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 

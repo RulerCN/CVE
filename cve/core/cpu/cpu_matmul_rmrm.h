@@ -27,11 +27,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MUL_RM_RM_H__
-#define __CORE_CPU_MUL_RM_RM_H__
+#ifndef __CORE_CPU_MATMUL_RMRM_H__
+#define __CORE_CPU_MATMUL_RMRM_H__
 
 #include "../matrix.h"
-#include "kernel/kernel_mul_rm_rm.h"
+#include "kernel/kernel_matmul_rmrm.h"
 
 namespace core
 {
@@ -57,7 +57,7 @@ namespace core
 	//        | b[p][1],b[p][2],b[p][3],...,b[p][n] |
 
 	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_mul_rm_rm(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
+	matrix<float, A>& cpu_matmul_rmrm(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -67,24 +67,24 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<float, 8, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<float, 8, 8, 8, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<float, 8, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<float, 8, 8, 8, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<float, 4, 4, 4, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<float, 4, 4, 4, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<float, 4, 4, 4, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<float, 4, 4, 4, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else
-			kernel_mul_rm_rm<float, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+			kernel_matmul_rmrm<float, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		return c;
 	}
 
 	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_mul_rm_rm(matrix<double, A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b)
+	matrix<double, A>& cpu_matmul_rmrm(matrix<double, A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -94,19 +94,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<double, 4, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<double, 4, 4, 4, cpu_avx | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<double, 4, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<double, 4, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else if (cpu_inst::is_support_ss3e())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_mul_rm_rm<double, 2, 2, 2, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<double, 2, 2, 2, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 			else
-				kernel_mul_rm_rm<double, 2, 2, 2, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+				kernel_matmul_rmrm<double, 2, 2, 2, cpu_sse3>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
 		else
-			kernel_mul_rm_rm<double, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
+			kernel_matmul_rmrm<double, 4, 4, 4, cpu_none>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		return c;
 	}
 

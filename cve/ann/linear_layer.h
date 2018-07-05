@@ -127,7 +127,7 @@ namespace ann
 		{
 			if (input.batch() != 1 || output.batch() != 1)
 				throw ::std::invalid_argument(::core::invalid_shape);
-			::core::cpu_mul(output[0], input[0], weight);
+			::core::cpu_matmul(output[0], input[0], weight);
 			this->bind(input, output);
 		}
 
@@ -141,7 +141,7 @@ namespace ann
 			// Mean vector of loss data
 			::core::reduce(loss_mean, input[0], ::core::reduce_col_avg);
 			// Calculate the gradient of weight
-			::core::cpu_mul(weight_gradient, input_mean, loss_mean);
+			::core::cpu_matmul(weight_gradient, input_mean, loss_mean);
 			// Update the weights
 			::core::cpu_muladd(weight, -rate, weight_gradient);
 		}
