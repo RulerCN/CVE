@@ -158,7 +158,9 @@
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu\cpu_add.h" />
+    <ClInclude Include="core\cpu\cpu_div.h" />
     <ClInclude Include="core\cpu\cpu_exp.h" />
+    <ClInclude Include="core\cpu\cpu_mul.h" />
     <ClInclude Include="core\cpu\cpu_muladd.h" />
     <ClInclude Include="core\cpu\cpu_mulsub.h" />
     <ClInclude Include="core\cpu\cpu_replicate.h" />
@@ -194,8 +196,10 @@
     <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_replicate.h" />
     <ClInclude Include="core\cpu\kernel\kernel_border_wrap.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_div.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_math.h" />
+    <ClInclude Include="core\cpu\kernel\kernel_mul.h" />
     <ClInclude Include="core\cpu\kernel\kernel_muladd.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mulsub.h" />
     <ClInclude Include="core\cpu\kernel\kernel_matmul_cvrv.h" />
