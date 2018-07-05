@@ -41,7 +41,7 @@ namespace core
 	// The mulsub function for scalar
 
 	template <class A1, class A2>
-	scalar<float, A2>& cpu_mulsub(const float a, const scalar<float, A1> &b, const scalar<float, A2> &c)
+	scalar<float, A1>& cpu_mulsub(scalar<float, A1> &c, const float a, const scalar<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -68,7 +68,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A2>& cpu_mulsub(const double a, const scalar<double, A1> &b, const scalar<double, A2> &c)
+	scalar<double, A1>& cpu_mulsub(scalar<double, A1> &c, const double a, const scalar<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -97,7 +97,7 @@ namespace core
 	// The mulsub function for vector
 
 	template <class A1, class A2>
-	vector<float, A2>& cpu_mulsub(const float a, const vector<float, A1> &b, const vector<float, A2> &c)
+	vector<float, A1>& cpu_mulsub(vector<float, A1> &c, const float a, const vector<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -124,7 +124,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A2>& cpu_mulsub(const double a, const vector<double, A1> &b, const vector<double, A2> &c)
+	vector<double, A1>& cpu_mulsub(vector<double, A1> &c, const double a, const vector<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -153,7 +153,7 @@ namespace core
 	// The mulsub function for matrix
 
 	template <class A1, class A2>
-	matrix<float, A2>& cpu_mulsub(const float a, const matrix<float, A1> &b, matrix<float, A2> &c)
+	matrix<float, A1>& cpu_mulsub(matrix<float, A1> &c, const float a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -180,7 +180,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A2>& cpu_mulsub(const double a, const matrix<double, A1> &b, matrix<double, A2> &c)
+	matrix<double, A1>& cpu_mulsub(matrix<double, A1> &c, const double a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -209,7 +209,7 @@ namespace core
 	// The mulsub function for tensor
 
 	template <class A1, class A2>
-	tensor<float, A2>& cpu_mulsub(const float a, const tensor<float, A1> &b, tensor<float, A2> &c)
+	tensor<float, A1>& cpu_mulsub(tensor<float, A1> &c, const float a, const tensor<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -236,7 +236,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A2>& cpu_mulsub(const double a, const tensor<double, A1> &b, tensor<double, A2> &c)
+	tensor<double, A1>& cpu_mulsub(tensor<double, A1> &c, const double a, const tensor<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
