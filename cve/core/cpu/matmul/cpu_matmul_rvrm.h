@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_MATMUL_RVRM_H__
 #define __CORE_CPU_MATMUL_RVRM_H__
 
-#include "../vector.h"
-#include "../matrix.h"
-#include "kernel/kernel_matmul_rvrm.h"
+#include "../../vector.h"
+#include "../../matrix.h"
+#include "../kernel/matmul/kernel_matmul_rvrm.h"
 
 namespace core
 {

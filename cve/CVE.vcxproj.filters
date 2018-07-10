@@ -112,54 +112,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_cvrv.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmcm.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmcv.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmrm.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmrm00.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmrm01.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmrm10.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rmrm11.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rvcm.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_matmul_rvrm.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_cvrv.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_rmcm.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_rmcv.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_rmrm.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_rvcm.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul_rvrm.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_matmul.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
@@ -340,6 +292,54 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sigmoid_derivative.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_cvrv.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcm.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcv.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm00.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm01.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm10.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm11.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvcm.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvrm.h">
+      <Filter>core\cpu\kernel\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_cvrv.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcm.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcv.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmrm.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_rvcm.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\matmul\cpu_matmul_rvrm.h">
+      <Filter>core\cpu\matmul</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -386,6 +386,12 @@
     </Filter>
     <Filter Include="core\cpu\convert_scale">
       <UniqueIdentifier>{2055bdc0-4410-4c76-afe4-633d74fe38b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\matmul">
+      <UniqueIdentifier>{ccb7c80d-5536-414b-b592-d9b83ab907fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\matmul">
+      <UniqueIdentifier>{8d648244-8449-407c-955d-8a97ba03e50c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

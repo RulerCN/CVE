@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_MATMUL_H__
 #define __CORE_CPU_MATMUL_H__
 
-#include "cpu_matmul_cvrv.h"
-#include "cpu_matmul_rmcv.h"
-#include "cpu_matmul_rvrm.h"
-#include "cpu_matmul_rvcm.h"
-#include "cpu_matmul_rmrm.h"
-#include "cpu_matmul_rmcm.h"
+#include "matmul/cpu_matmul_cvrv.h"
+#include "matmul/cpu_matmul_rmcv.h"
+#include "matmul/cpu_matmul_rvrm.h"
+#include "matmul/cpu_matmul_rvcm.h"
+#include "matmul/cpu_matmul_rmrm.h"
+#include "matmul/cpu_matmul_rmcm.h"
 
 namespace core
 {

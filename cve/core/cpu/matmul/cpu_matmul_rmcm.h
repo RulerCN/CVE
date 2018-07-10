@@ -30,8 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_MATMUL_RMCM_H__
 #define __CORE_CPU_MATMUL_RMCM_H__
 
-#include "../matrix.h"
-#include "kernel/kernel_matmul_rmcm.h"
+#include "../../matrix.h"
+#include "../kernel/matmul/kernel_matmul_rmcm.h"
 
 namespace core
 {
