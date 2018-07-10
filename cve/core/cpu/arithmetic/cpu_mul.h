@@ -27,21 +27,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_ADD_H__
-#define __CORE_CPU_ADD_H__
+#ifndef __CORE_CPU_ARITHMETIC_MUL_H__
+#define __CORE_CPU_ARITHMETIC_MUL_H__
 
-#include "../scalar.h"
-#include "../vector.h"
-#include "../matrix.h"
-#include "../tensor.h"
-#include "kernel/kernel_add.h"
+#include "../../scalar.h"
+#include "../../vector.h"
+#include "../../matrix.h"
+#include "../../tensor.h"
+#include "../kernel/arithmetic/kernel_mul.h"
 
 namespace core
 {
-	// The add function for scalar
+	// The mul function for scalar
 
 	template <class A1, class A2>
-	scalar<float, A1>& cpu_add(scalar<float, A1> &b, const scalar<float, A2> &a)
+	scalar<float, A1>& cpu_mul(scalar<float, A1> &b, const scalar<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -49,16 +49,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_sse>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& cpu_add(scalar<double, A1> &b, const scalar<double, A2> &a)
+	scalar<double, A1>& cpu_mul(scalar<double, A1> &b, const scalar<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -66,18 +66,18 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The add function for vector
+	// The mul function for vector
 
 	template <class A1, class A2>
-	vector<float, A1>& cpu_add(vector<float, A1> &b, const vector<float, A2> &a)
+	vector<float, A1>& cpu_mul(vector<float, A1> &b, const vector<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -85,16 +85,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_sse>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_add(vector<double, A1> &b, const vector<double, A2> &a)
+	vector<double, A1>& cpu_mul(vector<double, A1> &b, const vector<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -102,18 +102,18 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The add function for matrix
+	// The mul function for matrix
 
 	template <class A1, class A2>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &b, const matrix<float, A2> &a)
+	matrix<float, A1>& cpu_mul(matrix<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -121,16 +121,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_sse>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &b, const matrix<double, A2> &a)
+	matrix<double, A1>& cpu_mul(matrix<double, A1> &b, const matrix<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -138,18 +138,18 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
-	// The add function for tensor
+	// The mul function for tensor
 
 	template <class A1, class A2>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &b, const tensor<float, A2> &a)
+	tensor<float, A1>& cpu_mul(tensor<float, A1> &b, const tensor<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -157,16 +157,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_sse>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<float, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &b, const tensor<double, A2> &a)
+	tensor<double, A1>& cpu_mul(tensor<double, A1> &b, const tensor<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -174,11 +174,11 @@ namespace core
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_avx>()(b.size(), a.data(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_mul<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 

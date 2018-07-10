@@ -244,30 +244,6 @@
     <ClInclude Include="core\cpu\cpu_exp.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_muladd.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_mulsub.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_muladd.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_mulsub.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_sub.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_add.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_add.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_sub.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_matmul_cvrv.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
@@ -319,16 +295,49 @@
     <ClInclude Include="core\cpu\cpu_matmul.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_mul.h">
-      <Filter>core\cpu\kernel</Filter>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_adds.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_div.h">
-      <Filter>core\cpu\kernel</Filter>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_add.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_mul.h">
-      <Filter>core\cpu</Filter>
+    <ClInclude Include="core\cpu\arithmetic\cpu_add.h">
+      <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_div.h">
+    <ClInclude Include="core\cpu\arithmetic\cpu_adds.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_div.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_mul.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_sub.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_div.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_mul.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_sub.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_muladd.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_mulsub.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_muladd.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_mulsub.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_arithmetic.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,6 +359,12 @@
     </Filter>
     <Filter Include="core\cpu\kernel">
       <UniqueIdentifier>{095edecf-007a-4226-9e3c-49bc1b0f1b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\arithmetic">
+      <UniqueIdentifier>{ce3a5bb7-ac5f-4550-914b-e8765560258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\arithmetic">
+      <UniqueIdentifier>{ab07f099-e22f-4733-8f94-a555a3530ff0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -27,31 +27,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_H__
-#define __CORE_H__
+#ifndef __CORE_CPU_ARITHMETIC_H__
+#define __CORE_CPU_ARITHMETIC_H__
 
-#include "sample_allocator.h"
-#include "allocator.h"
-#include "sample_allocator.h"
-#include "scalar.h"
-#include "vector.h"
-#include "matrix.h"
-#include "tensor.h"
-#include "rb_tree.h"
-#include "tree.h"
-
-#include "cpu/cpu_convert.h"
-#include "cpu/cpu_convert_scale.h"
-#include "cpu/cpu_reduce.h"
-#include "cpu/cpu_transpose.h"
-#include "cpu/cpu_border.h"
-#include "cpu/cpu_replicate.h"
-#include "cpu/cpu_sliding_window.h"
-#include "cpu/cpu_mapping.h"
-#include "cpu/cpu_arithmetic.h"
-#include "cpu/cpu_matmul.h"
-#include "cpu/cpu_exp.h"
-#include "cpu/cpu_sigmoid.h"
-#include "cpu/cpu_sigmoid_derivative.h"
+#include "arithmetic/cpu_add.h"
+#include "arithmetic/cpu_adds.h"
+#include "arithmetic/cpu_sub.h"
+#include "arithmetic/cpu_mul.h"
+#include "arithmetic/cpu_div.h"
+#include "arithmetic/cpu_muladd.h"
+#include "arithmetic/cpu_mulsub.h"
 
 #endif

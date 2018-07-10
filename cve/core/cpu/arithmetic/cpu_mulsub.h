@@ -27,14 +27,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MULSUB_H__
-#define __CORE_CPU_MULSUB_H__
+#ifndef __CORE_CPU_ARITHMETIC_MULSUB_H__
+#define __CORE_CPU_ARITHMETIC_MULSUB_H__
 
-#include "../scalar.h"
-#include "../vector.h"
-#include "../matrix.h"
-#include "../tensor.h"
-#include "kernel/kernel_mulsub.h"
+#include "../../scalar.h"
+#include "../../vector.h"
+#include "../../matrix.h"
+#include "../../tensor.h"
+#include "../kernel/arithmetic/kernel_mulsub.h"
 
 namespace core
 {

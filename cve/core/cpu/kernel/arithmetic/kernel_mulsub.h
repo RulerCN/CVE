@@ -31,10 +31,10 @@ POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_MULSUB_H__
-#define __CORE_CPU_KERNEL_MULSUB_H__
+#ifndef __CORE_CPU_KERNEL_ARITHMETIC_MULSUB_H__
+#define __CORE_CPU_KERNEL_ARITHMETIC_MULSUB_H__
 
-#include "../cpu_inst.h"
+#include "../../cpu_inst.h"
 
 namespace core
 {

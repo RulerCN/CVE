@@ -31,17 +31,17 @@ POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_SUB_H__
-#define __CORE_CPU_KERNEL_SUB_H__
+#ifndef __CORE_CPU_KERNEL_ARITHMETIC_DIV_H__
+#define __CORE_CPU_KERNEL_ARITHMETIC_DIV_H__
 
-#include "../cpu_inst.h"
+#include "../../cpu_inst.h"
 
 namespace core
 {
-	// Class template kernel_sub
+	// Class template kernel_div
 
 	template<class T, cpu_inst_type inst>
-	struct kernel_sub
+	struct kernel_div
 	{
 		void operator()(size_t n, const T *a, T *b) const
 		{
@@ -49,25 +49,25 @@ namespace core
 
 			while (n > block)
 			{
-				b[0] -= a[0];
-				b[1] -= a[1];
-				b[2] -= a[2];
-				b[3] -= a[3];
-				b[4] -= a[4];
-				b[5] -= a[5];
-				b[6] -= a[6];
-				b[7] -= a[7];
+				b[0] /= a[0];
+				b[1] /= a[1];
+				b[2] /= a[2];
+				b[3] /= a[3];
+				b[4] /= a[4];
+				b[5] /= a[5];
+				b[6] /= a[6];
+				b[7] /= a[7];
 				a += block;
 				b += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] -= a[i];
+				b[i] /= a[i];
 		}
 	};
 
 	template<>
-	struct kernel_sub<float, cpu_sse>
+	struct kernel_div<float, cpu_sse>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -87,11 +87,11 @@ namespace core
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				xmm_b2 = _mm_loadu_ps(b + 8);
 				xmm_b3 = _mm_loadu_ps(b + 12);
-				// b = b - a;
-				xmm_b0 = _mm_sub_ps(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_sub_ps(xmm_b1, xmm_a1);
-				xmm_b2 = _mm_sub_ps(xmm_b2, xmm_a2);
-				xmm_b3 = _mm_sub_ps(xmm_b3, xmm_a3);
+				// b = b + a;
+				xmm_b0 = _mm_div_ps(xmm_b0, xmm_a0);
+				xmm_b1 = _mm_div_ps(xmm_b1, xmm_a1);
+				xmm_b2 = _mm_div_ps(xmm_b2, xmm_a2);
+				xmm_b3 = _mm_div_ps(xmm_b3, xmm_a3);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				_mm_storeu_ps(b + 4, xmm_b1);
@@ -106,8 +106,8 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_ps(a);
 				xmm_b0 = _mm_loadu_ps(b);
-				// b = b - a;
-				xmm_b0 = _mm_sub_ps(xmm_b0, xmm_a0);
+				// b = b + a;
+				xmm_b0 = _mm_div_ps(xmm_b0, xmm_a0);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				a += bit;
@@ -115,12 +115,12 @@ namespace core
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] -= a[i];
+				b[i] /= a[i];
 		}
 	};
 
 	template<>
-	struct kernel_sub<double, cpu_sse2>
+	struct kernel_div<double, cpu_sse2>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -140,11 +140,11 @@ namespace core
 				xmm_b1 = _mm_loadu_pd(b + 2);
 				xmm_b2 = _mm_loadu_pd(b + 4);
 				xmm_b3 = _mm_loadu_pd(b + 6);
-				// b = b - a;
-				xmm_b0 = _mm_sub_pd(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_sub_pd(xmm_b1, xmm_a1);
-				xmm_b2 = _mm_sub_pd(xmm_b2, xmm_a2);
-				xmm_b3 = _mm_sub_pd(xmm_b3, xmm_a3);
+				// b = b + a;
+				xmm_b0 = _mm_div_pd(xmm_b0, xmm_a0);
+				xmm_b1 = _mm_div_pd(xmm_b1, xmm_a1);
+				xmm_b2 = _mm_div_pd(xmm_b2, xmm_a2);
+				xmm_b3 = _mm_div_pd(xmm_b3, xmm_a3);
 				// store data into memory
 				_mm_storeu_pd(b, xmm_b0);
 				_mm_storeu_pd(b + 2, xmm_b1);
@@ -159,8 +159,8 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_pd(a);
 				xmm_b0 = _mm_loadu_pd(b);
-				// b = b - a;
-				xmm_b0 = _mm_sub_pd(xmm_b0, xmm_a0);
+				// b = b + a;
+				xmm_b0 = _mm_div_pd(xmm_b0, xmm_a0);
 				// store data into memory
 				_mm_storeu_pd(b, xmm_b0);
 				a += bit;
@@ -168,12 +168,12 @@ namespace core
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] -= a[i];
+				b[i] /= a[i];
 		}
 	};
 
 	template<>
-	struct kernel_sub<float, cpu_avx>
+	struct kernel_div<float, cpu_avx>
 	{
 		void operator()(size_t n, const float *a, float *b) const
 		{
@@ -193,11 +193,11 @@ namespace core
 				ymm_b1 = _mm256_loadu_ps(b + 8);
 				ymm_b2 = _mm256_loadu_ps(b + 16);
 				ymm_b3 = _mm256_loadu_ps(b + 24);
-				// b = b - a;
-				ymm_b0 = _mm256_sub_ps(ymm_b0, ymm_a0);
-				ymm_b1 = _mm256_sub_ps(ymm_b1, ymm_a1);
-				ymm_b2 = _mm256_sub_ps(ymm_b2, ymm_a2);
-				ymm_b3 = _mm256_sub_ps(ymm_b3, ymm_a3);
+				// b = b + a;
+				ymm_b0 = _mm256_div_ps(ymm_b0, ymm_a0);
+				ymm_b1 = _mm256_div_ps(ymm_b1, ymm_a1);
+				ymm_b2 = _mm256_div_ps(ymm_b2, ymm_a2);
+				ymm_b3 = _mm256_div_ps(ymm_b3, ymm_a3);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				_mm256_storeu_ps(b + 8, ymm_b1);
@@ -212,8 +212,8 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_ps(a);
 				ymm_b0 = _mm256_loadu_ps(b);
-				// b = b - a;
-				ymm_b0 = _mm256_sub_ps(ymm_b0, ymm_a0);
+				// b = b + a;
+				ymm_b0 = _mm256_div_ps(ymm_b0, ymm_a0);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				a += bit;
@@ -221,12 +221,12 @@ namespace core
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] -= a[i];
+				b[i] /= a[i];
 		}
 	};
 
 	template<>
-	struct kernel_sub<double, cpu_avx>
+	struct kernel_div<double, cpu_avx>
 	{
 		void operator()(size_t n, const double *a, double *b) const
 		{
@@ -246,11 +246,11 @@ namespace core
 				ymm_b1 = _mm256_loadu_pd(b + 4);
 				ymm_b2 = _mm256_loadu_pd(b + 8);
 				ymm_b3 = _mm256_loadu_pd(b + 12);
-				// b = b - a;
-				ymm_b0 = _mm256_sub_pd(ymm_b0, ymm_a0);
-				ymm_b1 = _mm256_sub_pd(ymm_b1, ymm_a1);
-				ymm_b2 = _mm256_sub_pd(ymm_b2, ymm_a2);
-				ymm_b3 = _mm256_sub_pd(ymm_b3, ymm_a3);
+				// b = b + a;
+				ymm_b0 = _mm256_div_pd(ymm_b0, ymm_a0);
+				ymm_b1 = _mm256_div_pd(ymm_b1, ymm_a1);
+				ymm_b2 = _mm256_div_pd(ymm_b2, ymm_a2);
+				ymm_b3 = _mm256_div_pd(ymm_b3, ymm_a3);
 				// store data into memory
 				_mm256_storeu_pd(b, ymm_b0);
 				_mm256_storeu_pd(b + 4, ymm_b1);
@@ -265,8 +265,8 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_pd(a);
 				ymm_b0 = _mm256_loadu_pd(b);
-				// b = b - a;
-				ymm_b0 = _mm256_sub_pd(ymm_b0, ymm_a0);
+				// b = b + a;
+				ymm_b0 = _mm256_div_pd(ymm_b0, ymm_a0);
 				// store data into memory
 				_mm256_storeu_pd(b, ymm_b0);
 				a += bit;
@@ -274,7 +274,7 @@ namespace core
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] -= a[i];
+				b[i] /= a[i];
 		}
 	};
 
