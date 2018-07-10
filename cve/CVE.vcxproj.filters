@@ -340,6 +340,12 @@
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rvrm.h">
       <Filter>core\cpu\matmul</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_subs.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_subs.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

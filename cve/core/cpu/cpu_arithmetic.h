@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "arithmetic/cpu_arithmetic_add.h"
 #include "arithmetic/cpu_arithmetic_adds.h"
 #include "arithmetic/cpu_arithmetic_sub.h"
+#include "arithmetic/cpu_arithmetic_subs.h"
 #include "arithmetic/cpu_arithmetic_mul.h"
 #include "arithmetic/cpu_arithmetic_div.h"
 #include "arithmetic/cpu_arithmetic_muladd.h"
