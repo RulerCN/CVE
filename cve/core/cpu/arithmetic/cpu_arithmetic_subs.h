@@ -142,40 +142,6 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	scalar<float, A1>& cpu_subs(scalar<float, A1> &b, const scalar<float, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<float, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse())
-			kernel_subs<float, cpu_sse>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	scalar<double, A1>& cpu_subs(scalar<double, A1> &b, const scalar<double, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<double, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse2())
-			kernel_subs<double, cpu_sse2>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
 	// The subs function for vector
 
 	template <class A1, class A2>
@@ -277,40 +243,6 @@ namespace core
 			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
 			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	vector<float, A1>& cpu_subs(vector<float, A1> &b, const vector<float, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<float, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse())
-			kernel_subs<float, cpu_sse>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	vector<double, A1>& cpu_subs(vector<double, A1> &b, const vector<double, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<double, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse2())
-			kernel_subs<double, cpu_sse2>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
@@ -418,40 +350,6 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_subs(matrix<float, A1> &b, const matrix<float, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<float, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse())
-			kernel_subs<float, cpu_sse>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_subs(matrix<double, A1> &b, const matrix<double, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<double, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse2())
-			kernel_subs<double, cpu_sse2>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
 	// The subs function for tensor
 
 	template <class A1, class A2>
@@ -553,40 +451,6 @@ namespace core
 			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
 		else
 			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_subs(tensor<float, A1> &b, const tensor<float, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<float, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse())
-			kernel_subs<float, cpu_sse>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_subs(tensor<double, A1> &b, const tensor<double, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx())
-			kernel_subs<double, cpu_avx>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse2())
-			kernel_subs<double, cpu_sse2>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
