@@ -617,7 +617,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = subs(b, a);
+				// b = a - b;
 				ymm_b0 = _mm256_sub_epi16(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_sub_epi16(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_sub_epi16(ymm_a2, ymm_b2);
@@ -636,7 +636,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = subs(b, a);
+				// b = a - b;;
 				ymm_b0 = _mm256_sub_epi16(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
@@ -670,7 +670,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = subs(b, a);
+				// b = a - b;
 				ymm_b0 = _mm256_sub_epi16(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_sub_epi16(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_sub_epi16(ymm_a2, ymm_b2);
@@ -689,7 +689,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = subs(b, a);
+				// b = a - b;
 				ymm_b0 = _mm256_sub_epi16(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);

@@ -690,7 +690,7 @@ namespace core
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			const __m128i xmm_max = _mm_set1_epi32(uint32_max);
-			unsigned int c, d, s;
+			unsigned int c;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -920,8 +920,8 @@ namespace core
 			}
 			for (size_t i = 0; i < n; ++i)
 			{
-				ymm_a0 = _mm256_set1_epi8(a[i]);
-				ymm_b0 = _mm256_set1_epi8(b[i]);
+				ymm_a0 = _mm256_set1_epi16(a[i]);
+				ymm_b0 = _mm256_set1_epi16(b[i]);
 				ymm_b0 = _mm256_adds_epi16(ymm_a0, ymm_b0);
 				b[i] = reinterpret_cast<signed short*>(&ymm_b0)[0];
 			}
@@ -978,8 +978,8 @@ namespace core
 			}
 			for (size_t i = 0; i < n; ++i)
 			{
-				ymm_a0 = _mm256_set1_epi8(a[i]);
-				ymm_b0 = _mm256_set1_epi8(b[i]);
+				ymm_a0 = _mm256_set1_epi16(a[i]);
+				ymm_b0 = _mm256_set1_epi16(b[i]);
 				ymm_b0 = _mm256_adds_epu16(ymm_a0, ymm_b0);
 				b[i] = reinterpret_cast<unsigned short*>(&ymm_b0)[0];
 			}
@@ -1090,7 +1090,7 @@ namespace core
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
 			const __m256i ymm_max = _mm256_set1_epi32(uint32_max);
-			unsigned int c, d, s;
+			unsigned int c;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;

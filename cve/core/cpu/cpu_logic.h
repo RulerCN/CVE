@@ -27,29 +27,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_H__
-#define __CORE_H__
+#ifndef __CORE_CPU_LOGIC_H__
+#define __CORE_CPU_LOGIC_H__
 
-#include "sample_allocator.h"
-#include "allocator.h"
-#include "sample_allocator.h"
-#include "scalar.h"
-#include "vector.h"
-#include "matrix.h"
-#include "tensor.h"
-#include "rb_tree.h"
-#include "tree.h"
-
-#include "cpu/cpu_convert.h"
-#include "cpu/cpu_convert_scale.h"
-#include "cpu/cpu_reduce.h"
-#include "cpu/cpu_transpose.h"
-#include "cpu/cpu_border.h"
-#include "cpu/cpu_replicate.h"
-#include "cpu/cpu_sliding_window.h"
-#include "cpu/cpu_mapping.h"
-#include "cpu/cpu_arithmetic.h"
-#include "cpu/cpu_logic.h"
-#include "cpu/cpu_matmul.h"
+#include "logic/cpu_logic_and.h"
+#include "logic/cpu_logic_or.h"
+#include "logic/cpu_logic_xor.h"
 
 #endif

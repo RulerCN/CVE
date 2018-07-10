@@ -346,6 +346,27 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_subs.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\logic\cpu_logic_and.h">
+      <Filter>core\cpu\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\logic\cpu_logic_or.h">
+      <Filter>core\cpu\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\logic\cpu_logic_xor.h">
+      <Filter>core\cpu\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_logic.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -398,6 +419,12 @@
     </Filter>
     <Filter Include="core\cpu\matmul">
       <UniqueIdentifier>{8d648244-8449-407c-955d-8a97ba03e50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\logic">
+      <UniqueIdentifier>{22a336f1-a6f5-4de0-a14a-eac14c41dc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\logic">
+      <UniqueIdentifier>{31ce3469-d9c3-4ebc-8936-1a9080442d99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

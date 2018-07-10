@@ -880,8 +880,8 @@ namespace core
 			}
 			for (size_t i = 0; i < n; ++i)
 			{
-				ymm_a0 = _mm256_set1_epi8(a[i]);
-				ymm_b0 = _mm256_set1_epi8(b[i]);
+				ymm_a0 = _mm256_set1_epi16(a[i]);
+				ymm_b0 = _mm256_set1_epi16(b[i]);
 				ymm_b0 = _mm256_subs_epi16(ymm_a0, ymm_b0);
 				b[i] = reinterpret_cast<signed short*>(&ymm_b0)[0];
 			}
@@ -938,8 +938,8 @@ namespace core
 			}
 			for (size_t i = 0; i < n; ++i)
 			{
-				ymm_a0 = _mm256_set1_epi8(a[i]);
-				ymm_b0 = _mm256_set1_epi8(b[i]);
+				ymm_a0 = _mm256_set1_epi16(a[i]);
+				ymm_b0 = _mm256_set1_epi16(b[i]);
 				ymm_b0 = _mm256_subs_epu16(ymm_a0, ymm_b0);
 				b[i] = reinterpret_cast<unsigned short*>(&ymm_b0)[0];
 			}

@@ -180,6 +180,7 @@
     <ClInclude Include="core\cpu\convert_scale\cpu_convert_scale_float.h" />
     <ClInclude Include="core\cpu\cpu_arithmetic.h" />
     <ClInclude Include="core\cpu\cpu_convert_scale.h" />
+    <ClInclude Include="core\cpu\cpu_logic.h" />
     <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
@@ -220,6 +221,9 @@
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_reduce.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_cvrv.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcm.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcv.h" />
@@ -236,6 +240,9 @@
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_max.h" />
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_min.h" />
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_sum.h" />
+    <ClInclude Include="core\cpu\logic\cpu_logic_and.h" />
+    <ClInclude Include="core\cpu\logic\cpu_logic_or.h" />
+    <ClInclude Include="core\cpu\logic\cpu_logic_xor.h" />
     <ClInclude Include="core\cpu\matmul\cpu_matmul_cvrv.h" />
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcm.h" />
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcv.h" />
