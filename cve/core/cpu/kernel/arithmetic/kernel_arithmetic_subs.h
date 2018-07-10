@@ -654,7 +654,6 @@ namespace core
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			const __m128i xmm_min = _mm_set1_epi32(uint32_min);
-			unsigned int c, d, s;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
@@ -1051,7 +1050,6 @@ namespace core
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
 			const __m256i ymm_min = _mm256_set1_epi32(uint32_min);
-			unsigned int c, d, s;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
@@ -1108,10 +1106,7 @@ namespace core
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-			{
-				c = a[i] + b[i];
-				b[i] = c < a[i] ? uint32_max : c;
-			}
+				b[i] = a[i] < b[i] ? uint32_min : a[i] - b[i];
 		}
 	};
 
