@@ -30,12 +30,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_ARITHMETIC_H__
 #define __CORE_CPU_ARITHMETIC_H__
 
-#include "arithmetic/cpu_add.h"
-#include "arithmetic/cpu_adds.h"
-#include "arithmetic/cpu_sub.h"
-#include "arithmetic/cpu_mul.h"
-#include "arithmetic/cpu_div.h"
-#include "arithmetic/cpu_muladd.h"
-#include "arithmetic/cpu_mulsub.h"
+#include "arithmetic/cpu_arithmetic_add.h"
+#include "arithmetic/cpu_arithmetic_adds.h"
+#include "arithmetic/cpu_arithmetic_sub.h"
+#include "arithmetic/cpu_arithmetic_mul.h"
+#include "arithmetic/cpu_arithmetic_div.h"
+#include "arithmetic/cpu_arithmetic_muladd.h"
+#include "arithmetic/cpu_arithmetic_mulsub.h"
+#include "arithmetic/cpu_arithmetic_exp.h"
+#include "arithmetic/cpu_arithmetic_sigmoid.h"
+#include "arithmetic/cpu_arithmetic_sigmoid_derivative.h"
 
 #endif

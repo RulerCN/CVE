@@ -30,14 +30,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CONVERT_H__
 #define __CORE_CPU_CONVERT_H__
 
-#include "cpu_convert_int8.h"
-#include "cpu_convert_uint8.h"
-#include "cpu_convert_int16.h"
-#include "cpu_convert_uint16.h"
-#include "cpu_convert_int32.h"
-#include "cpu_convert_uint32.h"
-#include "cpu_convert_float.h"
-#include "cpu_convert_double.h"
+#include "convert/cpu_convert_int8.h"
+#include "convert/cpu_convert_uint8.h"
+#include "convert/cpu_convert_int16.h"
+#include "convert/cpu_convert_uint16.h"
+#include "convert/cpu_convert_int32.h"
+#include "convert/cpu_convert_uint32.h"
+#include "convert/cpu_convert_float.h"
+#include "convert/cpu_convert_double.h"
 
 namespace core
 {

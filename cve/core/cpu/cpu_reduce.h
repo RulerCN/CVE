@@ -30,13 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_REDUCE_H__
 #define __CORE_CPU_REDUCE_H__
 
-#include "cpu_reduce_col_min.h"
-#include "cpu_reduce_col_max.h"
-#include "cpu_reduce_col_sum.h"
-#include "cpu_reduce_row_min.h"
-#include "cpu_reduce_row_max.h"
-#include "cpu_reduce_row_sum.h"
 #include "cpu_convert_scale.h"
+#include "reduce/cpu_reduce_col_min.h"
+#include "reduce/cpu_reduce_col_max.h"
+#include "reduce/cpu_reduce_col_sum.h"
+#include "reduce/cpu_reduce_row_min.h"
+#include "reduce/cpu_reduce_row_max.h"
+#include "reduce/cpu_reduce_row_sum.h"
 
 namespace core
 {

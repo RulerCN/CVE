@@ -30,8 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CONVERT_SCALE_H__
 #define __CORE_CPU_CONVERT_SCALE_H__
 
-#include "cpu_convert_scale_float.h"
-#include "cpu_convert_scale_double.h"
+#include "convert_scale/cpu_convert_scale_float.h"
+#include "convert_scale/cpu_convert_scale_double.h"
 
 namespace core
 {

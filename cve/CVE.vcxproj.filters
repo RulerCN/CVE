@@ -43,54 +43,6 @@
     <ClInclude Include="core\tensor.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_double.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_float.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_int8.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_int16.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_int32.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_uint8.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_uint16.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_uint32.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_scale_float.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_convert_scale_double.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_col_max.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_col_min.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_col_sum.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_row_max.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_row_min.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_reduce_row_sum.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
@@ -109,61 +61,10 @@
     <ClInclude Include="core\cpu\cpu_convert.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_double.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_float.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_int8.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_int16.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_int32.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_scale.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_scale_double.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_scale_float.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_uint8.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_uint16.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_uint32.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_get_element.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_reduce.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_col_max.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_col_min.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_col_sum.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_row_max.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_row_min.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_row_sum.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_transpose.h">
@@ -171,15 +72,6 @@
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_border.h">
       <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_border_wrap.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_border_reflect.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_border_reflect101.h">
-      <Filter>core\cpu\kernel</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h">
       <Filter>core\cpu\kernel</Filter>
@@ -214,35 +106,11 @@
     <ClInclude Include="ann\softmax_layer.h">
       <Filter>ann</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_border_replicate.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_replicate.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h">
       <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_math.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_sigmoid.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_sigmoid.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_sigmoid_derivative.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_sigmoid_derivative.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_exp.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_exp.h">
-      <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_matmul_cvrv.h">
       <Filter>core\cpu\kernel</Filter>
@@ -295,50 +163,182 @@
     <ClInclude Include="core\cpu\cpu_matmul.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_adds.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_add.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_add.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_adds.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_div.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_mul.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_sub.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_div.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_mul.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_sub.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_muladd.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_mulsub.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_muladd.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_mulsub.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_arithmetic.h">
       <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\border\kernel_border_reflect.h">
+      <Filter>core\cpu\kernel\border</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\border\kernel_border_reflect101.h">
+      <Filter>core\cpu\kernel\border</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\border\kernel_border_replicate.h">
+      <Filter>core\cpu\kernel\border</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\border\kernel_border_wrap.h">
+      <Filter>core\cpu\kernel\border</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mul.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_muladd.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mulsub.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_double.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_float.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_int8.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_int16.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_int32.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint8.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint16.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint32.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_max.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_min.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_sum.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_max.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_min.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_sum.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_add.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_adds.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_div.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_mul.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_muladd.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_mulsub.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sub.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_double.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_float.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_int8.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_int16.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_int32.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_uint8.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_uint16.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_convert_uint32.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_col_max.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_col_min.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_col_sum.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_row_max.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_row_min.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_row_sum.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert_scale\kernel_convert_scale_double.h">
+      <Filter>core\cpu\kernel\convert_scale</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert_scale\kernel_convert_scale_float.h">
+      <Filter>core\cpu\kernel\convert_scale</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_scale\cpu_convert_scale_double.h">
+      <Filter>core\cpu\convert_scale</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert_scale\cpu_convert_scale_float.h">
+      <Filter>core\cpu\convert_scale</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_convert_scale.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_math.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid_derivative.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_exp.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sigmoid.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sigmoid_derivative.h">
+      <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,6 +365,27 @@
     </Filter>
     <Filter Include="core\cpu\arithmetic">
       <UniqueIdentifier>{ab07f099-e22f-4733-8f94-a555a3530ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\border">
+      <UniqueIdentifier>{71222a0d-da9e-44ce-8557-9f078ea90686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\convert">
+      <UniqueIdentifier>{09590bb2-e77a-4c44-bf02-0f62649b7e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\reduce">
+      <UniqueIdentifier>{c8fac610-adb5-4246-8eeb-b5ffd9f12551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\convert">
+      <UniqueIdentifier>{dffd8f1b-9b1c-4c87-b3ca-a93e664e294d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\reduce">
+      <UniqueIdentifier>{97261d09-bc53-428f-afe2-7c8ed07945dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\convert_scale">
+      <UniqueIdentifier>{5ca7aa9b-8f41-4a24-8449-b4c3321d7d7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\convert_scale">
+      <UniqueIdentifier>{2055bdc0-4410-4c76-afe4-633d74fe38b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

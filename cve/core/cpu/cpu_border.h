@@ -31,10 +31,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_BORDER_H__
 
 #include "../matrix.h"
-#include "kernel/kernel_border_replicate.h"
-#include "kernel/kernel_border_reflect.h"
-#include "kernel/kernel_border_reflect101.h"
-#include "kernel/kernel_border_wrap.h"
+#include "kernel/border/kernel_border_replicate.h"
+#include "kernel/border/kernel_border_reflect.h"
+#include "kernel/border/kernel_border_reflect101.h"
+#include "kernel/border/kernel_border_wrap.h"
 
 namespace core
 {

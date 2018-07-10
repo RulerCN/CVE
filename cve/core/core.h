@@ -50,8 +50,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_mapping.h"
 #include "cpu/cpu_arithmetic.h"
 #include "cpu/cpu_matmul.h"
-#include "cpu/cpu_exp.h"
-#include "cpu/cpu_sigmoid.h"
-#include "cpu/cpu_sigmoid_derivative.h"
 
 #endif
