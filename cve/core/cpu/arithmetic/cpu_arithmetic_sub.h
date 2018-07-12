@@ -314,6 +314,36 @@ namespace core
 		return b;
 	}
 
+	//template <class A1, class A2>
+	//vector<signed char, A1>& cpu_sub(vector<signed char, A1> &b, const scalar<signed char, A2> &a)
+	//{
+	//	if (b.empty())
+	//		throw ::std::invalid_argument(vector_not_initialized);
+	//	if (a.empty())
+	//		throw ::std::invalid_argument(scalar_not_initialized);
+	//	if (b.dimension() != a.size())
+	//		throw ::std::invalid_argument(invalid_size);
+
+	//	if (cpu_inst::is_support_avx2())
+	//	{
+	//		const struct kernel_sub<signed char, cpu_avx2> kernel;
+	//		const size_t number = b.length();
+	//		const size_t dimension = b.dimension();
+	//		signed char *dst = b.data();
+	//		const signed char *src = a.data();
+	//		for (size_t i = 0; i < number; ++i)
+	//		{
+	//			kernel(dimension, src, dst);
+	//			dst += dimension;
+	//		}
+	//	}
+	//	else if (cpu_inst::is_support_sse2())
+	//		kernel_sub<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+	//	else
+	//		kernel_sub<signed char, cpu_none>()(b.size(), a.data(), b.data());
+	//	return b;
+	//}
+
 	// The sub function for matrix
 
 	template <class A1, class A2>

@@ -918,6 +918,21 @@ namespace core
 		}
 	};
 
+	// Class template kernel_add_element
+	template<class T, cpu_inst_type inst>
+	struct kernel_add_element
+	{
+		void operator()(size_t m, size_t n, const T *a, T *b) const
+		{
+			const struct kernel_add<T, inst> functor;
+			for (size_t i = 0; i < m; ++i)
+			{
+				functor(n, a, b);
+				b += n;
+			}
+		}
+	};
+
 } // namespace core
 
 #endif

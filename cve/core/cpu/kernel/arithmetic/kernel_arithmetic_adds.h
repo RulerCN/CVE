@@ -375,7 +375,7 @@ namespace core
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 1);
 				xmm_b2 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 2);
 				xmm_b3 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epi8(xmm_a0, xmm_b0);
 				xmm_b1 = _mm_adds_epi8(xmm_a1, xmm_b1);
 				xmm_b2 = _mm_adds_epi8(xmm_a2, xmm_b2);
@@ -394,7 +394,7 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epi8(xmm_a0, xmm_b0);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
@@ -433,7 +433,7 @@ namespace core
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 1);
 				xmm_b2 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 2);
 				xmm_b3 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epu8(xmm_a0, xmm_b0);
 				xmm_b1 = _mm_adds_epu8(xmm_a1, xmm_b1);
 				xmm_b2 = _mm_adds_epu8(xmm_a2, xmm_b2);
@@ -452,7 +452,7 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epu8(xmm_a0, xmm_b0);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
@@ -491,7 +491,7 @@ namespace core
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 1);
 				xmm_b2 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 2);
 				xmm_b3 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epi16(xmm_a0, xmm_b0);
 				xmm_b1 = _mm_adds_epi16(xmm_a1, xmm_b1);
 				xmm_b2 = _mm_adds_epi16(xmm_a2, xmm_b2);
@@ -510,7 +510,7 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epi16(xmm_a0, xmm_b0);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
@@ -549,7 +549,7 @@ namespace core
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 1);
 				xmm_b2 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 2);
 				xmm_b3 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epu16(xmm_a0, xmm_b0);
 				xmm_b1 = _mm_adds_epu16(xmm_a1, xmm_b1);
 				xmm_b2 = _mm_adds_epu16(xmm_a2, xmm_b2);
@@ -568,7 +568,7 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<__m128i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				xmm_b0 = _mm_adds_epu16(xmm_a0, xmm_b0);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
@@ -624,24 +624,24 @@ namespace core
 				xmm_a1 = _mm_srai_epi32(xmm_a1, 31);
 				xmm_a2 = _mm_srai_epi32(xmm_a2, 31);
 				xmm_a3 = _mm_srai_epi32(xmm_a3, 31);
-				xmm_d0 = _mm_xor_si128(_mm_and_si128(xmm_a0, xmm_min), _mm_andnot_si128(xmm_a0, xmm_max));
-				xmm_d1 = _mm_xor_si128(_mm_and_si128(xmm_a1, xmm_min), _mm_andnot_si128(xmm_a1, xmm_max));
-				xmm_d2 = _mm_xor_si128(_mm_and_si128(xmm_a2, xmm_min), _mm_andnot_si128(xmm_a2, xmm_max));
-				xmm_d3 = _mm_xor_si128(_mm_and_si128(xmm_a3, xmm_min), _mm_andnot_si128(xmm_a3, xmm_max));
+				xmm_d0 = _mm_or_si128(_mm_and_si128(xmm_a0, xmm_min), _mm_andnot_si128(xmm_a0, xmm_max));
+				xmm_d1 = _mm_or_si128(_mm_and_si128(xmm_a1, xmm_min), _mm_andnot_si128(xmm_a1, xmm_max));
+				xmm_d2 = _mm_or_si128(_mm_and_si128(xmm_a2, xmm_min), _mm_andnot_si128(xmm_a2, xmm_max));
+				xmm_d3 = _mm_or_si128(_mm_and_si128(xmm_a3, xmm_min), _mm_andnot_si128(xmm_a3, xmm_max));
 				// s = ~(a ^ b) & (c ^ a);
-				xmm_s0 = _mm_andnot_si128(_mm_xor_si128(xmm_a0, xmm_b0), _mm_xor_si128(xmm_c0, xmm_a0));
-				xmm_s1 = _mm_andnot_si128(_mm_xor_si128(xmm_a1, xmm_b1), _mm_xor_si128(xmm_c1, xmm_a1));
-				xmm_s2 = _mm_andnot_si128(_mm_xor_si128(xmm_a2, xmm_b2), _mm_xor_si128(xmm_c2, xmm_a2));
-				xmm_s3 = _mm_andnot_si128(_mm_xor_si128(xmm_a3, xmm_b3), _mm_xor_si128(xmm_c3, xmm_a3));
+				xmm_s0 = _mm_andnot_si128(_mm_or_si128(xmm_a0, xmm_b0), _mm_or_si128(xmm_c0, xmm_a0));
+				xmm_s1 = _mm_andnot_si128(_mm_or_si128(xmm_a1, xmm_b1), _mm_or_si128(xmm_c1, xmm_a1));
+				xmm_s2 = _mm_andnot_si128(_mm_or_si128(xmm_a2, xmm_b2), _mm_or_si128(xmm_c2, xmm_a2));
+				xmm_s3 = _mm_andnot_si128(_mm_or_si128(xmm_a3, xmm_b3), _mm_or_si128(xmm_c3, xmm_a3));
 				// b = s < 0 ? d : c;
 				xmm_s0 = _mm_srai_epi32(xmm_s0, 31);
 				xmm_s1 = _mm_srai_epi32(xmm_s1, 31);
 				xmm_s2 = _mm_srai_epi32(xmm_s2, 31);
 				xmm_s3 = _mm_srai_epi32(xmm_s3, 31);
-				xmm_b0 = _mm_xor_si128(_mm_and_si128(xmm_s0, xmm_d0), _mm_andnot_si128(xmm_s0, xmm_c0));
-				xmm_b1 = _mm_xor_si128(_mm_and_si128(xmm_s1, xmm_d1), _mm_andnot_si128(xmm_s1, xmm_c1));
-				xmm_b2 = _mm_xor_si128(_mm_and_si128(xmm_s2, xmm_d2), _mm_andnot_si128(xmm_s2, xmm_c2));
-				xmm_b3 = _mm_xor_si128(_mm_and_si128(xmm_s3, xmm_d3), _mm_andnot_si128(xmm_s3, xmm_c3));
+				xmm_b0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_d0), _mm_andnot_si128(xmm_s0, xmm_c0));
+				xmm_b1 = _mm_or_si128(_mm_and_si128(xmm_s1, xmm_d1), _mm_andnot_si128(xmm_s1, xmm_c1));
+				xmm_b2 = _mm_or_si128(_mm_and_si128(xmm_s2, xmm_d2), _mm_andnot_si128(xmm_s2, xmm_c2));
+				xmm_b3 = _mm_or_si128(_mm_and_si128(xmm_s3, xmm_d3), _mm_andnot_si128(xmm_s3, xmm_c3));
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -660,12 +660,12 @@ namespace core
 				xmm_c0 = _mm_add_epi32(xmm_a0, xmm_b0);
 				// d = a < 0 ? min : max;
 				xmm_a0 = _mm_srai_epi32(xmm_a0, 31);
-				xmm_d0 = _mm_xor_si128(_mm_and_si128(xmm_a0, xmm_min), _mm_andnot_si128(xmm_a0, xmm_max));
+				xmm_d0 = _mm_or_si128(_mm_and_si128(xmm_a0, xmm_min), _mm_andnot_si128(xmm_a0, xmm_max));
 				// s = ~(a ^ b) & (c ^ a);
-				xmm_s0 = _mm_andnot_si128(_mm_xor_si128(xmm_a0, xmm_b0), _mm_xor_si128(xmm_c0, xmm_a0));
+				xmm_s0 = _mm_andnot_si128(_mm_or_si128(xmm_a0, xmm_b0), _mm_or_si128(xmm_c0, xmm_a0));
 				// b = s < 0 ? d : c;
 				xmm_s0 = _mm_srai_epi32(xmm_s0, 31);
-				xmm_b0 = _mm_xor_si128(_mm_and_si128(xmm_s0, xmm_d0), _mm_andnot_si128(xmm_s0, xmm_c0));
+				xmm_b0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_d0), _mm_andnot_si128(xmm_s0, xmm_c0));
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += bit;
@@ -717,10 +717,10 @@ namespace core
 				xmm_s1 = _mm_cmplt_epi32(xmm_c1, xmm_a1);
 				xmm_s2 = _mm_cmplt_epi32(xmm_c2, xmm_a2);
 				xmm_s3 = _mm_cmplt_epi32(xmm_c3, xmm_a3);
-				xmm_b0 = _mm_xor_si128(_mm_and_si128(xmm_s0, xmm_max), _mm_andnot_si128(xmm_s0, xmm_c0));
-				xmm_b1 = _mm_xor_si128(_mm_and_si128(xmm_s1, xmm_max), _mm_andnot_si128(xmm_s1, xmm_c1));
-				xmm_b2 = _mm_xor_si128(_mm_and_si128(xmm_s2, xmm_max), _mm_andnot_si128(xmm_s2, xmm_c2));
-				xmm_b3 = _mm_xor_si128(_mm_and_si128(xmm_s3, xmm_max), _mm_andnot_si128(xmm_s3, xmm_c3));
+				xmm_b0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_max), _mm_andnot_si128(xmm_s0, xmm_c0));
+				xmm_b1 = _mm_or_si128(_mm_and_si128(xmm_s1, xmm_max), _mm_andnot_si128(xmm_s1, xmm_c1));
+				xmm_b2 = _mm_or_si128(_mm_and_si128(xmm_s2, xmm_max), _mm_andnot_si128(xmm_s2, xmm_c2));
+				xmm_b3 = _mm_or_si128(_mm_and_si128(xmm_s3, xmm_max), _mm_andnot_si128(xmm_s3, xmm_c3));
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -739,7 +739,7 @@ namespace core
 				xmm_c0 = _mm_add_epi32(xmm_a0, xmm_b0);
 				// b = c < a ? max : c;
 				xmm_s0 = _mm_cmplt_epi32(xmm_c0, xmm_a0);
-				xmm_b0 = _mm_xor_si128(_mm_and_si128(xmm_s0, xmm_max), _mm_andnot_si128(xmm_s0, xmm_c0));
+				xmm_b0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_max), _mm_andnot_si128(xmm_s0, xmm_c0));
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				a += bit;
@@ -775,7 +775,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epi8(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_adds_epi8(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_adds_epi8(ymm_a2, ymm_b2);
@@ -794,7 +794,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epi8(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
@@ -833,7 +833,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epu8(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_adds_epu8(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_adds_epu8(ymm_a2, ymm_b2);
@@ -852,7 +852,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epu8(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
@@ -891,7 +891,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epi16(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_adds_epi16(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_adds_epi16(ymm_a2, ymm_b2);
@@ -910,7 +910,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epi16(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
@@ -949,7 +949,7 @@ namespace core
 				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 1);
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b) + 3);
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epu16(ymm_a0, ymm_b0);
 				ymm_b1 = _mm256_adds_epu16(ymm_a1, ymm_b1);
 				ymm_b2 = _mm256_adds_epu16(ymm_a2, ymm_b2);
@@ -968,7 +968,7 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a));
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<__m256i*>(b));
-				// b = adds(b, a);
+				// b = adds(a, b);
 				ymm_b0 = _mm256_adds_epu16(ymm_a0, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
@@ -1024,24 +1024,24 @@ namespace core
 				ymm_a1 = _mm256_srai_epi32(ymm_a1, 31);
 				ymm_a2 = _mm256_srai_epi32(ymm_a2, 31);
 				ymm_a3 = _mm256_srai_epi32(ymm_a3, 31);
-				ymm_d0 = _mm256_xor_si256(_mm256_and_si256(ymm_a0, ymm_min), _mm256_andnot_si256(ymm_a0, ymm_max));
-				ymm_d1 = _mm256_xor_si256(_mm256_and_si256(ymm_a1, ymm_min), _mm256_andnot_si256(ymm_a1, ymm_max));
-				ymm_d2 = _mm256_xor_si256(_mm256_and_si256(ymm_a2, ymm_min), _mm256_andnot_si256(ymm_a2, ymm_max));
-				ymm_d3 = _mm256_xor_si256(_mm256_and_si256(ymm_a3, ymm_min), _mm256_andnot_si256(ymm_a3, ymm_max));
+				ymm_d0 = _mm256_or_si256(_mm256_and_si256(ymm_a0, ymm_min), _mm256_andnot_si256(ymm_a0, ymm_max));
+				ymm_d1 = _mm256_or_si256(_mm256_and_si256(ymm_a1, ymm_min), _mm256_andnot_si256(ymm_a1, ymm_max));
+				ymm_d2 = _mm256_or_si256(_mm256_and_si256(ymm_a2, ymm_min), _mm256_andnot_si256(ymm_a2, ymm_max));
+				ymm_d3 = _mm256_or_si256(_mm256_and_si256(ymm_a3, ymm_min), _mm256_andnot_si256(ymm_a3, ymm_max));
 				// s = ~(a ^ b) & (c ^ a);
-				ymm_s0 = _mm256_andnot_si256(_mm256_xor_si256(ymm_a0, ymm_b0), _mm256_xor_si256(ymm_c0, ymm_a0));
-				ymm_s1 = _mm256_andnot_si256(_mm256_xor_si256(ymm_a1, ymm_b1), _mm256_xor_si256(ymm_c1, ymm_a1));
-				ymm_s2 = _mm256_andnot_si256(_mm256_xor_si256(ymm_a2, ymm_b2), _mm256_xor_si256(ymm_c2, ymm_a2));
-				ymm_s3 = _mm256_andnot_si256(_mm256_xor_si256(ymm_a3, ymm_b3), _mm256_xor_si256(ymm_c3, ymm_a3));
+				ymm_s0 = _mm256_andnot_si256(_mm256_or_si256(ymm_a0, ymm_b0), _mm256_or_si256(ymm_c0, ymm_a0));
+				ymm_s1 = _mm256_andnot_si256(_mm256_or_si256(ymm_a1, ymm_b1), _mm256_or_si256(ymm_c1, ymm_a1));
+				ymm_s2 = _mm256_andnot_si256(_mm256_or_si256(ymm_a2, ymm_b2), _mm256_or_si256(ymm_c2, ymm_a2));
+				ymm_s3 = _mm256_andnot_si256(_mm256_or_si256(ymm_a3, ymm_b3), _mm256_or_si256(ymm_c3, ymm_a3));
 				// b = s < 0 ? d : c;
 				ymm_s0 = _mm256_srai_epi32(ymm_s0, 31);
 				ymm_s1 = _mm256_srai_epi32(ymm_s1, 31);
 				ymm_s2 = _mm256_srai_epi32(ymm_s2, 31);
 				ymm_s3 = _mm256_srai_epi32(ymm_s3, 31);
-				ymm_b0 = _mm256_xor_si256(_mm256_and_si256(ymm_s0, ymm_d0), _mm256_andnot_si256(ymm_s0, ymm_c0));
-				ymm_b1 = _mm256_xor_si256(_mm256_and_si256(ymm_s1, ymm_d1), _mm256_andnot_si256(ymm_s1, ymm_c1));
-				ymm_b2 = _mm256_xor_si256(_mm256_and_si256(ymm_s2, ymm_d2), _mm256_andnot_si256(ymm_s2, ymm_c2));
-				ymm_b3 = _mm256_xor_si256(_mm256_and_si256(ymm_s3, ymm_d3), _mm256_andnot_si256(ymm_s3, ymm_c3));
+				ymm_b0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_d0), _mm256_andnot_si256(ymm_s0, ymm_c0));
+				ymm_b1 = _mm256_or_si256(_mm256_and_si256(ymm_s1, ymm_d1), _mm256_andnot_si256(ymm_s1, ymm_c1));
+				ymm_b2 = _mm256_or_si256(_mm256_and_si256(ymm_s2, ymm_d2), _mm256_andnot_si256(ymm_s2, ymm_c2));
+				ymm_b3 = _mm256_or_si256(_mm256_and_si256(ymm_s3, ymm_d3), _mm256_andnot_si256(ymm_s3, ymm_c3));
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b) + 1, ymm_b1);
@@ -1060,12 +1060,12 @@ namespace core
 				ymm_c0 = _mm256_add_epi32(ymm_a0, ymm_b0);
 				// d = a < 0 ? min : max;
 				ymm_a0 = _mm256_srai_epi32(ymm_a0, 31);
-				ymm_d0 = _mm256_xor_si256(_mm256_and_si256(ymm_a0, ymm_min), _mm256_andnot_si256(ymm_a0, ymm_max));
+				ymm_d0 = _mm256_or_si256(_mm256_and_si256(ymm_a0, ymm_min), _mm256_andnot_si256(ymm_a0, ymm_max));
 				// s = ~(a ^ b) & (c ^ a);
-				ymm_s0 = _mm256_andnot_si256(_mm256_xor_si256(ymm_a0, ymm_b0), _mm256_xor_si256(ymm_c0, ymm_a0));
+				ymm_s0 = _mm256_andnot_si256(_mm256_or_si256(ymm_a0, ymm_b0), _mm256_or_si256(ymm_c0, ymm_a0));
 				// b = s < 0 ? d : c;
 				ymm_s0 = _mm256_srai_epi32(ymm_s0, 31);
-				ymm_b0 = _mm256_xor_si256(_mm256_and_si256(ymm_s0, ymm_d0), _mm256_andnot_si256(ymm_s0, ymm_c0));
+				ymm_b0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_d0), _mm256_andnot_si256(ymm_s0, ymm_c0));
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += bit;
@@ -1117,10 +1117,10 @@ namespace core
 				ymm_s1 = _mm256_cmpgt_epi32(ymm_a1, ymm_c1);
 				ymm_s2 = _mm256_cmpgt_epi32(ymm_a2, ymm_c2);
 				ymm_s3 = _mm256_cmpgt_epi32(ymm_a3, ymm_c3);
-				ymm_b0 = _mm256_xor_si256(_mm256_and_si256(ymm_s0, ymm_max), _mm256_andnot_si256(ymm_s0, ymm_c0));
-				ymm_b1 = _mm256_xor_si256(_mm256_and_si256(ymm_s1, ymm_max), _mm256_andnot_si256(ymm_s1, ymm_c1));
-				ymm_b2 = _mm256_xor_si256(_mm256_and_si256(ymm_s2, ymm_max), _mm256_andnot_si256(ymm_s2, ymm_c2));
-				ymm_b3 = _mm256_xor_si256(_mm256_and_si256(ymm_s3, ymm_max), _mm256_andnot_si256(ymm_s3, ymm_c3));
+				ymm_b0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_max), _mm256_andnot_si256(ymm_s0, ymm_c0));
+				ymm_b1 = _mm256_or_si256(_mm256_and_si256(ymm_s1, ymm_max), _mm256_andnot_si256(ymm_s1, ymm_c1));
+				ymm_b2 = _mm256_or_si256(_mm256_and_si256(ymm_s2, ymm_max), _mm256_andnot_si256(ymm_s2, ymm_c2));
+				ymm_b3 = _mm256_or_si256(_mm256_and_si256(ymm_s3, ymm_max), _mm256_andnot_si256(ymm_s3, ymm_c3));
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b) + 1, ymm_b1);
@@ -1139,7 +1139,7 @@ namespace core
 				ymm_c0 = _mm256_add_epi32(ymm_a0, ymm_b0);
 				// b = c < a ? max : c;
 				ymm_s0 = _mm256_cmpgt_epi32(ymm_a0, ymm_c0);
-				ymm_b0 = _mm256_xor_si256(_mm256_and_si256(ymm_s0, ymm_max), _mm256_andnot_si256(ymm_s0, ymm_c0));
+				ymm_b0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_max), _mm256_andnot_si256(ymm_s0, ymm_c0));
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(b), ymm_b0);
 				a += bit;

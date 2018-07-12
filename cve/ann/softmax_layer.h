@@ -87,26 +87,20 @@ namespace ann
 		void assign(size_type length)
 		{
 			const size_type dimension = 1;
-			input_max.assign(length, dimension);
+			input_avg.assign(length, dimension);
 		}
 
 		// Forward propagation
 		void forward(const_tensor_reference input, tensor_reference output)
 		{
-			if (input.empty() || output.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.size() != output.size())
-				throw ::std::domain_error(::core::tensor_different_size);
+			::core::cpu_reduce(input_avg, input[0], ::core::reduce_col_avg);
+			::core::cpu_replicate(output[0], input_avg, output.rows(), 1);
+			::core::cpu_sub(output, input);
+			::core::cpu_exp(output, output);
+			::core::cpu_reduce(input_avg, output[0], ::core::reduce_col_sum);
+			::core::cpu_replicate(output[0], input_avg, output.rows(), 1);
 
-			::core::cpu_reduce(input_max, input[0], ::core::reduce_col_max);
-
-			// https://blog.csdn.net/tianrolin/article/details/52594975
-			const_pointer x = input.data();
-			pointer y = output.data();
-			size_type size = input.size();
-			for (size_type i = 0; i < size; ++i)
-				y[i] = 1 / (1 + exp(-x[i]));
-
+			::core::cpu_div(output, )
 			this->bind(input, output);
 		}
 
@@ -126,7 +120,7 @@ namespace ann
 				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
 		}
 	private:
-		vector_type input_max;
+		vector_type input_avg;
 	};
 
 } // namespace ann

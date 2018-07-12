@@ -51,6 +51,52 @@ void print(const char *name, const core::matrix<float, Allocator> &mat);
 template<class Allocator>
 void print(const char *name, const core::matrix<unsigned long long, Allocator> &mat);
 
+template<class Allocator>
+std::ostream& operator<<(std::ostream &os, const core::vector<signed char, Allocator> &v)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto i = v.begin(); i != v.end(); ++i)
+		std::cout << std::setw(2) << static_cast<short>(static_cast<unsigned char>(*i)) << " ";
+	std::cout << std::endl;
+	return os;
+}
+
+template<class Allocator>
+std::ostream& operator<<(std::ostream &os, const core::vector<unsigned char, Allocator> &v)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto i = v.begin(); i != v.end(); ++i)
+		std::cout << std::setw(2) << static_cast<short>(*i) << " ";
+	std::cout << std::endl;
+	return os;
+}
+
+template<class Allocator>
+std::ostream& operator<<(std::ostream &os, const core::matrix<signed char, Allocator> &mat)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			std::cout << std::setw(2) << static_cast<short>(static_cast<unsigned char>(*i)) << " ";
+		std::cout << std::endl;
+	}
+	return os;
+}
+
+template<class Allocator>
+std::ostream& operator<<(std::ostream &os, const core::matrix<unsigned char, Allocator> &mat)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto j = mat.vbegin(); j != mat.vend(); ++j)
+	{
+		for (auto i = mat.begin(j); i != mat.end(j); ++i)
+			std::cout << std::setw(2) << static_cast<short>(*i) << " ";
+		std::cout << std::endl;
+	}
+	return os;
+}
+
 int main()
 {
 	//// 120 376
@@ -353,6 +399,34 @@ int main()
 	//	core::cpu_replicate(output, input, 2, 3);
 	//	img::bitmap::encode(replicate, output);
 	//}
+
+	const size_t m = 10;
+	const size_t n = 10;
+	const size_t dim = 1;
+	core::matrix<unsigned char> a(m, n, dim);
+	core::vector<unsigned char> b(n, dim);
+	core::matrix<unsigned char> c(m, n, dim);
+
+	a.linear_fill(static_cast<unsigned char>(1), static_cast<unsigned char>(16), static_cast<unsigned char>(1));
+
+	core::cpu_reduce(b, a, ::core::reduce_col_min);
+	core::cpu_replicate(c, b, c.rows(), 1);
+	core::cpu_sub(c, a);
+
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << c << std::endl;
+
+	//	core::matrix<float> b(p, col, dim);
+	//	core::matrix<float> bt(col, p, dim);
+	//	core::matrix<float> c(row, col, dim, 0.0F);
+	//	core::matrix<float> d(row, col, dim, 0.0F);
+	//	// Initialization matrix
+	//	a.linear_fill(1.0F, 1.0F);
+	//	b.linear_fill(1.0F, 1.0F);
+	//	core::cpu_transpose(bt, b);
+	//	// Matrix-matrix multiplication
+	//	core::cpu_mul(c, a, b);
 
 	const size_t batch      = 100;
 	const size_t rows       = 28;
