@@ -191,6 +191,7 @@
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_math.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid_derivative.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_subs.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub_value.h" />
     <ClInclude Include="core\cpu\kernel\border\kernel_border_reflect.h" />
     <ClInclude Include="core\cpu\kernel\border\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\border\kernel_border_replicate.h" />
