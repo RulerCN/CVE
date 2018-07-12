@@ -87,20 +87,22 @@ namespace ann
 		void assign(size_type length)
 		{
 			const size_type dimension = 1;
-			input_avg.assign(length, dimension);
+			vector.assign(length, dimension);
 		}
 
 		// Forward propagation
 		void forward(const_tensor_reference input, tensor_reference output)
 		{
-			::core::cpu_reduce(input_avg, input[0], ::core::reduce_col_avg);
-			::core::cpu_replicate(output[0], input_avg, output.rows(), 1);
-			::core::cpu_sub(output, input);
-			::core::cpu_exp(output, output);
-			::core::cpu_reduce(input_avg, output[0], ::core::reduce_col_sum);
-			::core::cpu_replicate(output[0], input_avg, output.rows(), 1);
+			if (input.empty() || output.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (input.size() != output.size())
+				throw ::std::domain_error(::core::tensor_different_size);
 
-			::core::cpu_div(output, )
+			::core::cpu_reduce(vector, input[0], ::core::reduce_col_avg);
+			::core::cpu_sub(output, input[0], vector);
+			::core::cpu_exp(output, output);
+			::core::cpu_reduce(vector, output[0], ::core::reduce_col_sum);
+			::core::cpu_div(output, output, vector);
 			this->bind(input, output);
 		}
 
@@ -120,7 +122,7 @@ namespace ann
 				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
 		}
 	private:
-		vector_type input_avg;
+		vector_type vector;
 	};
 
 } // namespace ann

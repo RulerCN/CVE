@@ -39,1506 +39,1570 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Addition of value and scalar
+	// Addition of scalar and value
 
-	template <class A>
-	scalar<signed char, A>& cpu_add(scalar<signed char, A> &b, const signed char a)
+	template <class A1, class A2>
+	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &c, const scalar<signed char, A2> &a, const signed char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<unsigned char, A>& cpu_add(scalar<unsigned char, A> &b, const unsigned char a)
+	template <class A1, class A2>
+	scalar<unsigned char, A1>& cpu_add(scalar<unsigned char, A1> &c, const scalar<unsigned char, A2> &a, const unsigned char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<signed short, A>& cpu_add(scalar<signed short, A> &b, const signed short a)
+	template <class A1, class A2>
+	scalar<signed short, A1>& cpu_add(scalar<signed short, A1> &c, const scalar<signed short, A2> &a, const signed short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<unsigned short, A>& cpu_add(scalar<unsigned short, A> &b, const unsigned short a)
+	template <class A1, class A2>
+	scalar<unsigned short, A1>& cpu_add(scalar<unsigned short, A1> &c, const scalar<unsigned short, A2> &a, const unsigned short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<signed int, A>& cpu_add(scalar<signed int, A> &b, const signed int a)
+	template <class A1, class A2>
+	scalar<signed int, A1>& cpu_add(scalar<signed int, A1> &c, const scalar<signed int, A2> &a, const signed int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<unsigned int, A>& cpu_add(scalar<unsigned int, A> &b, const unsigned int a)
+	template <class A1, class A2>
+	scalar<unsigned int, A1>& cpu_add(scalar<unsigned int, A1> &c, const scalar<unsigned int, A2> &a, const unsigned int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<float, A>& cpu_add(scalar<float, A> &b, const float a)
+	template <class A1, class A2>
+	scalar<float, A1>& cpu_add(scalar<float, A1> &c, const scalar<float, A2> &a, const float b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<float, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_value<float, cpu_sse>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_sse>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<float, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<float, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	scalar<double, A>& cpu_add(scalar<double, A> &b, const double a)
+	template <class A1, class A2>
+	scalar<double, A1>& cpu_add(scalar<double, A1> &c, const scalar<double, A2> &a, const double b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<double, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<double, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<double, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<double, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	// Addition of value and vector
+	// Addition of vector and value
 
-	template <class A>
-	vector<signed char, A>& cpu_add(vector<signed char, A> &b, const signed char a)
+	template <class A1, class A2>
+	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const vector<signed char, A2> &a, const signed char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<unsigned char, A>& cpu_add(vector<unsigned char, A> &b, const unsigned char a)
+	template <class A1, class A2>
+	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const unsigned char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<signed short, A>& cpu_add(vector<signed short, A> &b, const signed short a)
+	template <class A1, class A2>
+	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, const vector<signed short, A2> &a, const signed short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<unsigned short, A>& cpu_add(vector<unsigned short, A> &b, const unsigned short a)
+	template <class A1, class A2>
+	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const unsigned short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<signed int, A>& cpu_add(vector<signed int, A> &b, const signed int a)
+	template <class A1, class A2>
+	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, const vector<signed int, A2> &a, const signed int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<unsigned int, A>& cpu_add(vector<unsigned int, A> &b, const unsigned int a)
+	template <class A1, class A2>
+	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const unsigned int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<float, A>& cpu_add(vector<float, A> &b, const float a)
+	template <class A1, class A2>
+	vector<float, A1>& cpu_add(vector<float, A1> &c, const vector<float, A2> &a, const float b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<float, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_value<float, cpu_sse>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_sse>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<float, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<float, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	vector<double, A>& cpu_add(vector<double, A> &b, const double a)
+	template <class A1, class A2>
+	vector<double, A1>& cpu_add(vector<double, A1> &c, const vector<double, A2> &a, const double b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<double, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<double, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<double, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<double, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	// Addition of value and matrix
+	// Addition of matrix and value
 
-	template <class A>
-	matrix<signed char, A>& cpu_add(matrix<signed char, A> &b, const signed char a)
+	template <class A1, class A2>
+	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const signed char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<unsigned char, A>& cpu_add(matrix<unsigned char, A> &b, const unsigned char a)
+	template <class A1, class A2>
+	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const unsigned char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<signed short, A>& cpu_add(matrix<signed short, A> &b, const signed short a)
+	template <class A1, class A2>
+	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const signed short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<unsigned short, A>& cpu_add(matrix<unsigned short, A> &b, const unsigned short a)
+	template <class A1, class A2>
+	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const unsigned short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<signed int, A>& cpu_add(matrix<signed int, A> &b, const signed int a)
+	template <class A1, class A2>
+	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const signed int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<unsigned int, A>& cpu_add(matrix<unsigned int, A> &b, const unsigned int a)
+	template <class A1, class A2>
+	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const unsigned int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<float, A>& cpu_add(matrix<float, A> &b, const float a)
+	template <class A1, class A2>
+	matrix<float, A1>& cpu_add(matrix<float, A1> &c, const matrix<float, A2> &a, const float b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<float, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_value<float, cpu_sse>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_sse>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<float, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<float, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	matrix<double, A>& cpu_add(matrix<double, A> &b, const double a)
+	template <class A1, class A2>
+	matrix<double, A1>& cpu_add(matrix<double, A1> &c, const matrix<double, A2> &a, const double b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<double, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<double, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<double, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<double, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	// Addition of value and tensor
+	// Addition of tensor and value
 
-	template <class A>
-	tensor<signed char, A>& cpu_add(tensor<signed char, A> &b, const signed char a)
+	template <class A1, class A2>
+	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const signed char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<unsigned char, A>& cpu_add(tensor<unsigned char, A> &b, const unsigned char a)
+	template <class A1, class A2>
+	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const unsigned char b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned char, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned char, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned char, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned char, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned char, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<signed short, A>& cpu_add(tensor<signed short, A> &b, const signed short a)
+	template <class A1, class A2>
+	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const signed short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<unsigned short, A>& cpu_add(tensor<unsigned short, A> &b, const unsigned short a)
+	template <class A1, class A2>
+	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const unsigned short b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned short, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned short, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned short, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned short, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned short, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<signed int, A>& cpu_add(tensor<signed int, A> &b, const signed int a)
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const signed int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<signed int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<signed int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<signed int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<signed int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<signed int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<unsigned int, A>& cpu_add(tensor<unsigned int, A> &b, const unsigned int a)
+	template <class A1, class A2>
+	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const unsigned int b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_value<unsigned int, cpu_avx2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_avx2>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<unsigned int, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<unsigned int, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<unsigned int, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<unsigned int, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<float, A>& cpu_add(tensor<float, A> &b, const float a)
+	template <class A1, class A2>
+	tensor<float, A1>& cpu_add(tensor<float, A1> &c, const tensor<float, A2> &a, const float b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<float, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_value<float, cpu_sse>()(b.size(), a, b.data());
+			kernel_add_value<float, cpu_sse>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<float, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<float, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
-	template <class A>
-	tensor<double, A>& cpu_add(tensor<double, A> &b, const double a)
+	template <class A1, class A2>
+	tensor<double, A1>& cpu_add(tensor<double, A1> &c, const tensor<double, A2> &a, const double b)
 	{
-		if (b.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_value<double, cpu_avx>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_avx>()(c.size(), a.data(), b, c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_value<double, cpu_sse2>()(b.size(), a, b.data());
+			kernel_add_value<double, cpu_sse2>()(c.size(), a.data(), b, c.data());
 		else
-			kernel_add_value<double, cpu_none>()(b.size(), a, b.data());
-		return b;
+			kernel_add_value<double, cpu_none>()(c.size(), a.data(), b, c.data());
+		return c;
 	}
 
 	// Addition of scalar and scalar
 
-	template <class A1, class A2>
-	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &b, const scalar<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &c, const scalar<signed char, A2> &a, const scalar<signed char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned char, A1>& cpu_add(scalar<unsigned char, A1> &b, const scalar<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<unsigned char, A1>& cpu_add(scalar<unsigned char, A1> &c, const scalar<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<signed short, A1>& cpu_add(scalar<signed short, A1> &b, const scalar<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<signed short, A1>& cpu_add(scalar<signed short, A1> &c, const scalar<signed short, A2> &a, const scalar<signed short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned short, A1>& cpu_add(scalar<unsigned short, A1> &b, const scalar<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<unsigned short, A1>& cpu_add(scalar<unsigned short, A1> &c, const scalar<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<signed int, A1>& cpu_add(scalar<signed int, A1> &b, const scalar<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<signed int, A1>& cpu_add(scalar<signed int, A1> &c, const scalar<signed int, A2> &a, const scalar<signed int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned int, A1>& cpu_add(scalar<unsigned int, A1> &b, const scalar<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<unsigned int, A1>& cpu_add(scalar<unsigned int, A1> &c, const scalar<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<float, A1>& cpu_add(scalar<float, A1> &b, const scalar<float, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<float, A1>& cpu_add(scalar<float, A1> &c, const scalar<float, A2> &a, const scalar<float, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<double, A1>& cpu_add(scalar<double, A1> &b, const scalar<double, A2> &a)
+	template <class A1, class A2, class A3>
+	scalar<double, A1>& cpu_add(scalar<double, A1> &c, const scalar<double, A2> &a, const scalar<double, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of vector and vector
 
-	template <class A1, class A2>
-	vector<signed char, A1>& cpu_add(vector<signed char, A1> &b, const vector<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const vector<signed char, A2> &a, const vector<signed char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &b, const vector<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed short, A1>& cpu_add(vector<signed short, A1> &b, const vector<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, const vector<signed short, A2> &a, const vector<signed short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &b, const vector<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed int, A1>& cpu_add(vector<signed int, A1> &b, const vector<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, const vector<signed int, A2> &a, const vector<signed int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &b, const vector<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<float, A1>& cpu_add(vector<float, A1> &b, const vector<float, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<float, A1>& cpu_add(vector<float, A1> &c, const vector<float, A2> &a, const vector<float, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<double, A1>& cpu_add(vector<double, A1> &b, const vector<double, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<double, A1>& cpu_add(vector<double, A1> &c, const vector<double, A2> &a, const vector<double, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of matrix and matrix
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const matrix<signed char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const matrix<signed short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const matrix<signed int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &b, const matrix<float, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<float, A1>& cpu_add(matrix<float, A1> &c, const matrix<float, A2> &a, const matrix<float, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &b, const matrix<double, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<double, A1>& cpu_add(matrix<double, A1> &c, const matrix<double, A2> &a, const matrix<double, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of tensor and tensor
 
-	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const tensor<signed char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const tensor<unsigned char, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const tensor<signed short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const tensor<unsigned short, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const tensor<signed int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const tensor<unsigned int, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &b, const tensor<float, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<float, A1>& cpu_add(tensor<float, A1> &c, const tensor<float, A2> &a, const tensor<float, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_add<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &b, const tensor<double, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<double, A1>& cpu_add(tensor<double, A1> &c, const tensor<double, A2> &a, const tensor<double, A3> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size() || c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_add<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
-			kernel_add<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_add<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of vector and scalar
 
-	template <class A1, class A2>
-	vector<signed char, A1>& cpu_add(vector<signed char, A1> &b, const scalar<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const vector<signed char, A2> &a, const scalar<signed char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed char, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed char, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed char, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed char, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &b, const scalar<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned char, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned char, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned char, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned char, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed short, A1>& cpu_add(vector<signed short, A1> &b, const scalar<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, const vector<signed short, A2> &a, const scalar<signed short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed short, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed short, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed short, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed short, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &b, const scalar<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned short, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned short, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned short, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned short, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed int, A1>& cpu_add(vector<signed int, A1> &b, const scalar<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, const vector<signed int, A2> &a, const scalar<signed int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed int, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed int, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed int, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed int, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &b, const scalar<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned int, cpu_avx2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned int, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned int, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned int, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<float, A1>& cpu_add(vector<float, A1> &b, const scalar<float, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<float, A1>& cpu_add(vector<float, A1> &c, const vector<float, A2> &a, const scalar<float, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<float, cpu_avx>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<float, cpu_avx>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_element<float, cpu_sse>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<float, cpu_sse>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<float, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<float, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	vector<double, A1>& cpu_add(vector<double, A1> &b, const scalar<double, A2> &a)
+	template <class A1, class A2, class A3>
+	vector<double, A1>& cpu_add(vector<double, A1> &c, const vector<double, A2> &a, const scalar<double, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.dimension() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<double, cpu_avx>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<double, cpu_avx>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<double, cpu_sse2>()(b.length(), b.dimension(), a.data(), b.data());
+			kernel_add_element<double, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<double, cpu_none>()(b.length(), b.dimension(), a.data(), b.data());
-		return b;
+			kernel_add_element<double, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of matrix and vector
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &b, const vector<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const vector<signed char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed char, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed char, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed char, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed char, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &b, const vector<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned char, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned char, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned char, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned char, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &b, const vector<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const vector<signed short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed short, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed short, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed short, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed short, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &b, const vector<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned short, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned short, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned short, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned short, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &b, const vector<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const vector<signed int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed int, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed int, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed int, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed int, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &b, const vector<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned int, cpu_avx2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned int, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned int, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned int, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &b, const vector<float, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<float, A1>& cpu_add(matrix<float, A1> &c, const matrix<float, A2> &a, const vector<float, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<float, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<float, cpu_avx>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_element<float, cpu_sse>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<float, cpu_sse>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<float, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<float, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &b, const vector<double, A2> &a)
+	template <class A1, class A2, class A3>
+	matrix<double, A1>& cpu_add(matrix<double, A1> &c, const matrix<double, A2> &a, const vector<double, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.row_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<double, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<double, cpu_avx>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<double, cpu_sse2>()(b.rows(), b.row_size(), a.data(), b.data());
+			kernel_add_element<double, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<double, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<double, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 	// Addition of tensor and matrix
 
-	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &b, const matrix<signed char, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const matrix<signed char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed char, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed char, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed char, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed char, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed char, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned char, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned char, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned char, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned char, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned char, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &b, const matrix<signed short, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const matrix<signed short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed short, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed short, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed short, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed short, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed short, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned short, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned short, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned short, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned short, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned short, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &b, const matrix<signed int, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const matrix<signed int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<signed int, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<signed int, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<signed int, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<signed int, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<signed int, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_add_element<unsigned int, cpu_avx2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<unsigned int, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<unsigned int, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<unsigned int, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<unsigned int, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &b, const matrix<float, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<float, A1>& cpu_add(tensor<float, A1> &c, const tensor<float, A2> &a, const matrix<float, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<float, cpu_avx>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<float, cpu_avx>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_add_element<float, cpu_sse>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<float, cpu_sse>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<float, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<float, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &b, const matrix<double, A2> &a)
+	template <class A1, class A2, class A3>
+	tensor<double, A1>& cpu_add(tensor<double, A1> &c, const tensor<double, A2> &a, const matrix<double, A3> &b)
 	{
-		if (b.empty())
+		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (a.empty())
+		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.matrix_size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			kernel_add_element<double, cpu_avx>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<double, cpu_avx>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_add_element<double, cpu_sse2>()(b.batch(), b.matrix_size(), a.data(), b.data());
+			kernel_add_element<double, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
-			kernel_add_element<double, cpu_none>()(b.batch(), b.matrix_size(), a.data(), b.data());
-		return b;
+			kernel_add_element<double, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 } // namespace core
