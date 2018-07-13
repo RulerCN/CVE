@@ -373,6 +373,9 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub_value.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds_value.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

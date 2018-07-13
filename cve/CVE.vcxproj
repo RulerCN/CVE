@@ -191,6 +191,7 @@
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h" />
