@@ -678,8 +678,8 @@ namespace core
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// c = a + b;
 				xmm_c0 = _mm_add_epi32(xmm_a0, xmm_b0);
-				// t = b < 0 ? min : max;
-				xmm_s0 = _mm_srai_epi32(xmm_b0, 31);
+				// t = a < 0 ? min : max;
+				xmm_s0 = _mm_srai_epi32(xmm_a0, 31);
 				xmm_t0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_min), _mm_andnot_si128(xmm_s0, xmm_max));
 				// s = ~(a ^ b) & (c ^ a);
 				xmm_s0 = _mm_andnot_si128(_mm_or_si128(xmm_a0, xmm_b0), _mm_or_si128(xmm_c0, xmm_a0));
@@ -696,7 +696,7 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				r = a[i] + b[i];
-				t = b[i] >> 31 ? int32_min : int32_max;
+				t = a[i] >> 31 ? int32_min : int32_max;
 				s = ~(a[i] ^ b[i]) & (r ^ a[i]);
 				c[i] = s >> 31 ? t : r;
 			}
@@ -1101,8 +1101,8 @@ namespace core
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 				// c = a + b;
 				ymm_c0 = _mm256_add_epi32(ymm_a0, ymm_b0);
-				// t = b < 0 ? min : max;
-				ymm_s0 = _mm256_srai_epi32(ymm_b0, 31);
+				// t = a < 0 ? min : max;
+				ymm_s0 = _mm256_srai_epi32(ymm_a0, 31);
 				ymm_t0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_min), _mm256_andnot_si256(ymm_s0, ymm_max));
 				// s = ~(a ^ b) & (c ^ a);
 				ymm_s0 = _mm256_andnot_si256(_mm256_or_si256(ymm_a0, ymm_b0), _mm256_or_si256(ymm_c0, ymm_a0));
