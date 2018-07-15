@@ -74,7 +74,7 @@ namespace core
 		{
 			constexpr size_t block = 8;
 			signed char c0, c1, c2, c3, c4, c5, c6, c7;
-			signed char d0, d1, d2, d3, d4, d5, d6, d7;
+			signed char t0, t1, t2, t3, t4, t5, t6, t7;
 			signed char s0, s1, s2, s3, s4, s5, s6, s7;
 
 			while (n > block)
@@ -87,14 +87,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				d0 = b[0] >> 7 ? int8_min : int8_max;
-				d1 = b[1] >> 7 ? int8_min : int8_max;
-				d2 = b[2] >> 7 ? int8_min : int8_max;
-				d3 = b[3] >> 7 ? int8_min : int8_max;
-				d4 = b[4] >> 7 ? int8_min : int8_max;
-				d5 = b[5] >> 7 ? int8_min : int8_max;
-				d6 = b[6] >> 7 ? int8_min : int8_max;
-				d7 = b[7] >> 7 ? int8_min : int8_max;
+				t0 = a[0] >> 7 ? int8_min : int8_max;
+				t1 = a[1] >> 7 ? int8_min : int8_max;
+				t2 = a[2] >> 7 ? int8_min : int8_max;
+				t3 = a[3] >> 7 ? int8_min : int8_max;
+				t4 = a[4] >> 7 ? int8_min : int8_max;
+				t5 = a[5] >> 7 ? int8_min : int8_max;
+				t6 = a[6] >> 7 ? int8_min : int8_max;
+				t7 = a[7] >> 7 ? int8_min : int8_max;
 				s0 = ~(a[0] ^ b[0]) & (c0 ^ a[0]);
 				s1 = ~(a[1] ^ b[1]) & (c1 ^ a[1]);
 				s2 = ~(a[2] ^ b[2]) & (c2 ^ a[2]);
@@ -103,14 +103,14 @@ namespace core
 				s5 = ~(a[5] ^ b[5]) & (c5 ^ a[5]);
 				s6 = ~(a[6] ^ b[6]) & (c6 ^ a[6]);
 				s7 = ~(a[7] ^ b[7]) & (c7 ^ a[7]);
-				c[0] = s0 >> 7 ? d0 : c0;
-				c[1] = s1 >> 7 ? d1 : c1;
-				c[2] = s2 >> 7 ? d2 : c2;
-				c[3] = s3 >> 7 ? d3 : c3;
-				c[4] = s4 >> 7 ? d4 : c4;
-				c[5] = s5 >> 7 ? d5 : c5;
-				c[6] = s6 >> 7 ? d6 : c6;
-				c[7] = s7 >> 7 ? d7 : c7;
+				c[0] = s0 >> 7 ? t0 : c0;
+				c[1] = s1 >> 7 ? t1 : c1;
+				c[2] = s2 >> 7 ? t2 : c2;
+				c[3] = s3 >> 7 ? t3 : c3;
+				c[4] = s4 >> 7 ? t4 : c4;
+				c[5] = s5 >> 7 ? t5 : c5;
+				c[6] = s6 >> 7 ? t6 : c6;
+				c[7] = s7 >> 7 ? t7 : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -119,9 +119,9 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				c0 = a[i] + b[i];
-				d0 = b[i] >> 7 ? int8_min : int8_max;
+				t0 = a[i] >> 7 ? int8_min : int8_max;
 				s0 = ~(a[i] ^ b[i]) & (c0 ^ a[i]);
-				c[i] = s0 >> 7 ? d0 : c0;
+				c[i] = s0 >> 7 ? t0 : c0;
 			}
 		}
 	};
@@ -144,14 +144,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				c[0] = c0 < b[0] ? uint8_max : c0;
-				c[1] = c1 < b[1] ? uint8_max : c1;
-				c[2] = c2 < b[2] ? uint8_max : c2;
-				c[3] = c3 < b[3] ? uint8_max : c3;
-				c[4] = c4 < b[4] ? uint8_max : c4;
-				c[5] = c5 < b[5] ? uint8_max : c5;
-				c[6] = c6 < b[6] ? uint8_max : c6;
-				c[7] = c7 < b[7] ? uint8_max : c7;
+				c[0] = c0 < a[0] ? uint8_max : c0;
+				c[1] = c1 < a[1] ? uint8_max : c1;
+				c[2] = c2 < a[2] ? uint8_max : c2;
+				c[3] = c3 < a[3] ? uint8_max : c3;
+				c[4] = c4 < a[4] ? uint8_max : c4;
+				c[5] = c5 < a[5] ? uint8_max : c5;
+				c[6] = c6 < a[6] ? uint8_max : c6;
+				c[7] = c7 < a[7] ? uint8_max : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -160,7 +160,7 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				c0 = a[i] + b[i];
-				c[i] = c0 < b[i] ? uint8_max : c0;
+				c[i] = c0 < a[i] ? uint8_max : c0;
 			}
 		}
 	};
@@ -172,7 +172,7 @@ namespace core
 		{
 			constexpr size_t block = 8;
 			signed short c0, c1, c2, c3, c4, c5, c6, c7;
-			signed short d0, d1, d2, d3, d4, d5, d6, d7;
+			signed short t0, t1, t2, t3, t4, t5, t6, t7;
 			signed short s0, s1, s2, s3, s4, s5, s6, s7;
 
 			while (n > block)
@@ -185,14 +185,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				d0 = b[0] >> 15 ? int16_min : int16_max;
-				d1 = b[1] >> 15 ? int16_min : int16_max;
-				d2 = b[2] >> 15 ? int16_min : int16_max;
-				d3 = b[3] >> 15 ? int16_min : int16_max;
-				d4 = b[4] >> 15 ? int16_min : int16_max;
-				d5 = b[5] >> 15 ? int16_min : int16_max;
-				d6 = b[6] >> 15 ? int16_min : int16_max;
-				d7 = b[7] >> 15 ? int16_min : int16_max;
+				t0 = a[0] >> 15 ? int16_min : int16_max;
+				t1 = a[1] >> 15 ? int16_min : int16_max;
+				t2 = a[2] >> 15 ? int16_min : int16_max;
+				t3 = a[3] >> 15 ? int16_min : int16_max;
+				t4 = a[4] >> 15 ? int16_min : int16_max;
+				t5 = a[5] >> 15 ? int16_min : int16_max;
+				t6 = a[6] >> 15 ? int16_min : int16_max;
+				t7 = a[7] >> 15 ? int16_min : int16_max;
 				s0 = ~(a[0] ^ b[0]) & (c0 ^ a[0]);
 				s1 = ~(a[1] ^ b[1]) & (c1 ^ a[1]);
 				s2 = ~(a[2] ^ b[2]) & (c2 ^ a[2]);
@@ -201,14 +201,14 @@ namespace core
 				s5 = ~(a[5] ^ b[5]) & (c5 ^ a[5]);
 				s6 = ~(a[6] ^ b[6]) & (c6 ^ a[6]);
 				s7 = ~(a[7] ^ b[7]) & (c7 ^ a[7]);
-				c[0] = s0 >> 15 ? d0 : c0;
-				c[1] = s1 >> 15 ? d1 : c1;
-				c[2] = s2 >> 15 ? d2 : c2;
-				c[3] = s3 >> 15 ? d3 : c3;
-				c[4] = s4 >> 15 ? d4 : c4;
-				c[5] = s5 >> 15 ? d5 : c5;
-				c[6] = s6 >> 15 ? d6 : c6;
-				c[7] = s7 >> 15 ? d7 : c7;
+				c[0] = s0 >> 15 ? t0 : c0;
+				c[1] = s1 >> 15 ? t1 : c1;
+				c[2] = s2 >> 15 ? t2 : c2;
+				c[3] = s3 >> 15 ? t3 : c3;
+				c[4] = s4 >> 15 ? t4 : c4;
+				c[5] = s5 >> 15 ? t5 : c5;
+				c[6] = s6 >> 15 ? t6 : c6;
+				c[7] = s7 >> 15 ? t7 : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -217,9 +217,9 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				c0 = a[i] + b[i];
-				d0 = b[i] >> 15 ? int16_min : int16_max;
+				t0 = a[i] >> 15 ? int16_min : int16_max;
 				s0 = ~(a[i] ^ b[i]) & (c0 ^ a[i]);
-				c[i] = s0 >> 15 ? d0 : c0;
+				c[i] = s0 >> 15 ? t0 : c0;
 			}
 		}
 	};
@@ -242,14 +242,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				c[0] = c0 < b[0] ? uint16_max : c0;
-				c[1] = c1 < b[1] ? uint16_max : c1;
-				c[2] = c2 < b[2] ? uint16_max : c2;
-				c[3] = c3 < b[3] ? uint16_max : c3;
-				c[4] = c4 < b[4] ? uint16_max : c4;
-				c[5] = c5 < b[5] ? uint16_max : c5;
-				c[6] = c6 < b[6] ? uint16_max : c6;
-				c[7] = c7 < b[7] ? uint16_max : c7;
+				c[0] = c0 < a[0] ? uint16_max : c0;
+				c[1] = c1 < a[1] ? uint16_max : c1;
+				c[2] = c2 < a[2] ? uint16_max : c2;
+				c[3] = c3 < a[3] ? uint16_max : c3;
+				c[4] = c4 < a[4] ? uint16_max : c4;
+				c[5] = c5 < a[5] ? uint16_max : c5;
+				c[6] = c6 < a[6] ? uint16_max : c6;
+				c[7] = c7 < a[7] ? uint16_max : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -270,7 +270,7 @@ namespace core
 		{
 			constexpr size_t block = 8;
 			signed int c0, c1, c2, c3, c4, c5, c6, c7;
-			signed int d0, d1, d2, d3, d4, d5, d6, d7;
+			signed int t0, t1, t2, t3, t4, t5, t6, t7;
 			signed int s0, s1, s2, s3, s4, s5, s6, s7;
 
 			while (n > block)
@@ -283,14 +283,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				d0 = b[0] >> 31 ? int32_min : int32_max;
-				d1 = b[1] >> 31 ? int32_min : int32_max;
-				d2 = b[2] >> 31 ? int32_min : int32_max;
-				d3 = b[3] >> 31 ? int32_min : int32_max;
-				d4 = b[4] >> 31 ? int32_min : int32_max;
-				d5 = b[5] >> 31 ? int32_min : int32_max;
-				d6 = b[6] >> 31 ? int32_min : int32_max;
-				d7 = b[7] >> 31 ? int32_min : int32_max;
+				t0 = a[0] >> 31 ? int32_min : int32_max;
+				t1 = a[1] >> 31 ? int32_min : int32_max;
+				t2 = a[2] >> 31 ? int32_min : int32_max;
+				t3 = a[3] >> 31 ? int32_min : int32_max;
+				t4 = a[4] >> 31 ? int32_min : int32_max;
+				t5 = a[5] >> 31 ? int32_min : int32_max;
+				t6 = a[6] >> 31 ? int32_min : int32_max;
+				t7 = a[7] >> 31 ? int32_min : int32_max;
 				s0 = ~(a[0] ^ b[0]) & (c0 ^ a[0]);
 				s1 = ~(a[1] ^ b[1]) & (c1 ^ a[1]);
 				s2 = ~(a[2] ^ b[2]) & (c2 ^ a[2]);
@@ -299,14 +299,14 @@ namespace core
 				s5 = ~(a[5] ^ b[5]) & (c5 ^ a[5]);
 				s6 = ~(a[6] ^ b[6]) & (c6 ^ a[6]);
 				s7 = ~(a[7] ^ b[7]) & (c7 ^ a[7]);
-				c[0] = s0 >> 31 ? d0 : c0;
-				c[1] = s1 >> 31 ? d1 : c1;
-				c[2] = s2 >> 31 ? d2 : c2;
-				c[3] = s3 >> 31 ? d3 : c3;
-				c[4] = s4 >> 31 ? d4 : c4;
-				c[5] = s5 >> 31 ? d5 : c5;
-				c[6] = s6 >> 31 ? d6 : c6;
-				c[7] = s7 >> 31 ? d7 : c7;
+				c[0] = s0 >> 31 ? t0 : c0;
+				c[1] = s1 >> 31 ? t1 : c1;
+				c[2] = s2 >> 31 ? t2 : c2;
+				c[3] = s3 >> 31 ? t3 : c3;
+				c[4] = s4 >> 31 ? t4 : c4;
+				c[5] = s5 >> 31 ? t5 : c5;
+				c[6] = s6 >> 31 ? t6 : c6;
+				c[7] = s7 >> 31 ? t7 : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -315,9 +315,9 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				c0 = a[i] + b[i];
-				d0 = b[i] >> 31 ? int32_min : int32_max;
+				t0 = a[i] >> 31 ? int32_min : int32_max;
 				s0 = ~(a[i] ^ b[i]) & (c0 ^ a[i]);
-				c[i] = s0 >> 31 ? d0 : c0;
+				c[i] = s0 >> 31 ? t0 : c0;
 			}
 		}
 	};
@@ -340,14 +340,14 @@ namespace core
 				c5 = a[5] + b[5];
 				c6 = a[6] + b[6];
 				c7 = a[7] + b[7];
-				c[0] = c0 < b[0] ? uint32_max : c0;
-				c[1] = c1 < b[1] ? uint32_max : c1;
-				c[2] = c2 < b[2] ? uint32_max : c2;
-				c[3] = c3 < b[3] ? uint32_max : c3;
-				c[4] = c4 < b[4] ? uint32_max : c4;
-				c[5] = c5 < b[5] ? uint32_max : c5;
-				c[6] = c6 < b[6] ? uint32_max : c6;
-				c[7] = c7 < b[7] ? uint32_max : c7;
+				c[0] = c0 < a[0] ? uint32_max : c0;
+				c[1] = c1 < a[1] ? uint32_max : c1;
+				c[2] = c2 < a[2] ? uint32_max : c2;
+				c[3] = c3 < a[3] ? uint32_max : c3;
+				c[4] = c4 < a[4] ? uint32_max : c4;
+				c[5] = c5 < a[5] ? uint32_max : c5;
+				c[6] = c6 < a[6] ? uint32_max : c6;
+				c[7] = c7 < a[7] ? uint32_max : c7;
 				a += block;
 				b += block;
 				c += block;
@@ -356,7 +356,7 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				c0 = a[i] + b[i];
-				c[i] = c0 < b[i] ? uint32_max : c0;
+				c[i] = c0 < a[i] ? uint32_max : c0;
 			}
 		}
 	};
@@ -478,7 +478,7 @@ namespace core
 				xmm_a0 = _mm_set1_epi8(a[i]);
 				xmm_b0 = _mm_set1_epi8(b[i]);
 				xmm_c0 = _mm_adds_epu8(xmm_a0, xmm_b0);
-				c[i] = reinterpret_cast<signed char*>(&xmm_c0)[0];
+				c[i] = reinterpret_cast<unsigned char*>(&xmm_c0)[0];
 			}
 		}
 	};
@@ -539,7 +539,7 @@ namespace core
 				xmm_a0 = _mm_set1_epi16(a[i]);
 				xmm_b0 = _mm_set1_epi16(b[i]);
 				xmm_c0 = _mm_adds_epi16(xmm_a0, xmm_b0);
-				c[i] = reinterpret_cast<signed char*>(&xmm_c0)[0];
+				c[i] = reinterpret_cast<signed short*>(&xmm_c0)[0];
 			}
 		}
 	};
@@ -600,7 +600,7 @@ namespace core
 				xmm_a0 = _mm_set1_epi16(a[i]);
 				xmm_b0 = _mm_set1_epi16(b[i]);
 				xmm_c0 = _mm_adds_epu16(xmm_a0, xmm_b0);
-				c[i] = reinterpret_cast<signed char*>(&xmm_c0)[0];
+				c[i] = reinterpret_cast<unsigned short*>(&xmm_c0)[0];
 			}
 		}
 	};
@@ -638,11 +638,11 @@ namespace core
 				xmm_c1 = _mm_add_epi32(xmm_a1, xmm_b1);
 				xmm_c2 = _mm_add_epi32(xmm_a2, xmm_b2);
 				xmm_c3 = _mm_add_epi32(xmm_a3, xmm_b3);
-				// t = b < 0 ? min : max;
-				xmm_s0 = _mm_srai_epi32(xmm_b0, 31);
-				xmm_s1 = _mm_srai_epi32(xmm_b1, 31);
-				xmm_s2 = _mm_srai_epi32(xmm_b2, 31);
-				xmm_s3 = _mm_srai_epi32(xmm_b3, 31);
+				// t = a < 0 ? min : max;
+				xmm_s0 = _mm_srai_epi32(xmm_a0, 31);
+				xmm_s1 = _mm_srai_epi32(xmm_a1, 31);
+				xmm_s2 = _mm_srai_epi32(xmm_a2, 31);
+				xmm_s3 = _mm_srai_epi32(xmm_a3, 31);
 				xmm_t0 = _mm_or_si128(_mm_and_si128(xmm_s0, xmm_min), _mm_andnot_si128(xmm_s0, xmm_max));
 				xmm_t1 = _mm_or_si128(_mm_and_si128(xmm_s1, xmm_min), _mm_andnot_si128(xmm_s1, xmm_max));
 				xmm_t2 = _mm_or_si128(_mm_and_si128(xmm_s2, xmm_min), _mm_andnot_si128(xmm_s2, xmm_max));
@@ -1023,7 +1023,7 @@ namespace core
 				ymm_a0 = _mm256_set1_epi16(a[i]);
 				ymm_b0 = _mm256_set1_epi16(b[i]);
 				ymm_c0 = _mm256_adds_epu16(ymm_a0, ymm_b0);
-				c[i] = reinterpret_cast<signed short*>(&ymm_c0)[0];
+				c[i] = reinterpret_cast<unsigned short*>(&ymm_c0)[0];
 			}
 		}
 	};
@@ -1061,11 +1061,11 @@ namespace core
 				ymm_c1 = _mm256_add_epi32(ymm_a1, ymm_b1);
 				ymm_c2 = _mm256_add_epi32(ymm_a2, ymm_b2);
 				ymm_c3 = _mm256_add_epi32(ymm_a3, ymm_b3);
-				// t = b < 0 ? min : max;
-				ymm_s0 = _mm256_srai_epi32(ymm_b0, 31);
-				ymm_s1 = _mm256_srai_epi32(ymm_b1, 31);
-				ymm_s2 = _mm256_srai_epi32(ymm_b2, 31);
-				ymm_s3 = _mm256_srai_epi32(ymm_b3, 31);
+				// t = a < 0 ? min : max;
+				ymm_s0 = _mm256_srai_epi32(ymm_a0, 31);
+				ymm_s1 = _mm256_srai_epi32(ymm_a1, 31);
+				ymm_s2 = _mm256_srai_epi32(ymm_a2, 31);
+				ymm_s3 = _mm256_srai_epi32(ymm_a3, 31);
 				ymm_t0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_min), _mm256_andnot_si256(ymm_s0, ymm_max));
 				ymm_t1 = _mm256_or_si256(_mm256_and_si256(ymm_s1, ymm_min), _mm256_andnot_si256(ymm_s1, ymm_max));
 				ymm_t2 = _mm256_or_si256(_mm256_and_si256(ymm_s2, ymm_min), _mm256_andnot_si256(ymm_s2, ymm_max));
@@ -1202,7 +1202,7 @@ namespace core
 			for (size_t i = 0; i < n; ++i)
 			{
 				r = a[i] + b[i];
-				c[i] = b[i] > r ? uint32_max : r;
+				c[i] = a[i] > r ? uint32_max : r;
 			}
 		}
 	};
