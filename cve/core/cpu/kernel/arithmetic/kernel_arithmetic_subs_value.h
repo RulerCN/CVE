@@ -586,7 +586,6 @@ namespace core
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
-			unsigned int r;
 			const __m128i xmm_min = _mm_set1_epi32(uint32_min);
 			const __m128i xmm_a = _mm_set1_epi32(a);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
@@ -945,7 +944,6 @@ namespace core
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
-			unsigned int r;
 			const __m256i ymm_min = _mm256_set1_epi32(uint32_min);
 			const __m256i ymm_a = _mm256_set1_epi32(a);
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;

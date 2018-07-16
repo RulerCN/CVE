@@ -43,38 +43,40 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct kernel_mul
 	{
-		void operator()(size_t n, const T *a, T *b) const
+		void operator()(size_t n, const T *a, const T *b, T *c) const
 		{
 			constexpr size_t block = 8;
 
 			while (n > block)
 			{
-				b[0] *= a[0];
-				b[1] *= a[1];
-				b[2] *= a[2];
-				b[3] *= a[3];
-				b[4] *= a[4];
-				b[5] *= a[5];
-				b[6] *= a[6];
-				b[7] *= a[7];
+				c[0] = a[0] * b[0];
+				c[1] = a[1] * b[1];
+				c[2] = a[2] * b[2];
+				c[3] = a[3] * b[3];
+				c[4] = a[4] * b[4];
+				c[5] = a[5] * b[5];
+				c[6] = a[6] * b[6];
+				c[7] = a[7] * b[7];
 				a += block;
 				b += block;
+				c += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] *= a[i];
+				c[i] = a[i] * b[i];
 		}
 	};
 
 	template<>
 	struct kernel_mul<float, cpu_sse>
 	{
-		void operator()(size_t n, const float *a, float *b) const
+		void operator()(size_t n, const float *a, const float *b, float *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
 			while (n > block)
 			{
@@ -87,18 +89,19 @@ namespace core
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				xmm_b2 = _mm_loadu_ps(b + 8);
 				xmm_b3 = _mm_loadu_ps(b + 12);
-				// b = b + a;
-				xmm_b0 = _mm_mul_ps(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_mul_ps(xmm_b1, xmm_a1);
-				xmm_b2 = _mm_mul_ps(xmm_b2, xmm_a2);
-				xmm_b3 = _mm_mul_ps(xmm_b3, xmm_a3);
+				// c = a * b;
+				xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
+				xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
+				xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b2);
+				xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b3);
 				// store data into memory
-				_mm_storeu_ps(b, xmm_b0);
-				_mm_storeu_ps(b + 4, xmm_b1);
-				_mm_storeu_ps(b + 8, xmm_b2);
-				_mm_storeu_ps(b + 12, xmm_b3);
+				_mm_storeu_ps(c, xmm_c0);
+				_mm_storeu_ps(c + 4, xmm_c1);
+				_mm_storeu_ps(c + 8, xmm_c2);
+				_mm_storeu_ps(c + 12, xmm_c3);
 				a += block;
 				b += block;
+				c += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -106,28 +109,30 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_ps(a);
 				xmm_b0 = _mm_loadu_ps(b);
-				// b = b + a;
-				xmm_b0 = _mm_mul_ps(xmm_b0, xmm_a0);
+				// c = a * b;
+				xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
 				// store data into memory
-				_mm_storeu_ps(b, xmm_b0);
+				_mm_storeu_ps(c, xmm_c0);
 				a += bit;
 				b += bit;
+				c += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] *= a[i];
+				c[i] = a[i] * b[i];
 		}
 	};
 
 	template<>
 	struct kernel_mul<double, cpu_sse2>
 	{
-		void operator()(size_t n, const double *a, double *b) const
+		void operator()(size_t n, const double *a, const double *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			constexpr size_t bit = 2;
 			__m128d xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128d xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128d xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
 			while (n > block)
 			{
@@ -140,18 +145,19 @@ namespace core
 				xmm_b1 = _mm_loadu_pd(b + 2);
 				xmm_b2 = _mm_loadu_pd(b + 4);
 				xmm_b3 = _mm_loadu_pd(b + 6);
-				// b = b + a;
-				xmm_b0 = _mm_mul_pd(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_mul_pd(xmm_b1, xmm_a1);
-				xmm_b2 = _mm_mul_pd(xmm_b2, xmm_a2);
-				xmm_b3 = _mm_mul_pd(xmm_b3, xmm_a3);
+				// c = a * b;
+				xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
+				xmm_c1 = _mm_mul_pd(xmm_a1, xmm_b1);
+				xmm_c2 = _mm_mul_pd(xmm_a2, xmm_b2);
+				xmm_c3 = _mm_mul_pd(xmm_a3, xmm_b3);
 				// store data into memory
-				_mm_storeu_pd(b, xmm_b0);
-				_mm_storeu_pd(b + 2, xmm_b1);
-				_mm_storeu_pd(b + 4, xmm_b2);
-				_mm_storeu_pd(b + 6, xmm_b3);
+				_mm_storeu_pd(c, xmm_c0);
+				_mm_storeu_pd(c + 2, xmm_c1);
+				_mm_storeu_pd(c + 4, xmm_c2);
+				_mm_storeu_pd(c + 6, xmm_c3);
 				a += block;
 				b += block;
+				c += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -159,28 +165,30 @@ namespace core
 				// load data from memory
 				xmm_a0 = _mm_loadu_pd(a);
 				xmm_b0 = _mm_loadu_pd(b);
-				// b = b + a;
-				xmm_b0 = _mm_mul_pd(xmm_b0, xmm_a0);
+				// c = a * b;
+				xmm_c0 = _mm_mul_pd(xmm_a0, xmm_b0);
 				// store data into memory
-				_mm_storeu_pd(b, xmm_b0);
+				_mm_storeu_pd(c, xmm_c0);
 				a += bit;
 				b += bit;
+				c += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] *= a[i];
+				c[i] = a[i] * b[i];
 		}
 	};
 
 	template<>
 	struct kernel_mul<float, cpu_avx>
 	{
-		void operator()(size_t n, const float *a, float *b) const
+		void operator()(size_t n, const float *a, const float *b, float *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3;
+			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
 			while (n > block)
 			{
@@ -193,18 +201,19 @@ namespace core
 				ymm_b1 = _mm256_loadu_ps(b + 8);
 				ymm_b2 = _mm256_loadu_ps(b + 16);
 				ymm_b3 = _mm256_loadu_ps(b + 24);
-				// b = b + a;
-				ymm_b0 = _mm256_mul_ps(ymm_b0, ymm_a0);
-				ymm_b1 = _mm256_mul_ps(ymm_b1, ymm_a1);
-				ymm_b2 = _mm256_mul_ps(ymm_b2, ymm_a2);
-				ymm_b3 = _mm256_mul_ps(ymm_b3, ymm_a3);
+				// c = a * b;
+				ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
+				ymm_c1 = _mm256_mul_ps(ymm_a1, ymm_b1);
+				ymm_c2 = _mm256_mul_ps(ymm_a2, ymm_b2);
+				ymm_c3 = _mm256_mul_ps(ymm_a3, ymm_b3);
 				// store data into memory
-				_mm256_storeu_ps(b, ymm_b0);
-				_mm256_storeu_ps(b + 8, ymm_b1);
-				_mm256_storeu_ps(b + 16, ymm_b2);
-				_mm256_storeu_ps(b + 24, ymm_b3);
+				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(c + 8, ymm_c1);
+				_mm256_storeu_ps(c + 16, ymm_c2);
+				_mm256_storeu_ps(c + 24, ymm_c3);
 				a += block;
 				b += block;
+				c += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -212,28 +221,30 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_ps(a);
 				ymm_b0 = _mm256_loadu_ps(b);
-				// b = b + a;
-				ymm_b0 = _mm256_mul_ps(ymm_b0, ymm_a0);
+				// c = a * b;
+				ymm_c0 = _mm256_mul_ps(ymm_a0, ymm_b0);
 				// store data into memory
-				_mm256_storeu_ps(b, ymm_b0);
+				_mm256_storeu_ps(c, ymm_c0);
 				a += bit;
 				b += bit;
+				c += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] *= a[i];
+				c[i] = a[i] * b[i];
 		}
 	};
 
 	template<>
 	struct kernel_mul<double, cpu_avx>
 	{
-		void operator()(size_t n, const double *a, double *b) const
+		void operator()(size_t n, const double *a, const double *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
+			__m256d ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
 			while (n > block)
 			{
@@ -246,18 +257,19 @@ namespace core
 				ymm_b1 = _mm256_loadu_pd(b + 4);
 				ymm_b2 = _mm256_loadu_pd(b + 8);
 				ymm_b3 = _mm256_loadu_pd(b + 12);
-				// b = b + a;
-				ymm_b0 = _mm256_mul_pd(ymm_b0, ymm_a0);
-				ymm_b1 = _mm256_mul_pd(ymm_b1, ymm_a1);
-				ymm_b2 = _mm256_mul_pd(ymm_b2, ymm_a2);
-				ymm_b3 = _mm256_mul_pd(ymm_b3, ymm_a3);
+				// c = a * b;
+				ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
+				ymm_c1 = _mm256_mul_pd(ymm_a1, ymm_b1);
+				ymm_c2 = _mm256_mul_pd(ymm_a2, ymm_b2);
+				ymm_c3 = _mm256_mul_pd(ymm_a3, ymm_b3);
 				// store data into memory
-				_mm256_storeu_pd(b, ymm_b0);
-				_mm256_storeu_pd(b + 4, ymm_b1);
-				_mm256_storeu_pd(b + 8, ymm_b2);
-				_mm256_storeu_pd(b + 12, ymm_b3);
+				_mm256_storeu_pd(c, ymm_c0);
+				_mm256_storeu_pd(c + 4, ymm_c1);
+				_mm256_storeu_pd(c + 8, ymm_c2);
+				_mm256_storeu_pd(c + 12, ymm_c3);
 				a += block;
 				b += block;
+				c += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -265,16 +277,33 @@ namespace core
 				// load data from memory
 				ymm_a0 = _mm256_loadu_pd(a);
 				ymm_b0 = _mm256_loadu_pd(b);
-				// b = b + a;
-				ymm_b0 = _mm256_mul_pd(ymm_b0, ymm_a0);
+				// c = a * b;
+				ymm_c0 = _mm256_mul_pd(ymm_a0, ymm_b0);
 				// store data into memory
-				_mm256_storeu_pd(b, ymm_b0);
+				_mm256_storeu_pd(c, ymm_c0);
 				a += bit;
 				b += bit;
+				c += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				b[i] *= a[i];
+				c[i] = a[i] * b[i];
+		}
+	};
+
+	// Class template kernel_mul_element
+	template<class T, cpu_inst_type inst>
+	struct kernel_mul_element
+	{
+		void operator()(size_t m, size_t n, const T *a, const T *b, T *c) const
+		{
+			const struct kernel_mul<T, inst> functor;
+			for (size_t i = 0; i < m; ++i)
+			{
+				functor(n, a, b, c);
+				a += n;
+				c += n;
+			}
 		}
 	};
 

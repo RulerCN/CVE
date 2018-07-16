@@ -35,151 +35,416 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../matrix.h"
 #include "../../tensor.h"
 #include "../kernel/arithmetic/kernel_arithmetic_div.h"
+#include "../kernel/arithmetic/kernel_arithmetic_div_value.h"
 
 namespace core
 {
-	// The div function for scalar
+	// Division of value and scalar
 
 	template <class A1, class A2>
-	scalar<float, A1>& cpu_div(scalar<float, A1> &b, const scalar<float, A2> &a)
+	scalar<float, A1>& cpu_div(scalar<float, A1> &c, const float a, const scalar<float> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_div<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_sse>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<float, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& cpu_div(scalar<double, A1> &b, const scalar<double, A2> &a)
+	scalar<double, A1>& cpu_div(scalar<double, A1> &c, const double a, const scalar<double> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_div<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<double, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The div function for vector
+	// Division of value and vector
 
 	template <class A1, class A2>
-	vector<float, A1>& cpu_div(vector<float, A1> &b, const vector<float, A2> &a)
+	vector<float, A1>& cpu_div(vector<float, A1> &c, const float a, const vector<float> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_div<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_sse>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<float, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_div(vector<double, A1> &b, const vector<double, A2> &a)
+	vector<double, A1>& cpu_div(vector<double, A1> &c, const double a, const vector<double> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_div<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<double, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The div function for matrix
+	// Division of value and matrix
 
 	template <class A1, class A2>
-	matrix<float, A1>& cpu_div(matrix<float, A1> &b, const matrix<float, A2> &a)
+	matrix<float, A1>& cpu_div(matrix<float, A1> &c, const float a, const matrix<float> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_div<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_sse>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<float, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& cpu_div(matrix<double, A1> &b, const matrix<double, A2> &a)
+	matrix<double, A1>& cpu_div(matrix<double, A1> &c, const double a, const matrix<double> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_div<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<double, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The div function for tensor
+	// Division of value and tensor
 
 	template <class A1, class A2>
-	tensor<float, A1>& cpu_div(tensor<float, A1> &b, const tensor<float, A2> &a)
+	tensor<float, A1>& cpu_div(tensor<float, A1> &c, const float a, const tensor<float> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<float, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_div<float, cpu_sse>()(b.size(), a.data(), b.data());
+			kernel_div_value<float, cpu_sse>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<float, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<float, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& cpu_div(tensor<double, A1> &b, const tensor<double, A2> &a)
+	tensor<double, A1>& cpu_div(tensor<double, A1> &c, const double a, const tensor<double> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
-			kernel_div<double, cpu_avx>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_avx>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_div<double, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_div_value<double, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_div<double, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_div_value<double, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	// Division of scalar and scalar
+
+	template <class A1, class A2, class A3>
+	scalar<float, A1>& cpu_div(scalar<float, A1> &c, const scalar<float, A2> &a, const scalar<float, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<double, A1>& cpu_div(scalar<double, A1> &c, const scalar<double, A2> &a, const scalar<double, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of vector and vector
+
+	template <class A1, class A2, class A3>
+	vector<float, A1>& cpu_div(vector<float, A1> &c, const vector<float, A2> &a, const vector<float, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<double, A1>& cpu_div(vector<double, A1> &c, const vector<double, A2> &a, const vector<double, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of matrix and matrix
+
+	template <class A1, class A2, class A3>
+	matrix<float, A1>& cpu_div(matrix<float, A1> &c, const matrix<float, A2> &a, const matrix<float, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<double, A1>& cpu_div(matrix<double, A1> &c, const matrix<double, A2> &a, const matrix<double, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of tensor and tensor
+
+	template <class A1, class A2, class A3>
+	tensor<float, A1>& cpu_div(tensor<float, A1> &c, const tensor<float, A2> &a, const tensor<float, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<double, A1>& cpu_div(tensor<double, A1> &c, const tensor<double, A2> &a, const tensor<double, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div<double, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div<double, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_div<double, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of vector and scalar
+
+	template <class A1, class A2, class A3>
+	vector<float, A1>& cpu_div(vector<float, A1> &c, const vector<float, A2> &a, const scalar<float, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<float, cpu_avx>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div_element<float, cpu_sse>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<float, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<double, A1>& cpu_div(vector<double, A1> &c, const vector<double, A2> &a, const scalar<double, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<double, cpu_avx>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div_element<double, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<double, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of matrix and vector
+
+	template <class A1, class A2, class A3>
+	matrix<float, A1>& cpu_div(matrix<float, A1> &c, const matrix<float, A2> &a, const vector<float, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<float, cpu_avx>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div_element<float, cpu_sse>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<float, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<double, A1>& cpu_div(matrix<double, A1> &c, const matrix<double, A2> &a, const vector<double, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<double, cpu_avx>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div_element<double, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<double, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Division of tensor and matrix
+
+	template <class A1, class A2, class A3>
+	tensor<float, A1>& cpu_div(tensor<float, A1> &c, const tensor<float, A2> &a, const matrix<float, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<float, cpu_avx>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse())
+			kernel_div_element<float, cpu_sse>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<float, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<double, A1>& cpu_div(tensor<double, A1> &c, const tensor<double, A2> &a, const matrix<double, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			kernel_div_element<double, cpu_avx>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_div_element<double, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_div_element<double, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 } // namespace core

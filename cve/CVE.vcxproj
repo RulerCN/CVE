@@ -194,11 +194,13 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_math.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mul.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_muladd.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mulsub.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mul_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid_derivative.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub.h" />
