@@ -142,12 +142,6 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mul.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_muladd.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_mulsub.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sub.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
@@ -203,12 +197,6 @@
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_mul.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_muladd.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_mulsub.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sub.h">
@@ -384,6 +372,24 @@
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div_value.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_madd.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_msub.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_madd_value.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_msub_value.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_madd.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_msub.h">
+      <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
