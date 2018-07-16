@@ -35,423 +35,1188 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../matrix.h"
 #include "../../tensor.h"
 #include "../kernel/arithmetic/kernel_arithmetic_subs.h"
+#include "../kernel/arithmetic/kernel_arithmetic_subs_value.h"
 
 namespace core
 {
-	// The subs function for scalar
+	// Saturation subtraction of value and scalar
 
 	template <class A1, class A2>
-	scalar<signed char, A1>& cpu_subs(scalar<signed char, A1> &b, const scalar<signed char, A2> &a)
+	scalar<signed char, A1>& cpu_subs(scalar<signed char, A1> &c, const signed char a, const scalar<signed char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned char, A1>& cpu_subs(scalar<unsigned char, A1> &b, const scalar<unsigned char, A2> &a)
+	scalar<unsigned char, A1>& cpu_subs(scalar<unsigned char, A1> &c, const unsigned char a, const scalar<unsigned char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<signed short, A1>& cpu_subs(scalar<signed short, A1> &b, const scalar<signed short, A2> &a)
+	scalar<signed short, A1>& cpu_subs(scalar<signed short, A1> &c, const signed short a, const scalar<signed short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned short, A1>& cpu_subs(scalar<unsigned short, A1> &b, const scalar<unsigned short, A2> &a)
+	scalar<unsigned short, A1>& cpu_subs(scalar<unsigned short, A1> &c, const unsigned short a, const scalar<unsigned short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<signed int, A1>& cpu_subs(scalar<signed int, A1> &b, const scalar<signed int, A2> &a)
+	scalar<signed int, A1>& cpu_subs(scalar<signed int, A1> &c, const signed int a, const scalar<signed int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned int, A1>& cpu_subs(scalar<unsigned int, A1> &b, const scalar<unsigned int, A2> &a)
+	scalar<unsigned int, A1>& cpu_subs(scalar<unsigned int, A1> &c, const unsigned int a, const scalar<unsigned int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The subs function for vector
+	// Saturation subtraction of value and vector
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_subs(vector<signed char, A1> &b, const vector<signed char, A2> &a)
+	vector<signed char, A1>& cpu_subs(vector<signed char, A1> &c, const signed char a, const vector<signed char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_subs(vector<unsigned char, A1> &b, const vector<unsigned char, A2> &a)
+	vector<unsigned char, A1>& cpu_subs(vector<unsigned char, A1> &c, const unsigned char a, const vector<unsigned char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& cpu_subs(vector<signed short, A1> &b, const vector<signed short, A2> &a)
+	vector<signed short, A1>& cpu_subs(vector<signed short, A1> &c, const signed short a, const vector<signed short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_subs(vector<unsigned short, A1> &b, const vector<unsigned short, A2> &a)
+	vector<unsigned short, A1>& cpu_subs(vector<unsigned short, A1> &c, const unsigned short a, const vector<unsigned short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& cpu_subs(vector<signed int, A1> &b, const vector<signed int, A2> &a)
+	vector<signed int, A1>& cpu_subs(vector<signed int, A1> &c, const signed int a, const vector<signed int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_subs(vector<unsigned int, A1> &b, const vector<unsigned int, A2> &a)
+	vector<unsigned int, A1>& cpu_subs(vector<unsigned int, A1> &c, const unsigned int a, const vector<unsigned int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The subs function for matrix
+	// Saturation subtraction of value and matrix
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_subs(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
+	matrix<signed char, A1>& cpu_subs(matrix<signed char, A1> &c, const signed char a, const matrix<signed char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_subs(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	matrix<unsigned char, A1>& cpu_subs(matrix<unsigned char, A1> &c, const unsigned char a, const matrix<unsigned char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_subs(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
+	matrix<signed short, A1>& cpu_subs(matrix<signed short, A1> &c, const signed short a, const matrix<signed short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_subs(matrix<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	matrix<unsigned short, A1>& cpu_subs(matrix<unsigned short, A1> &c, const unsigned short a, const matrix<unsigned short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_subs(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
+	matrix<signed int, A1>& cpu_subs(matrix<signed int, A1> &c, const signed int a, const matrix<signed int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_subs(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	matrix<unsigned int, A1>& cpu_subs(matrix<unsigned int, A1> &c, const unsigned int a, const matrix<unsigned int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
-	// The subs function for tensor
+	// Saturation subtraction of value and tensor
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_subs(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	tensor<signed char, A1>& cpu_subs(tensor<signed char, A1> &c, const signed char a, const tensor<signed char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed char, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed char, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_subs(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
-	{
-		if (b.empty() || a.empty())
-			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned char, cpu_avx2>()(b.size(), a.data(), b.data());
-		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned char, cpu_sse2>()(b.size(), a.data(), b.data());
-		else
-			kernel_subs<unsigned char, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_subs(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	tensor<unsigned char, A1>& cpu_subs(tensor<unsigned char, A1> &c, const unsigned char a, const tensor<unsigned char> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned char, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned char, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_subs(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	tensor<signed short, A1>& cpu_subs(tensor<signed short, A1> &c, const signed short a, const tensor<signed short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned short, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned short, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned short, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_subs(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	tensor<unsigned short, A1>& cpu_subs(tensor<unsigned short, A1> &c, const unsigned short a, const tensor<unsigned short> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<signed int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<signed int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<unsigned short, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<signed int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<unsigned short, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_subs(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	tensor<signed int, A1>& cpu_subs(tensor<signed int, A1> &c, const signed int a, const tensor<signed int> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_subs<unsigned int, cpu_avx2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_avx2>()(c.size(), a, b.data(), c.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_subs<unsigned int, cpu_sse2>()(b.size(), a.data(), b.data());
+			kernel_subs_value<signed int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
-			kernel_subs<unsigned int, cpu_none>()(b.size(), a.data(), b.data());
-		return b;
+			kernel_subs_value<signed int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2>
+	tensor<unsigned int, A1>& cpu_subs(tensor<unsigned int, A1> &c, const unsigned int a, const tensor<unsigned int> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_value<unsigned int, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_subs_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of scalar and scalar
+
+	template <class A1, class A2, class A3>
+	scalar<signed char, A1>& cpu_subs(scalar<signed char, A1> &c, const scalar<signed char, A2> &a, const scalar<signed char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<unsigned char, A1>& cpu_subs(scalar<unsigned char, A1> &c, const scalar<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<signed short, A1>& cpu_subs(scalar<signed short, A1> &c, const scalar<signed short, A2> &a, const scalar<signed short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<unsigned short, A1>& cpu_subs(scalar<unsigned short, A1> &c, const scalar<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<signed int, A1>& cpu_subs(scalar<signed int, A1> &c, const scalar<signed int, A2> &a, const scalar<signed int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	scalar<unsigned int, A1>& cpu_subs(scalar<unsigned int, A1> &c, const scalar<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of vector and vector
+
+	template <class A1, class A2, class A3>
+	vector<signed char, A1>& cpu_subs(vector<signed char, A1> &c, const vector<signed char, A2> &a, const vector<signed char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned char, A1>& cpu_subs(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<signed short, A1>& cpu_subs(vector<signed short, A1> &c, const vector<signed short, A2> &a, const vector<signed short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned short, A1>& cpu_subs(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<signed int, A1>& cpu_subs(vector<signed int, A1> &c, const vector<signed int, A2> &a, const vector<signed int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned int, A1>& cpu_subs(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of matrix and matrix
+
+	template <class A1, class A2, class A3>
+	matrix<signed char, A1>& cpu_subs(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const matrix<signed char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned char, A1>& cpu_subs(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<signed short, A1>& cpu_subs(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const matrix<signed short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned short, A1>& cpu_subs(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<signed int, A1>& cpu_subs(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const matrix<signed int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned int, A1>& cpu_subs(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of tensor and tensor
+
+	template <class A1, class A2, class A3>
+	tensor<signed char, A1>& cpu_subs(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const tensor<signed char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned char, A1>& cpu_subs(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const tensor<unsigned char, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned char, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned char, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned char, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<signed short, A1>& cpu_subs(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const tensor<signed short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned short, A1>& cpu_subs(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const tensor<unsigned short, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned short, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned short, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned short, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<signed int, A1>& cpu_subs(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const tensor<signed int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<signed int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<signed int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<signed int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned int, A1>& cpu_subs(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const tensor<unsigned int, A3> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs<unsigned int, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of vector and scalar
+
+	template <class A1, class A2, class A3>
+	vector<signed char, A1>& cpu_subs(vector<signed char, A1> &c, const vector<signed char, A2> &a, const scalar<signed char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed char, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed char, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed char, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned char, A1>& cpu_subs(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned char, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned char, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned char, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<signed short, A1>& cpu_subs(vector<signed short, A1> &c, const vector<signed short, A2> &a, const scalar<signed short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed short, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed short, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed short, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned short, A1>& cpu_subs(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned short, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned short, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned short, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<signed int, A1>& cpu_subs(vector<signed int, A1> &c, const vector<signed int, A2> &a, const scalar<signed int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed int, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed int, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed int, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	vector<unsigned int, A1>& cpu_subs(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned int, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned int, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned int, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of matrix and vector
+
+	template <class A1, class A2, class A3>
+	matrix<signed char, A1>& cpu_subs(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const vector<signed char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed char, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed char, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed char, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned char, A1>& cpu_subs(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned char, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned char, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned char, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<signed short, A1>& cpu_subs(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const vector<signed short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed short, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed short, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed short, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned short, A1>& cpu_subs(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned short, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned short, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned short, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<signed int, A1>& cpu_subs(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const vector<signed int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed int, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed int, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed int, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	matrix<unsigned int, A1>& cpu_subs(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned int, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned int, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned int, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	// Saturation subtraction of tensor and matrix
+
+	template <class A1, class A2, class A3>
+	tensor<signed char, A1>& cpu_subs(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const matrix<signed char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed char, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed char, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed char, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned char, A1>& cpu_subs(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned char, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned char, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned char, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<signed short, A1>& cpu_subs(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const matrix<signed short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed short, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed short, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed short, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned short, A1>& cpu_subs(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned short, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned short, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned short, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<signed int, A1>& cpu_subs(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const matrix<signed int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<signed int, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<signed int, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<signed int, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A1, class A2, class A3>
+	tensor<unsigned int, A1>& cpu_subs(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_subs_element<unsigned int, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_subs_element<unsigned int, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_subs_element<unsigned int, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
 	}
 
 } // namespace core

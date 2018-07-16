@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Addition of scalar and value
+	// Addition of value and scalar
 
 	template <class A1, class A2>
 	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &c, const signed char a, const scalar<signed char> &b)
@@ -177,7 +177,7 @@ namespace core
 		return c;
 	}
 
-	// Addition of vector and value
+	// Addition of value and vector
 
 	template <class A1, class A2>
 	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const signed char a, const vector<signed char> &b)
@@ -315,7 +315,7 @@ namespace core
 		return c;
 	}
 
-	// Addition of matrix and value
+	// Addition of value and matrix
 
 	template <class A1, class A2>
 	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const signed char a, const matrix<signed char> &b)
@@ -453,7 +453,7 @@ namespace core
 		return c;
 	}
 
-	// Addition of tensor and value
+	// Addition of value and tensor
 
 	template <class A1, class A2>
 	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const signed char a, const tensor<signed char> &b)
