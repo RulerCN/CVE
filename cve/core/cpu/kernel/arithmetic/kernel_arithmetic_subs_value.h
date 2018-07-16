@@ -121,7 +121,6 @@ namespace core
 		void operator()(size_t n, const unsigned char a, const unsigned char *b, unsigned char *c) const
 		{
 			constexpr size_t block = 8;
-			unsigned char c0, c1, c2, c3, c4, c5, c6, c7;
 
 			while (n > block)
 			{
@@ -197,7 +196,6 @@ namespace core
 		void operator()(size_t n, const unsigned short a, const unsigned short *b, unsigned short *c) const
 		{
 			constexpr size_t block = 8;
-			unsigned short c0, c1, c2, c3, c4, c5, c6, c7;
 
 			while (n > block)
 			{
@@ -273,7 +271,6 @@ namespace core
 		void operator()(size_t n, const unsigned int a, const unsigned int *b, unsigned int *c) const
 		{
 			constexpr size_t block = 8;
-			unsigned int c0, c1, c2, c3, c4, c5, c6, c7;
 
 			while (n > block)
 			{

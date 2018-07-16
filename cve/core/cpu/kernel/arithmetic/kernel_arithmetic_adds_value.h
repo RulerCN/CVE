@@ -959,7 +959,7 @@ namespace core
 				ymm_c0 = _mm256_add_epi32(ymm_a, ymm_b0);
 				// s = ~(a ^ b) & (c ^ a);
 				ymm_s0 = _mm256_andnot_si256(_mm256_or_si256(ymm_a, ymm_b0), _mm256_or_si256(ymm_c0, ymm_a));
-				// c = s < 0 ? d : c;
+				// c = s < 0 ? t : c;
 				ymm_s0 = _mm256_srai_epi32(ymm_s0, 31);
 				ymm_c0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_t), _mm256_andnot_si256(ymm_s0, ymm_c0));
 				// store data into memory

@@ -1147,6 +1147,7 @@ namespace core
 				// c = a - b;
 				ymm_c0 = _mm256_sub_epi32(ymm_a0, ymm_b0);
 				// s = b > a;
+				ymm_s0 = _mm256_srai_epi32(_mm256_xor_si256(ymm_b0, ymm_a0), 31);
 				ymm_s0 = _mm256_xor_si256(_mm256_cmpgt_epi32(ymm_b0, ymm_a0), ymm_s0);
 				// c = s ? min : c;
 				ymm_c0 = _mm256_or_si256(_mm256_and_si256(ymm_s0, ymm_min), _mm256_andnot_si256(ymm_s0, ymm_c0));
