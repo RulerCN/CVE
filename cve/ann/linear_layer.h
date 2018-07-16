@@ -143,7 +143,7 @@ namespace ann
 			// Calculate the gradient of weight
 			::core::cpu_matmul(weight_gradient, input_mean, loss_mean);
 			// Update the weights
-			::core::cpu_muladd(weight, -rate, weight_gradient);
+			::core::cpu_madd(weight, -rate, weight_gradient);
 		}
 	private:
 		matrix_type weight;
