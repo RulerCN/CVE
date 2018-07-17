@@ -46,7 +46,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -63,7 +63,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -82,7 +82,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -99,7 +99,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -118,7 +118,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -135,7 +135,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -154,7 +154,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -171,7 +171,7 @@ namespace core
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (c.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
