@@ -334,15 +334,6 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_subs.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h">
-      <Filter>core\cpu\kernel\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h">
-      <Filter>core\cpu\kernel\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor.h">
-      <Filter>core\cpu\kernel\logic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\logic\cpu_logic_and.h">
       <Filter>core\cpu\logic</Filter>
     </ClInclude>
@@ -390,6 +381,24 @@
     </ClInclude>
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_msub.h">
       <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and_value.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or_value.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor.h">
+      <Filter>core\cpu\kernel\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor_value.h">
+      <Filter>core\cpu\kernel\logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -230,8 +230,11 @@
     <ClInclude Include="core\cpu\cpu_reduce.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and_value.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or_value.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor.h" />
+    <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor_value.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_cvrv.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcm.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcv.h" />
