@@ -49,6 +49,10 @@ namespace ann
 		typedef typename layer_base_type::vector_type            vector_type;
 		typedef typename layer_base_type::matrix_type            matrix_type;
 		typedef typename layer_base_type::tensor_type            tensor_type;
+		typedef typename layer_base_type::const_scalar_type      const_scalar_type;
+		typedef typename layer_base_type::const_vector_type      const_vector_type;
+		typedef typename layer_base_type::const_matrix_type      const_matrix_type;
+		typedef typename layer_base_type::const_tensor_type      const_tensor_type;
 		typedef typename layer_base_type::scalar_pointer         scalar_pointer;
 		typedef	typename layer_base_type::vector_pointer         vector_pointer;
 		typedef	typename layer_base_type::matrix_pointer         matrix_pointer;
@@ -86,8 +90,8 @@ namespace ann
 
 		void assign(size_type length)
 		{
-			const size_type dimension = 1;
-			vector.assign(length, dimension);
+			constexpr size_type dimension = 1;
+			temporary_vector.assign(length, dimension);
 		}
 
 		// Forward propagation
@@ -95,14 +99,16 @@ namespace ann
 		{
 			if (input.empty() || output.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.size() != output.size())
-				throw ::std::domain_error(::core::tensor_different_size);
+			if (input.batch() != 1 || output.batch() != 1)
+				throw ::std::invalid_argument(::core::invalid_shape);
 
-			::core::cpu_reduce(vector, input[0], ::core::reduce_col_avg);
-			::core::cpu_sub(output, input[0], vector);
-			::core::cpu_exp(output, output);
-			::core::cpu_reduce(vector, output[0], ::core::reduce_col_sum);
-			::core::cpu_div(output, output, vector);
+			matrix_type output_matrix = output[0];
+			const_matrix_type input_matrix = input[0];
+			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
+			::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
+			::core::cpu_exp(output_matrix, output_matrix);
+			::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
+			::core::cpu_div(output_matrix, output_matrix, temporary_vector);
 			this->bind(input, output);
 		}
 
@@ -111,8 +117,8 @@ namespace ann
 		{
 			if (input.empty() || output.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.size() != output.size())
-				throw ::std::domain_error(::core::tensor_different_size);
+			if (input.batch() != 1 || output.batch() != 1)
+				throw ::std::invalid_argument(::core::invalid_shape);
 
 			const_pointer input_loss = input.data();
 			pointer y = this->output()->data();
@@ -122,7 +128,7 @@ namespace ann
 				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
 		}
 	private:
-		vector_type vector;
+		vector_type temporary_vector;
 	};
 
 } // namespace ann

@@ -409,9 +409,9 @@ int main()
 
 	a.linear_fill(static_cast<unsigned char>(1), static_cast<unsigned char>(16), static_cast<unsigned char>(1));
 	std::cout << a << std::endl;
-	core::cpu_reduce(b, a, ::core::reduce_col_min);
+	core::cpu_reduce(b, a, ::core::reduce_col_max);
 	std::cout << b << std::endl;
-	core::cpu_sub(c, a, b);
+	core::cpu_subs(c, a, b);
 	std::cout << c << std::endl;
 
 	//	core::matrix<float> b(p, col, dim);
