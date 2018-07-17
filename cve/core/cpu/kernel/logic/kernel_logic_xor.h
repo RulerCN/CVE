@@ -43,7 +43,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct kernel_xor
 	{
-		void operatxor()(size_t n, const T *a, const T *b, T *c) const
+		void operator()(size_t n, const T *a, const T *b, T *c) const
 		{
 			constexpr size_t block = 8;
 
