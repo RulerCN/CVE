@@ -244,21 +244,6 @@
     <ClInclude Include="core\cpu\reduce\cpu_reduce_row_sum.h">
       <Filter>core\cpu\reduce</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\convert_scale\kernel_convert_scale_double.h">
-      <Filter>core\cpu\kernel\convert_scale</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\convert_scale\kernel_convert_scale_float.h">
-      <Filter>core\cpu\kernel\convert_scale</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\convert_scale\cpu_convert_scale_double.h">
-      <Filter>core\cpu\convert_scale</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\convert_scale\cpu_convert_scale_float.h">
-      <Filter>core\cpu\convert_scale</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_convert_scale.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
@@ -400,6 +385,21 @@
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_xor_value.h">
       <Filter>core\cpu\kernel\logic</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_float.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_double.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_cvtmul.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_cvtmul_double.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_cvtmul_float.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -440,12 +440,6 @@
     </Filter>
     <Filter Include="core\cpu\reduce">
       <UniqueIdentifier>{97261d09-bc53-428f-afe2-7c8ed07945dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\cpu\kernel\convert_scale">
-      <UniqueIdentifier>{5ca7aa9b-8f41-4a24-8449-b4c3321d7d7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\cpu\convert_scale">
-      <UniqueIdentifier>{2055bdc0-4410-4c76-afe4-633d74fe38b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="core\cpu\kernel\matmul">
       <UniqueIdentifier>{ccb7c80d-5536-414b-b592-d9b83ab907fe}</UniqueIdentifier>

@@ -30,13 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_REDUCE_H__
 #define __CORE_CPU_REDUCE_H__
 
-#include "cpu_convert_scale.h"
 #include "reduce/cpu_reduce_col_min.h"
 #include "reduce/cpu_reduce_col_max.h"
 #include "reduce/cpu_reduce_col_sum.h"
 #include "reduce/cpu_reduce_row_min.h"
 #include "reduce/cpu_reduce_row_max.h"
 #include "reduce/cpu_reduce_row_sum.h"
+#include "arithmetic/cpu_arithmetic_mul.h"
 
 namespace core
 {
@@ -103,14 +103,14 @@ namespace core
 		case reduce_col_avg:
 			b.fill(0.0F);
 			cpu_reduce_col_sum(b, a);
-			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
+			return cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 		case reduce_row_sum:
 			b.fill(0.0F);
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			b.fill(0.0F);
 			cpu_reduce_row_sum(b, a);
-			return cpu_convert_scale(b, b, 1.0F / static_cast<float>(a.rows()));
+			return cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
 		}
@@ -164,13 +164,13 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -218,13 +218,13 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -272,13 +272,13 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -316,13 +316,13 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -356,13 +356,13 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_sum:
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -382,7 +382,7 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
@@ -392,7 +392,7 @@ namespace core
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0f / static_cast<float>(a.rows()));
+			cpu_mul(b, 1.0F / static_cast<float>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -412,7 +412,7 @@ namespace core
 			return cpu_reduce_col_sum(b, a);
 		case reduce_col_avg:
 			cpu_reduce_col_sum(b, a);
-			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
+			cpu_mul(b, 1.0 / static_cast<double>(a.rows()), b);
 			return b;
 		case reduce_row_min:
 			return cpu_reduce_row_min(b, a);
@@ -422,7 +422,7 @@ namespace core
 			return cpu_reduce_row_sum(b, a);
 		case reduce_row_avg:
 			cpu_reduce_row_sum(b, a);
-			cpu_convert_scale(b, b, 1.0 / static_cast<double>(a.rows()));
+			cpu_mul(b, 1.0 / static_cast<double>(a.rows()), b);
 			return b;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);

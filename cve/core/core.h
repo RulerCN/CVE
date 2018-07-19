@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "tree.h"
 
 #include "cpu/cpu_convert.h"
-#include "cpu/cpu_convert_scale.h"
+#include "cpu/cpu_cvtmul.h"
 #include "cpu/cpu_reduce.h"
 #include "cpu/cpu_transpose.h"
 #include "cpu/cpu_border.h"
