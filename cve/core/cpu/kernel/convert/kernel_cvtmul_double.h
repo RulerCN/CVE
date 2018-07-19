@@ -38,7 +38,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct kernel_cvtmul_double
 	{
-		void operator()(size_t n, const double a, const T *b, double *c) const
+		void operator()(size_t n, double a, const T *b, double *c) const
 		{
 			constexpr size_t block = 8;
 
@@ -64,7 +64,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed char, cpu_sse41>
 	{
-		void operator()(size_t n, const double a, const signed char *b, double *c) const
+		void operator()(size_t n, double a, const signed char *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -125,7 +125,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned char, cpu_sse41>
 	{
-		void operator()(size_t n, const double a, const unsigned char *b, double *c) const
+		void operator()(size_t n, double a, const unsigned char *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -186,7 +186,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed short, cpu_sse41>
 	{
-		void operator()(size_t n, const double a, const signed short *b, double *c) const
+		void operator()(size_t n, double a, const signed short *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -229,7 +229,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned short, cpu_sse41>
 	{
-		void operator()(size_t n, const double a, const unsigned short *b, double *c) const
+		void operator()(size_t n, double a, const unsigned short *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -272,7 +272,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed int, cpu_sse2>
 	{
-		void operator()(size_t n, const double a, const signed int *b, double *c) const
+		void operator()(size_t n, double a, const signed int *b, double *c) const
 		{
 			constexpr size_t block = 4;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -305,7 +305,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned int, cpu_sse2>
 	{
-		void operator()(size_t n, const double a, const unsigned int *b, double *c) const
+		void operator()(size_t n, double a, const unsigned int *b, double *c) const
 		{
 			constexpr size_t block = 4;
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
@@ -351,7 +351,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<float, cpu_sse>
 	{
-		void operator()(size_t n, const double a, const float *b, double *c) const
+		void operator()(size_t n, double a, const float *b, double *c) const
 		{
 			constexpr size_t block = 4;
 			const __m128d xmm_a = _mm_set1_pd(a);
@@ -384,7 +384,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<double, cpu_sse2>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			constexpr size_t bit = 2;
@@ -433,7 +433,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed char, cpu_avx2>
 	{
-		void operator()(size_t n, const double a, const signed char *b, double *c) const
+		void operator()(size_t n, double a, const signed char *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			const __m256d ymm_a = _mm256_set1_pd(a);
@@ -481,7 +481,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned char, cpu_avx2>
 	{
-		void operator()(size_t n, const double a, const unsigned char *b, double *c) const
+		void operator()(size_t n, double a, const unsigned char *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			const __m256d ymm_a = _mm256_set1_pd(a);
@@ -529,7 +529,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed short, cpu_avx2>
 	{
-		void operator()(size_t n, const double a, const signed short *b, double *c) const
+		void operator()(size_t n, double a, const signed short *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			const __m256d ymm_a = _mm256_set1_pd(a);
@@ -565,7 +565,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned short, cpu_avx2>
 	{
-		void operator()(size_t n, const double a, const unsigned short *b, double *c) const
+		void operator()(size_t n, double a, const unsigned short *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			const __m256d ymm_a = _mm256_set1_pd(a);
@@ -601,7 +601,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<signed int, cpu_avx>
 	{
-		void operator()(size_t n, const double a, const signed int *b, double *c) const
+		void operator()(size_t n, double a, const signed int *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -657,7 +657,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<unsigned int, cpu_avx2>
 	{
-		void operator()(size_t n, const double a, const unsigned int *b, double *c) const
+		void operator()(size_t n, double a, const unsigned int *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
@@ -694,7 +694,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<float, cpu_avx>
 	{
-		void operator()(size_t n, const double a, const float *b, double *c) const
+		void operator()(size_t n, double a, const float *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -750,7 +750,7 @@ namespace core
 	template<>
 	struct kernel_cvtmul_double<double, cpu_avx>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;

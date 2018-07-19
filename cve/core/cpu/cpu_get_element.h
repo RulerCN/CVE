@@ -44,13 +44,13 @@ namespace core
 	}
 
 	template <class T, class A1, class A2>
-	scalar<float, A1>& cpu_get_element(scalar<float, A1> &b, const vector<T, A2> &a, size_t index, const float scale)
+	scalar<float, A1>& cpu_get_element(scalar<float, A1> &b, const vector<T, A2> &a, size_t index, float scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
-	scalar<double, A1>& cpu_get_element(scalar<double, A1> &b, const vector<T, A2> &a, size_t index, const double scale)
+	scalar<double, A1>& cpu_get_element(scalar<double, A1> &b, const vector<T, A2> &a, size_t index, double scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
@@ -64,13 +64,13 @@ namespace core
 	}
 
 	template <class T, class A1, class A2>
-	vector<float, A1>& cpu_get_element(vector<float, A1> &b, const matrix<T, A2> &a, size_t index, const float scale)
+	vector<float, A1>& cpu_get_element(vector<float, A1> &b, const matrix<T, A2> &a, size_t index, float scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
-	vector<double, A1>& cpu_get_element(vector<double, A1> &b, const matrix<T, A2> &a, size_t index, const double scale)
+	vector<double, A1>& cpu_get_element(vector<double, A1> &b, const matrix<T, A2> &a, size_t index, double scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
@@ -84,13 +84,13 @@ namespace core
 	}
 
 	template <class T, class A1, class A2>
-	matrix<float, A1>& cpu_get_element(matrix<float, A1> &b, const tensor<T, A2> &a, size_t index, const float scale)
+	matrix<float, A1>& cpu_get_element(matrix<float, A1> &b, const tensor<T, A2> &a, size_t index, float scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
 
 	template <class T, class A1, class A2>
-	matrix<double, A1>& cpu_get_element(matrix<double, A1> &b, const tensor<T, A2> &a, size_t index, const double scale)
+	matrix<double, A1>& cpu_get_element(matrix<double, A1> &b, const tensor<T, A2> &a, size_t index, double scale)
 	{
 		return cpu_cvtmul(b, scale, a.at(index));
 	}
