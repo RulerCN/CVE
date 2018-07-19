@@ -42,7 +42,7 @@ namespace core
 	// Subtraction of scalar and value
 
 	template <class A1, class A2>
-	scalar<signed char, A1>& cpu_sub(scalar<signed char, A1> &c, const signed char a, const scalar<signed char> &b)
+	scalar<signed char, A1>& cpu_sub(scalar<signed char, A1>&c, signed char a, const scalar<signed char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -59,7 +59,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned char, A1>& cpu_sub(scalar<unsigned char, A1> &c, const unsigned char a, const scalar<unsigned char> &b)
+	scalar<unsigned char, A1>& cpu_sub(scalar<unsigned char, A1>&c, unsigned char a, const scalar<unsigned char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -76,7 +76,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed short, A1>& cpu_sub(scalar<signed short, A1> &c, const signed short a, const scalar<signed short> &b)
+	scalar<signed short, A1>& cpu_sub(scalar<signed short, A1>&c, signed short a, const scalar<signed short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -93,7 +93,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned short, A1>& cpu_sub(scalar<unsigned short, A1> &c, const unsigned short a, const scalar<unsigned short> &b)
+	scalar<unsigned short, A1>& cpu_sub(scalar<unsigned short, A1>&c, unsigned short a, const scalar<unsigned short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -110,7 +110,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<signed int, A1>& cpu_sub(scalar<signed int, A1> &c, const signed int a, const scalar<signed int> &b)
+	scalar<signed int, A1>& cpu_sub(scalar<signed int, A1>&c, signed int a, const scalar<signed int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -127,7 +127,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<unsigned int, A1>& cpu_sub(scalar<unsigned int, A1> &c, const unsigned int a, const scalar<unsigned int> &b)
+	scalar<unsigned int, A1>& cpu_sub(scalar<unsigned int, A1>&c, unsigned int a, const scalar<unsigned int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -144,7 +144,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<float, A1>& cpu_sub(scalar<float, A1> &c, const float a, const scalar<float> &b)
+	scalar<float, A1>& cpu_sub(scalar<float, A1>&c, float a, const scalar<float> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -161,7 +161,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& cpu_sub(scalar<double, A1> &c, const double a, const scalar<double> &b)
+	scalar<double, A1>& cpu_sub(scalar<double, A1>&c, double a, const scalar<double> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -180,7 +180,7 @@ namespace core
 	// Subtraction of vector and value
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_sub(vector<signed char, A1> &c, const signed char a, const vector<signed char> &b)
+	vector<signed char, A1>& cpu_sub(vector<signed char, A1>&c, signed char a, const vector<signed char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -197,7 +197,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_sub(vector<unsigned char, A1> &c, const unsigned char a, const vector<unsigned char> &b)
+	vector<unsigned char, A1>& cpu_sub(vector<unsigned char, A1>&c, unsigned char a, const vector<unsigned char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -214,7 +214,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed short, A1>& cpu_sub(vector<signed short, A1> &c, const signed short a, const vector<signed short> &b)
+	vector<signed short, A1>& cpu_sub(vector<signed short, A1>&c, signed short a, const vector<signed short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -231,7 +231,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_sub(vector<unsigned short, A1> &c, const unsigned short a, const vector<unsigned short> &b)
+	vector<unsigned short, A1>& cpu_sub(vector<unsigned short, A1>&c, unsigned short a, const vector<unsigned short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -248,7 +248,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed int, A1>& cpu_sub(vector<signed int, A1> &c, const signed int a, const vector<signed int> &b)
+	vector<signed int, A1>& cpu_sub(vector<signed int, A1>&c, signed int a, const vector<signed int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -265,7 +265,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_sub(vector<unsigned int, A1> &c, const unsigned int a, const vector<unsigned int> &b)
+	vector<unsigned int, A1>& cpu_sub(vector<unsigned int, A1>&c, unsigned int a, const vector<unsigned int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -282,7 +282,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<float, A1>& cpu_sub(vector<float, A1> &c, const float a, const vector<float> &b)
+	vector<float, A1>& cpu_sub(vector<float, A1>&c, float a, const vector<float> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -299,7 +299,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_sub(vector<double, A1> &c, const double a, const vector<double> &b)
+	vector<double, A1>& cpu_sub(vector<double, A1>&c, double a, const vector<double> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -318,7 +318,7 @@ namespace core
 	// Subtraction of matrix and value
 
 	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_sub(matrix<signed char, A1> &c, const signed char a, const matrix<signed char> &b)
+	matrix<signed char, A1>& cpu_sub(matrix<signed char, A1>&c, signed char a, const matrix<signed char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -335,7 +335,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_sub(matrix<unsigned char, A1> &c, const unsigned char a, const matrix<unsigned char> &b)
+	matrix<unsigned char, A1>& cpu_sub(matrix<unsigned char, A1>&c, unsigned char a, const matrix<unsigned char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -352,7 +352,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_sub(matrix<signed short, A1> &c, const signed short a, const matrix<signed short> &b)
+	matrix<signed short, A1>& cpu_sub(matrix<signed short, A1>&c, signed short a, const matrix<signed short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -369,7 +369,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_sub(matrix<unsigned short, A1> &c, const unsigned short a, const matrix<unsigned short> &b)
+	matrix<unsigned short, A1>& cpu_sub(matrix<unsigned short, A1>&c, unsigned short a, const matrix<unsigned short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -386,7 +386,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_sub(matrix<signed int, A1> &c, const signed int a, const matrix<signed int> &b)
+	matrix<signed int, A1>& cpu_sub(matrix<signed int, A1>&c, signed int a, const matrix<signed int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -403,7 +403,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_sub(matrix<unsigned int, A1> &c, const unsigned int a, const matrix<unsigned int> &b)
+	matrix<unsigned int, A1>& cpu_sub(matrix<unsigned int, A1>&c, unsigned int a, const matrix<unsigned int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -420,7 +420,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<float, A1>& cpu_sub(matrix<float, A1> &c, const float a, const matrix<float> &b)
+	matrix<float, A1>& cpu_sub(matrix<float, A1>&c, float a, const matrix<float> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -437,7 +437,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& cpu_sub(matrix<double, A1> &c, const double a, const matrix<double> &b)
+	matrix<double, A1>& cpu_sub(matrix<double, A1>&c, double a, const matrix<double> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -456,7 +456,7 @@ namespace core
 	// Subtraction of tensor and value
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_sub(tensor<signed char, A1> &c, const signed char a, const tensor<signed char> &b)
+	tensor<signed char, A1>& cpu_sub(tensor<signed char, A1>&c, signed char a, const tensor<signed char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -473,7 +473,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_sub(tensor<unsigned char, A1> &c, const unsigned char a, const tensor<unsigned char> &b)
+	tensor<unsigned char, A1>& cpu_sub(tensor<unsigned char, A1>&c, unsigned char a, const tensor<unsigned char> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -490,7 +490,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_sub(tensor<signed short, A1> &c, const signed short a, const tensor<signed short> &b)
+	tensor<signed short, A1>& cpu_sub(tensor<signed short, A1>&c, signed short a, const tensor<signed short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -507,7 +507,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_sub(tensor<unsigned short, A1> &c, const unsigned short a, const tensor<unsigned short> &b)
+	tensor<unsigned short, A1>& cpu_sub(tensor<unsigned short, A1>&c, unsigned short a, const tensor<unsigned short> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -524,7 +524,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_sub(tensor<signed int, A1> &c, const signed int a, const tensor<signed int> &b)
+	tensor<signed int, A1>& cpu_sub(tensor<signed int, A1>&c, signed int a, const tensor<signed int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -541,7 +541,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_sub(tensor<unsigned int, A1> &c, const unsigned int a, const tensor<unsigned int> &b)
+	tensor<unsigned int, A1>& cpu_sub(tensor<unsigned int, A1>&c, unsigned int a, const tensor<unsigned int> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -558,7 +558,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<float, A1>& cpu_sub(tensor<float, A1> &c, const float a, const tensor<float> &b)
+	tensor<float, A1>& cpu_sub(tensor<float, A1>&c, float a, const tensor<float> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -575,7 +575,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& cpu_sub(tensor<double, A1> &c, const double a, const tensor<double> &b)
+	tensor<double, A1>& cpu_sub(tensor<double, A1>&c, double a, const tensor<double> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

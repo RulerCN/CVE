@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct kernel_mul_value
 	{
-		void operator()(size_t n, const T a, const T *b, T *c) const
+		void operator()(size_t n, T a, const T *b, T *c) const
 		{
 			constexpr size_t block = 8;
 
@@ -65,7 +65,7 @@ namespace core
 	template<>
 	struct kernel_mul_value<float, cpu_sse>
 	{
-		void operator()(size_t n, const float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -114,7 +114,7 @@ namespace core
 	template<>
 	struct kernel_mul_value<double, cpu_sse2>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			constexpr size_t bit = 2;
@@ -163,7 +163,7 @@ namespace core
 	template<>
 	struct kernel_mul_value<float, cpu_avx>
 	{
-		void operator()(size_t n, const float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -212,7 +212,7 @@ namespace core
 	template<>
 	struct kernel_mul_value<double, cpu_avx>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;

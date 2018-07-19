@@ -409,6 +409,12 @@
     <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h">
       <Filter>core\cpu\kernel\onehot</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\onehot\cpu_onehot_sub.h">
+      <Filter>core\cpu\onehot</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_onehot.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -464,6 +470,9 @@
     </Filter>
     <Filter Include="core\cpu\kernel\onehot">
       <UniqueIdentifier>{8141d88d-4467-414a-9f5d-45c78a8ab6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\onehot">
+      <UniqueIdentifier>{82532e68-5773-429a-881e-1b4af5dfcd10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_ONEHOT_SUB_H__
 #define __CORE_CPU_KERNEL_ONEHOT_SUB_H__
 
+#include <cstring>
 #include "../../cpu_inst.h"
 
 namespace core
@@ -38,27 +39,17 @@ namespace core
 	template<class T1, class T2>
 	struct kernel_onehot_sub
 	{
-		// C[i] = A[B[i]]
-		void operator()(size_t n, const T1 *a, size_t rsa, const T2 *b, T1 *c) const
+		// C(mxn) = A(mxn) - one_hot(B(m))
+		void operator()(size_t m, const T1 *a, size_t rsa, const T2 *b, T1 *c) const
 		{
-			constexpr size_t block_n = 8;
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_n = n - aligned_n;
-			for (size_t i = 0; i < aligned_n; i += block_n)
+			constexpr T1 one = 1;
+			if (c != a)
+				::std::memcpy(c, a, m * rsa);
+			for (size_t i = 0; i < m; ++i)
 			{
-				c[0] = a[b[0]];
-				c[1] = a[b[1]];
-				c[2] = a[b[2]];
-				c[3] = a[b[3]];
-				c[4] = a[b[4]];
-				c[5] = a[b[5]];
-				c[6] = a[b[6]];
-				c[7] = a[b[7]];
-				b += block_n;
-				c += block_n;
+				c[b[i]] -= one;
+				c += rsa;
 			}
-			for (size_t i = 0; i < surplus_n; ++i)
-				c[i] = a[b[i]];
 		}
 	};
 

@@ -11,6 +11,7 @@
 #include "ann/mnist.h"
 #include "ann/linear_layer.h"
 #include "ann/sigmoid_layer.h"
+#include "ann/softmax_layer.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -400,31 +401,6 @@ int main()
 	//	img::bitmap::encode(replicate, output);
 	//}
 
-	const size_t m = 10;
-	const size_t n = 10;
-	const size_t dim = 1;
-	core::matrix<unsigned char> a(m, n, dim);
-	core::vector<unsigned char> b(n, dim);
-	core::matrix<unsigned char> c(m, n, dim);
-
-	a.linear_fill(static_cast<unsigned char>(1), static_cast<unsigned char>(16), static_cast<unsigned char>(1));
-	std::cout << a << std::endl;
-	core::cpu_reduce(b, a, ::core::reduce_col_max);
-	std::cout << b << std::endl;
-	core::cpu_subs(c, a, b);
-	std::cout << c << std::endl;
-
-	//	core::matrix<float> b(p, col, dim);
-	//	core::matrix<float> bt(col, p, dim);
-	//	core::matrix<float> c(row, col, dim, 0.0F);
-	//	core::matrix<float> d(row, col, dim, 0.0F);
-	//	// Initialization matrix
-	//	a.linear_fill(1.0F, 1.0F);
-	//	b.linear_fill(1.0F, 1.0F);
-	//	core::cpu_transpose(bt, b);
-	//	// Matrix-matrix multiplication
-	//	core::cpu_mul(c, a, b);
-
 	const size_t batch      = 100;
 	const size_t rows       = 28;
 	const size_t columns    = 28;
@@ -439,7 +415,7 @@ int main()
 	ann::linear_layer<float> layer1(input_dim, hide_dim);
 	ann::sigmoid_layer<float> layer2;
 	ann::linear_layer<float> layer3(hide_dim, output_dim);
-	ann::sigmoid_layer<float> layer4;
+	ann::softmax_layer<float> layer4;
 	core::tensor<float> tensor1(1, batch, hide_dim, 1);
 	core::tensor<float> tensor2(1, batch, hide_dim, 1);
 	core::tensor<float> tensor3(1, batch, output_dim, 1);
@@ -460,7 +436,7 @@ int main()
 	layer2.forward(tensor1, tensor2);
 	// linear layer
 	layer3.forward(tensor2, tensor3);
-	// sigmoid layer
+	// softmax layer
 	layer4.forward(tensor3, tensor4);
 
 	//print("hide:", layer1[0]);

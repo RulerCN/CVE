@@ -181,6 +181,7 @@
     <ClInclude Include="core\cpu\cpu_arithmetic.h" />
     <ClInclude Include="core\cpu\cpu_cvtmul.h" />
     <ClInclude Include="core\cpu\cpu_logic.h" />
+    <ClInclude Include="core\cpu\cpu_onehot.h" />
     <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rmrm.h" />
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rvcm.h" />
     <ClInclude Include="core\cpu\matmul\cpu_matmul_rvrm.h" />
+    <ClInclude Include="core\cpu\onehot\cpu_onehot_sub.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_col_max.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_col_min.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_col_sum.h" />

@@ -50,6 +50,10 @@ namespace ann
 		typedef ::core::vector<T, Allocator>                    vector_type;
 		typedef ::core::matrix<T, Allocator>                    matrix_type;
 		typedef ::core::tensor<T, Allocator>                    tensor_type;
+		typedef const scalar_type                               const_scalar_type;
+		typedef	const vector_type                               const_vector_type;
+		typedef	const matrix_type                               const_matrix_type;
+		typedef	const tensor_type                               const_tensor_type;
 		typedef scalar_type*                                    scalar_pointer;
 		typedef	vector_type*                                    vector_pointer;
 		typedef	matrix_type*                                    matrix_pointer;

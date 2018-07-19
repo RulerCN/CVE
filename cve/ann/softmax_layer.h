@@ -104,7 +104,7 @@ namespace ann
 
 			matrix_type output_matrix = output[0];
 			const_matrix_type input_matrix = input[0];
-			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
+			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_max);
 			::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
 			::core::cpu_exp(output_matrix, output_matrix);
 			::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
@@ -113,19 +113,19 @@ namespace ann
 		}
 
 		// Back propagation
-		void backward(const_tensor_reference input, tensor_reference output)
+		template<class T, class A>
+		void backward(::core::vector<T, A> input, tensor_reference output)
 		{
-			if (input.empty() || output.empty())
+			if (output.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.batch() != 1 || output.batch() != 1)
+			if (input.empty())
+				throw ::std::domain_error(::core::vector_not_initialized);
+			if (output.batch() != 1)
 				throw ::std::invalid_argument(::core::invalid_shape);
 
-			const_pointer input_loss = input.data();
-			pointer y = this->output()->data();
-			pointer output_loss = output.data();
-			size_type size = this->input_loss_pointer->size();
-			for (size_type i = 0; i < size; ++i)
-				output_loss[i] = input_loss[i] * y[i] * (1 - y[i]);
+			matrix_type dst_matrix = output[0];
+			matrix_type src_matrix = this->output()->operator[0];
+			::core::cpu_onehot_sub(dst_matrix, src_matrix, input);
 		}
 	private:
 		vector_type temporary_vector;

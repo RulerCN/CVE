@@ -27,30 +27,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_H__
-#define __CORE_H__
+#ifndef __CORE_CPU_ONEHOT_SUB_H__
+#define __CORE_CPU_ONEHOT_SUB_H__
 
-#include "sample_allocator.h"
-#include "allocator.h"
-#include "sample_allocator.h"
-#include "scalar.h"
-#include "vector.h"
-#include "matrix.h"
-#include "tensor.h"
-#include "rb_tree.h"
-#include "tree.h"
+#include "../../vector.h"
+#include "../../matrix.h"
+#include "../kernel/onehot/kernel_onehot_sub.h"
 
-#include "cpu/cpu_convert.h"
-#include "cpu/cpu_cvtmul.h"
-#include "cpu/cpu_reduce.h"
-#include "cpu/cpu_transpose.h"
-#include "cpu/cpu_border.h"
-#include "cpu/cpu_replicate.h"
-#include "cpu/cpu_sliding_window.h"
-#include "cpu/cpu_mapping.h"
-#include "cpu/cpu_arithmetic.h"
-#include "cpu/cpu_onehot.h"
-#include "cpu/cpu_logic.h"
-#include "cpu/cpu_matmul.h"
+namespace core
+{
+	// Mapping an array to a matrix
+	template <class T1, class T2, class A1, class A2>
+	matrix<T1, A1>& cpu_onehot_sub(matrix<T1, A1> &dst, matrix<T1, A1> &src, const vector<T2, A2> &onehot)
+	{
+		if (dst.empty() || src.empty())
+			throw ::std::domain_error(matrix_not_initialized);
+		if (onehot.empty())
+			throw ::std::domain_error(vector_not_initialized);
+		if (dst.size() != src.size())
+			throw ::std::invalid_argument(invalid_size);
+		if (dst.rows() != onehot.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_onehot_sub<T1, T2>()(dst.rows(), src.data(), src.row_size(), onehot.data(), dst.data());
+		return dst;
+	}
+
+} // namespace core
 
 #endif

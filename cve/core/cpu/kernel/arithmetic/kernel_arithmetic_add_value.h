@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct kernel_add_value
 	{
-		void operator()(size_t n, const T a, const T *b, T *c) const
+		void operator()(size_t n, T a, const T *b, T *c) const
 		{
 			constexpr size_t block = 8;
 
@@ -65,7 +65,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed char, cpu_sse2>
 	{
-		void operator()(size_t n, const signed char a, const signed char *b, signed char *c) const
+		void operator()(size_t n, signed char a, const signed char *b, signed char *c) const
 		{
 			constexpr size_t block = 64;
 			constexpr size_t bit = 16;
@@ -114,7 +114,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned char, cpu_sse2>
 	{
-		void operator()(size_t n, const unsigned char a, const unsigned char *b, unsigned char *c) const
+		void operator()(size_t n, unsigned char a, const unsigned char *b, unsigned char *c) const
 		{
 			constexpr size_t block = 64;
 			constexpr size_t bit = 16;
@@ -163,7 +163,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed short, cpu_sse2>
 	{
-		void operator()(size_t n, const signed short a, const signed short *b, signed short *c) const
+		void operator()(size_t n, signed short a, const signed short *b, signed short *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -212,7 +212,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned short, cpu_sse2>
 	{
-		void operator()(size_t n, const unsigned short a, const unsigned short *b, unsigned short *c) const
+		void operator()(size_t n, unsigned short a, const unsigned short *b, unsigned short *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -261,7 +261,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed int, cpu_sse2>
 	{
-		void operator()(size_t n, const signed int a, const signed int *b, signed int *c) const
+		void operator()(size_t n, signed int a, const signed int *b, signed int *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -310,7 +310,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned int, cpu_sse2>
 	{
-		void operator()(size_t n, const unsigned int a, const unsigned int *b, unsigned int *c) const
+		void operator()(size_t n, unsigned int a, const unsigned int *b, unsigned int *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -359,7 +359,7 @@ namespace core
 	template<>
 	struct kernel_add_value<float, cpu_sse>
 	{
-		void operator()(size_t n, const float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
@@ -408,7 +408,7 @@ namespace core
 	template<>
 	struct kernel_add_value<double, cpu_sse2>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 8;
 			constexpr size_t bit = 2;
@@ -457,7 +457,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed char, cpu_avx2>
 	{
-		void operator()(size_t n, const signed char a, const signed char *b, signed char *c) const
+		void operator()(size_t n, signed char a, const signed char *b, signed char *c) const
 		{
 			constexpr size_t block = 128;
 			constexpr size_t bit = 32;
@@ -506,7 +506,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned char, cpu_avx2>
 	{
-		void operator()(size_t n, const unsigned char a, const unsigned char *b, unsigned char *c) const
+		void operator()(size_t n, unsigned char a, const unsigned char *b, unsigned char *c) const
 		{
 			constexpr size_t block = 128;
 			constexpr size_t bit = 32;
@@ -555,7 +555,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed short, cpu_avx2>
 	{
-		void operator()(size_t n, const signed short a, const signed short *b, signed short *c) const
+		void operator()(size_t n, signed short a, const signed short *b, signed short *c) const
 		{
 			constexpr size_t block = 64;
 			constexpr size_t bit = 16;
@@ -604,7 +604,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned short, cpu_avx2>
 	{
-		void operator()(size_t n, const unsigned short a, const unsigned short *b, unsigned short *c) const
+		void operator()(size_t n, unsigned short a, const unsigned short *b, unsigned short *c) const
 		{
 			constexpr size_t block = 64;
 			constexpr size_t bit = 16;
@@ -653,7 +653,7 @@ namespace core
 	template<>
 	struct kernel_add_value<signed int, cpu_avx2>
 	{
-		void operator()(size_t n, const signed int a, const signed int *b, signed int *c) const
+		void operator()(size_t n, signed int a, const signed int *b, signed int *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -702,7 +702,7 @@ namespace core
 	template<>
 	struct kernel_add_value<unsigned int, cpu_avx2>
 	{
-		void operator()(size_t n, const unsigned int a, const unsigned int *b, unsigned int *c) const
+		void operator()(size_t n, unsigned int a, const unsigned int *b, unsigned int *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -751,7 +751,7 @@ namespace core
 	template<>
 	struct kernel_add_value<float, cpu_avx>
 	{
-		void operator()(size_t n, const float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float *c) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
@@ -800,7 +800,7 @@ namespace core
 	template<>
 	struct kernel_add_value<double, cpu_avx>
 	{
-		void operator()(size_t n, const double a, const double *b, double *c) const
+		void operator()(size_t n, double a, const double *b, double *c) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;

@@ -38,13 +38,13 @@ namespace core
 	template<class T1, class T2>
 	struct kernel_mapping
 	{
-		// C[i] = A[B[i]]
+		// c[i] = a[b[i]]
 		void operator()(size_t n, const T1 *a, const T2 *b, T1 *c) const
 		{
-			constexpr size_t block_n = 8;
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_n = n - aligned_n;
-			for (size_t i = 0; i < aligned_n; i += block_n)
+			constexpr size_t block = 8;
+			const size_t aligned = n & ~(block - 1);
+			const size_t surplus = n - aligned;
+			for (size_t i = 0; i < aligned; i += block)
 			{
 				c[0] = a[b[0]];
 				c[1] = a[b[1]];
@@ -54,10 +54,10 @@ namespace core
 				c[5] = a[b[5]];
 				c[6] = a[b[6]];
 				c[7] = a[b[7]];
-				b += block_n;
-				c += block_n;
+				b += block;
+				c += block;
 			}
-			for (size_t i = 0; i < surplus_n; ++i)
+			for (size_t i = 0; i < surplus; ++i)
 				c[i] = a[b[i]];
 		}
 	};

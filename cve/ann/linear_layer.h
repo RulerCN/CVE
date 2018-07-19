@@ -49,6 +49,10 @@ namespace ann
 		typedef typename layer_base_type::vector_type            vector_type;
 		typedef typename layer_base_type::matrix_type            matrix_type;
 		typedef typename layer_base_type::tensor_type            tensor_type;
+		typedef typename layer_base_type::const_scalar_type      const_scalar_type;
+		typedef typename layer_base_type::const_vector_type      const_vector_type;
+		typedef typename layer_base_type::const_matrix_type      const_matrix_type;
+		typedef typename layer_base_type::const_tensor_type      const_tensor_type;
 		typedef typename layer_base_type::scalar_pointer         scalar_pointer;
 		typedef	typename layer_base_type::vector_pointer         vector_pointer;
 		typedef	typename layer_base_type::matrix_pointer         matrix_pointer;
