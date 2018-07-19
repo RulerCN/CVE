@@ -42,7 +42,7 @@ namespace core
 	// Division of value and scalar
 
 	template <class A1, class A2>
-	scalar<float, A1>& cpu_div(scalar<float, A1>&c, float a, const scalar<float> &b)
+	scalar<float, A1>& cpu_div(scalar<float, A1>&c, float a, const scalar<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -59,7 +59,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	scalar<double, A1>& cpu_div(scalar<double, A1>&c, double a, const scalar<double> &b)
+	scalar<double, A1>& cpu_div(scalar<double, A1>&c, double a, const scalar<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -78,7 +78,7 @@ namespace core
 	// Division of value and vector
 
 	template <class A1, class A2>
-	vector<float, A1>& cpu_div(vector<float, A1>&c, float a, const vector<float> &b)
+	vector<float, A1>& cpu_div(vector<float, A1>&c, float a, const vector<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -95,7 +95,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_div(vector<double, A1>&c, double a, const vector<double> &b)
+	vector<double, A1>& cpu_div(vector<double, A1>&c, double a, const vector<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -114,7 +114,7 @@ namespace core
 	// Division of value and matrix
 
 	template <class A1, class A2>
-	matrix<float, A1>& cpu_div(matrix<float, A1>&c, float a, const matrix<float> &b)
+	matrix<float, A1>& cpu_div(matrix<float, A1>&c, float a, const matrix<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -131,7 +131,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	matrix<double, A1>& cpu_div(matrix<double, A1>&c, double a, const matrix<double> &b)
+	matrix<double, A1>& cpu_div(matrix<double, A1>&c, double a, const matrix<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -150,7 +150,7 @@ namespace core
 	// Division of value and tensor
 
 	template <class A1, class A2>
-	tensor<float, A1>& cpu_div(tensor<float, A1>&c, float a, const tensor<float> &b)
+	tensor<float, A1>& cpu_div(tensor<float, A1>&c, float a, const tensor<float, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -167,7 +167,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& cpu_div(tensor<double, A1>&c, double a, const tensor<double> &b)
+	tensor<double, A1>& cpu_div(tensor<double, A1>&c, double a, const tensor<double, A2> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

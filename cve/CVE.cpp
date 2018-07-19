@@ -415,7 +415,7 @@ int main()
 	ann::linear_layer<float> layer1(input_dim, hide_dim);
 	ann::sigmoid_layer<float> layer2;
 	ann::linear_layer<float> layer3(hide_dim, output_dim);
-	ann::softmax_layer<float> layer4;
+	ann::softmax_layer<float> layer4(output_dim);
 	core::tensor<float> tensor1(1, batch, hide_dim, 1);
 	core::tensor<float> tensor2(1, batch, hide_dim, 1);
 	core::tensor<float> tensor3(1, batch, output_dim, 1);

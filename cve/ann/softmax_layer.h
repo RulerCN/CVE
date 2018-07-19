@@ -104,7 +104,7 @@ namespace ann
 
 			matrix_type output_matrix = output[0];
 			const_matrix_type input_matrix = input[0];
-			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_max);
+			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
 			::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
 			::core::cpu_exp(output_matrix, output_matrix);
 			::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
