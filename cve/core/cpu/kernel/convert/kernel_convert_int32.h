@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_CONVERT_INT32_H__
 #define __CORE_CPU_KERNEL_CONVERT_INT32_H__
 
-#include "../cpu_inst.h"
+#include "../../cpu_inst.h"
 
 namespace core
 {

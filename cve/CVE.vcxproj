@@ -247,6 +247,7 @@
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm11.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvcm.h" />
     <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvrm.h" />
+    <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h" />
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_max.h" />
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_min.h" />
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_sum.h" />

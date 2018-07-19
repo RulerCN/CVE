@@ -406,6 +406,9 @@
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmadd_double.h">
       <Filter>core\cpu\kernel\convert</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h">
+      <Filter>core\cpu\kernel\onehot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -458,6 +461,9 @@
     </Filter>
     <Filter Include="core\cpu\logic">
       <UniqueIdentifier>{31ce3469-d9c3-4ebc-8936-1a9080442d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\onehot">
+      <UniqueIdentifier>{8141d88d-4467-414a-9f5d-45c78a8ab6c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
