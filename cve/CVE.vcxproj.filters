@@ -403,6 +403,9 @@
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmadd_float.h">
       <Filter>core\cpu\kernel\convert</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmadd_double.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

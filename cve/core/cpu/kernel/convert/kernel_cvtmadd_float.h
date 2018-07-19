@@ -34,42 +34,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class template kernel_cvtmul_float
+	// Class template kernel_cvtmadd_float
 	template<class T, cpu_inst_type inst>
-	struct kernel_cvtmul_float
+	struct kernel_cvtmadd_float
 	{
-		void operator()(size_t n, float a, const T *b, float *c) const
+		void operator()(size_t n, float a, const T *b, float c, float *d) const
 		{
 			constexpr size_t block = 8;
 
 			while (n > block)
 			{
-				c[0] = a * static_cast<float>(b[0]);
-				c[1] = a * static_cast<float>(b[1]);
-				c[2] = a * static_cast<float>(b[2]);
-				c[3] = a * static_cast<float>(b[3]);
-				c[4] = a * static_cast<float>(b[4]);
-				c[5] = a * static_cast<float>(b[5]);
-				c[6] = a * static_cast<float>(b[6]);
-				c[7] = a * static_cast<float>(b[7]);
+				d[0] = a * static_cast<float>(b[0]) + c;
+				d[1] = a * static_cast<float>(b[1]) + c;
+				d[2] = a * static_cast<float>(b[2]) + c;
+				d[3] = a * static_cast<float>(b[3]) + c;
+				d[4] = a * static_cast<float>(b[4]) + c;
+				d[5] = a * static_cast<float>(b[5]) + c;
+				d[6] = a * static_cast<float>(b[6]) + c;
+				d[7] = a * static_cast<float>(b[7]) + c;
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed char, cpu_sse41>
+	struct kernel_cvtmadd_float<signed char, cpu_sse41>
 	{
-		void operator()(size_t n, float a, const signed char *b, float *c) const
+		void operator()(size_t n, float a, const signed char *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+			__m128 xmm_d0, xmm_d1, xmm_d2, xmm_d3;
 
 			while (n > block)
 			{
@@ -83,38 +84,39 @@ namespace core
 				xmm_b1 = _mm_cvtepi8_epi32(xmm_b1);
 				xmm_b2 = _mm_cvtepi8_epi32(xmm_b2);
 				xmm_b3 = _mm_cvtepi8_epi32(xmm_b3);
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				xmm_c1 = _mm_cvtepi32_ps(xmm_b1);
-				xmm_c2 = _mm_cvtepi32_ps(xmm_b2);
-				xmm_c3 = _mm_cvtepi32_ps(xmm_b3);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_c1);
-				xmm_c2 = _mm_mul_ps(xmm_a, xmm_c2);
-				xmm_c3 = _mm_mul_ps(xmm_a, xmm_c3);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				xmm_d1 = _mm_cvtepi32_ps(xmm_b1);
+				xmm_d2 = _mm_cvtepi32_ps(xmm_b2);
+				xmm_d3 = _mm_cvtepi32_ps(xmm_b3);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d1), xmm_c);
+				xmm_d2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d2), xmm_c);
+				xmm_d3 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d3), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
-				_mm_storeu_ps(c + 8, xmm_c2);
-				_mm_storeu_ps(c + 12, xmm_c3);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
+				_mm_storeu_ps(d + 8, xmm_d2);
+				_mm_storeu_ps(d + 12, xmm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned char, cpu_sse41>
+	struct kernel_cvtmadd_float<unsigned char, cpu_sse41>
 	{
-		void operator()(size_t n, float a, const unsigned char *b, float *c) const
+		void operator()(size_t n, float a, const unsigned char *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+			__m128 xmm_d0, xmm_d1, xmm_d2, xmm_d3;
 
 			while (n > block)
 			{
@@ -128,38 +130,39 @@ namespace core
 				xmm_b1 = _mm_cvtepu8_epi32(xmm_b1);
 				xmm_b2 = _mm_cvtepu8_epi32(xmm_b2);
 				xmm_b3 = _mm_cvtepu8_epi32(xmm_b3);
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				xmm_c1 = _mm_cvtepi32_ps(xmm_b1);
-				xmm_c2 = _mm_cvtepi32_ps(xmm_b2);
-				xmm_c3 = _mm_cvtepi32_ps(xmm_b3);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_c1);
-				xmm_c2 = _mm_mul_ps(xmm_a, xmm_c2);
-				xmm_c3 = _mm_mul_ps(xmm_a, xmm_c3);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				xmm_d1 = _mm_cvtepi32_ps(xmm_b1);
+				xmm_d2 = _mm_cvtepi32_ps(xmm_b2);
+				xmm_d3 = _mm_cvtepi32_ps(xmm_b3);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d1), xmm_c);
+				xmm_d2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d2), xmm_c);
+				xmm_d3 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d3), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
-				_mm_storeu_ps(c + 8, xmm_c2);
-				_mm_storeu_ps(c + 12, xmm_c3);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
+				_mm_storeu_ps(d + 8, xmm_d2);
+				_mm_storeu_ps(d + 12, xmm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed short, cpu_sse41>
+	struct kernel_cvtmadd_float<signed short, cpu_sse41>
 	{
-		void operator()(size_t n, float a, const signed short *b, float *c) const
+		void operator()(size_t n, float a, const signed short *b, float c, float *d) const
 		{
 			constexpr size_t block = 8;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
-			__m128 xmm_c0, xmm_c1;
+			__m128 xmm_d0, xmm_d1;
 
 			while (n > block)
 			{
@@ -169,32 +172,33 @@ namespace core
 				xmm_b1 = _mm_shuffle_epi32(xmm_b0, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_b0 = _mm_cvtepi16_epi32(xmm_b0);
 				xmm_b1 = _mm_cvtepi16_epi32(xmm_b1);
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				xmm_c1 = _mm_cvtepi32_ps(xmm_b1);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_c1);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				xmm_d1 = _mm_cvtepi32_ps(xmm_b1);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d1), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned short, cpu_sse41>
+	struct kernel_cvtmadd_float<unsigned short, cpu_sse41>
 	{
-		void operator()(size_t n, float a, const unsigned short *b, float *c) const
+		void operator()(size_t n, float a, const unsigned short *b, float c, float *d) const
 		{
 			constexpr size_t block = 8;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
-			__m128 xmm_c0, xmm_c1;
+			__m128 xmm_d0, xmm_d1;
 
 			while (n > block)
 			{
@@ -204,33 +208,34 @@ namespace core
 				xmm_b1 = _mm_shuffle_epi32(xmm_b0, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_b0 = _mm_cvtepu16_epi32(xmm_b0);
 				xmm_b1 = _mm_cvtepu16_epi32(xmm_b1);
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				xmm_c1 = _mm_cvtepi32_ps(xmm_b1);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_c1);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				xmm_d1 = _mm_cvtepi32_ps(xmm_b1);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d1), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed int, cpu_sse2>
+	struct kernel_cvtmadd_float<signed int, cpu_sse2>
 	{
-		void operator()(size_t n, float a, const signed int *b, float *c) const
+		void operator()(size_t n, float a, const signed int *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+			__m128 xmm_d0, xmm_d1, xmm_d2, xmm_d3;
 
 			while (n > block)
 			{
@@ -240,22 +245,22 @@ namespace core
 				xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 2);
 				xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 3);
 				// data-type conversion
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				xmm_c1 = _mm_cvtepi32_ps(xmm_b1);
-				xmm_c2 = _mm_cvtepi32_ps(xmm_b2);
-				xmm_c3 = _mm_cvtepi32_ps(xmm_b3);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_c1);
-				xmm_c2 = _mm_mul_ps(xmm_a, xmm_c2);
-				xmm_c3 = _mm_mul_ps(xmm_a, xmm_c3);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				xmm_d1 = _mm_cvtepi32_ps(xmm_b1);
+				xmm_d2 = _mm_cvtepi32_ps(xmm_b2);
+				xmm_d3 = _mm_cvtepi32_ps(xmm_b3);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d1), xmm_c);
+				xmm_d2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d2), xmm_c);
+				xmm_d3 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d3), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
-				_mm_storeu_ps(c + 8, xmm_c2);
-				_mm_storeu_ps(c + 12, xmm_c3);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
+				_mm_storeu_ps(d + 8, xmm_d2);
+				_mm_storeu_ps(d + 12, xmm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -263,31 +268,32 @@ namespace core
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
-				xmm_c0 = _mm_cvtepi32_ps(xmm_b0);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
+				xmm_d0 = _mm_cvtepi32_ps(xmm_b0);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
+				_mm_storeu_ps(d, xmm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned int, cpu_sse2>
+	struct kernel_cvtmadd_float<unsigned int, cpu_sse2>
 	{
-		void operator()(size_t n, float a, const unsigned int *b, float *c) const
+		void operator()(size_t n, float a, const unsigned int *b, float c, float *d) const
 		{
 			constexpr size_t block = 4;
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
 			const __m128i val = _mm_set1_epi32(0x4f000000);
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128i xmm_b, xmm_bv, xmm_bs;
-			__m128 xmm_c, xmm_cv, xmm_cs;
+			__m128 xmm_d, xmm_dv, xmm_ds;
 
 			while (n > block)
 			{
@@ -296,32 +302,33 @@ namespace core
 				// data-type conversion
 				xmm_bv = _mm_and_si128(xmm_b, abs);
 				xmm_bs = _mm_srai_epi32(xmm_b, 31);
-				xmm_cv = _mm_cvtepi32_ps(xmm_bv);
-				xmm_cs = _mm_castsi128_ps(_mm_and_si128(xmm_bs, val));
-				xmm_c = _mm_add_ps(xmm_cv, xmm_cs);
-				// c = a * c;
-				xmm_c = _mm_mul_ps(xmm_a, xmm_c);
+				xmm_dv = _mm_cvtepi32_ps(xmm_bv);
+				xmm_ds = _mm_castsi128_ps(_mm_and_si128(xmm_bs, val));
+				xmm_d = _mm_add_ps(xmm_dv, xmm_ds);
+				// d = a * b + c;
+				xmm_d = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c);
+				_mm_storeu_ps(d, xmm_d);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<float, cpu_sse>
+	struct kernel_cvtmadd_float<float, cpu_sse>
 	{
-		void operator()(size_t n, float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
-			__m128 xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+			__m128 xmm_d0, xmm_d1, xmm_d2, xmm_d3;
 
 			while (n > block)
 			{
@@ -330,46 +337,47 @@ namespace core
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				xmm_b2 = _mm_loadu_ps(b + 8);
 				xmm_b3 = _mm_loadu_ps(b + 12);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_b0);
-				xmm_c1 = _mm_mul_ps(xmm_a, xmm_b1);
-				xmm_c2 = _mm_mul_ps(xmm_a, xmm_b2);
-				xmm_c3 = _mm_mul_ps(xmm_a, xmm_b3);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b0), xmm_c);
+				xmm_d1 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b1), xmm_c);
+				xmm_d2 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b2), xmm_c);
+				xmm_d3 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b3), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
-				_mm_storeu_ps(c + 4, xmm_c1);
-				_mm_storeu_ps(c + 8, xmm_c2);
-				_mm_storeu_ps(c + 12, xmm_c3);
+				_mm_storeu_ps(d, xmm_d0);
+				_mm_storeu_ps(d + 4, xmm_d1);
+				_mm_storeu_ps(d + 8, xmm_d2);
+				_mm_storeu_ps(d + 12, xmm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			while (n > bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_ps(b);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_b0);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_b0), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
+				_mm_storeu_ps(d, xmm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * b[i];
+				d[i] = a * b[i];
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<double, cpu_sse2>
+	struct kernel_cvtmadd_float<double, cpu_sse2>
 	{
-		void operator()(size_t n, float a, const double *b, float *c) const
+		void operator()(size_t n, float a, const double *b, float c, float *d) const
 		{
 			constexpr size_t block = 4;
 			const __m128 xmm_a = _mm_set1_ps(a);
+			const __m128 xmm_c = _mm_set1_ps(c);
 			__m128d xmm_b0, xmm_b1;
-			__m128 xmm_c0, xmm_c1;
+			__m128 xmm_d0, xmm_d1;
 
 			while (n > block)
 			{
@@ -377,32 +385,33 @@ namespace core
 				xmm_b0 = _mm_loadu_pd(b);
 				xmm_b1 = _mm_loadu_pd(b + 2);
 				// data-type conversion
-				xmm_c0 = _mm_cvtpd_ps(xmm_b0);
-				xmm_c1 = _mm_cvtpd_ps(xmm_b1);
-				xmm_c0 = _mm_movelh_ps(xmm_c0, xmm_c1);
-				// c = a * c;
-				xmm_c0 = _mm_mul_ps(xmm_a, xmm_c0);
+				xmm_d0 = _mm_cvtpd_ps(xmm_b0);
+				xmm_d1 = _mm_cvtpd_ps(xmm_b1);
+				xmm_d0 = _mm_movelh_ps(xmm_d0, xmm_d1);
+				// d = a * b + c;
+				xmm_d0 = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d0), xmm_c);
 				// store data into memory
-				_mm_storeu_ps(c, xmm_c0);
+				_mm_storeu_ps(d, xmm_d0);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed char, cpu_avx2>
+	struct kernel_cvtmadd_float<signed char, cpu_avx2>
 	{
-		void operator()(size_t n, float a, const signed char *b, float *c) const
+		void operator()(size_t n, float a, const signed char *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
 			__m256i ymm_b0, ymm_b1;
-			__m256 ymm_c0, ymm_c1;
+			__m256 ymm_d0, ymm_d1;
 
 			while (n > block)
 			{
@@ -414,33 +423,34 @@ namespace core
 				xmm_b1 = _mm256_extracti128_si256(ymm_b0, 1);
 				ymm_b0 = _mm256_cvtepi16_epi32(xmm_b0);
 				ymm_b1 = _mm256_cvtepi16_epi32(xmm_b1);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				ymm_c1 = _mm256_cvtepi32_ps(ymm_b1);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_c1);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				ymm_d1 = _mm256_cvtepi32_ps(ymm_b1);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d1), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned char, cpu_avx2>
+	struct kernel_cvtmadd_float<unsigned char, cpu_avx2>
 	{
-		void operator()(size_t n, float a, const unsigned char *b, float *c) const
+		void operator()(size_t n, float a, const unsigned char *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
 			__m256i ymm_b0, ymm_b1;
-			__m256 ymm_c0, ymm_c1;
+			__m256 ymm_d0, ymm_d1;
 
 			while (n > block)
 			{
@@ -452,34 +462,35 @@ namespace core
 				xmm_b1 = _mm256_extracti128_si256(ymm_b0, 1);
 				ymm_b0 = _mm256_cvtepi16_epi32(xmm_b0);
 				ymm_b1 = _mm256_cvtepi16_epi32(xmm_b1);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				ymm_c1 = _mm256_cvtepi32_ps(ymm_b1);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_c1);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				ymm_d1 = _mm256_cvtepi32_ps(ymm_b1);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d1), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed short, cpu_avx2>
+	struct kernel_cvtmadd_float<signed short, cpu_avx2>
 	{
-		void operator()(size_t n, float a, const signed short *b, float *c) const
+		void operator()(size_t n, float a, const signed short *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 8;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
 			__m256i ymm_b0, ymm_b1;
-			__m256 ymm_c0, ymm_c1;
+			__m256 ymm_d0, ymm_d1;
 
 			while (n > block)
 			{
@@ -489,15 +500,15 @@ namespace core
 				// data-type conversion
 				ymm_b0 = _mm256_cvtepi16_epi32(xmm_b0);
 				ymm_b1 = _mm256_cvtepi16_epi32(xmm_b1);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				ymm_c1 = _mm256_cvtepi32_ps(ymm_b1);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_c1);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				ymm_d1 = _mm256_cvtepi32_ps(ymm_b1);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d1), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
-				c += block;
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
+				d += block;
 				b += block;
 				n -= block;
 			}
@@ -507,31 +518,32 @@ namespace core
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
 				ymm_b0 = _mm256_cvtepi16_epi32(xmm_b0);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(d, ymm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned short, cpu_avx2>
+	struct kernel_cvtmadd_float<unsigned short, cpu_avx2>
 	{
-		void operator()(size_t n, float a, const unsigned short *b, float *c) const
+		void operator()(size_t n, float a, const unsigned short *b, float c, float *d) const
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 8;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m128i xmm_b0, xmm_b1;
 			__m256i ymm_b0, ymm_b1;
-			__m256 ymm_c0, ymm_c1;
+			__m256 ymm_d0, ymm_d1;
 
 			while (n > block)
 			{
@@ -541,15 +553,15 @@ namespace core
 				// data-type conversion
 				ymm_b0 = _mm256_cvtepu16_epi32(xmm_b0);
 				ymm_b1 = _mm256_cvtepu16_epi32(xmm_b1);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				ymm_c1 = _mm256_cvtepi32_ps(ymm_b1);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_c1);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				ymm_d1 = _mm256_cvtepi32_ps(ymm_b1);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d1), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
-				c += block;
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
+				d += block;
 				b += block;
 				n -= block;
 			}
@@ -559,30 +571,31 @@ namespace core
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
 				ymm_b0 = _mm256_cvtepu16_epi32(xmm_b0);
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(d, ymm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<signed int, cpu_avx>
+	struct kernel_cvtmadd_float<signed int, cpu_avx>
 	{
-		void operator()(size_t n, float a, const signed int *b, float *c) const
+		void operator()(size_t n, float a, const signed int *b, float c, float *d) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
-			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+			__m256 ymm_d0, ymm_d1, ymm_d2, ymm_d3;
 
 			while (n > block)
 			{
@@ -592,22 +605,22 @@ namespace core
 				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 2);
 				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 3);
 				// data-type conversion
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				ymm_c1 = _mm256_cvtepi32_ps(ymm_b1);
-				ymm_c2 = _mm256_cvtepi32_ps(ymm_b2);
-				ymm_c3 = _mm256_cvtepi32_ps(ymm_b3);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_c1);
-				ymm_c2 = _mm256_mul_ps(ymm_a, ymm_c2);
-				ymm_c3 = _mm256_mul_ps(ymm_a, ymm_c3);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				ymm_d1 = _mm256_cvtepi32_ps(ymm_b1);
+				ymm_d2 = _mm256_cvtepi32_ps(ymm_b2);
+				ymm_d3 = _mm256_cvtepi32_ps(ymm_b3);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d1), ymm_c);
+				ymm_d2 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d2), ymm_c);
+				ymm_d3 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d3), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
-				_mm256_storeu_ps(c + 16, ymm_c2);
-				_mm256_storeu_ps(c + 24, ymm_c3);
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
+				_mm256_storeu_ps(d + 16, ymm_d2);
+				_mm256_storeu_ps(d + 24, ymm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			while (n > bit)
@@ -615,31 +628,32 @@ namespace core
 				// load data from memory
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 				// data-type conversion
-				ymm_c0 = _mm256_cvtepi32_ps(ymm_b0);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
+				ymm_d0 = _mm256_cvtepi32_ps(ymm_b0);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(d, ymm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<unsigned int, cpu_avx2>
+	struct kernel_cvtmadd_float<unsigned int, cpu_avx2>
 	{
-		void operator()(size_t n, float a, const unsigned int *b, float *c) const
+		void operator()(size_t n, float a, const unsigned int *b, float c, float *d) const
 		{
 			constexpr size_t block = 8;
 			const __m256i abs = _mm256_set1_epi32(0x7fffffff);
 			const __m256i val = _mm256_set1_epi32(0x4f000000);
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m256i ymm_b, ymm_bv, ymm_bs;
-			__m256 ymm_c, ymm_cv, ymm_cs;
+			__m256 ymm_d, ymm_dv, ymm_ds;
 
 			while (n > block)
 			{
@@ -648,32 +662,33 @@ namespace core
 				// data-type conversion
 				ymm_bv = _mm256_and_si256(ymm_b, abs);
 				ymm_bs = _mm256_srai_epi32(ymm_b, 31);
-				ymm_cv = _mm256_cvtepi32_ps(ymm_bv);
-				ymm_cs = _mm256_castsi256_ps(_mm256_and_si256(ymm_bs, val));
-				ymm_c = _mm256_add_ps(ymm_cv, ymm_cs);
-				// c = a * c;
-				ymm_c = _mm256_mul_ps(ymm_a, ymm_c);
+				ymm_dv = _mm256_cvtepi32_ps(ymm_bv);
+				ymm_ds = _mm256_castsi256_ps(_mm256_and_si256(ymm_bs, val));
+				ymm_d = _mm256_add_ps(ymm_dv, ymm_ds);
+				// d = a * b + c;
+				ymm_d = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c);
+				_mm256_storeu_ps(d, ymm_d);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<float, cpu_avx>
+	struct kernel_cvtmadd_float<float, cpu_avx>
 	{
-		void operator()(size_t n, float a, const float *b, float *c) const
+		void operator()(size_t n, float a, const float *b, float c, float *d) const
 		{
 			constexpr size_t block = 32;
 			constexpr size_t bit = 8;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3;
-			__m256 ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+			__m256 ymm_d0, ymm_d1, ymm_d2, ymm_d3;
 
 			while (n > block)
 			{
@@ -682,47 +697,48 @@ namespace core
 				ymm_b1 = _mm256_loadu_ps(b + 8);
 				ymm_b2 = _mm256_loadu_ps(b + 16);
 				ymm_b3 = _mm256_loadu_ps(b + 24);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_b0);
-				ymm_c1 = _mm256_mul_ps(ymm_a, ymm_b1);
-				ymm_c2 = _mm256_mul_ps(ymm_a, ymm_b2);
-				ymm_c3 = _mm256_mul_ps(ymm_a, ymm_b3);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b0), ymm_c);
+				ymm_d1 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b1), ymm_c);
+				ymm_d2 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b2), ymm_c);
+				ymm_d3 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b3), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
-				_mm256_storeu_ps(c + 8, ymm_c1);
-				_mm256_storeu_ps(c + 16, ymm_c2);
-				_mm256_storeu_ps(c + 24, ymm_c3);
+				_mm256_storeu_ps(d, ymm_d0);
+				_mm256_storeu_ps(d + 8, ymm_d1);
+				_mm256_storeu_ps(d + 16, ymm_d2);
+				_mm256_storeu_ps(d + 24, ymm_d3);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			while (n > bit)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_ps(b);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_b0);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_b0), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(d, ymm_d0);
 				b += bit;
-				c += bit;
+				d += bit;
 				n -= bit;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * b[i];
+				d[i] = a * b[i] + c;
 		}
 	};
 
 	template<>
-	struct kernel_cvtmul_float<double, cpu_avx>
+	struct kernel_cvtmadd_float<double, cpu_avx>
 	{
-		void operator()(size_t n, float a, const double *b, float *c) const
+		void operator()(size_t n, float a, const double *b, float c, float *d) const
 		{
 			constexpr size_t block = 8;
 			const __m256 ymm_a = _mm256_set1_ps(a);
+			const __m256 ymm_c = _mm256_set1_ps(c);
 			__m128 xmm_b0, xmm_b1;
 			__m256d ymm_b0, ymm_b1;
-			__m256 ymm_c0;
+			__m256 ymm_d0;
 
 			while (n > block)
 			{
@@ -732,17 +748,17 @@ namespace core
 				// data-type conversion
 				xmm_b0 = _mm256_cvtpd_ps(ymm_b0);
 				xmm_b1 = _mm256_cvtpd_ps(ymm_b1);
-				ymm_c0 = _mm256_insertf128_ps(_mm256_castps128_ps256(xmm_b0), xmm_b1, 1);
-				// c = a * c;
-				ymm_c0 = _mm256_mul_ps(ymm_a, ymm_c0);
+				ymm_d0 = _mm256_insertf128_ps(_mm256_castps128_ps256(xmm_b0), xmm_b1, 1);
+				// d = a * b + c;
+				ymm_d0 = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d0), ymm_c);
 				// store data into memory
-				_mm256_storeu_ps(c, ymm_c0);
+				_mm256_storeu_ps(d, ymm_d0);
 				b += block;
-				c += block;
+				d += block;
 				n -= block;
 			}
 			for (size_t i = 0; i < n; ++i)
-				c[i] = a * static_cast<float>(b[i]);
+				d[i] = a * static_cast<float>(b[i]) + c;
 		}
 	};
 
