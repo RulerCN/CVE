@@ -400,6 +400,9 @@
     <ClInclude Include="core\cpu\convert\cpu_cvtmul_float.h">
       <Filter>core\cpu\convert</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmadd_float.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

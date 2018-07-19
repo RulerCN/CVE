@@ -221,6 +221,7 @@
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint16.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint32.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_uint8.h" />
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmadd_float.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_double.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
