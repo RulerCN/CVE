@@ -9,6 +9,7 @@
 #include "core/core.h"
 #include "image/bitmap.h"
 #include "ann/mnist.h"
+#include "ann/sample_set.h"
 #include "ann/linear_layer.h"
 #include "ann/sigmoid_layer.h"
 #include "ann/softmax_layer.h"
@@ -100,6 +101,62 @@ std::ostream& operator<<(std::ostream &os, const core::matrix<unsigned char, All
 
 int main()
 {
+	const size_t batch = 1000;
+	ann::sample_set<float, int> train_samples(1000, 1, 1, 2);
+
+	// Assign random value
+	std::default_random_engine engine(1U);
+	std::normal_distribution<float> distribution(0.0F, 0.08F);
+	float *pData = train_samples.data.data();
+	int *pLabel = train_samples.labels.data();
+	for (size_t i = 0; i < batch; i += 2)
+	{
+		*pData++ = (float)distribution(engine) - 0.2F;
+		*pData++ = (float)distribution(engine) - 0.1F;
+		*pLabel++ = 0;
+	}
+	for (size_t i = 0; i < batch; i += 2)
+	{
+		*pData++ = (float)distribution(engine) + 0.2F;
+		*pData++ = (float)distribution(engine) + 0.1F;
+		*pLabel++ = 1;
+	}
+	// Save train samples as image
+	float scale = 320.0F;
+	core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
+	pData = train_samples.data.data();
+	pLabel = train_samples.labels.data();
+	for (size_t i = 0; i < batch; ++i)
+	{
+		int x = 160 + static_cast<int>(*pData++ * scale);
+		int y = 160 + static_cast<int>(*pData++ * scale);
+		if (x >= 0 && x < 320 && y >= 0 && y < 320)
+		{
+			unsigned char value = *pLabel++ ? 0xFF : 0x00;
+			train_image[y][x][0] = 255 - value;
+			train_image[y][x][1] = 0;
+			train_image[y][x][2] = value;
+		}
+	}
+	img::bitmap::encode("data/train_samples.bmp", train_image);
+
+	const size_t input_dim = 2;
+	const size_t hide_dim = 5;
+	const size_t output_dim = 2;
+	ann::linear_layer<float> layer1(input_dim, hide_dim, true);
+	ann::sigmoid_layer<float> layer2;
+	ann::linear_layer<float> layer3(hide_dim, output_dim, true);
+	ann::softmax_layer<float> layer4(output_dim);
+	core::tensor<float> tensor1(1, 1, hide_dim, 1);
+	core::tensor<float> tensor2(1, 1, hide_dim, 1);
+	core::tensor<float> tensor3(1, 1, output_dim, 1);
+	core::tensor<float> tensor4(1, 1, output_dim, 1);
+
+	for (size_t loop = 0; loop < 1; ++loop)
+	{
+		//layer1.forward(train_data, tensor1);
+	}
+
 	//// 120 376
 	//const signed char ptr_a0[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
 	//const signed char ptr_a1[] = { 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f };
@@ -401,43 +458,43 @@ int main()
 	//	img::bitmap::encode(replicate, output);
 	//}
 
-	const size_t batch      = 100;
-	const size_t rows       = 28;
-	const size_t columns    = 28;
-	const size_t input_dim  = rows * columns;
-	const size_t hide_dim   = 50;
-	const size_t output_dim = 10;
-	const size_t dimension  = 1;
-	ann::mnist<> mnist("data/mnist");
-	core::tensor<float> train_images(batch, rows, columns, dimension);
-	core::vector<float> train_labels(batch, dimension);
+	//const size_t batch      = 100;
+	//const size_t rows       = 28;
+	//const size_t columns    = 28;
+	//const size_t input_dim  = rows * columns;
+	//const size_t hide_dim   = 50;
+	//const size_t output_dim = 10;
+	//const size_t dimension  = 1;
+	//ann::mnist<> mnist("data/mnist");
+	//core::tensor<float> train_images(batch, rows, columns, dimension);
+	//core::vector<float> train_labels(batch, dimension);
 
-	ann::linear_layer<float> layer1(input_dim, hide_dim);
-	ann::sigmoid_layer<float> layer2;
-	ann::linear_layer<float> layer3(hide_dim, output_dim);
-	ann::softmax_layer<float> layer4(output_dim);
-	core::tensor<float> tensor1(1, batch, hide_dim, 1);
-	core::tensor<float> tensor2(1, batch, hide_dim, 1);
-	core::tensor<float> tensor3(1, batch, output_dim, 1);
-	core::tensor<float> tensor4(1, batch, output_dim, 1);
+	//ann::linear_layer<float> layer1(input_dim, hide_dim);
+	//ann::sigmoid_layer<float> layer2;
+	//ann::linear_layer<float> layer3(hide_dim, output_dim);
+	//ann::softmax_layer<float> layer4(output_dim);
+	//core::tensor<float> tensor1(1, batch, hide_dim, 1);
+	//core::tensor<float> tensor2(1, batch, hide_dim, 1);
+	//core::tensor<float> tensor3(1, batch, output_dim, 1);
+	//core::tensor<float> tensor4(1, batch, output_dim, 1);
 
-	layer1.initialize_normal(0.F, 0.01F, 1U);
-	layer3.initialize_normal(0.F, 0.01F, 1U);
+	//layer1.initialize_normal(0.F, 0.01F, 1U);
+	//layer3.initialize_normal(0.F, 0.01F, 1U);
 
-	mnist.train.shuffle(1U);
-	mnist.train.next_batch(train_images, train_labels);
+	//mnist.train.shuffle(1U);
+	//mnist.train.next_batch(train_images, train_labels);
 
-	// Change the shape of the input tensor
-	train_images.reshape(1, batch, train_images.matrix_size(), 1);
+	//// Change the shape of the input tensor
+	//train_images.reshape(1, batch, train_images.matrix_size(), 1);
 
-	// linear layer
-	layer1.forward(train_images, tensor1);
-	// sigmoid layer
-	layer2.forward(tensor1, tensor2);
-	// linear layer
-	layer3.forward(tensor2, tensor3);
-	// softmax layer
-	layer4.forward(tensor3, tensor4);
+	//// linear layer
+	//layer1.forward(train_images, tensor1);
+	//// sigmoid layer
+	//layer2.forward(tensor1, tensor2);
+	//// linear layer
+	//layer3.forward(tensor2, tensor3);
+	//// softmax layer
+	//layer4.forward(tensor3, tensor4);
 
 	//print("hide:", layer1[0]);
 	//print("hide:", layer2[0]);

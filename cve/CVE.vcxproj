@@ -154,6 +154,7 @@
     <ClInclude Include="ann\sample_base.h" />
     <ClInclude Include="ann\sigmoid_layer.h" />
     <ClInclude Include="ann\softmax_layer.h" />
+    <ClInclude Include="ann\sample_set.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\core.h" />

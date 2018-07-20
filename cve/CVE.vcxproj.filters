@@ -415,6 +415,9 @@
     <ClInclude Include="core\cpu\cpu_onehot.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="ann\sample_set.h">
+      <Filter>ann</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
