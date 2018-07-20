@@ -101,21 +101,23 @@ std::ostream& operator<<(std::ostream &os, const core::matrix<unsigned char, All
 
 int main()
 {
-	const size_t batch = 1000;
-	ann::sample_set<float, int> train_samples(1000, 1, 1, 2);
+	const size_t batch_size = 10;
+	const size_t sample_size = 1000;
+	ann::sample_set<float, int> batch_samples(batch_size, 1, 1, 2);
+	ann::sample_set<float, int> train_samples(sample_size, 1, 1, 2);
 
 	// Assign random value
 	std::default_random_engine engine(1U);
 	std::normal_distribution<float> distribution(0.0F, 0.08F);
 	float *pData = train_samples.data.data();
 	int *pLabel = train_samples.labels.data();
-	for (size_t i = 0; i < batch; i += 2)
+	for (size_t i = 0; i < sample_size; i += 2)
 	{
 		*pData++ = (float)distribution(engine) - 0.2F;
 		*pData++ = (float)distribution(engine) - 0.1F;
 		*pLabel++ = 0;
 	}
-	for (size_t i = 0; i < batch; i += 2)
+	for (size_t i = 0; i < sample_size; i += 2)
 	{
 		*pData++ = (float)distribution(engine) + 0.2F;
 		*pData++ = (float)distribution(engine) + 0.1F;
@@ -126,7 +128,7 @@ int main()
 	core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
 	pData = train_samples.data.data();
 	pLabel = train_samples.labels.data();
-	for (size_t i = 0; i < batch; ++i)
+	for (size_t i = 0; i < sample_size; ++i)
 	{
 		int x = 160 + static_cast<int>(*pData++ * scale);
 		int y = 160 + static_cast<int>(*pData++ * scale);
@@ -151,6 +153,9 @@ int main()
 	core::tensor<float> tensor2(1, 1, hide_dim, 1);
 	core::tensor<float> tensor3(1, 1, output_dim, 1);
 	core::tensor<float> tensor4(1, 1, output_dim, 1);
+
+	train_samples.shuffle(1U);
+	train_samples.next_batch(train_images, train_labels);
 
 	for (size_t loop = 0; loop < 1; ++loop)
 	{

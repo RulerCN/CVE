@@ -80,13 +80,20 @@ namespace ann
 			labels.assign(batch, one, one, one);
 		}
 
+		// capacity:
+
+		bool empty(void) const noexcept
+		{
+			return (data.empty() || labels.empty());
+		}
+
 		// Return a batch of samples
 
-		template<class U1, class U2, class A1, class A2>
-		void next_batch(::core::tensor<U1, A1> &batch_data, ::core::tensor<U2, A2> &batch_labels)
+		template<class U1, class U2, class A>
+		void next_batch(sample_set<U1, U2, A> &batch_samples)
 		{
-			if (batch_data.batch() != batch_labels.length())
-				throw ::std::invalid_argument(::core::sample_unequal_number);
+			if (empty() || batch_samples.empty())
+				throw ::std::domain_error(::core::sample_set_not_initialized);
 
 			size_t batch_size = batch_data.batch();
 			for (size_t i = 0; i < batch_size; ++i)
