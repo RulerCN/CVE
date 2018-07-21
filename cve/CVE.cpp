@@ -159,7 +159,7 @@ int main()
 
 	for (size_t loop = 0; loop < 1; ++loop)
 	{
-		//layer1.forward(train_data, tensor1);
+		layer1.forward(batch_samples.data, tensor1);
 	}
 
 	//// 120 376
