@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_ARITHMETIC_MATH_H__
 #define __CORE_CPU_KERNEL_ARITHMETIC_MATH_H__
 
+#include <cmath>
 #include "../../cpu_inst.h"
 
 namespace core

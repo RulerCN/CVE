@@ -1210,7 +1210,6 @@ namespace core
 			const signed short *ptr_a5 = ptr_a4 + rsa;
 			const signed short *ptr_a6 = ptr_a5 + rsa;
 			const signed short *ptr_a7 = ptr_a6 + rsa;
-			const signed short *ptr_a8 = ptr_a7 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256i ymm_b0 = _mm256_setzero_si256();
@@ -1267,7 +1266,6 @@ namespace core
 			const signed short *ptr_a5 = ptr_a4 + rsa;
 			const signed short *ptr_a6 = ptr_a5 + rsa;
 			const signed short *ptr_a7 = ptr_a6 + rsa;
-			const signed short *ptr_a8 = ptr_a7 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256i ymm_b0 = _mm256_setzero_si256();

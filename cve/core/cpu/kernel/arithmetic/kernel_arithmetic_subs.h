@@ -994,7 +994,6 @@ namespace core
 			signed int r, s, t;
 			const __m256i ymm_min = _mm256_set1_epi32(int32_min);
 			const __m256i ymm_max = _mm256_set1_epi32(int32_max);
-			const __m256i ymm_sign = _mm256_set1_epi32(int32_sign);
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;

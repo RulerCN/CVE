@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 #include <fstream>
-#include "sample_base.h"
+#include "sample_set.h"
 
 namespace ann
 {
@@ -65,8 +65,8 @@ namespace ann
 #	pragma pack(pop)
 
 	// Class template mnist_data
-	template <class Allocator = ::core::allocator<unsigned char> >
-	class mnist_data : public sample_base<Allocator>
+	template <class Allocator = ::core::allocator<void> >
+	class mnist_data : public sample_set<unsigned char, unsigned char, Allocator>
 	{
 	public:
 		// construct/copy/destroy:
@@ -148,53 +148,6 @@ namespace ann
 
 		}
 #		endif
-
-		// Return a batch of data
-
-		template<class T1, class T2, class A1, class A2>
-		void next_batch(::core::tensor<T1, A1> &batch_images, ::core::vector<T2, A2> &batch_labels)
-		{
-			if (batch_images.batch() != batch_labels.length())
-				throw ::std::invalid_argument(::core::sample_unequal_number);
-
-			size_t batch_size = batch_images.batch();
-			for (size_t i = 0; i < batch_size; ++i)
-			{
-				size_t index = this->next();
-				::core::cpu_get_element(batch_images.at(i), images, index);
-				::core::cpu_get_element(batch_labels.at(i), labels, index);
-			}
-		}
-
-		template<class T2, class A1, class A2>
-		void next_batch(::core::tensor<float, A1> &batch_images, ::core::vector<T2, A2> &batch_labels, float scale)
-		{
-			if (batch_images.batch() != batch_labels.length())
-				throw ::std::invalid_argument(::core::sample_unequal_number);
-
-			size_t batch_size = batch_images.batch();
-			for (size_t i = 0; i < batch_size; ++i)
-			{
-				size_t index = this->next();
-				::core::cpu_get_element(batch_images.at(i), images, index, scale);
-				::core::cpu_get_element(batch_labels.at(i), labels, index);
-			}
-		}
-
-		template<class T2, class A1, class A2>
-		void next_batch(::core::tensor<double, A1> &batch_images, ::core::vector<T2, A2> &batch_labels, double scale)
-		{
-			if (batch_images.batch() != batch_labels.length())
-				throw ::std::invalid_argument(::core::sample_unequal_number);
-
-			size_t batch_size = batch_images.batch();
-			for (size_t i = 0; i < batch_size; ++i)
-			{
-				size_t index = this->next();
-				::core::cpu_get_element(batch_images.at(i), images, index, scale);
-				::core::cpu_get_element(batch_labels.at(i), labels, index);
-			}
-		}
 	private:
 		unsigned int reverse_uint32(unsigned int number) const
 		{
@@ -216,8 +169,8 @@ namespace ann
 			size_t rows      = static_cast<size_t>(reverse_uint32(header.height));
 			size_t columns   = static_cast<size_t>(reverse_uint32(header.width));
 			size_t dimension = 1;
-			images.assign(batch, rows, columns, dimension);
-			input.read(reinterpret_cast<char*>(images.data()), images.size());
+			this->data.assign(batch, rows, columns, dimension);
+			input.read(reinterpret_cast<char*>(this->data.data()), this->data.size());
 			if (!input.good())
 			{
 				images.clear();
@@ -236,8 +189,8 @@ namespace ann
 				return false;
 			size_t length = static_cast<size_t>(reverse_uint32(header.items));
 			size_t dimension = 1;
-			labels.assign(length, dimension);
-			input.read(reinterpret_cast<char*>(labels.data()), labels.size());
+			this->labels.assign(length, dimension);
+			input.read(reinterpret_cast<char*>(this->labels.data()), this->labels.size());
 			if (!input.good())
 			{
 				labels.clear();
@@ -245,9 +198,6 @@ namespace ann
 			}
 			return true;
 		}
-	public:
-		::core::tensor<unsigned char, Allocator> images;
-		::core::vector<unsigned char, Allocator> labels;
 	};
 
 } // namespace ann

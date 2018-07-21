@@ -620,6 +620,8 @@ namespace core
 
 		void linear_fill(const value_type& init, const value_type& delta)
 		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
 			value_type value(init);
 			for (size_type i = 0; i < count; ++i)
 			{

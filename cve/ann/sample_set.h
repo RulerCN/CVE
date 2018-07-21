@@ -43,6 +43,7 @@ namespace ann
 	public:
 		// types:
 
+		typedef sample_base<Allocator>                         sample_base_type;
 		typedef typename Allocator::template rebind<T1>::other data_allocator_type;
 		typedef typename Allocator::template rebind<T2>::other labels_allocator_type;
 
@@ -65,10 +66,12 @@ namespace ann
 
 		// construct/copy/destroy:
 
-		sample_set(void)
+		sample_set(const Allocator& alloc = Allocator())
+			: sample_base_type(alloc)
 		{}
 
 		sample_set(size_type batch, size_t rows, size_t columns, size_t dimension)
+			: sample_base_type()
 		{
 			assign(batch, rows, columns, dimension);
 		}
@@ -78,13 +81,8 @@ namespace ann
 			constexpr size_t one = 1;
 			data.assign(batch, rows, columns, dimension);
 			labels.assign(batch, one, one, one);
-		}
-
-		// capacity:
-
-		bool empty(void) const noexcept
-		{
-			return (data.empty() || labels.empty());
+			this->index.assign(batch, one);
+			this->initialize();
 		}
 
 		// Return a batch of samples
@@ -92,30 +90,45 @@ namespace ann
 		template<class U1, class U2, class A>
 		void next_batch(sample_set<U1, U2, A> &batch_samples)
 		{
-			if (empty() || batch_samples.empty())
+			if (this->empty() || batch_samples.empty())
 				throw ::std::domain_error(::core::sample_set_not_initialized);
 
-			size_t batch_size = batch_data.batch();
+			size_t batch_size = batch_samples.size();
 			for (size_t i = 0; i < batch_size; ++i)
 			{
 				size_t index = this->next();
-				::core::cpu_get_element(batch_data.at(i), data, index);
-				::core::cpu_get_element(batch_labels.at(i), labels, index);
+				::core::cpu_get_element(batch_samples.data.at(i), data, index);
+				::core::cpu_get_element(batch_samples.labels.at(i), labels, index);
 			}
 		}
 
-		template<class U1, class U2, class A1, class A2>
-		void next_batch(::core::tensor<U1, A1> &batch_data, ::core::tensor<U2, A2> &batch_labels, U1 scale)
+		template<class U, class A>
+		void next_batch(sample_set<float, U, A> &batch_samples, float scale)
 		{
-			if (batch_data.batch() != batch_labels.length())
-				throw ::std::invalid_argument(::core::sample_unequal_number);
+			if (this->empty() || batch_samples.empty())
+				throw ::std::domain_error(::core::sample_set_not_initialized);
 
-			size_t batch_size = batch_data.batch();
+			size_t batch_size = batch_samples.size();
 			for (size_t i = 0; i < batch_size; ++i)
 			{
 				size_t index = this->next();
-				::core::cpu_get_element(batch_data.at(i), data, index, scale);
-				::core::cpu_get_element(batch_labels.at(i), labels, index);
+				::core::cpu_get_element(batch_samples.data.at(i), data, index, scale);
+				::core::cpu_get_element(batch_samples.labels.at(i), labels, index);
+			}
+		}
+
+		template<class U, class A>
+		void next_batch(sample_set<double, U, A> &batch_samples, double scale)
+		{
+			if (this->empty() || batch_samples.empty())
+				throw ::std::domain_error(::core::sample_set_not_initialized);
+
+			size_t batch_size = batch_samples.size();
+			for (size_t i = 0; i < batch_size; ++i)
+			{
+				size_t index = this->next();
+				::core::cpu_get_element(batch_samples.data.at(i), data, index, scale);
+				::core::cpu_get_element(batch_samples.labels.at(i), labels, index);
 			}
 		}
 	public:

@@ -99,7 +99,7 @@ namespace core
 			else
 				kernel_matmul_rmrm<double, 4, 4, 4, cpu_avx>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());
 		}
-		else if (cpu_inst::is_support_ss3e())
+		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
 				kernel_matmul_rmrm<double, 2, 2, 2, cpu_sse3 | cpu_fma>()(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), c.data(), c.row_size());

@@ -161,7 +161,6 @@ namespace core
 	template<class ForwardIt, class Size>
 	inline ForwardIt destroy_n(ForwardIt first, Size n)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
 		for (; n > 0; (void) ++first, --n)
 			destroy_at(::std::addressof(*first));
 		return first;

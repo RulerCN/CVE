@@ -155,7 +155,7 @@ int main()
 	core::tensor<float> tensor4(1, 1, output_dim, 1);
 
 	train_samples.shuffle(1U);
-	train_samples.next_batch(train_images, train_labels);
+	train_samples.next_batch(batch_samples);
 
 	for (size_t loop = 0; loop < 1; ++loop)
 	{

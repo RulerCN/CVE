@@ -72,11 +72,31 @@ namespace ann
 			assign(count);
 		}
 
-		void assign(size_type count)
+		virtual void assign(size_type count)
 		{
-			index.assign(count, 1);
-			index.linear_fill(0, 1);
-			itr = index.cbegin();
+			constexpr size_t dimension = 1;
+			index.assign(count, dimension);
+		}
+
+		// capacity:
+
+		bool empty(void) const noexcept
+		{
+			return index.empty();
+		}
+
+		size_type size(void) const noexcept
+		{
+			return index.size();
+		}
+
+		// Initialization of index
+		void initialize(void)
+		{
+			constexpr size_t zero = 0;
+			constexpr size_t one = 1;
+			index.linear_fill(zero, one);
+			iterator = index.cbegin();
 		}
 
 		// Random rearrangement of index
@@ -91,13 +111,13 @@ namespace ann
 		{
 			if (index.empty())
 				throw ::std::domain_error(::core::vector_not_initialized);
-			if (itr == index.cend())
-				itr = index.cbegin();
-			return *itr++;
+			if (iterator == index.cend())
+				iterator = index.cbegin();
+			return *iterator++;
 		}
-	private:
+	protected:
 		vector_type          index;
-		vector_iterator_type itr;
+		vector_iterator_type iterator;
 	};
 
 } // namespace ann

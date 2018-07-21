@@ -201,7 +201,6 @@ namespace core
 			count = n;
 			buffer = this->allocate(count);
 			core::uninitialized_default_construct_n(buffer, count);
-			std::
 		}
 
 		void assign(size_type n, const value_type& value)

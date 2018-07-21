@@ -43,9 +43,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<signed char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -60,9 +60,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<unsigned char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -77,9 +77,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<signed short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -94,9 +94,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<unsigned short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -111,9 +111,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<signed int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -128,9 +128,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<unsigned int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -145,9 +145,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<float, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -162,9 +162,9 @@ namespace core
 	template <class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul_float(scalar<float, A1> &c, float a, const scalar<double, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -181,9 +181,9 @@ namespace core
 	template <class T, class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<T, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_cvtmul_float<T, cpu_none>()(c.size(), a, b.data(), c.data());
@@ -193,9 +193,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<signed char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -210,9 +210,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<unsigned char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -227,9 +227,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<signed short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -244,9 +244,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<unsigned short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -261,9 +261,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<signed int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -278,9 +278,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<unsigned int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -295,9 +295,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<float, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -312,9 +312,9 @@ namespace core
 	template <class A1, class A2>
 	vector<float, A1>& cpu_cvtmul_float(vector<float, A1> &c, float a, const vector<double, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -331,9 +331,9 @@ namespace core
 	template <class T, class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<T, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_cvtmul_float<T, cpu_none>()(c.size(), a, b.data(), c.data());
@@ -343,9 +343,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<signed char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -360,9 +360,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<unsigned char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -377,9 +377,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<signed short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -394,9 +394,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<unsigned short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -411,9 +411,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<signed int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -428,9 +428,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<unsigned int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -445,9 +445,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<float, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -462,9 +462,9 @@ namespace core
 	template <class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul_float(matrix<float, A1> &c, float a, const matrix<double, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -481,9 +481,9 @@ namespace core
 	template <class T, class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<T, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_cvtmul_float<T, cpu_none>()(c.size(), a, b.data(), c.data());
@@ -493,9 +493,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<signed char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -510,9 +510,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<unsigned char, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -527,9 +527,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<signed short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -544,9 +544,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<unsigned short, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -561,9 +561,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<signed int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -578,9 +578,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<unsigned int, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx2())
@@ -595,9 +595,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<float, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
@@ -612,9 +612,9 @@ namespace core
 	template <class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul_float(tensor<float, A1> &c, float a, const tensor<double, A2> &b)
 	{
-		if (b.empty() || a.empty())
+		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.size() != a.size())
+		if (c.size() != b.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		if (cpu_inst::is_support_avx())
