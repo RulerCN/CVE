@@ -83,24 +83,25 @@ namespace ann
 		linear_layer(const Allocator& alloc = Allocator())
 		{}
 
-		linear_layer(size_type input_row_size, size_type output_row_size, bool training = false)
+		linear_layer(size_type input_row_size, size_type output_row_size, value_type learn, bool training = false)
 		{
-			assign(input_row_size, output_row_size, training);
+			assign(input_row_size, output_row_size, learn, training);
 		}
 
-		void assign(size_type input_row_size, size_type output_row_size, bool training = false)
+		void assign(size_type input_row_size, size_type output_row_size, value_type learn, bool training = false)
 		{
 			const size_type dimension = 1;
 			weight.assign(input_row_size, output_row_size, dimension);
 			bias.assign(output_row_size, dimension);
 			if (training)
 			{
+				this->rate = learn;
 				// The gradient of weight
 				weight_gradient.assign(input_row_size, output_row_size, dimension);
 				// The gradient of bias
 				bias_gradient.assign(output_row_size, dimension);
-				// The mean vector of the input
-				input_mean.assign(input_row_size, dimension);
+				// The mean vector of the data
+				data_mean.assign(input_row_size, dimension);
 				// The mean vector of the loss
 				loss_mean.assign(output_row_size, dimension);
 			}
@@ -127,34 +128,53 @@ namespace ann
 		}
 
 		// Forward propagation
-		void forward(const_tensor_reference input, tensor_reference output)
+		tensor_reference forward(tensor_reference data)
 		{
-			if (input.batch() != 1 || output.batch() != 1)
+			if (data.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (data.matrix_size() != weight.rows())
 				throw ::std::invalid_argument(::core::invalid_shape);
-			::core::cpu_matmul(output[0], input[0], weight);
-			this->bind(input, output);
+
+			constexpr size_type one = 1;
+			this->input.create(one, data.batch(), data.rows() * data.columns(), data.dimension(), data.data());
+			this->output.build(one, data.batch(), weight.columns(), weight.dimension());
+			::core::cpu_matmul(this->output[0], this->input[0], weight);
+			this->output.reshape(this->output.rows(), one, this->output.columns(), this->output.dimension());
+			return this->output;
+		}
+
+		// Update
+		tensor_reference Update(tensor_reference loss)
+		{
+			if (loss.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (loss.size() != this->output.size())
+				throw ::std::invalid_argument(::core::invalid_size);
+
+			// Mean vector of the data
+			::core::reduce(data_mean, this->input[0], ::core::reduce_col_avg);
+			// Mean vector of loss data
+			::core::reduce(loss_mean, loss[0], ::core::reduce_col_avg);
+			// Calculate the gradient of weight
+			::core::cpu_matmul(weight_gradient, data_mean, loss_mean);
+			// Update the weights
+			::core::cpu_madd(weight, -this->rate, weight_gradient);
+			// Update the bias
+			::core::cpu_madd(bias, -this->rate, loss_mean);
 		}
 
 		// Back propagation
-		void backward(const_tensor_reference input, tensor_reference output, T rate)
+		tensor_reference backward(void)
 		{
-			if (input.batch() != 1 || output.batch() != 1)
-				throw ::std::invalid_argument(::core::invalid_shape);
-			// Mean vector of input data
-			::core::reduce(input_mean, *this->input[0], ::core::reduce_col_avg);
-			// Mean vector of loss data
-			::core::reduce(loss_mean, input[0], ::core::reduce_col_avg);
-			// Calculate the gradient of weight
-			::core::cpu_matmul(weight_gradient, input_mean, loss_mean);
-			// Update the weights
-			::core::cpu_madd(weight, -rate, weight_gradient);
+			::core::cpu_matmul(this->error, loss_mean, weight, true);
+			return this->error;
 		}
 	private:
 		matrix_type weight;
-		matrix_type weight_gradient;
 		vector_type bias;
+		matrix_type weight_gradient;
 		vector_type bias_gradient;
-		vector_type input_mean;
+		vector_type data_mean;
 		vector_type loss_mean;
 	};
 

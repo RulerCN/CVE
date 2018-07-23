@@ -81,37 +81,24 @@ namespace ann
 
 		// construct/copy/destroy:
 		layer_base(void)
-			: input_pointer(nullptr)
-			, output_pointer(nullptr)
+			: train(false)
+			, rate(0)
 		{}
 
 	protected:
-
-		// Data binding
-		void bind(const_tensor_reference input, tensor_reference output)
-		{
-			if (input.empty() || output.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			input_pointer = &input;
-			output_pointer = &output;
-		}
-
-		const_tensor_pointer input(void) const
-		{
-			if (input_pointer == nullptr)
-				throw ::std::invalid_argument(::core::invalid_pointer);
-			return input_pointer;
-		}
-
-		tensor_pointer output(void) const
-		{
-			if (output_pointer == nullptr)
-				throw ::std::invalid_argument(::core::invalid_pointer);
-			return output_pointer;
-		}
-	private:
-		const_tensor_pointer input_pointer;
-		tensor_pointer       output_pointer;
+		//// Data binding
+		//void bind(const_tensor_reference input)
+		//{
+		//	if (input.empty())
+		//		throw ::std::domain_error(::core::tensor_not_initialized);
+		//	input_pointer = &input;
+		//}
+	public:
+		bool        train;
+		value_type  rate;
+		tensor_type input;
+		tensor_type output;
+		tensor_type error;
 	};
 
 } // namespace ann

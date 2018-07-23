@@ -469,7 +469,7 @@ namespace core
 
 		void create(size_type batch, size_type rows, size_type columns, size_type dimension, pointer p)
 		{
-			if (!empty())
+			if (!empty() && owner == true)
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
 				throw ::std::invalid_argument(invalid_tensor_size);
@@ -486,6 +486,8 @@ namespace core
 
 		void create(tensor<T, Allocator>& x)
 		{
+			if (x.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
 			create(x.depth, x.height, x.width, x.channels, x.buffer);
 		}
 
@@ -1290,7 +1292,7 @@ namespace core
 		{
 			if (empty())
 				throw ::std::domain_error(tensor_not_initialized);
-			if (batch * rows * columns * dimension != count)
+			if (count != batch * rows * columns * dimension)
 				throw ::std::invalid_argument(invalid_tensor_size);
 			channels = dimension;
 			width = columns;
@@ -1298,6 +1300,26 @@ namespace core
 			depth = batch;
 			stride = width * channels;
 			plane = height * stride;
+		}
+
+		void build(size_type batch, size_type rows, size_type columns, size_type dimension)
+		{
+			if (empty())
+				assign(batch, rows, columns, dimension);
+			else if (count != batch * rows * columns * dimension)
+			{
+				clear();
+				assign(batch, rows, columns, dimension);
+			}
+			else
+			{
+				channels = dimension;
+				width = columns;
+				height = rows;
+				depth = batch;
+				stride = width * channels;
+				plane = height * stride;
+			}
 		}
 
 		void swap(tensor<T, Allocator>& rhs) noexcept

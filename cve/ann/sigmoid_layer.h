@@ -84,16 +84,28 @@ namespace ann
 		{}
 
 		// Forward propagation
-		void forward(const_tensor_reference input, tensor_reference output)
+		tensor_reference forward(tensor_reference data)
 		{
-			::core::cpu_sigmoid(output, input);
-			this->bind(input, output);
+			if (data.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+
+			this->input.create(data.batch(), data.rows(), data.columns(), data.dimension(), data.data());
+			this->output.build(data.batch(), data.rows(), data.columns(), data.dimension());
+			::core::cpu_sigmoid(this->output, this->input);
+			return this->output;
 		}
 
 		// Back propagation
-		void backward(const_tensor_reference input, tensor_reference output)
+		tensor_reference backward(tensor_reference loss)
 		{
-			::core::cpu_sigmoid_derivative(output, input, this->output());
+			if (loss.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (loss.size() != this->output.size())
+				throw ::std::invalid_argument(::core::invalid_size);
+
+			this->loss.build(loss.batch(), loss.rows(), loss.columns(), loss.dimension());
+			::core::cpu_sigmoid_derivative(this->error, loss, this->output);
+			return this->error;
 		}
 	};
 

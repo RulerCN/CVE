@@ -149,17 +149,13 @@ int main()
 	ann::sigmoid_layer<float> layer2;
 	ann::linear_layer<float> layer3(hide_dim, output_dim, true);
 	ann::softmax_layer<float> layer4(output_dim);
-	core::tensor<float> tensor1(1, 1, hide_dim, 1);
-	core::tensor<float> tensor2(1, 1, hide_dim, 1);
-	core::tensor<float> tensor3(1, 1, output_dim, 1);
-	core::tensor<float> tensor4(1, 1, output_dim, 1);
 
 	train_samples.shuffle(1U);
 	train_samples.next_batch(batch_samples);
 
 	for (size_t loop = 0; loop < 1; ++loop)
 	{
-		layer1.forward(batch_samples.data, tensor1);
+		layer1.forward(batch_samples.data);
 	}
 
 	//// 120 376
