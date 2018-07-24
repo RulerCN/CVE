@@ -95,38 +95,74 @@ namespace ann
 		}
 
 		// Forward propagation
-		void forward(const_tensor_reference input, tensor_reference output)
+		tensor_reference forward(tensor_reference data)
 		{
-			if (input.empty() || output.empty())
+			if (data.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.batch() != 1 || output.batch() != 1)
+			if (data.batch() != 1)
 				throw ::std::invalid_argument(::core::invalid_shape);
 
-			matrix_type output_matrix = output[0];
-			const_matrix_type input_matrix = input[0];
+			constexpr size_type one = 1;
+			this->input.create(one, data.rows(), data.columns(), data.dimension(), data.data());
+			this->output.build(one, data.rows(), data.columns(), data.dimension());
+			matrix_type output_matrix = this->output[0];
+			const_matrix_type input_matrix = this->input[0];
 			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
 			::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
 			::core::cpu_exp(output_matrix, output_matrix);
 			::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
 			::core::cpu_div(output_matrix, output_matrix, temporary_vector);
-			this->bind(input, output);
+			return this->output;
 		}
 
 		// Back propagation
 		template<class T, class A>
-		void backward(::core::vector<T, A> input, tensor_reference output)
+		void backward(::core::vector<T, A> labels)
 		{
-			if (output.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (input.empty())
+			if (labels.empty())
 				throw ::std::domain_error(::core::vector_not_initialized);
-			if (output.batch() != 1)
-				throw ::std::invalid_argument(::core::invalid_shape);
+
+			matrix_type output_matrix = this->output[0];
+			const_matrix_type input_matrix = this->input[0];
 
 			matrix_type dst_matrix = output[0];
 			matrix_type src_matrix = this->output()->operator[0];
 			::core::cpu_onehot_sub(dst_matrix, src_matrix, input);
 		}
+
+		//// Forward propagation
+		//tensor_reference forward(tensor_reference data)
+		//{
+		//	if (input.empty() || output.empty())
+		//		throw ::std::domain_error(::core::tensor_not_initialized);
+		//	if (input.batch() != 1 || output.batch() != 1)
+		//		throw ::std::invalid_argument(::core::invalid_shape);
+
+		//	matrix_type output_matrix = output[0];
+		//	const_matrix_type input_matrix = input[0];
+		//	::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
+		//	::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
+		//	::core::cpu_exp(output_matrix, output_matrix);
+		//	::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
+		//	::core::cpu_div(output_matrix, output_matrix, temporary_vector);
+		//	this->bind(input, output);
+		//}
+
+		//// Back propagation
+		//template<class T, class A>
+		//void backward(::core::vector<T, A> input, tensor_reference output)
+		//{
+		//	if (output.empty())
+		//		throw ::std::domain_error(::core::tensor_not_initialized);
+		//	if (input.empty())
+		//		throw ::std::domain_error(::core::vector_not_initialized);
+		//	if (output.batch() != 1)
+		//		throw ::std::invalid_argument(::core::invalid_shape);
+
+		//	matrix_type dst_matrix = output[0];
+		//	matrix_type src_matrix = this->output()->operator[0];
+		//	::core::cpu_onehot_sub(dst_matrix, src_matrix, input);
+		//}
 	private:
 		vector_type temporary_vector;
 	};

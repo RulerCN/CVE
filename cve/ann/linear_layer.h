@@ -138,6 +138,8 @@ namespace ann
 			constexpr size_type one = 1;
 			this->input.create(one, data.batch(), data.rows() * data.columns(), data.dimension(), data.data());
 			this->output.build(one, data.batch(), weight.columns(), weight.dimension());
+			if (this->train)
+				this->error.build(this->input.batch(), this->input.rows(), this->input.columns(), this->input.dimension());
 			::core::cpu_matmul(this->output[0], this->input[0], weight);
 			this->output.reshape(this->output.rows(), one, this->output.columns(), this->output.dimension());
 			return this->output;

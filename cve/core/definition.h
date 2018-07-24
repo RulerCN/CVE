@@ -36,20 +36,20 @@ namespace core
 {
 	// CPU instruction set
 	typedef int cpu_inst_type;
-	static constexpr cpu_inst_type      cpu_none          = 0x00000000;
-	static constexpr cpu_inst_type      cpu_mmx           = 0x00000001;                   /* MMX instruction set */
-	static constexpr cpu_inst_type      cpu_sse           = 0x00000100;                   /* SSE instruction set */
-	static constexpr cpu_inst_type      cpu_sse2          = 0x00000200;                   /* SSE2 instruction set */
-	static constexpr cpu_inst_type      cpu_sse3          = 0x00000400;                   /* SSE3 instruction set */
-	static constexpr cpu_inst_type      cpu_ssse3         = 0x00000800;                   /* SSE3S instruction set */
-	static constexpr cpu_inst_type      cpu_sse41         = 0x00001000;                   /* SSE4.1 instruction set */
-	static constexpr cpu_inst_type      cpu_sse42         = 0x00002000;                   /* SSE4.2 instruction set */
-	static constexpr cpu_inst_type      cpu_avx           = 0x00010000;                   /* AVX instruction set */
-	static constexpr cpu_inst_type      cpu_avx2          = 0x00020000;                   /* AVX2 instruction set */
-	static constexpr cpu_inst_type      cpu_f16c          = 0x01000000;                   /* F16C instruction set */
-	static constexpr cpu_inst_type      cpu_fma           = 0x02000000;                   /* FMA instruction set */
-	static constexpr cpu_inst_type      cpu_fma4          = 0x04000000;                   /* FMA4 instruction set */
-	static constexpr cpu_inst_type      cpu_xop           = 0x08000000;                   /* XOP instruction set */
+	static constexpr cpu_inst_type      cpu_none           = 0x00000000;
+	static constexpr cpu_inst_type      cpu_mmx            = 0x00000001;                  /* MMX instruction set */
+	static constexpr cpu_inst_type      cpu_sse            = 0x00000100;                  /* SSE instruction set */
+	static constexpr cpu_inst_type      cpu_sse2           = 0x00000200;                  /* SSE2 instruction set */
+	static constexpr cpu_inst_type      cpu_sse3           = 0x00000400;                  /* SSE3 instruction set */
+	static constexpr cpu_inst_type      cpu_ssse3          = 0x00000800;                  /* SSE3S instruction set */
+	static constexpr cpu_inst_type      cpu_sse41          = 0x00001000;                  /* SSE4.1 instruction set */
+	static constexpr cpu_inst_type      cpu_sse42          = 0x00002000;                  /* SSE4.2 instruction set */
+	static constexpr cpu_inst_type      cpu_avx            = 0x00010000;                  /* AVX instruction set */
+	static constexpr cpu_inst_type      cpu_avx2           = 0x00020000;                  /* AVX2 instruction set */
+	static constexpr cpu_inst_type      cpu_f16c           = 0x01000000;                  /* F16C instruction set */
+	static constexpr cpu_inst_type      cpu_fma            = 0x02000000;                  /* FMA instruction set */
+	static constexpr cpu_inst_type      cpu_fma4           = 0x04000000;                  /* FMA4 instruction set */
+	static constexpr cpu_inst_type      cpu_xop            = 0x08000000;                  /* XOP instruction set */
 	// Extremum
 	static constexpr signed char        int8_min           = -0x7f - 1;                   /* -128 */
 	static constexpr signed short       int16_min          = -0x7fff - 1;                 /* -32768 */
@@ -178,6 +178,11 @@ namespace core
 	static constexpr double             dbl_rcp_fact11     = 2.50521083854417187751e-8;   /* 1/11! */
 	static constexpr double             dbl_rcp_fact12     = 2.08767569878680989792e-9;   /* 1/12! */
 	static constexpr double             dbl_rcp_fact13     = 1.60590438368216145994e-10;  /* 1/13! */
+	// Copy mode
+	typedef unsigned char copy_mode_type;
+	static constexpr copy_mode_type     without_copy       = 0x00;                        /* no copy or reference to any data */
+	static constexpr copy_mode_type     shallow_copy       = 0x01;                        /* only reference the original data */
+	static constexpr copy_mode_type     deep_copy          = 0x02;                        /* copy all the original data */
 	// Border type
 	typedef unsigned char border_type;
 	static constexpr border_type        border_constant    = 0x00;                        /* iiii|abcdefgh|iiii */

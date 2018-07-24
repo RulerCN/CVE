@@ -421,59 +421,15 @@ namespace core
 		}
 
 		template <class InputIterator>
-		void assign(size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last)
+		void assign(size_type batch, size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last)
 		{
 			if (!empty())
-				throw ::std::domain_error(tensor_is_initialized);
-			if (::std::distance(first, last) <= 0 || rows == 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(invalid_initializer_list);
-			owner = true;
-			channels = dimension;
-			width = columns;
-			height = rows;
-			stride = width * channels;
-			plane = height * stride;
-			depth = (static_cast<size_type>(::std::distance(first, last)) + plane - 1) / plane;
-			count = depth * plane;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(first, last, buffer);
-		}
-
-		void assign(size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il)
-		{
-			assign(rows, columns, dimension, il.begin(), il.end());
-		}
-
-		void assign(const tensor<T, Allocator>& x)
-		{
-			if (!empty())
-				throw ::std::domain_error(tensor_is_initialized);
-			if (x.empty())
-				throw ::std::domain_error(tensor_not_initialized);
-			owner = true;
-			channels = x.channels;
-			width = x.width;
-			height = x.height;
-			depth = x.depth;
-			stride = x.stride;
-			plane = x.plane;
-			count = x.count;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
-		}
-
-		void assign(tensor<T, Allocator>&& x)
-		{
-			assign_rv(std::forward<tensor<T, Allocator> >(x), typename allocator_type::propagate_on_container_move_assignment());
-		}
-
-		void create(size_type batch, size_type rows, size_type columns, size_type dimension, pointer p)
-		{
-			if (!empty() && owner == true)
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
 				throw ::std::invalid_argument(invalid_tensor_size);
-			owner = false;
+			if (::std::distance(first, last) != batch * rows * columns * dimension)
+				throw ::std::invalid_argument(invalid_initializer_list);
+			owner = true;
 			channels = dimension;
 			width = columns;
 			height = rows;
@@ -481,14 +437,160 @@ namespace core
 			stride = width * channels;
 			plane = height * stride;
 			count = depth * plane;
-			buffer = p;
+			buffer = this->allocate(count);
+			::std::uninitialized_copy(first, last, buffer);
 		}
 
-		void create(tensor<T, Allocator>& x)
+		void assign(size_type batch, size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il)
 		{
+			assign(batch, rows, columns, dimension, il.begin(), il.end());
+		}
+
+		void assign(size_type batch, size_type rows, size_type columns, size_type dimension, const_pointer p, bool copy_data)
+		{
+			if (!empty() && owner == true)
+				throw ::std::domain_error(tensor_is_initialized);
+			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_tensor_size);
+			channels = dimension;
+			width = columns;
+			height = rows;
+			depth = batch;
+			stride = width * channels;
+			plane = height * stride;
+			count = depth * plane;
+			if (copy_data)
+			{
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else
+			{
+				owner = false;
+				buffer = p;
+			}
+		}
+
+		template <class A>
+		void assign(const tensor<T, A>& x, copy_mode_type copy_mode)
+		{
+			if (!empty())
+				throw ::std::domain_error(tensor_is_initialized);
 			if (x.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			create(x.depth, x.height, x.width, x.channels, x.buffer);
+				throw ::std::domain_error(tensor_not_initialized);
+			channels = x.channels;
+			width = x.width;
+			height = x.height;
+			depth = x.depth;
+			stride = x.stride;
+			plane = x.plane;
+			count = x.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+				break;
+			case shallow_copy:
+				owner = false;
+				buffer = x.data();
+				break;
+			case deep_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			}
+		}
+
+		template <class A>
+		void assign(tensor<T, A>&& x)
+		{
+			assign_rv(std::forward<tensor<T, A> >(x), typename allocator_type::propagate_on_container_move_assignment());
+		}
+
+		void create(size_type batch, size_type rows, size_type columns, size_type dimension)
+		{
+			if (empty())
+				assign(batch, rows, columns, dimension);
+			else if (count != batch * rows * columns * dimension)
+			{
+				clear();
+				assign(batch, rows, columns, dimension);
+			}
+			else
+			{
+				channels = dimension;
+				width = columns;
+				height = rows;
+				depth = batch;
+				stride = width * channels;
+				plane = height * stride;
+			}
+		}
+
+		void create(size_type batch, size_type rows, size_type columns, size_type dimension)
+		{
+			if (empty())
+				assign(batch, rows, columns, dimension);
+			else if (count != batch * rows * columns * dimension)
+			{
+				clear();
+				assign(batch, rows, columns, dimension);
+			}
+			else
+			{
+				channels = dimension;
+				width = columns;
+				height = rows;
+				depth = batch;
+				stride = width * channels;
+				plane = height * stride;
+			}
+		}
+
+		void create(size_type batch, size_type rows, size_type columns, size_type dimension, const value_type& value)
+		{
+			if (empty())
+				assign(batch, rows, columns, dimension, value);
+			else if (count != batch * rows * columns * dimension)
+			{
+				clear();
+				assign(batch, rows, columns, dimension, value);
+			}
+			else
+			{
+				channels = dimension;
+				width = columns;
+				height = rows;
+				depth = batch;
+				stride = width * channels;
+				plane = height * stride;
+				::std::uninitialized_fill_n(buffer, count, value);
+			}
+		}
+
+		template <class InputIterator>
+		void create(size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last)
+		{
+			if (empty())
+				assign(rows, columns, dimension, first, last);
+			else if (count != batch * rows * columns * dimension)
+			{
+				clear();
+				assign(rows, columns, dimension, first, last);
+			}
+			else
+			{
+				channels = dimension;
+				width = columns;
+				height = rows;
+				stride = width * channels;
+				plane = height * stride;
+				depth = (static_cast<size_type>(::std::distance(first, last)) + plane - 1) / plane;
+				::std::uninitialized_copy(first, last, buffer);
+			}
 		}
 
 		// iterators:
@@ -1651,7 +1753,7 @@ namespace core
 			if (get_allocator() == right.get_allocator())
 				assign_rv(::std::forward<tensor<T, Allocator> >(right), ::std::true_type());
 			else
-				assign(right);
+				assign(right, deep_copy);
 		}
 	private:
 		bool       owner;
