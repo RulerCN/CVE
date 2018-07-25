@@ -1395,19 +1395,19 @@ namespace core
 		}
 		const_scalar_type scalar(const_iterator it) noexcept
 		{
-			return const_scalar_type(channels, it.operator->(), false);
+			return const_scalar_type(channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_scalar_type scalar(const_reverse_iterator it) noexcept
 		{
-			return const_scalar_type(channels, it.operator->(), false);
+			return const_scalar_type(channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_scalar_type scalar(const_iterator it) const noexcept
 		{
-			return const_scalar_type(channels, it.operator->(), false);
+			return const_scalar_type(channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_scalar_type scalar(const_reverse_iterator it) const noexcept
 		{
-			return const_scalar_type(channels, it.operator->(), false);
+			return const_scalar_type(channels, const_cast<pointer>(it.operator->()), false);
 		}
 
 		vector_type vector(iterator it) noexcept
@@ -1420,19 +1420,19 @@ namespace core
 		}
 		const_vector_type vector(const_iterator it) noexcept
 		{
-			return const_vector_type(width, channels, it.operator->(), false);
+			return const_vector_type(width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_vector_type vector(const_reverse_iterator it) noexcept
 		{
-			return const_vector_type(width, channels, it.operator->(), false);
+			return const_vector_type(width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_vector_type vector(const_iterator it) const noexcept
 		{
-			return const_vector_type(width, channels, it.operator->(), false);
+			return const_vector_type(width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_vector_type vector(const_reverse_iterator it) const noexcept
 		{
-			return const_vector_type(width, channels, it.operator->(), false);
+			return const_vector_type(width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 
 		matrix_type matrix(iterator it) noexcept
@@ -1445,19 +1445,19 @@ namespace core
 		}
 		const_matrix_type matrix(const_iterator it) noexcept
 		{
-			return const_matrix_type(height, width, channels, it.operator->(), false);
+			return const_matrix_type(height, width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_matrix_type matrix(const_reverse_iterator it) noexcept
 		{
-			return const_matrix_type(height, width, channels, it.operator->(), false);
+			return const_matrix_type(height, width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_matrix_type matrix(const_iterator it) const noexcept
 		{
-			return const_matrix_type(height, width, channels, it.operator->(), false);
+			return const_matrix_type(height, width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 		const_matrix_type matrix(const_reverse_iterator it) const noexcept
 		{
-			return const_matrix_type(height, width, channels, it.operator->(), false);
+			return const_matrix_type(height, width, channels, const_cast<pointer>(it.operator->()), false);
 		}
 
 		// modifiers:
