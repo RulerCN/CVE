@@ -109,17 +109,17 @@ namespace core
 			: step(stride)
 			, ptr(p)
 		{}
-		matrix_iterator(const matrix_iterator<Matrix, is_const>& x) noexcept
-			: step(x.step)
-			, ptr(x.ptr)
+		matrix_iterator(const matrix_iterator<Matrix, is_const>& other) noexcept
+			: step(other.step)
+			, ptr(other.ptr)
 		{}
 
-		matrix_iterator<Matrix, is_const>& operator=(const matrix_iterator<Matrix, is_const>& x) noexcept
+		matrix_iterator<Matrix, is_const>& operator=(const matrix_iterator<Matrix, is_const>& other) noexcept
 		{
-			if (this != &x)
+			if (this != &other)
 			{
-				step = x.step;
-				ptr = x.ptr;
+				step = other.step;
+				ptr = other.ptr;
 			}
 			return (*this);
 		}
@@ -266,7 +266,7 @@ namespace core
 		{
 			assign(rows, columns, dimension, value);
 		}
-		matrix(size_type rows, size_type columns, size_type dimension, pointer p, const Allocator& alloc = Allocator())
+		matrix(size_type rows, size_type columns, size_type dimension, const_pointer p, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -276,10 +276,22 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			create(rows, columns, dimension, p);
+			assign(rows, columns, dimension, p);
+		}
+		matrix(size_type rows, size_type columns, size_type dimension, pointer p, bool copy_data, const Allocator& alloc = Allocator())
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, width(0)
+			, height(0)
+			, stride(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(rows, columns, dimension, p, copy_data);
 		}
 		template <class InputIterator>
-		matrix(size_type columns, size_type dimension, InputIterator first, InputIterator last, const Allocator& alloc = Allocator())
+		matrix(size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -289,10 +301,10 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(columns, dimension, last, last);
+			assign(rows, columns, dimension, last, last);
 		}
-		matrix(const matrix<T, Allocator>& x)
-			: Allocator(x.get_allocator())
+		matrix(const matrix<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
 			, width(0)
@@ -301,10 +313,10 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(x);
+			assign(other, copy_mode);
 		}
-		matrix(matrix<T, Allocator>&& x)
-			: Allocator(x.get_allocator())
+		matrix(matrix<T, Allocator>&& other)
+			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
 			, width(0)
@@ -313,9 +325,9 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(::std::forward<matrix<T, Allocator> >(x));
+			assign(::std::forward<matrix<T, Allocator> >(other));
 		}
-		matrix(const matrix<T, Allocator>& x, const Allocator& alloc)
+		matrix(const matrix<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -325,9 +337,9 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(x);
+			assign(other, copy_mode);
 		}
-		matrix(matrix<T, Allocator>&& x, const Allocator& alloc)
+		matrix(matrix<T, Allocator>&& other, const Allocator& alloc)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -337,9 +349,9 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(::std::forward<matrix<T, Allocator> >(x));
+			assign(::std::forward<matrix<T, Allocator> >(other));
 		}
-		matrix(size_type columns, size_type dimension, ::std::initializer_list<T> il, const Allocator& alloc = Allocator())
+		matrix(size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -349,34 +361,25 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(columns, dimension, il);
+			assign(rows, columns, dimension, il);
 		}
 		~matrix(void)
 		{
 			clear();
 		}
-		matrix<T, Allocator>& operator=(const matrix<T, Allocator>& x)
+		matrix<T, Allocator>& operator=(const matrix<T, Allocator>& other)
 		{
-			if (this != &x)
+			if (this != &other)
 			{
 				clear();
-				if (x.owner)
-					assign(x);
-				else
-					create(x);
+				assign(other, other.owner ? deep_copy : shallow_copy);
 			}
 			return (*this);
 		}
-		matrix<T, Allocator>& operator=(matrix<T, Allocator>&& x)
+		matrix<T, Allocator>& operator=(matrix<T, Allocator>&& other)
 		{
-			if (this != &x)
-				assign(::std::forward<matrix<T, Allocator> >(x));
-			return (*this);
-		}
-		matrix<T, Allocator>& operator=(::std::initializer_list<T> il)
-		{
-			clear();
-			assign(il);
+			if (this != &other)
+				assign(::std::forward<matrix<T, Allocator> >(other));
 			return (*this);
 		}
 
@@ -412,67 +415,320 @@ namespace core
 			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
-		template <class InputIterator>
-		void assign(size_type columns, size_type dimension, InputIterator first, InputIterator last)
-		{
-			if (!empty())
-				throw ::std::domain_error(matrix_is_initialized);
-			if (::std::distance(first, last) <= 0 || columns == 0 || dimension == 0)
-				throw ::std::invalid_argument(invalid_initializer_list);
-			owner = true;
-			channels = dimension;
-			width = columns;
-			stride = width * channels;
-			height = (static_cast<size_type>(::std::distance(first, last)) + stride - 1) / stride;
-			count = height * stride;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(first, last, buffer);
-		}
-
-		void assign(size_type columns, size_type dimension, ::std::initializer_list<T> il)
-		{
-			assign(columns, dimension, il.begin(), il.end());
-		}
-
-		void assign(const matrix<T, Allocator>& x)
-		{
-			if (!empty())
-				throw ::std::domain_error(matrix_is_initialized);
-			if (x.empty())
-				throw ::std::domain_error(matrix_not_initialized);
-			owner = true;
-			channels = x.channels;
-			width = x.width;
-			height = x.height;
-			stride = x.stride;
-			count = x.count;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
-		}
-
-		void assign(matrix<T, Allocator>&& x)
-		{
-			assign_rv(std::forward<matrix<T, Allocator> >(x), typename allocator_type::propagate_on_container_move_assignment());
-		}
-
-		void create(size_type rows, size_type columns, size_type dimension, pointer p)
+		void assign(size_type rows, size_type columns, size_type dimension, const_pointer p)
 		{
 			if (!empty())
 				throw ::std::domain_error(matrix_is_initialized);
 			if (rows == 0 || columns == 0 || dimension == 0)
 				throw ::std::invalid_argument(invalid_matrix_size);
-			owner = false;
+			owner = true;
 			channels = dimension;
 			width = columns;
 			height = rows;
 			stride = width * channels;
 			count = height * stride;
-			buffer = p;
+			buffer = this->allocate(count);
+			::std::uninitialized_copy(p, p + count, buffer);
 		}
 
-		void create(matrix<T, Allocator>& x)
+		void assign(size_type rows, size_type columns, size_type dimension, pointer p, bool copy_data)
 		{
-			create(x.height, x.width, x.channels, x.buffer);
+			if (!empty())
+				throw ::std::domain_error(matrix_is_initialized);
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (copy_data)
+			{
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else
+			{
+				owner = false;
+				buffer = p;
+			}
+		}
+
+		template <class InputIterator>
+		void assign(size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last)
+		{
+			if (!empty())
+				throw ::std::domain_error(matrix_is_initialized);
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			if (::std::distance(first, last) != rows * columns * dimension)
+				throw ::std::invalid_argument(invalid_initializer_list);
+			owner = true;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			buffer = this->allocate(count);
+			::std::uninitialized_copy(first, last, buffer);
+		}
+
+		void assign(size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il)
+		{
+			assign(rows, columns, dimension, il.begin(), il.end());
+		}
+
+		void assign(const matrix<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (!empty())
+				throw ::std::domain_error(matrix_is_initialized);
+			if (other.empty())
+				throw ::std::domain_error(matrix_not_initialized);
+			channels = other.channels;
+			width = other.width;
+			height = other.height;
+			stride = other.stride;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+				break;
+			case shallow_copy:
+				owner = false;
+				buffer = const_cast<pointer>(other.data());
+				break;
+			case deep_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void assign(matrix<T, Allocator>&& other)
+		{
+			assign_rv(std::forward<matrix<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+		}
+
+		void reassign(size_type rows, size_type columns, size_type dimension)
+		{
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+			}
+		}
+
+		void reassign(size_type rows, size_type columns, size_type dimension, const value_type& value)
+		{
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_fill_n(buffer, count, value);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_fill_n(buffer, count, value);
+			}
+			else
+				::std::fill_n(buffer, count, value);
+		}
+
+		template <class InputIterator>
+		void reassign(size_type rows, size_type columns, size_type dimension, const_pointer p)
+		{
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else
+				::std::copy(p, p + count, buffer);
+		}
+
+		template <class InputIterator>
+		void reassign(size_type rows, size_type columns, size_type dimension, pointer p, bool copy_data)
+		{
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = copy_data;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (copy_data)
+			{
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(p, p + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(p, p + count, buffer);
+				}
+				else
+					::std::copy(p, p + count, buffer);
+			}
+			else
+			{
+				if (buffer != nullptr)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+				}
+				buffer = p;
+			}
+		}
+
+		template <class InputIterator>
+		void reassign(size_type rows, size_type columns, size_type dimension, InputIterator first, InputIterator last)
+		{
+			if (rows == 0 || columns == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			if (::std::distance(first, last) != rows * columns * dimension)
+				throw ::std::invalid_argument(invalid_initializer_list);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			width = columns;
+			height = rows;
+			stride = width * channels;
+			count = height * stride;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(first, last, buffer);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(first, last, buffer);
+			}
+			else
+				::std::copy(first, last, buffer);
+		}
+
+		void reassign(size_type rows, size_type columns, size_type dimension, ::std::initializer_list<T> il)
+		{
+			reassign(rows, columns, dimension, il.begin(), il.end());
+		}
+
+		void reassign(const matrix<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (other.empty())
+				throw ::std::domain_error(matrix_not_initialized);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			channels = other.channels;
+			width = other.width;
+			height = other.height;
+			stride = other.stride;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				owner = true;
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				break;
+			case shallow_copy:
+				owner = false;
+				if (buffer != nullptr)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+				}
+				buffer = const_cast<pointer>(other.data());
+				break;
+			case deep_copy:
+				owner = true;
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else
+					::std::copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
 		}
 
 		// iterators:
@@ -814,11 +1070,11 @@ namespace core
 
 		vector_type operator[](size_type i) noexcept
 		{
-			return vector_type(width, channels, buffer + i * stride);
+			return vector_type(width, channels, buffer + i * stride, false);
 		}
 		const_vector_type operator[](size_type i) const noexcept
 		{
-			return const_vector_type(width, channels, buffer + i * stride);
+			return const_vector_type(width, channels, buffer + i * stride, false);
 		}
 
 		vector_type at(size_type i)
@@ -827,7 +1083,7 @@ namespace core
 				throw ::std::domain_error(matrix_not_initialized);
 			if (i >= height)
 				throw ::std::out_of_range(matrix_out_of_range);
-			return vector_type(width, channels, buffer + i * stride);
+			return vector_type(width, channels, buffer + i * stride, false);
 		}
 		const_vector_type at(size_type i) const
 		{
@@ -835,7 +1091,7 @@ namespace core
 				throw ::std::domain_error(matrix_not_initialized);
 			if (i >= height)
 				throw ::std::out_of_range(matrix_out_of_range);
-			return const_vector_type(width, channels, buffer + i * stride);
+			return const_vector_type(width, channels, buffer + i * stride, false);
 		}
 
 		pointer data(void) noexcept
@@ -873,11 +1129,11 @@ namespace core
 
 		scalar_type scalar(iterator it) noexcept
 		{
-			return scalar_type(channels, it.operator->());
+			return scalar_type(channels, it.operator->(), false);
 		}
 		scalar_type scalar(reverse_iterator it) noexcept
 		{
-			return scalar_type(channels, it.operator->());
+			return scalar_type(channels, it.operator->(), false);
 		}
 		const_scalar_type scalar(const_iterator it) noexcept
 		{
@@ -898,11 +1154,11 @@ namespace core
 
 		vector_type vector(iterator it) noexcept
 		{
-			return vector_type(width, channels, it.operator->());
+			return vector_type(width, channels, it.operator->(), false);
 		}
 		vector_type vector(reverse_iterator it) noexcept
 		{
-			return vector_type(width, channels, it.operator->());
+			return vector_type(width, channels, it.operator->(), false);
 		}
 		const_vector_type vector(const_iterator it) noexcept
 		{
@@ -954,13 +1210,13 @@ namespace core
 			fill(il.begin(), il.end());
 		}
 
-		void fill(const matrix<T, Allocator>& x)
+		void fill(const matrix<T, Allocator>& other)
 		{
-			if (empty() || x.empty())
+			if (empty() || other.empty())
 				throw ::std::domain_error(matrix_not_initialized);
-			if (count != x.size())
+			if (count != other.size())
 				throw ::std::invalid_argument(invalid_length);
-			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
 		}
 
 		void linear_fill(const value_type& init, const value_type& delta)
@@ -1082,226 +1338,8 @@ namespace core
 			return *static_cast<const allocator_type*>(this);
 		}
 
-		// operator:
-
-		matrix<T, Allocator>& operator+=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] += value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator-=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] -= value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator*=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] *= value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator/=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] /= value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator&=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] &= value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator^=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] ^= value;
-			return *this;
-		}
-
-		matrix<T, Allocator>& operator|=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] |= value;
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator+=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] += ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator-=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] -= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator*=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] *= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator/=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] /= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator&=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] &= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator^=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] ^= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		matrix<T, Allocator>& operator|=(const matrix<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] |= ptr[i];
-			return *this;
-		}
 	public:
 		// operator:
-
-		template <class A>
-		friend matrix<T, Allocator> operator+(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] + ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator-(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] - ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator*(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] * ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator/(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] / ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator&(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] & ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator^(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] ^ ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend matrix<T, Allocator> operator|(const matrix<T, Allocator>& src1, const matrix<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(matrix_different_size);
-			matrix<T, Allocator> dst(src1.rows(), src1.columns(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] | ptr2[i];
-			return dst;
-		}
 
 		template <class A>
 		friend bool operator<(const matrix<T, Allocator>& lhs, const matrix<T, A>& rhs)
@@ -1370,7 +1408,7 @@ namespace core
 			if (get_allocator() == right.get_allocator())
 				assign_rv(::std::forward<matrix<T, Allocator> >(right), ::std::true_type());
 			else
-				assign(right);
+				assign(right, deep_copy);
 		}
 	private:
 		bool       owner;

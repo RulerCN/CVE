@@ -108,17 +108,17 @@ namespace core
 			: step(stride)
 			, ptr(p)
 		{}
-		vector_iterator(const vector_iterator<Vector, is_const>& x) noexcept
-			: step(x.step)
-			, ptr(x.ptr)
+		vector_iterator(const vector_iterator<Vector, is_const>& other) noexcept
+			: step(other.step)
+			, ptr(other.ptr)
 		{}
 
-		vector_iterator<Vector, is_const>& operator=(const vector_iterator<Vector, is_const>& x) noexcept
+		vector_iterator<Vector, is_const>& operator=(const vector_iterator<Vector, is_const>& other) noexcept
 		{
-			if (this != &x)
+			if (this != &other)
 			{
-				step = x.step;
-				ptr = x.ptr;
+				step = other.step;
+				ptr = other.ptr;
 			}
 			return (*this);
 		}
@@ -252,14 +252,6 @@ namespace core
 		{
 			assign(length, dimension);
 		}
-		vector(size_type length, size_type dimension, pointer p, const Allocator& alloc = Allocator())
-			: Allocator(alloc)
-			, owner(false)
-			, channels(dimension)
-			, number(length)
-			, count(number * channels)
-			, buffer(p)
-		{}
 		vector(size_type length, size_type dimension, const value_type& value, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
@@ -270,8 +262,28 @@ namespace core
 		{
 			assign(length, dimension, value);
 		}
+		vector(size_type length, size_type dimension, const_pointer p, const Allocator& alloc = Allocator())
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, number(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(length, dimension, p);
+		}
+		vector(size_type length, size_type dimension, pointer p, bool copy_data, const Allocator& alloc = Allocator())
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, number(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(length, dimension, p, copy_data);
+		}
 		template <class InputIterator>
-		vector(size_type dimension, InputIterator first, InputIterator last, const Allocator& alloc = Allocator())
+		vector(size_type length, size_type dimension, InputIterator first, InputIterator last, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -279,29 +291,29 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(dimension, last, last);
+			assign(length, dimension, last, last);
 		}
-		vector(const vector<T, Allocator>& x)
-			: Allocator(x.get_allocator())
+		vector(const vector<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
 			, number(0)
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(x);
+			assign(other, copy_mode);
 		}
-		vector(vector<T, Allocator>&& x)
-			: Allocator(x.get_allocator())
+		vector(vector<T, Allocator>&& other)
+			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
 			, number(0)
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(::std::forward<vector<T, Allocator> >(x));
+			assign(::std::forward<vector<T, Allocator> >(other));
 		}
-		vector(const vector<T, Allocator>& x, const Allocator& alloc)
+		vector(const vector<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -309,9 +321,9 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(x);
+			assign(other, copy_mode);
 		}
-		vector(vector<T, Allocator>&& x, const Allocator& alloc)
+		vector(vector<T, Allocator>&& other, const Allocator& alloc)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -319,9 +331,9 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(::std::forward<vector<T, Allocator> >(x));
+			assign(::std::forward<vector<T, Allocator> >(other));
 		}
-		vector(size_type dimension, ::std::initializer_list<T> il, const Allocator& alloc = Allocator())
+		vector(size_type length, size_type dimension, ::std::initializer_list<T> il, const Allocator& alloc = Allocator())
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -329,34 +341,25 @@ namespace core
 			, count(0)
 			, buffer(nullptr)
 		{
-			assign(dimension, il);
+			assign(length, dimension, il);
 		}
 		~vector(void)
 		{
 			clear();
 		}
-		vector<T, Allocator>& operator=(const vector<T, Allocator>& x)
+		vector<T, Allocator>& operator=(const vector<T, Allocator>& other)
 		{
-			if (this != &x)
+			if (this != &other)
 			{
 				clear();
-				if (x.owner)
-					assign(x);
-				else
-					create(x);
+				assign(other, other.owner ? deep_copy : shallow_copy);
 			}
 			return (*this);
 		}
-		vector<T, Allocator>& operator=(vector<T, Allocator>&& x)
+		vector<T, Allocator>& operator=(vector<T, Allocator>&& other)
 		{
-			if (this != &x)
-				assign(::std::forward<vector<T, Allocator> >(x));
-			return (*this);
-		}
-		vector<T, Allocator>& operator=(::std::initializer_list<T> il)
-		{
-			clear();
-			assign(il);
+			if (this != &other)
+				assign(::std::forward<vector<T, Allocator> >(other));
 			return (*this);
 		}
 
@@ -388,61 +391,300 @@ namespace core
 			::std::uninitialized_fill_n(buffer, count, value);
 		}
 
-		template <class InputIterator>
-		void assign(size_type dimension, InputIterator first, InputIterator last)
-		{
-			if (!empty())
-				throw ::std::domain_error(vector_is_initialized);
-			if (::std::distance(first, last) <= 0 || dimension == 0)
-				throw ::std::invalid_argument(invalid_initializer_list);
-			owner = true;
-			channels = dimension;
-			number = (static_cast<size_type>(::std::distance(first, last)) + channels - 1) / channels;
-			count = number * channels;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(first, last, buffer);
-		}
-
-		void assign(size_type dimension, ::std::initializer_list<T> il)
-		{
-			assign(dimension, il.begin(), il.end());
-		}
-
-		void assign(const vector<T, Allocator>& x)
-		{
-			if (!empty())
-				throw ::std::domain_error(vector_is_initialized);
-			if (x.empty())
-				throw ::std::domain_error(vector_not_initialized);
-			owner = true;
-			channels = x.channels;
-			number = x.number;
-			count = x.count;
-			buffer = this->allocate(count);
-			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
-		}
-
-		void assign(vector<T, Allocator>&& x)
-		{
-			assign_rv(std::forward<vector<T, Allocator> >(x), typename allocator_type::propagate_on_container_move_assignment());
-		}
-
-		void create(size_type length, size_type dimension, pointer p)
+		void assign(size_type length, size_type dimension, const_pointer p)
 		{
 			if (!empty())
 				throw ::std::domain_error(vector_is_initialized);
 			if (length == 0 || dimension == 0)
 				throw ::std::invalid_argument(invalid_vector_size);
-			owner = false;
+			owner = true;
 			channels = dimension;
 			number = length;
 			count = number * channels;
-			buffer = p;
+			buffer = this->allocate(count);
+			::std::uninitialized_copy(p, p + count, buffer);
 		}
 
-		void create(vector<T, Allocator>& x)
+		void assign(size_type length, size_type dimension, pointer p, bool copy_data)
 		{
-			create(x.number, x.channels, x.buffer);
+			if (!empty())
+				throw ::std::domain_error(vector_is_initialized);
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (copy_data)
+			{
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else
+			{
+				owner = false;
+				buffer = p;
+			}
+		}
+
+		template <class InputIterator>
+		void assign(size_type length, size_type dimension, InputIterator first, InputIterator last)
+		{
+			if (!empty())
+				throw ::std::domain_error(vector_is_initialized);
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			if (::std::distance(first, last) != length * dimension)
+				throw ::std::invalid_argument(invalid_initializer_list);
+			owner = true;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			buffer = this->allocate(count);
+			::std::uninitialized_copy(first, last, buffer);
+		}
+
+		void assign(size_type length, size_type dimension, ::std::initializer_list<T> il)
+		{
+			assign(length, dimension, il.begin(), il.end());
+		}
+
+		void assign(const vector<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (!empty())
+				throw ::std::domain_error(vector_is_initialized);
+			if (other.empty())
+				throw ::std::domain_error(vector_not_initialized);
+			channels = other.channels;
+			number = other.number;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+				break;
+			case shallow_copy:
+				owner = false;
+				buffer = const_cast<pointer>(other.data());
+				break;
+			case deep_copy:
+				owner = true;
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void assign(vector<T, Allocator>&& other)
+		{
+			assign_rv(std::forward<vector<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+		}
+
+		void reassign(size_type length, size_type dimension)
+		{
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+			}
+		}
+
+		void reassign(size_type length, size_type dimension, const value_type& value)
+		{
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_fill_n(buffer, count, value);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_fill_n(buffer, count, value);
+			}
+			else
+				::std::fill_n(buffer, count, value);
+		}
+
+		template <class InputIterator>
+		void reassign(size_type length, size_type dimension, const_pointer p)
+		{
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(p, p + count, buffer);
+			}
+			else
+				::std::copy(p, p + count, buffer);
+		}
+
+		template <class InputIterator>
+		void reassign(size_type length, size_type dimension, pointer p, bool copy_data)
+		{
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = copy_data;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (copy_data)
+			{
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(p, p + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(p, p + count, buffer);
+				}
+				else
+					::std::copy(p, p + count, buffer);
+			}
+			else
+			{
+				if (buffer != nullptr)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+				}
+				buffer = p;
+			}
+		}
+
+		template <class InputIterator>
+		void reassign(size_type length, size_type dimension, InputIterator first, InputIterator last)
+		{
+			if (length == 0 || dimension == 0)
+				throw ::std::invalid_argument(invalid_vector_size);
+			if (::std::distance(first, last) != length * dimension)
+				throw ::std::invalid_argument(invalid_initializer_list);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = dimension;
+			number = length;
+			count = number * channels;
+			if (buffer == nullptr || !original_owner)
+			{
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(first, last, buffer);
+			}
+			else if (count != original_count)
+			{
+				core::destroy_n(buffer, original_count);
+				this->deallocate(buffer, original_count);
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(first, last, buffer);
+			}
+			else
+				::std::copy(first, last, buffer);
+		}
+
+		void reassign(size_type length, size_type dimension, ::std::initializer_list<T> il)
+		{
+			reassign(length, dimension, il.begin(), il.end());
+		}
+
+		void reassign(const vector<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (other.empty())
+				throw ::std::domain_error(vector_not_initialized);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			channels = other.channels;
+			number = other.number;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				owner = true;
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				break;
+			case shallow_copy:
+				owner = false;
+				if (buffer != nullptr)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+				}
+				buffer = const_cast<pointer>(other.data());
+				break;
+			case deep_copy:
+				owner = true;
+				if (buffer == nullptr || !original_owner)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else
+					::std::copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
 		}
 
 		// iterators:
@@ -527,11 +769,11 @@ namespace core
 
 		scalar_type operator[](size_type i) noexcept
 		{
-			return scalar_type(channels, buffer + i * channels);
+			return scalar_type(channels, buffer + i * channels, false);
 		}
 		const_scalar_type operator[](size_type i) const noexcept
 		{
-			return const_scalar_type(channels, buffer + i * channels);
+			return const_scalar_type(channels, buffer + i * channels, false);
 		}
 
 		scalar_type at(size_type i)
@@ -540,7 +782,7 @@ namespace core
 				throw ::std::domain_error(vector_not_initialized);
 			if (i >= number)
 				throw ::std::out_of_range(vector_out_of_range);
-			return scalar_type(channels, buffer + i * channels);
+			return scalar_type(channels, buffer + i * channels, false);
 		}
 		const_scalar_type at(size_type i) const
 		{
@@ -548,7 +790,7 @@ namespace core
 				throw ::std::domain_error(vector_not_initialized);
 			if (i >= number)
 				throw ::std::out_of_range(vector_out_of_range);
-			return const_scalar_type(channels, buffer + i * channels);
+			return const_scalar_type(channels, buffer + i * channels, false);
 		}
 
 		pointer data(void) noexcept
@@ -609,13 +851,13 @@ namespace core
 			fill(il.begin(), il.end());
 		}
 
-		void fill(const vector<T, Allocator>& x)
+		void fill(const vector<T, Allocator>& other)
 		{
-			if (empty() || x.empty())
+			if (empty() || other.empty())
 				throw ::std::domain_error(vector_not_initialized);
-			if (count != x.size())
+			if (count != other.size())
 				throw ::std::invalid_argument(invalid_length);
-			::std::uninitialized_copy(x.buffer, x.buffer + count, buffer);
+			::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
 		}
 
 		void linear_fill(const value_type& init, const value_type& delta)
@@ -716,226 +958,8 @@ namespace core
 			return *static_cast<const allocator_type*>(this);
 		}
 
-		// operator:
-
-		vector<T, Allocator>& operator+=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] += value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator-=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] -= value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator*=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] *= value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator/=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] /= value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator&=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] &= value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator^=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] ^= value;
-			return *this;
-		}
-
-		vector<T, Allocator>& operator|=(const value_type& value)
-		{
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] |= value;
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator+=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] += ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator-=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] -= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator*=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] *= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator/=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] /= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator&=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] &= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator^=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] ^= ptr[i];
-			return *this;
-		}
-
-		template <class A>
-		vector<T, Allocator>& operator|=(const vector<T, A>& rhs)
-		{
-			if (count != rhs.size())
-				throw ::std::invalid_argument(vector_different_size);
-			const_pointer ptr = rhs.data();
-			for (size_type i = 0; i < count; ++i)
-				buffer[i] |= ptr[i];
-			return *this;
-		}
 	public:
 		// operator:
-
-		template <class A>
-		friend vector<T, Allocator> operator+(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] + ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator-(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] - ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator*(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] * ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator/(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] / ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator&(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] & ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator^(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] ^ ptr2[i];
-			return dst;
-		}
-
-		template <class A>
-		friend vector<T, Allocator> operator|(const vector<T, Allocator>& src1, const vector<T, A>& src2)
-		{
-			if (src1.size() != src2.size())
-				throw ::std::invalid_argument(vector_different_size);
-			vector<T, Allocator> dst(src1.length(), src1.dimension());
-			const_pointer ptr1 = src1.data();
-			const_pointer ptr2 = src2.data();
-			for (size_t i = 0; i < dst.count; ++i)
-				dst.buffer[i] = ptr1[i] | ptr2[i];
-			return dst;
-		}
 
 		template <class A>
 		friend bool operator<(const vector<T, Allocator>& lhs, const vector<T, A>& rhs)
@@ -1004,7 +1028,7 @@ namespace core
 			if (get_allocator() == right.get_allocator())
 				assign_rv(::std::forward<vector<T, Allocator> >(right), ::std::true_type());
 			else
-				assign(right);
+				assign(right, deep_copy);
 		}
 	private:
 		bool       owner;
