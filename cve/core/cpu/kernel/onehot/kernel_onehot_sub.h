@@ -35,23 +35,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class template kernel_onehot_sub
+	// Function template kernel_onehot_sub
+
 	template<class T1, class T2>
-	struct kernel_onehot_sub
+	void kernel_onehot_sub(size_t m, size_t n, T1 *a, const T2 *b)
 	{
-		// C(mxn) = A(mxn) - one_hot(B(m))
-		void operator()(size_t m, const T1 *a, size_t rsa, const T2 *b, T1 *c) const
+		for (size_t i = 0; i < m; ++i)
 		{
-			constexpr T1 one = 1;
-			if (c != a)
-				::std::memcpy(c, a, m * rsa);
+			a[b[i]] -= T1(1);
+			a += n;
+		}
+	}
+
+	template<class T1, class T2>
+	void kernel_onehot_sub(size_t l, size_t m, size_t n, T1 *a, const T2 *b)
+	{
+		for (size_t j = 0; j < l; ++j)
+		{
 			for (size_t i = 0; i < m; ++i)
 			{
-				c[b[i]] -= one;
-				c += rsa;
+				a[b[i]] -= T1(1);
+				a += n;
 			}
+			b += m;
 		}
-	};
+	}
 
 } // namespace core
 

@@ -89,8 +89,8 @@ namespace ann
 			if (data.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
 
-			this->input.create(data.batch(), data.rows(), data.columns(), data.dimension(), data.data());
-			this->output.build(data.batch(), data.rows(), data.columns(), data.dimension());
+			this->input.reassign(data, ::core::shallow_copy);
+			this->output.reassign(data, ::core::without_copy);
 			::core::cpu_sigmoid(this->output, this->input);
 			return this->output;
 		}
@@ -103,7 +103,7 @@ namespace ann
 			if (loss.size() != this->output.size())
 				throw ::std::invalid_argument(::core::invalid_size);
 
-			this->loss.build(loss.batch(), loss.rows(), loss.columns(), loss.dimension());
+			this->loss.reassign(loss, ::core::without_copy);
 			::core::cpu_sigmoid_derivative(this->error, loss, this->output);
 			return this->error;
 		}

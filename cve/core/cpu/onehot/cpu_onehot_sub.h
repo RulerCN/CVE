@@ -36,20 +36,88 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Mapping an array to a matrix
+	// Subtraction matrix and one-hot vector
+
 	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& cpu_onehot_sub(matrix<T1, A1> &dst, matrix<T1, A1> &src, const vector<T2, A2> &onehot)
+	matrix<T1, A1>& cpu_onehot_sub(matrix<T1, A1> &dst, const vector<T2, A2> &onehot)
 	{
-		if (dst.empty() || src.empty())
+		if (dst.empty())
 			throw ::std::domain_error(matrix_not_initialized);
 		if (onehot.empty())
 			throw ::std::domain_error(vector_not_initialized);
-		if (dst.size() != src.size())
-			throw ::std::invalid_argument(invalid_size);
 		if (dst.rows() != onehot.size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		kernel_onehot_sub<T1, T2>()(dst.rows(), src.data(), src.row_size(), onehot.data(), dst.data());
+		kernel_onehot_sub(dst.rows(), dst.row_size(), dst.data(), onehot.data());
+		return dst;
+	}
+
+	template <class T1, class T2, class A1, class A2>
+	matrix<T1, A1>& cpu_onehot_sub(matrix<T1, A1> &dst, const matrix<T1, A1> &src, const vector<T2, A2> &onehot)
+	{
+		if (onehot.empty())
+			throw ::std::domain_error(vector_not_initialized);
+		if (dst.rows() != onehot.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		dst.fill(src);
+		kernel_onehot_sub(dst.rows(), dst.row_size(), dst.data(), onehot.data());
+		return dst;
+	}
+
+	// Subtraction tensor and one-hot matrix
+
+	template <class T1, class T2, class A1, class A2>
+	tensor<T1, A1>& cpu_onehot_sub(tensor<T1, A1> &dst, const matrix<T2, A2> &onehot)
+	{
+		if (dst.empty())
+			throw ::std::domain_error(tensor_not_initialized);
+		if (onehot.empty())
+			throw ::std::domain_error(matrix_not_initialized);
+		if (dst.batch() != onehot.rows())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_onehot_sub(dst.batch(), dst.rows(), dst.row_size(), dst.data(), onehot.data());
+		return dst;
+	}
+
+	template <class T1, class T2, class A1, class A2>
+	tensor<T1, A1>& cpu_onehot_sub(tensor<T1, A1> &dst, const tensor<T1, A1> &src, const matrix<T2, A2> &onehot)
+	{
+		if (onehot.empty())
+			throw ::std::domain_error(matrix_not_initialized);
+		if (dst.batch() != onehot.rows())
+			throw ::std::invalid_argument(invalid_shape);
+
+		dst.fill(src);
+		kernel_onehot_sub(dst.batch(), dst.rows(), dst.row_size(), dst.data(), onehot.data());
+		return dst;
+	}
+
+	// Subtraction tensor and one-hot tensor
+
+	template <class T1, class T2, class A1, class A2>
+	tensor<T1, A1>& cpu_onehot_sub(tensor<T1, A1> &dst, const tensor<T2, A2> &onehot)
+	{
+		if (dst.empty() || onehot.empty())
+			throw ::std::domain_error(tensor_not_initialized);
+		if (dst.batch() != onehot.batch() || dst.rows() != onehot.matrix_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_onehot_sub(dst.batch(), dst.rows(), dst.row_size(), dst.data(), onehot.data());
+		return dst;
+	}
+
+	template <class T1, class T2, class A1, class A2>
+	tensor<T1, A1>& cpu_onehot_sub(tensor<T1, A1> &dst, const tensor<T1, A1> &src, const tensor<T2, A2> &onehot)
+	{
+		if (onehot.empty())
+			throw ::std::domain_error(tensor_not_initialized);
+		if (dst.batch() != onehot.batch() || dst.rows() != onehot.matrix_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		dst.fill(src);
+		kernel_onehot_sub(dst.batch(), dst.rows(), dst.row_size(), dst.data(), onehot.data());
 		return dst;
 	}
 

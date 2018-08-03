@@ -583,7 +583,7 @@ namespace core
 				throw ::std::domain_error(scalar_not_initialized);
 			if (count != other.size())
 				throw ::std::invalid_argument(invalid_length);
-			::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+			::std::copy(other.buffer, other.buffer + count, buffer);
 		}
 
 		void linear_fill(const value_type& init, const value_type& delta)

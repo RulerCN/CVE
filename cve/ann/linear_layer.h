@@ -138,8 +138,6 @@ namespace ann
 			constexpr size_type one = 1;
 			this->input.reassign(one, data.batch(), data.area(), data.dimension(), data.data(), false);
 			this->output.reassign(one, data.batch(), weight.columns(), weight.dimension());
-			if (this->train)
-				this->error.reassign(this->input, ::core::without_copy);
 			::core::cpu_matmul(this->output[0], this->input[0], weight);
 			this->output.reshape(this->output.rows(), one, this->output.columns(), this->output.dimension());
 			return this->output;
@@ -168,6 +166,7 @@ namespace ann
 		// Back propagation
 		tensor_reference backward(void)
 		{
+			this->error.reassign(this->input, ::core::without_copy);
 			::core::cpu_matmul(this->error, loss_mean, weight, true);
 			return this->error;
 		}

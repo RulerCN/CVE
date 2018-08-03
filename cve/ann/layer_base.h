@@ -82,6 +82,8 @@ namespace ann
 		// construct/copy/destroy:
 		layer_base(void)
 			: train(false)
+			, input_dimension(0)
+			, output_dimension(0)
 			, rate(0)
 		{}
 
@@ -95,6 +97,8 @@ namespace ann
 		//}
 	public:
 		bool        train;
+		size_type   input_dimension;
+		size_type   output_dimension;
 		value_type  rate;
 		tensor_type input;
 		tensor_type output;

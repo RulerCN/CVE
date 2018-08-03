@@ -99,18 +99,34 @@ std::ostream& operator<<(std::ostream &os, const core::matrix<unsigned char, All
 	return os;
 }
 
+template<class Allocator>
+std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, Allocator> &data)
+{
+	std::cout << std::hex << std::setfill('0');
+	for (auto k = data.mbegin(); k != data.mend(); ++k)
+	{
+		for (auto j = data.vbegin(k); j != data.vend(k); ++j)
+		{
+			for (auto i = data.begin(j); i != data.end(j); ++i)
+				std::cout << std::setw(2) << static_cast<short>(*i) << " ";
+		}
+		std::cout << std::endl;
+	}
+	return os;
+}
+
 int main()
 {
-	const size_t batch_size = 10;
+	const size_t batch_size = 16;
 	const size_t sample_size = 1000;
-	ann::sample_set<float, int> batch_samples(batch_size, 1, 1, 2);
-	ann::sample_set<float, int> train_samples(sample_size, 1, 1, 2);
+	ann::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
+	ann::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
 
 	// Assign random value
 	std::default_random_engine engine(1U);
 	std::normal_distribution<float> distribution(0.0F, 0.08F);
 	float *pData = train_samples.data.data();
-	int *pLabel = train_samples.labels.data();
+	unsigned char *pLabel = train_samples.labels.data();
 	for (size_t i = 0; i < sample_size; i += 2)
 	{
 		*pData++ = (float)distribution(engine) - 0.2F;
@@ -155,7 +171,12 @@ int main()
 
 	for (size_t loop = 0; loop < 1; ++loop)
 	{
-		layer1.forward(batch_samples.data);
+		core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
+		core::tensor<float> &tensor2 = layer2.forward(tensor1);
+		core::tensor<float> &tensor3 = layer3.forward(tensor2);
+		core::tensor<float> &tensor4 = layer4.forward(tensor3);
+
+		core::tensor<float> &loss = layer4.backward(batch_samples.labels);
 	}
 
 	//// 120 376
