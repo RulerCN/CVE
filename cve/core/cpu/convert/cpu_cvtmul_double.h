@@ -178,18 +178,6 @@ namespace core
 
 	// Vector data-type conversion and scaling
 
-	template <class T, class A1, class A2>
-	vector<double, A1>& cpu_cvtmul_double(vector<double, A1> &c, double a, const vector<T, A2> &b)
-	{
-		if (c.empty() || b.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-		if (c.size() != b.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		kernel_cvtmul_double<T, cpu_none>()(c.size(), a, b.data(), c.data());
-		return c;
-	}
-
 	template <class A1, class A2>
 	vector<double, A1>& cpu_cvtmul_double(vector<double, A1> &c, double a, const vector<signed char, A2> &b)
 	{
@@ -328,18 +316,6 @@ namespace core
 
 	// Matrix data-type conversion and scaling
 
-	template <class T, class A1, class A2>
-	matrix<double, A1>& cpu_cvtmul_double(matrix<double, A1> &c, double a, const matrix<T, A2> &b)
-	{
-		if (c.empty() || b.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (c.size() != b.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		kernel_cvtmul_double<T, cpu_none>()(c.size(), a, b.data(), c.data());
-		return c;
-	}
-
 	template <class A1, class A2>
 	matrix<double, A1>& cpu_cvtmul_double(matrix<double, A1> &c, double a, const matrix<signed char, A2> &b)
 	{
@@ -477,18 +453,6 @@ namespace core
 	}
 
 	// Tensor data-type conversion and scaling
-
-	template <class T, class A1, class A2>
-	tensor<double, A1>& cpu_cvtmul_double(tensor<double, A1> &c, double a, const tensor<T, A2> &b)
-	{
-		if (c.empty() || b.empty())
-			throw ::std::invalid_argument(tensor_not_initialized);
-		if (c.size() != b.size())
-			throw ::std::invalid_argument(invalid_size);
-
-		kernel_cvtmul_double<T, cpu_none>()(c.size(), a, b.data(), c.data());
-		return c;
-	}
 
 	template <class A1, class A2>
 	tensor<double, A1>& cpu_cvtmul_double(tensor<double, A1> &c, double a, const tensor<signed char, A2> &b)

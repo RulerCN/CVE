@@ -30,12 +30,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_CVTMUL_H__
 #define __CORE_CPU_CVTMUL_H__
 
+#include "convert/cpu_cvtmul_int32.h"
+#include "convert/cpu_cvtmul_uint32.h"
 #include "convert/cpu_cvtmul_float.h"
 #include "convert/cpu_cvtmul_double.h"
 
 namespace core
 {
 	// Scalar data-type conversion and scaling
+
+	template <class T, class A1, class A2>
+	scalar<signed int, A1>& cpu_cvtmul(scalar<signed int, A1> &c, const float a, const scalar<T, A2> &b)
+	{
+		return cpu_cvtmul_int32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
+	scalar<unsigned int, A1>& cpu_cvtmul(scalar<unsigned int, A1> &c, const float a, const scalar<T, A2> &b)
+	{
+		return cpu_cvtmul_uint32(c, a, b);
+	}
 
 	template <class T, class A1, class A2>
 	scalar<float, A1>& cpu_cvtmul(scalar<float, A1> &c, const float a, const scalar<T, A2> &b)
@@ -52,6 +66,18 @@ namespace core
 	// Vector data-type conversion and scaling
 
 	template <class T, class A1, class A2>
+	vector<signed int, A1>& cpu_cvtmul(vector<signed int, A1> &c, const float a, const vector<T, A2> &b)
+	{
+		return cpu_cvtmul_int32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
+	vector<unsigned int, A1>& cpu_cvtmul(vector<unsigned int, A1> &c, const float a, const vector<T, A2> &b)
+	{
+		return cpu_cvtmul_uint32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
 	vector<float, A1>& cpu_cvtmul(vector<float, A1> &c, const float a, const vector<T, A2> &b)
 	{
 		return cpu_cvtmul_float(c, a, b);
@@ -66,6 +92,18 @@ namespace core
 	// Matrix data-type conversion and scaling
 
 	template <class T, class A1, class A2>
+	matrix<signed int, A1>& cpu_cvtmul(matrix<signed int, A1> &c, const float a, const matrix<T, A2> &b)
+	{
+		return cpu_cvtmul_int32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
+	matrix<unsigned int, A1>& cpu_cvtmul(matrix<unsigned int, A1> &c, const float a, const matrix<T, A2> &b)
+	{
+		return cpu_cvtmul_uint32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
 	matrix<float, A1>& cpu_cvtmul(matrix<float, A1> &c, const float a, const matrix<T, A2> &b)
 	{
 		return cpu_cvtmul_float(c, a, b);
@@ -78,6 +116,18 @@ namespace core
 	}
 
 	// Tensor data-type conversion and scaling
+
+	template <class T, class A1, class A2>
+	tensor<signed int, A1>& cpu_cvtmul(tensor<signed int, A1> &c, const float a, const tensor<T, A2> &b)
+	{
+		return cpu_cvtmul_int32(c, a, b);
+	}
+
+	template <class T, class A1, class A2>
+	tensor<unsigned int, A1>& cpu_cvtmul(tensor<unsigned int, A1> &c, const float a, const tensor<T, A2> &b)
+	{
+		return cpu_cvtmul_uint32(c, a, b);
+	}
 
 	template <class T, class A1, class A2>
 	tensor<float, A1>& cpu_cvtmul(tensor<float, A1> &c, const float a, const tensor<T, A2> &b)

@@ -418,6 +418,18 @@
     <ClInclude Include="ann\sample_set.h">
       <Filter>ann</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_int32.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_uint32.h">
+      <Filter>core\cpu\kernel\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_cvtmul_int32.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\convert\cpu_cvtmul_uint32.h">
+      <Filter>core\cpu\convert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

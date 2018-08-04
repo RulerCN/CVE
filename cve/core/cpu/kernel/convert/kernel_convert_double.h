@@ -614,8 +614,8 @@ namespace core
 		void operator()(size_t n, const double *a, signed int *b) const
 		{
 			constexpr size_t block = 8;
-			__m256d ymm_a0, ymm_a1;
 			__m128i xmm_a0, xmm_a1;
+			__m256d ymm_a0, ymm_a1;
 			__m256i ymm_b0;
 
 			while (n > block)
