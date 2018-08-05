@@ -686,7 +686,7 @@ namespace core
 				// data-type conversion
 				xmm_b0 = _mm256_cvtpd_ps(ymm_a0);
 				xmm_b1 = _mm256_cvtpd_ps(ymm_a1);
-				ymm_b0 = _mm256_insertf128_ps(ymm_b0, xmm_b1, 1);
+				ymm_b0 = _mm256_insertf128_ps(_mm256_castps128_ps256(xmm_b0), xmm_b1, 1);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				a += block;

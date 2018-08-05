@@ -430,6 +430,18 @@
     <ClInclude Include="core\cpu\convert\cpu_cvtmul_uint32.h">
       <Filter>core\cpu\convert</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_sum_int32.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_sum_float.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_sum_double.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_sum_int32.h">
+      <Filter>core\cpu\kernel\reduce</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
