@@ -286,14 +286,14 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
@@ -334,14 +334,14 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepu16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepu16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepu16_epi32(xmm_a2);
@@ -1043,19 +1043,19 @@ namespace core
 	};
 
 	// Class template kernel_reduce_row_sum_int32
-	template<class T1, class T2, size_t block_m, size_t block_n, cpu_inst_type inst>
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_row_sum_int32
 	{
 		// b[i] += a[i][j]
-		void operator()(size_t m, size_t n, const T1 *a, size_t rsa, T2 *b) const
+		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			const size_t block_rsa = block_m * rsa;
 			const size_t aligned_m = m & ~(block_m - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
 			const size_t surplus_n = n - aligned_n;
-			const struct common_reduce_row_sum_int32<T1, T2> functor;
-			const struct block_reduce_row_sum_int32<T1, T2, inst> special_functor;
+			const struct common_reduce_row_sum_int32<T> functor;
+			const struct block_reduce_row_sum_int32<T, inst> special_functor;
 
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{

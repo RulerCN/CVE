@@ -170,16 +170,16 @@ namespace core
 				xmm_a0 = _mm_add_epi16(xmm_a0, xmm_a4);
 				xmm_a8 = _mm_add_epi16(xmm_a8, xmm_ac);
 				// data-type conversion
-				xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a6 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ac = _mm_shuffle_epi32(xmm_a8, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
-				xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
 				xmm_a4 = _mm_cvtepi16_epi32(xmm_a4);
-				xmm_a6 = _mm_cvtepi16_epi32(xmm_a6);
+				xmm_a8 = _mm_cvtepi16_epi32(xmm_a8);
+				xmm_ac = _mm_cvtepi16_epi32(xmm_ac);
 				xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a2);
-				xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a4);
-				xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a6);
+				xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a4);
+				xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a8);
+				xmm_b3 = _mm_add_epi32(xmm_b3, xmm_ac);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -263,16 +263,16 @@ namespace core
 				xmm_a0 = _mm_add_epi16(xmm_a0, xmm_a4);
 				xmm_a8 = _mm_add_epi16(xmm_a8, xmm_ac);
 				// data-type conversion
-				xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a6 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ac = _mm_shuffle_epi32(xmm_a8, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
-				xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
 				xmm_a4 = _mm_cvtepi16_epi32(xmm_a4);
-				xmm_a6 = _mm_cvtepi16_epi32(xmm_a6);
+				xmm_a8 = _mm_cvtepi16_epi32(xmm_a8);
+				xmm_ac = _mm_cvtepi16_epi32(xmm_ac);
 				xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-				xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a2);
-				xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a4);
-				xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a6);
+				xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a4);
+				xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a8);
+				xmm_b3 = _mm_add_epi32(xmm_b3, xmm_ac);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b), xmm_b0);
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(b) + 1, xmm_b1);
@@ -300,16 +300,16 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 1);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
@@ -352,16 +352,16 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 1);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepu16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepu16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepu16_epi32(xmm_a2);
@@ -465,7 +465,7 @@ namespace core
 			const float *ptr_a3 = ptr_a2 + rsa;
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128i xmm_t0, xmm_t1, xmm_t2, xmm_t3;
-			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128i xmm_b0;
 
 			for (size_t j = 0; j < n; j += 4)
 			{
@@ -519,6 +519,7 @@ namespace core
 				xmm_a6 = _mm_loadu_pd(ptr_a2 + j);
 				xmm_a7 = _mm_loadu_pd(ptr_a3 + j);
 				j += 2;
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
 				xmm_t0 = _mm_cvtpd_epi32(xmm_a0);
 				xmm_t1 = _mm_cvtpd_epi32(xmm_a1);
@@ -629,7 +630,6 @@ namespace core
 				xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
 				ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
 				ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
-				// b += a
 				ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
 				ymm_b1 = _mm256_add_epi32(ymm_b1, ymm_a1);
 				// store data into memory

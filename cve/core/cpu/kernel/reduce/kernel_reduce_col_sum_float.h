@@ -111,35 +111,33 @@ namespace core
 			const signed char *ptr_a5 = ptr_a4 + rsa;
 			const signed char *ptr_a6 = ptr_a5 + rsa;
 			const signed char *ptr_a7 = ptr_a6 + rsa;
-			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
+			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 
 			for (size_t j = 0; j < n; j += 16)
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
-				xmm_a8 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a4 + j));
-				xmm_aa = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a5 + j));
-				xmm_ac = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a6 + j));
-				xmm_ae = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a7 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a4 + j));
+				xmm_a5 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a5 + j));
+				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a6 + j));
+				xmm_a7 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a7 + j));
 				xmm_b0 = _mm_loadu_ps(b);
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				xmm_b2 = _mm_loadu_ps(b + 8);
 				xmm_b3 = _mm_loadu_ps(b + 12);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a9 = _mm_shuffle_epi32(xmm_a8, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_ab = _mm_shuffle_epi32(xmm_aa, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_ad = _mm_shuffle_epi32(xmm_ac, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_af = _mm_shuffle_epi32(xmm_ae, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a8 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a9 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_aa = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ab = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ac = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ad = _mm_shuffle_epi32(xmm_a5, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ae = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_af = _mm_shuffle_epi32(xmm_a7, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi8_epi16(xmm_a0);
 				xmm_a1 = _mm_cvtepi8_epi16(xmm_a1);
 				xmm_a2 = _mm_cvtepi8_epi16(xmm_a2);
@@ -178,15 +176,10 @@ namespace core
 				xmm_a4 = _mm_cvtepi16_epi32(xmm_a4);
 				xmm_a8 = _mm_cvtepi16_epi32(xmm_a8);
 				xmm_ac = _mm_cvtepi16_epi32(xmm_ac);
-				xmm_t0 = _mm_cvtepi32_ps(xmm_a0);
-				xmm_t1 = _mm_cvtepi32_ps(xmm_a4);
-				xmm_t2 = _mm_cvtepi32_ps(xmm_a8);
-				xmm_t3 = _mm_cvtepi32_ps(xmm_ac);
-				// b += t
-				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
-				xmm_b1 = _mm_add_ps(xmm_b1, xmm_t1);
-				xmm_b2 = _mm_add_ps(xmm_b2, xmm_t2);
-				xmm_b3 = _mm_add_ps(xmm_b3, xmm_t3);
+				xmm_b0 = _mm_add_ps(xmm_b0, _mm_cvtepi32_ps(xmm_a0));
+				xmm_b1 = _mm_add_ps(xmm_b1, _mm_cvtepi32_ps(xmm_a4));
+				xmm_b2 = _mm_add_ps(xmm_b2, _mm_cvtepi32_ps(xmm_a8));
+				xmm_b3 = _mm_add_ps(xmm_b3, _mm_cvtepi32_ps(xmm_ac));
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				_mm_storeu_ps(b + 4, xmm_b1);
@@ -211,35 +204,33 @@ namespace core
 			const unsigned char *ptr_a5 = ptr_a4 + rsa;
 			const unsigned char *ptr_a6 = ptr_a5 + rsa;
 			const unsigned char *ptr_a7 = ptr_a6 + rsa;
-			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
+			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 
 			for (size_t j = 0; j < n; j += 16)
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
-				xmm_a8 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a4 + j));
-				xmm_aa = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a5 + j));
-				xmm_ac = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a6 + j));
-				xmm_ae = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a7 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a4 + j));
+				xmm_a5 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a5 + j));
+				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a6 + j));
+				xmm_a7 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a7 + j));
 				xmm_b0 = _mm_loadu_ps(b);
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				xmm_b2 = _mm_loadu_ps(b + 8);
 				xmm_b3 = _mm_loadu_ps(b + 12);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a9 = _mm_shuffle_epi32(xmm_a8, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_ab = _mm_shuffle_epi32(xmm_aa, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_ad = _mm_shuffle_epi32(xmm_ac, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_af = _mm_shuffle_epi32(xmm_ae, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a8 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a9 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_aa = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ab = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ac = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ad = _mm_shuffle_epi32(xmm_a5, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_ae = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_af = _mm_shuffle_epi32(xmm_a7, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepu8_epi16(xmm_a0);
 				xmm_a1 = _mm_cvtepu8_epi16(xmm_a1);
 				xmm_a2 = _mm_cvtepu8_epi16(xmm_a2);
@@ -278,15 +269,10 @@ namespace core
 				xmm_a4 = _mm_cvtepi16_epi32(xmm_a4);
 				xmm_a8 = _mm_cvtepi16_epi32(xmm_a8);
 				xmm_ac = _mm_cvtepi16_epi32(xmm_ac);
-				xmm_t0 = _mm_cvtepi32_ps(xmm_a0);
-				xmm_t1 = _mm_cvtepi32_ps(xmm_a4);
-				xmm_t2 = _mm_cvtepi32_ps(xmm_a8);
-				xmm_t3 = _mm_cvtepi32_ps(xmm_ac);
-				// b += t
-				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
-				xmm_b1 = _mm_add_ps(xmm_b1, xmm_t1);
-				xmm_b2 = _mm_add_ps(xmm_b2, xmm_t2);
-				xmm_b3 = _mm_add_ps(xmm_b3, xmm_t3);
+				xmm_b0 = _mm_add_ps(xmm_b0, _mm_cvtepi32_ps(xmm_a0));
+				xmm_b1 = _mm_add_ps(xmm_b1, _mm_cvtepi32_ps(xmm_a4));
+				xmm_b2 = _mm_add_ps(xmm_b2, _mm_cvtepi32_ps(xmm_a8));
+				xmm_b3 = _mm_add_ps(xmm_b3, _mm_cvtepi32_ps(xmm_ac));
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				_mm_storeu_ps(b + 4, xmm_b1);
@@ -308,7 +294,6 @@ namespace core
 			const signed short *ptr_a2 = ptr_a1 + rsa;
 			const signed short *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128 xmm_t0, xmm_t1;
 			__m128 xmm_b0, xmm_b1;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -340,12 +325,8 @@ namespace core
 				xmm_a6 = _mm_add_epi32(xmm_a6, xmm_a7);
 				xmm_a0 = _mm_add_epi32(xmm_a0, xmm_a2);
 				xmm_a4 = _mm_add_epi32(xmm_a4, xmm_a6);
-				// data-type conversion
-				xmm_t0 = _mm_cvtepi32_ps(xmm_a0);
-				xmm_t1 = _mm_cvtepi32_ps(xmm_a4);
-				// b += t
-				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
-				xmm_b1 = _mm_add_ps(xmm_b1, xmm_t1);
+				xmm_b0 = _mm_add_ps(xmm_b0, _mm_cvtepi32_ps(xmm_a0));
+				xmm_b1 = _mm_add_ps(xmm_b1, _mm_cvtepi32_ps(xmm_a4));
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				_mm_storeu_ps(b + 4, xmm_b1);
@@ -365,7 +346,6 @@ namespace core
 			const unsigned short *ptr_a2 = ptr_a1 + rsa;
 			const unsigned short *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128 xmm_t0, xmm_t1;
 			__m128 xmm_b0, xmm_b1;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -397,12 +377,8 @@ namespace core
 				xmm_a6 = _mm_add_epi32(xmm_a6, xmm_a7);
 				xmm_a0 = _mm_add_epi32(xmm_a0, xmm_a2);
 				xmm_a4 = _mm_add_epi32(xmm_a4, xmm_a6);
-				// data-type conversion
-				xmm_t0 = _mm_cvtepi32_ps(xmm_a0);
-				xmm_t1 = _mm_cvtepi32_ps(xmm_a4);
-				// b += t
-				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
-				xmm_b1 = _mm_add_ps(xmm_b1, xmm_t1);
+				xmm_b0 = _mm_add_ps(xmm_b0, _mm_cvtepi32_ps(xmm_a0));
+				xmm_b1 = _mm_add_ps(xmm_b1, _mm_cvtepi32_ps(xmm_a4));
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
 				_mm_storeu_ps(b + 4, xmm_b1);
@@ -442,7 +418,6 @@ namespace core
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t1);
 				xmm_t2 = _mm_add_ps(xmm_t2, xmm_t3);
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t2);
-				// b += t
 				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
@@ -497,7 +472,6 @@ namespace core
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t1);
 				xmm_t2 = _mm_add_ps(xmm_t2, xmm_t3);
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t2);
-				// b += t
 				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
@@ -531,7 +505,6 @@ namespace core
 				xmm_a0 = _mm_add_ps(xmm_a0, xmm_a1);
 				xmm_a2 = _mm_add_ps(xmm_a2, xmm_a3);
 				xmm_a0 = _mm_add_ps(xmm_a0, xmm_a2);
-				// b += a
 				xmm_b0 = _mm_add_ps(xmm_b0, xmm_a0);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
@@ -567,6 +540,7 @@ namespace core
 				xmm_a6 = _mm_loadu_pd(ptr_a2 + j);
 				xmm_a7 = _mm_loadu_pd(ptr_a3 + j);
 				j += 2;
+				xmm_b0 = _mm_loadu_ps(b);
 				// data-type conversion
 				xmm_t0 = _mm_cvtpd_ps(xmm_a0);
 				xmm_t1 = _mm_cvtpd_ps(xmm_a1);
@@ -584,7 +558,6 @@ namespace core
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t1);
 				xmm_t2 = _mm_add_ps(xmm_t2, xmm_t3);
 				xmm_t0 = _mm_add_ps(xmm_t0, xmm_t2);
-				// b += t
 				xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
 				// store data into memory
 				_mm_storeu_ps(b, xmm_b0);
@@ -615,11 +588,8 @@ namespace core
 			const signed char *ptr_ad = ptr_ac + rsa;
 			const signed char *ptr_ae = ptr_ad + rsa;
 			const signed char *ptr_af = ptr_ae + rsa;
-			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256i ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
-			__m256 ymm_t0, ymm_t1;
+			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
+			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7, ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
 			__m256 ymm_b0, ymm_b1;
 
 			for (size_t j = 0; j < n; j += 16)
@@ -681,11 +651,8 @@ namespace core
 				xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
 				ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
 				ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
-				ymm_t0 = _mm256_cvtepi32_ps(ymm_a0);
-				ymm_t1 = _mm256_cvtepi32_ps(ymm_a1);
-				// b += t
-				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
-				ymm_b1 = _mm256_add_ps(ymm_b1, ymm_t1);
+				ymm_b0 = _mm256_add_ps(ymm_b0, _mm256_cvtepi32_ps(ymm_a0));
+				ymm_b1 = _mm256_add_ps(ymm_b1, _mm256_cvtepi32_ps(ymm_a1));
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				_mm256_storeu_ps(b + 8, ymm_b1);
@@ -716,11 +683,8 @@ namespace core
 			const unsigned char *ptr_ad = ptr_ac + rsa;
 			const unsigned char *ptr_ae = ptr_ad + rsa;
 			const unsigned char *ptr_af = ptr_ae + rsa;
-			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
-			__m128i xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
-			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256i ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
-			__m256 ymm_t0, ymm_t1;
+			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7, xmm_a8, xmm_a9, xmm_aa, xmm_ab, xmm_ac, xmm_ad, xmm_ae, xmm_af;
+			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7, ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
 			__m256 ymm_b0, ymm_b1;
 
 			for (size_t j = 0; j < n; j += 16)
@@ -782,11 +746,8 @@ namespace core
 				xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
 				ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
 				ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
-				ymm_t0 = _mm256_cvtepi32_ps(ymm_a0);
-				ymm_t1 = _mm256_cvtepi32_ps(ymm_a1);
-				// b += t
-				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
-				ymm_b1 = _mm256_add_ps(ymm_b1, ymm_t1);
+				ymm_b0 = _mm256_add_ps(ymm_b0, _mm256_cvtepi32_ps(ymm_a0));
+				ymm_b1 = _mm256_add_ps(ymm_b1, _mm256_cvtepi32_ps(ymm_a1));
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				_mm256_storeu_ps(b + 8, ymm_b1);
@@ -811,7 +772,6 @@ namespace core
 			const signed short *ptr_a7 = ptr_a6 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256 ymm_t0;
 			__m256 ymm_b0;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -843,9 +803,7 @@ namespace core
 				ymm_a0 = _mm256_add_epi32(ymm_a0, ymm_a2);
 				ymm_a4 = _mm256_add_epi32(ymm_a4, ymm_a6);
 				ymm_a0 = _mm256_add_epi32(ymm_a0, ymm_a4);
-				ymm_t0 = _mm256_cvtepi32_ps(ymm_a0);
-				// b += t
-				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
+				ymm_b0 = _mm256_add_ps(ymm_b0, _mm256_cvtepi32_ps(ymm_a0));
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				b += 8;
@@ -869,7 +827,6 @@ namespace core
 			const unsigned short *ptr_a7 = ptr_a6 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256 ymm_t0;
 			__m256 ymm_b0;
 
 			for (size_t j = 0; j < n; j += 8)
@@ -901,9 +858,7 @@ namespace core
 				ymm_a0 = _mm256_add_epi32(ymm_a0, ymm_a2);
 				ymm_a4 = _mm256_add_epi32(ymm_a4, ymm_a6);
 				ymm_a0 = _mm256_add_epi32(ymm_a0, ymm_a4);
-				ymm_t0 = _mm256_cvtepi32_ps(ymm_a0);
-				// b += t
-				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
+				ymm_b0 = _mm256_add_ps(ymm_b0, _mm256_cvtepi32_ps(ymm_a0));
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
 				b += 8;
@@ -958,7 +913,6 @@ namespace core
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t2);
 				ymm_t4 = _mm256_add_ps(ymm_t4, ymm_t6);
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t4);
-				// b += t
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
@@ -1041,7 +995,6 @@ namespace core
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t2);
 				ymm_t4 = _mm256_add_ps(ymm_t4, ymm_t6);
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t4);
-				// b += t
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
@@ -1087,7 +1040,6 @@ namespace core
 				ymm_a0 = _mm256_add_ps(ymm_a0, ymm_a2);
 				ymm_a4 = _mm256_add_ps(ymm_a4, ymm_a6);
 				ymm_a0 = _mm256_add_ps(ymm_a0, ymm_a4);
-				// b += a
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_a0);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
@@ -1110,10 +1062,8 @@ namespace core
 			const double *ptr_a5 = ptr_a4 + rsa;
 			const double *ptr_a6 = ptr_a5 + rsa;
 			const double *ptr_a7 = ptr_a6 + rsa;
-			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
-			__m256d ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
-			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3, xmm_t4, xmm_t5, xmm_t6, xmm_t7;
-			__m128 xmm_t8, xmm_t9, xmm_ta, xmm_tb, xmm_tc, xmm_td, xmm_te, xmm_tf;
+			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7, ymm_a8, ymm_a9, ymm_aa, ymm_ab, ymm_ac, ymm_ad, ymm_ae, ymm_af;
+			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3, xmm_t4, xmm_t5, xmm_t6, xmm_t7, xmm_t8, xmm_t9, xmm_ta, xmm_tb, xmm_tc, xmm_td, xmm_te, xmm_tf;
 			__m256 ymm_t0, ymm_t1, ymm_t2, ymm_t3, ymm_t4, ymm_t5, ymm_t6, ymm_t7;
 			__m256 ymm_b0;
 
@@ -1172,7 +1122,6 @@ namespace core
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t2);
 				ymm_t4 = _mm256_add_ps(ymm_t4, ymm_t6);
 				ymm_t0 = _mm256_add_ps(ymm_t0, ymm_t4);
-				// b += t
 				ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
