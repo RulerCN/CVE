@@ -1054,32 +1054,30 @@ namespace core
 		}
 	};
 
-	// Class template kernel_reduce_col_sum_int32
-	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
-	struct kernel_reduce_col_sum_int32
-	{
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
-		{
-			const size_t block_rsa = block_m * rsa;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_n = n - aligned_n;
-			const struct common_reduce_col_sum_int32<T> functor;
-			const struct block_reduce_col_sum_int32<T, inst> special_functor;
+	// Function template kernel_reduce_col_sum_int32
 
-			for (size_t i = 0; i < aligned_m; i += block_m)
-			{
-				if (aligned_n > 0)
-					special_functor(aligned_n, a, rsa, b);
-				if (surplus_n > 0)
-					functor(block_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
-				a += block_rsa;
-			}
-			if (surplus_m > 0)
-				functor(surplus_m, n, a, rsa, b);
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
+	void kernel_reduce_col_sum_int32(size_t m, size_t n, const T *a, size_t rsa, signed int *b)
+	{
+		const size_t block_rsa = block_m * rsa;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const struct common_reduce_col_sum_int32<T> functor;
+		const struct block_reduce_col_sum_int32<T, inst> special_functor;
+
+		for (size_t i = 0; i < aligned_m; i += block_m)
+		{
+			if (aligned_n > 0)
+				special_functor(aligned_n, a, rsa, b);
+			if (surplus_n > 0)
+				functor(block_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
+			a += block_rsa;
 		}
-	};
+		if (surplus_m > 0)
+			functor(surplus_m, n, a, rsa, b);
+	}
 
 } // namespace core
 

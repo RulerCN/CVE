@@ -1194,20 +1194,46 @@ namespace core
 		}
 	};
 
-	// Class template kernel_reduce_row_sum_double
-	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
-	struct kernel_reduce_row_sum_double
-	{
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, double *b) const
-		{
-			const size_t block_rsa = block_m * rsa;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_n = n - aligned_n;
-			const struct common_reduce_row_sum_double<T> functor;
-			const struct block_reduce_row_sum_double<T, inst> special_functor;
+	// Function template kernel_reduce_row_sum_double
 
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
+	void kernel_reduce_row_sum_double(size_t m, size_t n, const T *a, size_t rsa, double *b)
+	{
+		const size_t block_rsa = block_m * rsa;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const struct common_reduce_row_sum_double<T> functor;
+		const struct block_reduce_row_sum_double<T, inst> special_functor;
+
+		for (size_t i = 0; i < aligned_m; i += block_m)
+		{
+			if (aligned_n > 0)
+				special_functor(aligned_n, a, rsa, b);
+			if (surplus_n > 0)
+				functor(block_m, surplus_n, a + aligned_n, rsa, b);
+			a += block_rsa;
+			b += block_m;
+		}
+		if (surplus_m > 0)
+			functor(surplus_m, n, a, rsa, b);
+	}
+
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
+	void kernel_reduce_row_sum_double(size_t l, size_t m, size_t n, const T *a, size_t rsa, double *b)
+	{
+		const size_t block_rsa = block_m * rsa;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const size_t surplus_rsa = surplus_m * rsa;
+		const struct common_reduce_row_sum_double<T> functor;
+		const struct block_reduce_row_sum_double<T, inst> special_functor;
+
+		for (size_t j = 0; j < l; j++)
+		{
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
 				if (aligned_n > 0)
@@ -1218,9 +1244,13 @@ namespace core
 				b += block_m;
 			}
 			if (surplus_m > 0)
+			{
 				functor(surplus_m, n, a, rsa, b);
+				a += surplus_rsa;
+				b += surplus_m;
+			}
 		}
-	};
+	}
 
 } // namespace core
 
