@@ -38,7 +38,6 @@ namespace core
 	template<class T>
 	struct common_reduce_col_sum_float
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t m, size_t n, const T *a, size_t rsa, float *b) const
 		{
 			for (size_t i = 0; i < m; ++i)
@@ -54,7 +53,6 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct block_reduce_col_sum_float
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const T *a, size_t rsa, float *b) const
 		{
 			const T *ptr_a;
@@ -100,7 +98,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed char, cpu_sse41>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, float *b) const
 		{
 			const signed char *ptr_a0 = a;
@@ -193,7 +190,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned char, cpu_sse41>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, float *b) const
 		{
 			const unsigned char *ptr_a0 = a;
@@ -286,7 +282,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed short, cpu_sse41>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, float *b) const
 		{
 			const signed short *ptr_a0 = a;
@@ -300,16 +295,16 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				xmm_b0 = _mm_loadu_ps(b);
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
@@ -338,7 +333,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned short, cpu_sse41>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, float *b) const
 		{
 			const unsigned short *ptr_a0 = a;
@@ -352,16 +346,16 @@ namespace core
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
-				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
-				xmm_a4 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
-				xmm_a6 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
+				xmm_a1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a1 + j));
+				xmm_a2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a2 + j));
+				xmm_a3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a3 + j));
 				xmm_b0 = _mm_loadu_ps(b);
 				xmm_b1 = _mm_loadu_ps(b + 4);
 				// data-type conversion
-				xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a5 = _mm_shuffle_epi32(xmm_a4, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_a7 = _mm_shuffle_epi32(xmm_a6, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a4 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a5 = _mm_shuffle_epi32(xmm_a1, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a6 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_a7 = _mm_shuffle_epi32(xmm_a3, _MM_SHUFFLE(1, 0, 3, 2));
 				xmm_a0 = _mm_cvtepu16_epi32(xmm_a0);
 				xmm_a1 = _mm_cvtepu16_epi32(xmm_a1);
 				xmm_a2 = _mm_cvtepu16_epi32(xmm_a2);
@@ -390,7 +384,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed int, cpu_sse2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, float *b) const
 		{
 			const signed int *ptr_a0 = a;
@@ -429,7 +422,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned int, cpu_sse2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, float *b) const
 		{
 			const unsigned int *ptr_a0 = a;
@@ -483,7 +475,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<float, cpu_sse>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
 		{
 			const float *ptr_a0 = a;
@@ -516,7 +507,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<double, cpu_sse2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, float *b) const
 		{
 			const double *ptr_a0 = a;
@@ -569,7 +559,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed char, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, float *b) const
 		{
 			const signed char *ptr_a0 = a;
@@ -664,7 +653,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned char, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, float *b) const
 		{
 			const unsigned char *ptr_a0 = a;
@@ -759,7 +747,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed short, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, float *b) const
 		{
 			const signed short *ptr_a0 = a;
@@ -814,7 +801,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned short, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, float *b) const
 		{
 			const unsigned short *ptr_a0 = a;
@@ -869,7 +855,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<signed int, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, float *b) const
 		{
 			const signed int *ptr_a0 = a;
@@ -924,7 +909,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<unsigned int, cpu_avx2>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, float *b) const
 		{
 			const unsigned int *ptr_a0 = a;
@@ -1006,7 +990,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<float, cpu_avx>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, float *b) const
 		{
 			const float *ptr_a0 = a;
@@ -1051,7 +1034,6 @@ namespace core
 	template<>
 	struct block_reduce_col_sum_float<double, cpu_avx>
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, float *b) const
 		{
 			const double *ptr_a0 = a;
@@ -1134,7 +1116,6 @@ namespace core
 	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_col_sum_float
 	{
-		// b[j] += a[i][j]
 		void operator()(size_t m, size_t n, const T *a, size_t rsa, float *b) const
 		{
 			const size_t block_rsa = block_m * rsa;

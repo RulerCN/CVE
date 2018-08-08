@@ -311,28 +311,24 @@ namespace core
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
 			const __m128i val = _mm_set1_epi64x(0x41e0000000000000LL);
 			const __m128d xmm_a = _mm_set1_pd(a);
-			__m128i xmm_b, xmm_bv0, xmm_bs0, xmm_bv1, xmm_bs1;
-			__m128d xmm_c0, xmm_cv0, xmm_cs0, xmm_c1, xmm_cv1, xmm_cs1;
+			__m128i xmm_b0, xmm_b1, xmm_s0, xmm_s1;
+			__m128d xmm_c0, xmm_c1;
 
 			while (n > block)
 			{
 				// load data from memory
-				xmm_b = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
-				xmm_bv0 = _mm_and_si128(xmm_b, abs);
-				xmm_bs0 = _mm_srai_epi32(xmm_b, 31);
-				xmm_bv1 = _mm_shuffle_epi32(xmm_bv0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_bs1 = _mm_shuffle_epi32(xmm_bs0, _MM_SHUFFLE(1, 0, 3, 2));
-				xmm_bv0 = _mm_cvtepi32_epi64(xmm_bv0);
-				xmm_bv1 = _mm_cvtepi32_epi64(xmm_bv1);
-				xmm_bs0 = _mm_cvtepi32_epi64(xmm_bs0);
-				xmm_bs1 = _mm_cvtepi32_epi64(xmm_bs1);
-				xmm_cv0 = _mm_cvtepi32_pd(xmm_bv0);
-				xmm_cv1 = _mm_cvtepi32_pd(xmm_bv1);
-				xmm_cs0 = _mm_castsi128_pd(_mm_and_si128(xmm_bs0, val));
-				xmm_cs1 = _mm_castsi128_pd(_mm_and_si128(xmm_bs1, val));
-				xmm_c0 = _mm_add_pd(xmm_cv0, xmm_cs0);
-				xmm_c1 = _mm_add_pd(xmm_cv1, xmm_cs1);
+				xmm_s0 = _mm_srai_epi32(xmm_b0, 31);
+				xmm_b0 = _mm_and_si128(xmm_b0, abs);
+				xmm_s1 = _mm_shuffle_epi32(xmm_s0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_b1 = _mm_shuffle_epi32(xmm_b0, _MM_SHUFFLE(1, 0, 3, 2));
+				xmm_s0 = _mm_cvtepi32_epi64(xmm_s0);
+				xmm_s1 = _mm_cvtepi32_epi64(xmm_s1);
+				xmm_c0 = _mm_castsi128_pd(_mm_and_si128(xmm_s0, val));
+				xmm_c1 = _mm_castsi128_pd(_mm_and_si128(xmm_s1, val));
+				xmm_c0 = _mm_add_pd(xmm_c0, _mm_cvtepi32_pd(xmm_b0));
+				xmm_c1 = _mm_add_pd(xmm_c1, _mm_cvtepi32_pd(xmm_b1));
 				// c = a * c;
 				xmm_c0 = _mm_mul_pd(xmm_a, xmm_c0);
 				xmm_c1 = _mm_mul_pd(xmm_a, xmm_c1);
@@ -659,25 +655,24 @@ namespace core
 	{
 		void operator()(size_t n, double a, const unsigned int *b, double *c) const
 		{
-			constexpr size_t block = 8;
+			constexpr size_t block = 4;
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
 			const __m256i val = _mm256_set1_epi64x(0x41e0000000000000LL);
 			const __m256d ymm_a = _mm256_set1_pd(a);
-			__m128i xmm_b, xmm_bv, xmm_bs;
-			__m256i ymm_bs;
-			__m256d ymm_c, ymm_cv, ymm_cs;
+			__m128i xmm_b, xmm_s;
+			__m256i ymm_s;
+			__m256d ymm_c;
 
 			while (n > block)
 			{
 				// load data from memory
 				xmm_b = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
-				xmm_bv = _mm_and_si128(xmm_b, abs);
-				xmm_bs = _mm_srai_epi32(xmm_b, 31);
-				ymm_bs = _mm256_cvtepi32_epi64(xmm_bs);
-				ymm_cv = _mm256_cvtepi32_pd(xmm_bv);
-				ymm_cs = _mm256_castsi256_pd(_mm256_and_si256(ymm_bs, val));
-				ymm_c = _mm256_add_pd(ymm_cv, ymm_cs);
+				xmm_s = _mm_srai_epi32(xmm_b, 31);
+				xmm_b = _mm_and_si128(xmm_b, abs);
+				ymm_s = _mm256_cvtepi32_epi64(xmm_s);
+				ymm_c = _mm256_castsi256_pd(_mm256_and_si256(ymm_s, val));
+				ymm_c = _mm256_add_pd(ymm_c, _mm256_cvtepi32_pd(xmm_b));
 				// c = a * c;
 				ymm_c = _mm256_mul_pd(ymm_a, ymm_c);
 				// store data into memory

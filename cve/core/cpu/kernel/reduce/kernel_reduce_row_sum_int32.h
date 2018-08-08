@@ -38,7 +38,6 @@ namespace core
 	template<class T>
 	struct common_reduce_row_sum_int32
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			T2 val_b;
@@ -57,7 +56,6 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct block_reduce_row_sum_int32
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			const T *ptr_a0 = a;
@@ -106,7 +104,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed char, cpu_sse41>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed int *b) const
 		{
 			const signed char *ptr_a0 = a;
@@ -189,7 +186,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned char, cpu_sse41>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, signed int *b) const
 		{
 			const unsigned char *ptr_a0 = a;
@@ -272,7 +268,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed short, cpu_sse41>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed int *b) const
 		{
 			const signed short *ptr_a0 = a;
@@ -320,7 +315,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned short, cpu_sse41>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const unsigned short *a, size_t rsa, signed int *b) const
 		{
 			const unsigned short *ptr_a0 = a;
@@ -368,7 +362,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed int, cpu_ssse3>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
 		{
 			const signed int *ptr_a0 = a;
@@ -399,7 +392,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned int, cpu_ssse3>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, signed int *b) const
 		{
 			const unsigned int *ptr_a0 = a;
@@ -430,7 +422,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<float, cpu_ssse3>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, signed int *b) const
 		{
 			const float *ptr_a0 = a;
@@ -465,9 +456,8 @@ namespace core
 	};
 
 	template<>
-	struct block_reduce_row_sum_int32<double, cpu_sse3>
+	struct block_reduce_row_sum_int32<double, cpu_ssse3>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, signed int *b) const
 		{
 			const double *ptr_a0 = a;
@@ -518,7 +508,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed char, cpu_avx2>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed char *a, size_t rsa, signed int *b) const
 		{
 			const signed char *ptr_a0 = a;
@@ -613,7 +602,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned char, cpu_avx2>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const unsigned char *a, size_t rsa, signed int *b) const
 		{
 			const unsigned char *ptr_a0 = a;
@@ -708,7 +696,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed short, cpu_avx2>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed short *a, size_t rsa, signed int *b) const
 		{
 			const signed short *ptr_a0 = a;
@@ -723,7 +710,7 @@ namespace core
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256i ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 
-			for (size_t j = 0; j < n; j += 16)
+			for (size_t j = 0; j < n; j += 8)
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
@@ -763,8 +750,7 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned short, cpu_avx2>
 	{
-		// b[i] += a[i][j]
-		void operator()(size_t n, const unsigned short *a, size_t rsa, unsigned int *b) const
+		void operator()(size_t n, const unsigned short *a, size_t rsa, signed int *b) const
 		{
 			const unsigned short *ptr_a0 = a;
 			const unsigned short *ptr_a1 = ptr_a0 + rsa;
@@ -778,7 +764,7 @@ namespace core
 			__m256i ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256i ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 
-			for (size_t j = 0; j < n; j += 16)
+			for (size_t j = 0; j < n; j += 8)
 			{
 				// load data from memory
 				xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_a0 + j));
@@ -818,7 +804,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<signed int, cpu_avx2>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const signed int *a, size_t rsa, signed int *b) const
 		{
 			const signed int *ptr_a0 = a;
@@ -863,7 +848,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<unsigned int, cpu_avx2>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const unsigned int *a, size_t rsa, signed int *b) const
 		{
 			const unsigned int *ptr_a0 = a;
@@ -908,7 +892,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<float, cpu_avx>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const float *a, size_t rsa, signed int *b) const
 		{
 			const float *ptr_a0 = a;
@@ -963,7 +946,6 @@ namespace core
 	template<>
 	struct block_reduce_row_sum_int32<double, cpu_avx>
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t n, const double *a, size_t rsa, signed int *b) const
 		{
 			const double *ptr_a0 = a;
@@ -1046,7 +1028,6 @@ namespace core
 	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
 	struct kernel_reduce_row_sum_int32
 	{
-		// b[i] += a[i][j]
 		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			const size_t block_rsa = block_m * rsa;

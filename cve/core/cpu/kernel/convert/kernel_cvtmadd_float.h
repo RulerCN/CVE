@@ -292,19 +292,18 @@ namespace core
 			const __m128i val = _mm_set1_epi32(0x4f000000);
 			const __m128 xmm_a = _mm_set1_ps(a);
 			const __m128 xmm_c = _mm_set1_ps(c);
-			__m128i xmm_b, xmm_bv, xmm_bs;
-			__m128 xmm_d, xmm_dv, xmm_ds;
+			__m128i xmm_b, xmm_s;
+			__m128 xmm_d;
 
 			while (n > block)
 			{
 				// load data from memory
 				xmm_b = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// data-type conversion
-				xmm_bv = _mm_and_si128(xmm_b, abs);
-				xmm_bs = _mm_srai_epi32(xmm_b, 31);
-				xmm_dv = _mm_cvtepi32_ps(xmm_bv);
-				xmm_ds = _mm_castsi128_ps(_mm_and_si128(xmm_bs, val));
-				xmm_d = _mm_add_ps(xmm_dv, xmm_ds);
+				xmm_s = _mm_srai_epi32(xmm_b, 31);
+				xmm_b = _mm_and_si128(xmm_b, abs);
+				xmm_d = _mm_castsi128_ps(_mm_and_si128(xmm_s, val));
+				xmm_d = _mm_add_ps(xmm_d, _mm_cvtepi32_ps(xmm_b));
 				// d = a * b + c;
 				xmm_d = _mm_add_ps(_mm_mul_ps(xmm_a, xmm_d), xmm_c);
 				// store data into memory
@@ -652,19 +651,18 @@ namespace core
 			const __m256i val = _mm256_set1_epi32(0x4f000000);
 			const __m256 ymm_a = _mm256_set1_ps(a);
 			const __m256 ymm_c = _mm256_set1_ps(c);
-			__m256i ymm_b, ymm_bv, ymm_bs;
-			__m256 ymm_d, ymm_dv, ymm_ds;
+			__m256i ymm_b, ymm_s;
+			__m256 ymm_d;
 
 			while (n > block)
 			{
 				// load data from memory
 				ymm_b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 				// data-type conversion
-				ymm_bv = _mm256_and_si256(ymm_b, abs);
-				ymm_bs = _mm256_srai_epi32(ymm_b, 31);
-				ymm_dv = _mm256_cvtepi32_ps(ymm_bv);
-				ymm_ds = _mm256_castsi256_ps(_mm256_and_si256(ymm_bs, val));
-				ymm_d = _mm256_add_ps(ymm_dv, ymm_ds);
+				ymm_s = _mm256_srai_epi32(ymm_b, 31);
+				ymm_b = _mm256_and_si256(ymm_b, abs);
+				ymm_d = _mm256_castsi256_ps(_mm256_and_si256(ymm_s, val));
+				ymm_d = _mm256_add_ps(ymm_d, _mm256_cvtepi32_ps(ymm_b));
 				// d = a * b + c;
 				ymm_d = _mm256_add_ps(_mm256_mul_ps(ymm_a, ymm_d), ymm_c);
 				// store data into memory
