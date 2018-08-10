@@ -27,20 +27,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_REDUCE_ROW_SUM_DOUBLE_H__
-#define __CORE_CPU_REDUCE_ROW_SUM_DOUBLE_H__
+#ifndef __CORE_CPU_REDUCE_ROW_SUM_FLOAT_H__
+#define __CORE_CPU_REDUCE_ROW_SUM_FLOAT_H__
 
 #include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/reduce/kernel_reduce_row_sum_double.h"
+#include "../kernel/reduce/kernel_reduce_row_sum_float.h"
 
 namespace core
 {
 	// Get the summation of each row of matrix
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<signed char, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<signed char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -50,16 +50,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			block_reduce_row_sum_double<signed char, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed char, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			block_reduce_row_sum_double<signed char, 8, 16, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed char, 8, 16, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<signed char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<unsigned char, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<unsigned char, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -69,16 +69,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			block_reduce_row_sum_double<unsigned char, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned char, 16, 16, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			block_reduce_row_sum_double<unsigned char, 8, 16, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned char, 8, 16, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<unsigned char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned char, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<signed short, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<signed short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -88,16 +88,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			block_reduce_row_sum_double<signed short, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed short, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			block_reduce_row_sum_double<signed short, 4, 8, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed short, 4, 8, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<signed short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<unsigned short, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<unsigned short, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -107,16 +107,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			block_reduce_row_sum_double<unsigned short, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned short, 8, 8, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			block_reduce_row_sum_double<unsigned short, 4, 8, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned short, 4, 8, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<unsigned short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned short, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<signed int, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<signed int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -126,35 +126,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			block_reduce_row_sum_double<signed int, 8, 4, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed int, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse3())
-			block_reduce_row_sum_double<signed int, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed int, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<signed int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<signed int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<unsigned int, A2> &a)
-	{
-		if (b.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-		if (a.empty())
-			throw ::std::invalid_argument(matrix_not_initialized);
-		if (b.size() != a.rows())
-			throw ::std::invalid_argument(invalid_shape);
-
-		if (cpu_inst::is_support_avx2())
-			block_reduce_row_sum_double<unsigned int, 8, 4, cpu_avx2>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
-		else if (cpu_inst::is_support_sse41())
-			block_reduce_row_sum_double<unsigned int, 4, 4, cpu_sse41>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
-		else
-			block_reduce_row_sum_double<unsigned int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
-		return b;
-	}
-
-	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<float, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<unsigned int, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -164,16 +145,16 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			block_reduce_row_sum_double<float, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned int, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse3())
-			block_reduce_row_sum_double<float, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned int, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<float, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<unsigned int, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	vector<double, A1>& cpu_reduce_row_sum(vector<double, A1> &b, const matrix<double, A2> &a)
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<float, A2> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -183,11 +164,30 @@ namespace core
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
-			block_reduce_row_sum_double<double, 8, 4, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<float, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse3())
-			block_reduce_row_sum_double<double, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<float, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			block_reduce_row_sum_double<double, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			block_reduce_row_sum_float<float, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	vector<float, A1>& cpu_reduce_row_sum(vector<float, A1> &b, const matrix<double, A2> &a)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.rows())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+			block_reduce_row_sum_float<double, 8, 8, cpu_avx>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else if (cpu_inst::is_support_sse3())
+			block_reduce_row_sum_float<double, 4, 4, cpu_sse3>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+		else
+			block_reduce_row_sum_float<double, 4, 4, cpu_none>()(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 

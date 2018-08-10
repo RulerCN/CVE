@@ -47,7 +47,6 @@ namespace core
 	// 3. mode - reduction operation that could be one of the following:
 	//     reduce_row_min: return the minimum of each row of matrix.
 	//     reduce_row_max: return the maximum of each row of matrix.
-	//     reduce_row_sum: return the sum of each row of matrix.
 	//     reduce_row_avg: return the mean of each row of matrix.
 	//     reduce_col_min: return the minimum of each column of matrix.
 	//     reduce_col_max: return the maximum of each column of matrix.
