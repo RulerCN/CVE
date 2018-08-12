@@ -517,6 +517,15 @@
     <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_min.h">
       <Filter>core\cpu\kernel\reduce</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_double.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_float.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_int32.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

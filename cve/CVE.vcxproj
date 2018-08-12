@@ -305,6 +305,9 @@
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_double.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_float.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_int32.h" />
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_double.h" />
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_float.h" />
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_int32.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\matrix.h" />
