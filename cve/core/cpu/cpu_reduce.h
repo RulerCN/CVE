@@ -32,10 +32,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "reduce/cpu_reduce_col_min.h"
 #include "reduce/cpu_reduce_col_max.h"
-#include "reduce/cpu_reduce_col_sum.h"
 #include "reduce/cpu_reduce_row_min.h"
 #include "reduce/cpu_reduce_row_max.h"
-#include "reduce/cpu_reduce_row_sum.h"
+
+#include "reduce/cpu_reduce_sum_x_int32.h"
+#include "reduce/cpu_reduce_sum_x_float.h"
+#include "reduce/cpu_reduce_sum_x_double.h"
+#include "reduce/cpu_reduce_sum_y_int32.h"
+#include "reduce/cpu_reduce_sum_y_float.h"
+#include "reduce/cpu_reduce_sum_y_double.h"
+#include "reduce/cpu_reduce_sum_xy_int32.h"
+#include "reduce/cpu_reduce_sum_xy_float.h"
+#include "reduce/cpu_reduce_sum_xy_double.h"
+#include "reduce/cpu_reduce_sum_xyz_int32.h"
+#include "reduce/cpu_reduce_sum_xyz_float.h"
+#include "reduce/cpu_reduce_sum_xyz_double.h"
+
 #include "arithmetic/cpu_arithmetic_mul.h"
 
 namespace core
