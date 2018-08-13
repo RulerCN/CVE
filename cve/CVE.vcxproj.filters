@@ -586,4 +586,9 @@
       <UniqueIdentifier>{82532e68-5773-429a-881e-1b4af5dfcd10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int33.h">
+      <Filter>core\cpu\reduce</Filter>
+    </None>
+  </ItemGroup>
 </Project>

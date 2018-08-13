@@ -280,6 +280,7 @@ namespace core
 					xmm_s0 = _mm_srai_epi32(xmm_a0, 31);
 					xmm_a0 = _mm_and_si128(xmm_a0, abs);
 					xmm_t0 = _mm_castsi128_ps(_mm_and_si128(xmm_s0, val));
+					xmm_t0 = _mm_add_ps(xmm_t0, _mm_cvtepi32_ps(xmm_a0));
 					// return the summation
 					xmm_b0 = _mm_add_ps(xmm_b0, xmm_t0);
 					// store data into memory
