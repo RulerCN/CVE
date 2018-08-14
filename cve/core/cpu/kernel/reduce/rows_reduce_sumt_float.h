@@ -547,7 +547,7 @@ namespace core
 					ymm_s0 = _mm256_srai_epi32(ymm_a0, 31);
 					ymm_a0 = _mm256_and_si256(ymm_a0, abs);
 					ymm_t0 = _mm256_castsi256_ps(_mm256_and_si256(ymm_s0, val));
-					ymm_t0 = _mm256_add_ps(ymm_t0,  _mm256_cvtepi32_ps(ymm_a0));
+					ymm_t0 = _mm256_add_ps(ymm_t0, _mm256_cvtepi32_ps(ymm_a0));
 					// return the summation
 					ymm_b0 = _mm256_add_ps(ymm_b0, ymm_t0);
 					// store data into memory
