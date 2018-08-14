@@ -526,6 +526,12 @@
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_int32.h">
       <Filter>core\cpu\reduce</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_double.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_float.h">
+      <Filter>core\cpu\reduce</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -587,7 +593,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int33.h">
+    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int32.h">
       <Filter>core\cpu\reduce</Filter>
     </None>
   </ItemGroup>

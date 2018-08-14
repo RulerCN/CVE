@@ -46,15 +46,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<16, 16, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<16, 16, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_reduce_sumt_int32<8, 16, cpu_sse41>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 16, cpu_sse41>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -65,15 +65,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<16, 16, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<16, 16, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_reduce_sumt_int32<8, 16, cpu_sse41>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 16, cpu_sse41>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -84,15 +84,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_reduce_sumt_int32<4, 8, cpu_sse41>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 8, cpu_sse41>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -103,15 +103,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_reduce_sumt_int32<4, 8, cpu_sse41>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 8, cpu_sse41>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -122,15 +122,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -141,15 +141,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -160,15 +160,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 
@@ -179,15 +179,15 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<8, 8, cpu_avx2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_sse2>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else
-			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch(), a.matrix_size(), a.data(), a.matrix_size(), b.data());
+			kernel_reduce_sumt_int32<4, 4, cpu_none>(a.batch() * a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		return b;
 	}
 

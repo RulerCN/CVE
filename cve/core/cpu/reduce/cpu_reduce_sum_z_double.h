@@ -46,7 +46,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
@@ -65,7 +65,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
@@ -84,7 +84,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
@@ -103,7 +103,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
@@ -122,7 +122,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
@@ -141,7 +141,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx2())
@@ -160,7 +160,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())
@@ -179,7 +179,7 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
-		if (b.rows() != a.batch() || b.row_size() != a.rows())
+		if (b.size() != a.max_size())
 			throw ::std::invalid_argument(invalid_shape);
 
 		if (cpu_inst::is_support_avx())

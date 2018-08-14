@@ -302,6 +302,8 @@
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_double.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_float.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_int32.h" />
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_double.h" />
+    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_float.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_double.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_float.h" />
     <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_int32.h" />
@@ -332,7 +334,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int33.h" />
+    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int32.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
