@@ -162,7 +162,7 @@ namespace core
 	// Computes the sum of elements of a vector
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<signed char, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<signed char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -179,7 +179,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<unsigned char, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -196,7 +196,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<signed short, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<signed short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -213,7 +213,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<unsigned short, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<unsigned short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -230,7 +230,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<signed int, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<signed int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -247,7 +247,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<unsigned int, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -264,7 +264,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<float, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -281,7 +281,7 @@ namespace core
 	}
 
 	template <class A1, class A2>
-	vector<signed char, A1>& cpu_reduce_sum_x(vector<signed char, A1> &b, const vector<double, A2> &a)
+	vector<signed int, A1>& cpu_reduce_sum_x(vector<signed int, A1> &b, const vector<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
