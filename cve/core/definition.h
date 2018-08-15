@@ -197,12 +197,8 @@ namespace core
 	static constexpr axis_type          axis_y             = 0x02;                        /* y-axis */
 	static constexpr axis_type          axis_z             = 0x04;                        /* z-axis */
 	static constexpr axis_type          axis_xy            = axis_x | axis_y;             /* x-axis and y-axis */
-	static constexpr axis_type          axis_xyz           = axis_xy | axis_z;            /* x-axis, y-axis and z-axis */
-	static constexpr axis_type          axis_column        = axis_x;                      /* the axis of the column */
-	static constexpr axis_type          axis_row           = axis_y;                      /* the axis of the row */
-	static constexpr axis_type          axis_batch         = axis_z;                      /* the axis of the batch */
-	static constexpr axis_type          axis_matrix        = axis_xy;                     /* the space of the matrix */
-	static constexpr axis_type          axis_tensor        = axis_xyz;                    /* the space of the tensor */
+	static constexpr axis_type          axis_yz            = axis_y | axis_z;             /* y-axis and z-axis */
+	static constexpr axis_type          axis_xyz           = axis_x | axis_y | axis_z;    /* x-axis, y-axis and z-axis */
 	// Reduce mode
 	typedef unsigned char reduce_mode_type;
 	static constexpr reduce_mode_type   reduce_col_min     = 0x01;                        /* the minimum of each row of matrix */
