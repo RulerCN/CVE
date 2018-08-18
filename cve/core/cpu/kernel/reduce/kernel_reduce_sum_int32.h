@@ -31,8 +31,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_KERNEL_REDUCE_SUM_INT32_H__
 
 #include "common_reduce_sum_int32.h"
+#include "common_reduce_sumt_int32.h"
 #include "rows_reduce_sum_int32.h"
+#include "rows_reduce_sumt_int32.h"
 #include "block_reduce_sum_int32.h"
+#include "block_reduce_sumt_int32.h"
 
 namespace core
 {

@@ -43,7 +43,6 @@ namespace core
 		{
 			const T *ptr_a;
 			signed int *ptr_b;
-			signed int val_b0, val_b1, val_b2, val_b3;
 
 			for (size_t i = 0; i < m; ++i)
 			{

@@ -31,8 +31,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_KERNEL_REDUCE_SUM_FLOAT_H__
 
 #include "common_reduce_sum_float.h"
+#include "common_reduce_sumt_float.h"
 #include "rows_reduce_sum_float.h"
+#include "rows_reduce_sumt_float.h"
 #include "block_reduce_sum_float.h"
+#include "block_reduce_sumt_float.h"
 
 namespace core
 {
@@ -46,9 +49,9 @@ namespace core
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
 		const size_t surplus_n = n - aligned_n;
-		const struct common_reduce_sum_int32<T> functor;
-		const struct rows_reduce_sum_int32<T, inst> rows_functor;
-		const struct block_reduce_sum_int32<T, inst> block_functor;
+		const struct common_reduce_sum_float<T> functor;
+		const struct rows_reduce_sum_float<T, inst> rows_functor;
+		const struct block_reduce_sum_float<T, inst> block_functor;
 
 		for (size_t i = 0; i < aligned_m; i += block_m)
 		{
@@ -77,9 +80,9 @@ namespace core
 		const size_t surplus_m = m - aligned_m;
 		const size_t surplus_n = n - aligned_n;
 		const size_t surplus_rsa = surplus_m * rsa;
-		const struct common_reduce_sum_int32<T> functor;
-		const struct rows_reduce_sum_int32<T, inst> rows_functor;
-		const struct block_reduce_sum_int32<T, inst> block_functor;
+		const struct common_reduce_sum_float<T> functor;
+		const struct rows_reduce_sum_float<T, inst> rows_functor;
+		const struct block_reduce_sum_float<T, inst> block_functor;
 
 		for (size_t j = 0; j < l; j++)
 		{
@@ -114,9 +117,9 @@ namespace core
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
 		const size_t surplus_n = n - aligned_n;
-		const struct common_reduce_sumt_int32<T> functor;
-		const struct rows_reduce_sumt_int32<T, inst> rows_functor;
-		const struct block_reduce_sumt_int32<T, inst> block_functor;
+		const struct common_reduce_sumt_float<T> functor;
+		const struct rows_reduce_sumt_float<T, inst> rows_functor;
+		const struct block_reduce_sumt_float<T, inst> block_functor;
 
 		for (size_t i = 0; i < aligned_m; i += block_m)
 		{
@@ -144,9 +147,9 @@ namespace core
 		const size_t surplus_m = m - aligned_m;
 		const size_t surplus_n = n - aligned_n;
 		const size_t surplus_rsa = surplus_m * rsa;
-		const struct common_reduce_sumt_int32<T> functor;
-		const struct rows_reduce_sumt_int32<T, inst> rows_functor;
-		const struct block_reduce_sumt_int32<T, inst> block_functor;
+		const struct common_reduce_sumt_float<T> functor;
+		const struct rows_reduce_sumt_float<T, inst> rows_functor;
+		const struct block_reduce_sumt_float<T, inst> block_functor;
 
 		for (size_t j = 0; j < l; j++)
 		{
