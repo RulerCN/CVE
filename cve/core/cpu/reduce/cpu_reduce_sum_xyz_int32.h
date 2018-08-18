@@ -37,8 +37,8 @@ namespace core
 {
 	// Computes the sum of elements of a tensor
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed char, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed char, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -52,8 +52,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned char, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned char, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -67,8 +67,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed short, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed short, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -82,8 +82,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned short, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned short, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -97,8 +97,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed int, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<signed int, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -112,8 +112,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned int, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<unsigned int, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -127,8 +127,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<float, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<float, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -142,8 +142,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<double, A2> &a)
+	template <class A>
+	signed int& cpu_reduce_sum_xyz(signed int &b, const tensor<double, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -154,6 +154,144 @@ namespace core
 			kernel_reduce_sum_int32<4, 4, cpu_ssse3>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
 			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+		return b;
+	}
+
+	// Computes the sum of elements of a tensor
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<signed char, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_sse41())
+			kernel_reduce_sum_int32<8, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned char, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_sse41())
+			kernel_reduce_sum_int32<8, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<signed short, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_sse41())
+			kernel_reduce_sum_int32<4, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned short, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_sse41())
+			kernel_reduce_sum_int32<4, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_ssse3())
+			kernel_reduce_sum_int32<4, 4, cpu_ssse3>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned int, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_ssse3())
+			kernel_reduce_sum_int32<4, 4, cpu_ssse3>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<float, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_ssse3())
+			kernel_reduce_sum_int32<4, 4, cpu_ssse3>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		return b;
+	}
+
+	template <class A1, class A2>
+	tensor<signed int, A1>& cpu_reduce_sum_xyz(tensor<signed int, A1> &b, const tensor<double, A2> &a)
+	{
+		if (a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != size_t(1))
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_reduce_sum_int32<8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else if (cpu_inst::is_support_ssse3())
+			kernel_reduce_sum_int32<4, 4, cpu_ssse3>(size_t(1), a.size(), a.data(), a.size(), b.data());
+		else
+			kernel_reduce_sum_int32<4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
