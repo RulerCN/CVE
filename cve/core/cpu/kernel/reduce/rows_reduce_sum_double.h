@@ -472,7 +472,7 @@ namespace core
 		void operator()(size_t m, size_t n, const signed short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
-			__m256i ymm_a0, ymm_a1;
+			__m256i ymm_a0;
 			__m256d ymm_t0, ymm_t1;
 			__m256d ymm_b0, ymm_b1;
 
@@ -511,7 +511,7 @@ namespace core
 		void operator()(size_t m, size_t n, const unsigned short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
-			__m256i ymm_a0, ymm_a1;
+			__m256i ymm_a0;
 			__m256d ymm_t0, ymm_t1;
 			__m256d ymm_b0, ymm_b1;
 

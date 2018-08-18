@@ -185,6 +185,7 @@
     <ClInclude Include="core\cpu\cpu_cvtmul.h" />
     <ClInclude Include="core\cpu\cpu_logic.h" />
     <ClInclude Include="core\cpu\cpu_onehot.h" />
+    <ClInclude Include="core\cpu\cpu_reduce_mean.h" />
     <ClInclude Include="core\cpu\cpu_reduce_sum.h" />
     <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />

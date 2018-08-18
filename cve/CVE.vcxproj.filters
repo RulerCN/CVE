@@ -535,6 +535,9 @@
     <ClInclude Include="core\cpu\cpu_reduce_sum.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cpu_reduce_mean.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

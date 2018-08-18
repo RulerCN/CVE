@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_REDUCE_SUM_H__
-#define __CORE_CPU_REDUCE_SUM_H__
+#ifndef __CORE_CPU_REDUCE_MEAN_H__
+#define __CORE_CPU_REDUCE_MEAN_H__
 
 #include "reduce/cpu_reduce_sum_x_int32.h"
 #include "reduce/cpu_reduce_sum_x_float.h"
@@ -48,18 +48,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "reduce/cpu_reduce_sum_xyz_int32.h"
 #include "reduce/cpu_reduce_sum_xyz_float.h"
 #include "reduce/cpu_reduce_sum_xyz_double.h"
+#include "cpu_arithmetic.h"
 
 namespace core
 {
 	// Computes the sum of elements across dimensions of a vector
 
 	template <class T1, class T2, class A1, class A2>
-	T1& cpu_reduce_sum(T1 &b, const vector<T2, A2> &a, axis_type axis = axis_x)
+	T1& cpu_reduce_mean(T1 &b, const vector<T2, A2> &a, axis_type axis = axis_x)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.size();
+			b *= scale;
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -68,12 +72,15 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_reduce_sum(vector<T1, A1> &b, const vector<T2, A2> &a, axis_type axis = axis_x)
+	vector<T1, A1>& cpu_reduce_mean(vector<T1, A1> &b, const vector<T2, A2> &a, axis_type axis = axis_x)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.size();
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -84,15 +91,20 @@ namespace core
 	// Computes the sum of elements across dimensions of a matrix
 
 	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_reduce_sum(vector<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
+	vector<T1, A1>& cpu_reduce_mean(vector<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.row_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_y:
 			cpu_reduce_sum_y(b, a);
+			scale = T1(1) / a.rows();
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -101,12 +113,15 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	T1& cpu_reduce_sum(T1 &b, const matrix<T2, A2> &a, axis_type axis)
+	T1& cpu_reduce_mean(T1 &b, const matrix<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_xy:
 			cpu_reduce_sum_xy(b, a);
+			scale = T1(1) / a.size();
+			b *= scale;
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -115,18 +130,25 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& cpu_reduce_sum(matrix<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
+	matrix<T1, A1>& cpu_reduce_mean(matrix<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.row_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_y:
 			cpu_reduce_sum_y(b, a);
+			scale = T1(1) / a.rows();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_xy:
 			cpu_reduce_sum_xy(b, a);
+			scale = T1(1) / a.size();
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -137,18 +159,25 @@ namespace core
 	// Computes the sum of elements across dimensions of a tensor
 
 	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& cpu_reduce_sum(matrix<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	matrix<T1, A1>& cpu_reduce_mean(matrix<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.row_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_y:
 			cpu_reduce_sum_y(b, a);
+			scale = T1(1) / a.rows();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_z:
 			cpu_reduce_sum_z(b, a);
+			scale = T1(1) / a.batch();
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -157,15 +186,20 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_reduce_sum(vector<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	vector<T1, A1>& cpu_reduce_mean(vector<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_xy:
 			cpu_reduce_sum_xy(b, a);
+			scale = T1(1) / a.matrix_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_yz:
 			cpu_reduce_sum_yz(b, a);
+			scale = T1(1) / (a.batch() * a.rows());
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -174,12 +208,15 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	T1& cpu_reduce_sum(T1 &b, const tensor<T2, A2> &a, axis_type axis)
+	T1& cpu_reduce_mean(T1 &b, const tensor<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_xyz:
 			cpu_reduce_sum_xyz(b, a);
+			scale = T1(1) / a.size();
+			b *= scale;
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);
@@ -188,27 +225,40 @@ namespace core
 	}
 
 	template <class T1, class T2, class A1, class A2>
-	tensor<T1, A1>& cpu_reduce_sum(tensor<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	tensor<T1, A1>& cpu_reduce_mean(tensor<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
 	{
+		T1 scale;
 		switch (axis)
 		{
 		case axis_x:
 			cpu_reduce_sum_x(b, a);
+			scale = T1(1) / a.row_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_y:
 			cpu_reduce_sum_y(b, a);
+			scale = T1(1) / a.rows();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_z:
 			cpu_reduce_sum_z(b, a);
+			scale = T1(1) / a.batch();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_xy:
 			cpu_reduce_sum_xy(b, a);
+			scale = T1(1) / a.matrix_size();
+			cpu_mul(b, scale, b);
 			break;
 		case axis_yz:
 			cpu_reduce_sum_yz(b, a);
+			scale = T1(1) / (a.batch() * a.rows());
+			cpu_mul(b, scale, b);
 			break;
 		case axis_xyz:
 			cpu_reduce_sum_xyz(b, a);
+			scale = T1(1) / a.size();
+			cpu_mul(b, scale, b);
 			break;
 		default:
 			throw ::std::invalid_argument(invalid_mode_parameters);

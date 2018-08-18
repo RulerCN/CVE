@@ -7,12 +7,12 @@
 #include <iomanip>
 
 #include "core/core.h"
-//#include "image/bitmap.h"
-//#include "ann/mnist.h"
-//#include "ann/sample_set.h"
-//#include "ann/linear_layer.h"
-//#include "ann/sigmoid_layer.h"
-//#include "ann/softmax_layer.h"
+#include "image/bitmap.h"
+#include "ann/mnist.h"
+#include "ann/sample_set.h"
+#include "ann/linear_layer.h"
+#include "ann/sigmoid_layer.h"
+#include "ann/softmax_layer.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -117,38 +117,28 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 
 int main()
 {
-	//__m128i xmm_b0 = _mm_set_epi32(4, 3, 2, 1);
-	//xmm_b0 = _mm_hadd_epi32(xmm_b0, xmm_b0);
-	//xmm_b0 = _mm_hadd_epi32(xmm_b0, xmm_b0);
+	const size_t batch_size = 16;
+	const size_t sample_size = 1000;
+	ann::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
+	ann::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
 
-	//__m256i ymm_b0 = _mm256_set_epi32(8, 7, 6, 5, 4, 3, 2, 1);
-	//__m256i ymm_b1 = _mm256_permute2f128_si256(ymm_b0, ymm_b0, _MM_SHUFFLE(0, 2, 0, 1));
-	//ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_b1);
-	//ymm_b0 = _mm256_hadd_epi32(ymm_b0, ymm_b0);
-	//ymm_b0 = _mm256_hadd_epi32(ymm_b0, ymm_b0);
-
-	//const size_t batch_size = 16;
-	//const size_t sample_size = 1000;
-	//ann::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
-	//ann::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
-
-	//// Assign random value
-	//std::default_random_engine engine(1U);
-	//std::normal_distribution<float> distribution(0.0F, 0.08F);
-	//float *pData = train_samples.data.data();
-	//unsigned char *pLabel = train_samples.labels.data();
-	//for (size_t i = 0; i < sample_size; i += 2)
-	//{
-	//	*pData++ = (float)distribution(engine) - 0.2F;
-	//	*pData++ = (float)distribution(engine) - 0.1F;
-	//	*pLabel++ = 0;
-	//}
-	//for (size_t i = 0; i < sample_size; i += 2)
-	//{
-	//	*pData++ = (float)distribution(engine) + 0.2F;
-	//	*pData++ = (float)distribution(engine) + 0.1F;
-	//	*pLabel++ = 1;
-	//}
+	// Assign random value
+	std::default_random_engine engine(1U);
+	std::normal_distribution<float> distribution(0.0F, 0.08F);
+	float *pData = train_samples.data.data();
+	unsigned char *pLabel = train_samples.labels.data();
+	for (size_t i = 0; i < sample_size; i += 2)
+	{
+		*pData++ = (float)distribution(engine) - 0.2F;
+		*pData++ = (float)distribution(engine) - 0.1F;
+		*pLabel++ = 0;
+	}
+	for (size_t i = 0; i < sample_size; i += 2)
+	{
+		*pData++ = (float)distribution(engine) + 0.2F;
+		*pData++ = (float)distribution(engine) + 0.1F;
+		*pLabel++ = 1;
+	}
 	//// Save train samples as image
 	//float scale = 320.0F;
 	//core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
@@ -168,26 +158,26 @@ int main()
 	//}
 	//img::bitmap::encode("data/train_samples.bmp", train_image);
 
-	//const size_t input_dim = 2;
-	//const size_t hide_dim = 5;
-	//const size_t output_dim = 2;
-	//ann::linear_layer<float> layer1(input_dim, hide_dim, true);
-	//ann::sigmoid_layer<float> layer2;
-	//ann::linear_layer<float> layer3(hide_dim, output_dim, true);
-	//ann::softmax_layer<float> layer4(output_dim);
+	const size_t input_dim = 2;
+	const size_t hide_dim = 5;
+	const size_t output_dim = 2;
+	ann::linear_layer<float> layer1(input_dim, hide_dim, true);
+	ann::sigmoid_layer<float> layer2;
+	ann::linear_layer<float> layer3(hide_dim, output_dim, true);
+	ann::softmax_layer<float> layer4(output_dim);
 
-	//train_samples.shuffle(1U);
-	//train_samples.next_batch(batch_samples);
+	train_samples.shuffle(1U);
+	train_samples.next_batch(batch_samples);
 
-	//for (size_t loop = 0; loop < 1; ++loop)
-	//{
-	//	core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
-	//	core::tensor<float> &tensor2 = layer2.forward(tensor1);
-	//	core::tensor<float> &tensor3 = layer3.forward(tensor2);
-	//	core::tensor<float> &tensor4 = layer4.forward(tensor3);
+	for (size_t loop = 0; loop < 1; ++loop)
+	{
+		core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
+		core::tensor<float> &tensor2 = layer2.forward(tensor1);
+		core::tensor<float> &tensor3 = layer3.forward(tensor2);
+		core::tensor<float> &tensor4 = layer4.forward(tensor3);
 
-	//	core::tensor<float> &loss = layer4.backward(batch_samples.labels);
-	//}
+		core::tensor<float> &loss = layer4.backward(batch_samples.labels);
+	}
 
 	//// 120 376
 	//const signed char ptr_a0[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };

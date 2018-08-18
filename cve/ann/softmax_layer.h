@@ -107,10 +107,10 @@ namespace ann
 			this->output.reassign(this->input, ::core::without_copy);
 			matrix_type output_matrix = this->output[0];
 			const_matrix_type input_matrix = this->input[0];
-			::core::cpu_reduce(temporary_vector, input_matrix, ::core::reduce_col_avg);
+			::core::cpu_reduce_mean(temporary_vector, input_matrix, ::core::axis_y);
 			::core::cpu_sub(output_matrix, input_matrix, temporary_vector);
 			::core::cpu_exp(output_matrix, output_matrix);
-			::core::cpu_reduce(temporary_vector, output_matrix, ::core::reduce_col_sum);
+			::core::cpu_reduce_sum(temporary_vector, output_matrix, ::core::axis_x);
 			::core::cpu_div(output_matrix, output_matrix, temporary_vector);
 			this->input.reshape(data.batch(), data.rows(), data.columns(), data.dimension());
 			this->output.reshape(data.batch(), data.rows(), data.columns(), data.dimension());
