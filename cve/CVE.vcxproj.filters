@@ -538,6 +538,27 @@
     <ClInclude Include="core\cpu\cpu_reduce_mean.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemm_11.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemm_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemm_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\columns_gemm_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\columns_gemm_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rows_gemm_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rows_gemm_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -596,6 +617,9 @@
     </Filter>
     <Filter Include="core\cpu\onehot">
       <UniqueIdentifier>{82532e68-5773-429a-881e-1b4af5dfcd10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\gemm">
+      <UniqueIdentifier>{ab227c7c-7ad5-4db7-9af5-c9899920fb25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
