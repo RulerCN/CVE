@@ -571,6 +571,12 @@
     <ClInclude Include="core\cpu\gemm\cpu_gemm.h">
       <Filter>core\cpu\gemm</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rows_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
