@@ -562,6 +562,15 @@
     <ClInclude Include="core\cpu\kernel\gemm\rect_gemm_double.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\kernel_gemm_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\kernel_gemm_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gemm\cpu_gemm.h">
+      <Filter>core\cpu\gemm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -623,6 +632,9 @@
     </Filter>
     <Filter Include="core\cpu\kernel\gemm">
       <UniqueIdentifier>{ab227c7c-7ad5-4db7-9af5-c9899920fb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\gemm">
+      <UniqueIdentifier>{14d5e361-5d25-409b-9317-e136127c25e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

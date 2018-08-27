@@ -160,26 +160,26 @@ int main()
 	//}
 	//img::bitmap::encode("data/train_samples.bmp", train_image);
 
-	const size_t input_dim = 2;
-	const size_t hide_dim = 5;
-	const size_t output_dim = 2;
-	ann::linear_layer<float> layer1(input_dim, hide_dim, true);
-	ann::sigmoid_layer<float> layer2;
-	ann::linear_layer<float> layer3(hide_dim, output_dim, true);
-	ann::softmax_layer<float> layer4(output_dim);
+	//const size_t input_dim = 2;
+	//const size_t hide_dim = 5;
+	//const size_t output_dim = 2;
+	//ann::linear_layer<float> layer1(input_dim, hide_dim, true);
+	//ann::sigmoid_layer<float> layer2;
+	//ann::linear_layer<float> layer3(hide_dim, output_dim, true);
+	//ann::softmax_layer<float> layer4(output_dim);
 
-	train_samples.shuffle(1U);
-	train_samples.next_batch(batch_samples);
+	//train_samples.shuffle(1U);
+	//train_samples.next_batch(batch_samples);
 
-	for (size_t loop = 0; loop < 1; ++loop)
-	{
-		core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
-		core::tensor<float> &tensor2 = layer2.forward(tensor1);
-		core::tensor<float> &tensor3 = layer3.forward(tensor2);
-		core::tensor<float> &tensor4 = layer4.forward(tensor3);
+	//for (size_t loop = 0; loop < 1; ++loop)
+	//{
+	//	core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
+	//	core::tensor<float> &tensor2 = layer2.forward(tensor1);
+	//	core::tensor<float> &tensor3 = layer3.forward(tensor2);
+	//	core::tensor<float> &tensor4 = layer4.forward(tensor3);
 
-		core::tensor<float> &loss = layer4.backward(batch_samples.labels);
-	}
+	//	core::tensor<float> &loss = layer4.backward(batch_samples.labels);
+	//}
 
 	//// 120 376
 	//const signed char ptr_a0[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
@@ -376,7 +376,7 @@ int main()
 	//}
 	//return 0;
 
-	//core::cpu_inst::enable_simd(true);
+	
 
 	//std::cout << "mat_mul(): " << std::endl;
 	//for (int i = 64; i <= 1024 * 2; i += 64)
@@ -400,38 +400,32 @@ int main()
 	//std::cout << "OK" << std::endl;
 	//return 0;
 
-	//try
-	//{
-	//	size_t row = 13;
-	//	size_t p = 14;
-	//	size_t col = 15;
-	//	size_t dim = 1;
-	//	core::matrix<float> a(row, p, dim);
-	//	core::matrix<float> b(p, col, dim);
-	//	core::matrix<float> bt(col, p, dim);
-	//	core::matrix<float> c(row, col, dim, 0.0F);
-	//	core::matrix<float> d(row, col, dim, 0.0F);
-	//	// Initialization matrix
-	//	a.linear_fill(1.0F, 1.0F);
-	//	b.linear_fill(1.0F, 1.0F);
-	//	core::cpu_transpose(bt, b);
-	//	// Matrix-matrix multiplication
-	//	core::cpu_mul(c, a, b);
+	try
+	{
+		core::cpu_inst::enable_simd(true);
 
-	//	//core::cpu_multiply(d, a, b);
-	//	const core::common_mul_rm_rm<float> mul;
-	//	mul(a.rows(), b.rows(), b.row_size(), a.data(), a.row_size(), b.data(), b.row_size(), d.data(), d.row_size());
-	//	print("a", a);
-	//	print("b", b);
-	//	print("c=a*b", c);
-	//	//core::cpu_multiply(d, a, bt, true);
-	//	print("d=a*b", d);
-	//}
-	//catch (std::exception err)
-	//{
-	//	std::cout << err.what() << std::endl;
-	//}
-	//return 0;
+		size_t row = 13;
+		size_t p = 14;
+		size_t col = 15;
+		size_t dim = 1;
+		core::matrix<float> a(row, p, dim);
+		core::matrix<float> b(p, col, dim);
+		core::matrix<float> c(row, col, dim, 0.0F);
+		// Initialization matrix
+		a.linear_fill(1.0F, 1.0F);
+		b.linear_fill(1.0F, 1.0F);
+		// Matrix-matrix multiplication
+		core::cpu_gemm(c, a, b);
+
+		print("a", a);
+		print("b", b);
+		print("c=a*b", c);
+	}
+	catch (std::exception err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+	return 0;
 
 	//try
 	//{

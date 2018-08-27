@@ -143,7 +143,7 @@ namespace core
 			const double *ptr_b1 = b + rsb;
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0, xmm_b1;
-			__m128d xmm_t0, xmm_t1;
+			__m128d xmm_t0;
 			__m128d xmm_c0;
 
 			if (aligned_n > 0)
