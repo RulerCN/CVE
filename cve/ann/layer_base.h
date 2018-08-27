@@ -81,28 +81,22 @@ namespace ann
 
 		// construct/copy/destroy:
 		layer_base(void)
-			: train(false)
+			: is_train(false)
+			, is_update(false)
+			, learning_rate(0)
 			, input_dimension(0)
 			, output_dimension(0)
-			, rate(0)
 		{}
 
 	protected:
-		//// Data binding
-		//void bind(const_tensor_reference input)
-		//{
-		//	if (input.empty())
-		//		throw ::std::domain_error(::core::tensor_not_initialized);
-		//	input_pointer = &input;
-		//}
-	public:
-		bool        train;
+		bool        is_train;
+		bool        is_update;
+		value_type  learning_rate;
 		size_type   input_dimension;
 		size_type   output_dimension;
-		value_type  rate;
-		tensor_type input;
-		tensor_type output;
-		tensor_type error;
+		tensor_type input_data;
+		tensor_type output_data;
+		tensor_type loss_data;
 	};
 
 } // namespace ann

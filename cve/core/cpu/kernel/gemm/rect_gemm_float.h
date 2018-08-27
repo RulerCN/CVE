@@ -27,22 +27,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_BLOCK_GEMM_11_H__
-#define __CORE_CPU_KERNEL_BLOCK_GEMM_11_H__
+#ifndef __CORE_CPU_KERNEL_RECT_GEMM_FLOAT_H__
+#define __CORE_CPU_KERNEL_RECT_GEMM_FLOAT_H__
 
 #include "../../cpu_inst.h"
 
 namespace core
 {
-	// Class template block_gemm_11
-	template<class T, cpu_inst_type inst>
-	struct block_gemm_11
+	// Class template rect_gemm_float
+	template<cpu_inst_type inst>
+	struct rect_gemm_float
 	{
 		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const T *a, size_t rsa, const T *b, size_t rsb, T *c, size_t rsc) const
+		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const T *ptr_b = nullptr;
-			T val_a;
+			const float *ptr_b;
+			float val_a;
 
 			for (size_t i = 0; i < m; ++i)
 			{
@@ -68,12 +68,12 @@ namespace core
 	};
 
 	template<>
-	struct block_gemm_11<float, cpu_sse3>
+	struct rect_gemm_float<cpu_sse3>
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_b = nullptr;
+			const float *ptr_b;
 			float val_a;
 			__m128 xmm_a, xmm_b, xmm_c;
 
@@ -105,12 +105,12 @@ namespace core
 	};
 
 	template<>
-	struct block_gemm_11<float, cpu_sse3 | cpu_fma>
+	struct rect_gemm_float<cpu_sse3 | cpu_fma>
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_b = nullptr;
+			const float *ptr_b;
 			float val_a;
 			__m128 xmm_a, xmm_b, xmm_c;
 
@@ -142,86 +142,12 @@ namespace core
 	};
 
 	template<>
-	struct block_gemm_11<double, cpu_sse3>
-	{
-		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
-		{
-			const double *ptr_b = nullptr;
-			double val_a;
-			__m128d xmm_a, xmm_b, xmm_c;
-
-			for (size_t i = 0; i < m; ++i)
-			{
-				ptr_b = b;
-				for (size_t k = 0; k < p; ++k)
-				{
-					val_a = a[k];
-					xmm_a = _mm_set1_pd(val_a);
-					for (size_t j = 0; j < aligned_n; j += 2)
-					{
-						// load data from memory
-						xmm_b = _mm_loadu_pd(ptr_b + j);
-						xmm_c = _mm_loadu_pd(c + j);
-						// return the weighted sum
-						xmm_c = _mm_add_pd(_mm_mul_pd(xmm_a, xmm_b), xmm_c);
-						// store data into memory
-						_mm_storeu_pd(c + j, xmm_c);
-					}
-					for (size_t j = aligned_n; j < n; ++j)
-						c[j] += val_a * ptr_b[j];
-					ptr_b += rsb;
-				}
-				a += rsa;
-				c += rsc;
-			}
-		}
-	};
-
-	template<>
-	struct block_gemm_11<double, cpu_sse3 | cpu_fma>
-	{
-		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
-		{
-			const double *ptr_b = nullptr;
-			double val_a;
-			__m128d xmm_a, xmm_b, xmm_c;
-
-			for (size_t i = 0; i < m; ++i)
-			{
-				ptr_b = b;
-				for (size_t k = 0; k < p; ++k)
-				{
-					val_a = a[k];
-					xmm_a = _mm_set1_pd(val_a);
-					for (size_t j = 0; j < aligned_n; j += 2)
-					{
-						// load data from memory
-						xmm_b = _mm_loadu_pd(ptr_b + j);
-						xmm_c = _mm_loadu_pd(c + j);
-						// return the weighted sum
-						xmm_c = _mm_fmadd_pd(xmm_a, xmm_b, xmm_c);
-						// store data into memory
-						_mm_storeu_pd(c + j, xmm_c);
-					}
-					for (size_t j = aligned_n; j < n; ++j)
-						c[j] += val_a * ptr_b[j];
-					ptr_b += rsb;
-				}
-				a += rsa;
-				c += rsc;
-			}
-		}
-	};
-
-	template<>
-	struct block_gemm_11<float, cpu_avx>
+	struct rect_gemm_float<cpu_avx>
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_b = nullptr;
+			const float *ptr_b;
 			float val_a;
 			__m256 ymm_a, ymm_b, ymm_c;
 
@@ -253,12 +179,12 @@ namespace core
 	};
 
 	template<>
-	struct block_gemm_11<float, cpu_avx | cpu_fma>
+	struct rect_gemm_float<cpu_avx | cpu_fma>
 	{
 		// C(mxn) += A(mxp) * B(pxn)
 		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const float *ptr_b = nullptr;
+			const float *ptr_b;
 			float val_a;
 			__m256 ymm_a, ymm_b, ymm_c;
 
@@ -278,80 +204,6 @@ namespace core
 						ymm_c = _mm256_fmadd_ps(ymm_a, ymm_b, ymm_c);
 						// store data into memory
 						_mm256_storeu_ps(c + j, ymm_c);
-					}
-					for (size_t j = aligned_n; j < n; ++j)
-						c[j] += val_a * ptr_b[j];
-					ptr_b += rsb;
-				}
-				a += rsa;
-				c += rsc;
-			}
-		}
-	};
-
-	template<>
-	struct block_gemm_11<double, cpu_avx>
-	{
-		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
-		{
-			const double *ptr_b = nullptr;
-			double val_a;
-			__m256d ymm_a, ymm_b, ymm_c;
-
-			for (size_t i = 0; i < m; ++i)
-			{
-				ptr_b = b;
-				for (size_t k = 0; k < p; ++k)
-				{
-					val_a = a[k];
-					ymm_a = _mm256_set1_pd(val_a);
-					for (size_t j = 0; j < aligned_n; j += 4)
-					{
-						// load data from memory
-						ymm_b = _mm256_loadu_pd(ptr_b + j);
-						ymm_c = _mm256_loadu_pd(c + j);
-						// return the weighted sum
-						ymm_c = _mm256_add_pd(_mm256_mul_pd(ymm_a, ymm_b), ymm_c);
-						// store data into memory
-						_mm256_storeu_pd(c + j, ymm_c);
-					}
-					for (size_t j = aligned_n; j < n; ++j)
-						c[j] += val_a * ptr_b[j];
-					ptr_b += rsb;
-				}
-				a += rsa;
-				c += rsc;
-			}
-		}
-	};
-
-	template<>
-	struct block_gemm_11<double, cpu_avx | cpu_fma>
-	{
-		// C(mxn) += A(mxp) * B(pxn)
-		void operator()(size_t m, size_t p, size_t aligned_n, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
-		{
-			const double *ptr_b = nullptr;
-			double val_a;
-			__m256d ymm_a, ymm_b, ymm_c;
-
-			for (size_t i = 0; i < m; ++i)
-			{
-				ptr_b = b;
-				for (size_t k = 0; k < p; ++k)
-				{
-					val_a = a[k];
-					ymm_a = _mm256_set1_pd(val_a);
-					for (size_t j = 0; j < aligned_n; j += 4)
-					{
-						// load data from memory
-						ymm_b = _mm256_loadu_pd(ptr_b + j);
-						ymm_c = _mm256_loadu_pd(c + j);
-						// return the weighted sum
-						ymm_c = _mm256_fmadd_pd(ymm_a, ymm_b, _mm256_loadu_pd(c + j));
-						// store data into memory
-						_mm256_storeu_pd(c + j, ymm_c);
 					}
 					for (size_t j = aligned_n; j < n; ++j)
 						c[j] += val_a * ptr_b[j];

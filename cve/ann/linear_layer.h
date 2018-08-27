@@ -81,29 +81,40 @@ namespace ann
 		// construct/copy/destroy:
 
 		linear_layer(const Allocator& alloc = Allocator())
+			: is_train(false)
+			, is_update(false)
+			, learning_rate(0)
+			, input_dimension(0)
+			, output_dimension(0)
 		{}
 
-		linear_layer(size_type input_row_size, size_type output_row_size, value_type learn, bool training = false)
+		linear_layer(size_type input_dim, size_type output_dim, bool has_bias, bool train, value_type rate)
 		{
-			assign(input_row_size, output_row_size, learn, training);
+			assign(input_dim, output_dim, has_bias, rate, train);
 		}
 
-		void assign(size_type input_row_size, size_type output_row_size, value_type learn, bool training = false)
+		void assign(size_type input_dim, size_type output_dim, bool has_bias, bool train, value_type rate)
 		{
-			const size_type dimension = 1;
-			weight.assign(input_row_size, output_row_size, dimension);
-			bias.assign(output_row_size, dimension);
-			if (training)
+			this->is_train = train;
+			this->is_update = train;
+			this->learning_rate = rate;
+			this->input_dimension = input_dim;
+			this->output_dimension = output_dim;
+
+			weight.assign(this->input_dimension, this->output_dimension, size_t(1));
+			if (has_bias)
+				bias.assign(this->output_dimension, size_t(1));
+			if (this->is_train)
 			{
-				this->rate = learn;
 				// The gradient of weight
-				weight_gradient.assign(input_row_size, output_row_size, dimension);
+				weight_gradient.assign(weight, ::core::without_copy);
 				// The gradient of bias
-				bias_gradient.assign(output_row_size, dimension);
+				if (!bias.empty())
+					bias_gradient.assign(bias, ::core::without_copy);
 				// The mean vector of the data
-				data_mean.assign(input_row_size, dimension);
+				data_mean.assign(this->input_dimension, size_t(1));
 				// The mean vector of the loss
-				loss_mean.assign(output_row_size, dimension);
+				loss_mean.assign(this->output_dimension, size_t(1));
 			}
 		}
 
@@ -135,16 +146,15 @@ namespace ann
 			if (data.matrix_size() != weight.rows())
 				throw ::std::invalid_argument(::core::invalid_shape);
 
-			constexpr size_type one = 1;
-			this->input.reassign(one, data.batch(), data.area(), data.dimension(), data.data(), false);
-			this->output.reassign(one, data.batch(), weight.columns(), weight.dimension());
-			::core::cpu_matmul(this->output[0], this->input[0], weight);
-			this->output.reshape(this->output.rows(), one, this->output.columns(), this->output.dimension());
+			this->input.reassign(size_t(1), data.batch(), data.area(), data.dimension(), data.data(), false);
+			this->output.reassign(size_t(1), data.batch(), weight.columns(), weight.dimension());
+			::core::cpu_matmul(this->output_data[0], this->input_data[0], weight);
+			this->output.reshape(this->output_data.rows(), size_t(1), this->output_data.columns(), this->output_data.dimension());
 			return this->output;
 		}
 
 		// Update
-		tensor_reference Update(tensor_reference loss)
+		tensor_reference update(tensor_reference loss)
 		{
 			if (loss.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
@@ -152,7 +162,7 @@ namespace ann
 				throw ::std::invalid_argument(::core::invalid_size);
 
 			// Mean vector of the data
-			::core::reduce(data_mean, this->input[0], ::core::reduce_col_avg);
+			::core::reduce_mean(data_mean, this->input_data[0], ::core::reduce_col_avg);
 			// Mean vector of loss data
 			::core::reduce(loss_mean, loss[0], ::core::reduce_col_avg);
 			// Calculate the gradient of weight

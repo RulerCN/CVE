@@ -24,6 +24,8 @@ using std::chrono::milliseconds;
 //time_point<system_clock> stop = system_clock::now();
 //long long time = duration_cast<milliseconds>(stop - start).count();
 
+// http://image.diku.dk/shark/sphinx_pages/build/html/rest_sources/tutorials/concepts/library_design/losses.html
+
 // Print vector
 template<class Allocator>
 void print(const char *name, const core::vector<signed char, Allocator> &vec);

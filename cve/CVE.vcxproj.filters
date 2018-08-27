@@ -538,9 +538,6 @@
     <ClInclude Include="core\cpu\cpu_reduce_mean.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemm\block_gemm_11.h">
-      <Filter>core\cpu\kernel\gemm</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\gemm\block_gemm_float.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
@@ -557,6 +554,12 @@
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\gemm\rows_gemm_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rect_gemm_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rect_gemm_double.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
   </ItemGroup>
