@@ -78,7 +78,7 @@ namespace core
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_a0;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_t0, xmm_t1;
 			__m128d xmm_c0;
@@ -130,7 +130,7 @@ namespace core
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;
-			__m128d xmm_a0, xmm_a1;
+			__m128d xmm_a0;
 			__m128d xmm_b0, xmm_b1;
 			__m128d xmm_t0, xmm_t1;
 			__m128d xmm_c0;
@@ -184,7 +184,7 @@ namespace core
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
+			__m256d ymm_a0;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_t0, ymm_t1, ymm_t2, ymm_t3;
 			__m256d ymm_c0;
@@ -245,7 +245,7 @@ namespace core
 			const double *ptr_b1 = b + rsb;
 			const double *ptr_b2 = ptr_b1 + rsb;
 			const double *ptr_b3 = ptr_b2 + rsb;
-			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
+			__m256d ymm_a0;
 			__m256d ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256d ymm_t0, ymm_t1, ymm_t2, ymm_t3;
 			__m256d ymm_c0;

@@ -53,6 +53,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_logic.h"
 #include "cpu/cpu_matmul.h"
 
-#include "cpu/gemm/cpu_gemm.h"
+#include "cpu/cpu_gemm.h"
 
 #endif

@@ -90,7 +90,6 @@ namespace core
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0;
 			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
-			__m128 xmm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -115,7 +114,6 @@ namespace core
 					xmm_t0 = _mm_hadd_ps(xmm_t0, xmm_t1);
 					xmm_t2 = _mm_hadd_ps(xmm_t2, xmm_t3);
 					xmm_t0 = _mm_hadd_ps(xmm_t0, xmm_t2);
-					xmm_c0 = _mm_add_ps(xmm_c0, xmm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -125,14 +123,14 @@ namespace core
 						xmm_a0 = _mm_set_ps(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						xmm_b0 = _mm_set1_ps(b[k]);
 						// return the weighted sum
-						xmm_c0 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b0), xmm_c0);
+						xmm_t0 = _mm_add_ps(_mm_mul_ps(xmm_a0, xmm_b0), xmm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<float*>(&xmm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<float*>(&xmm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<float*>(&xmm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<float*>(&xmm_c0)[3];
+				ptr_c0[j] += reinterpret_cast<float*>(&xmm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<float*>(&xmm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<float*>(&xmm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<float*>(&xmm_t0)[3];
 				b += rsb;
 			}
 		}
@@ -155,7 +153,6 @@ namespace core
 			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
 			__m128 xmm_b0;
 			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
-			__m128 xmm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -180,7 +177,6 @@ namespace core
 					xmm_t0 = _mm_hadd_ps(xmm_t0, xmm_t1);
 					xmm_t2 = _mm_hadd_ps(xmm_t2, xmm_t3);
 					xmm_t0 = _mm_hadd_ps(xmm_t0, xmm_t2);
-					xmm_c0 = _mm_add_ps(xmm_c0, xmm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -190,14 +186,14 @@ namespace core
 						xmm_a0 = _mm_set_ps(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						xmm_b0 = _mm_set1_ps(b[k]);
 						// return the weighted sum
-						xmm_c0 = _mm_fmadd_ps(xmm_a0, xmm_b0, xmm_c0);
+						xmm_t0 = _mm_fmadd_ps(xmm_a0, xmm_b0, xmm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<float*>(&xmm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<float*>(&xmm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<float*>(&xmm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<float*>(&xmm_c0)[3];
+				ptr_c0[j] += reinterpret_cast<float*>(&xmm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<float*>(&xmm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<float*>(&xmm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<float*>(&xmm_t0)[3];
 				b += rsb;
 			}
 		}
@@ -228,7 +224,6 @@ namespace core
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0;
 			__m256 ymm_t0, ymm_t1, ymm_t2, ymm_t3, ymm_t4, ymm_t5, ymm_t6, ymm_t7;
-			__m256 ymm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -266,7 +261,6 @@ namespace core
 					ymm_t1 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 2, 0, 0));
 					ymm_t5 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 3, 0, 1));
 					ymm_t0 = _mm256_add_ps(ymm_t1, ymm_t5);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -276,18 +270,18 @@ namespace core
 						ymm_a0 = _mm256_set_ps(ptr_a7[k], ptr_a6[k], ptr_a5[k], ptr_a4[k], ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						ymm_b0 = _mm256_set1_ps(b[k]);
 						// return the weighted sum
-						ymm_c0 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b0), ymm_c0);
+						ymm_t0 = _mm256_add_ps(_mm256_mul_ps(ymm_a0, ymm_b0), ymm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<float*>(&ymm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<float*>(&ymm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<float*>(&ymm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<float*>(&ymm_c0)[3];
-				ptr_c4[j] += reinterpret_cast<float*>(&ymm_c0)[4];
-				ptr_c5[j] += reinterpret_cast<float*>(&ymm_c0)[5];
-				ptr_c6[j] += reinterpret_cast<float*>(&ymm_c0)[6];
-				ptr_c7[j] += reinterpret_cast<float*>(&ymm_c0)[7];
+				ptr_c0[j] += reinterpret_cast<float*>(&ymm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<float*>(&ymm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<float*>(&ymm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<float*>(&ymm_t0)[3];
+				ptr_c4[j] += reinterpret_cast<float*>(&ymm_t0)[4];
+				ptr_c5[j] += reinterpret_cast<float*>(&ymm_t0)[5];
+				ptr_c6[j] += reinterpret_cast<float*>(&ymm_t0)[6];
+				ptr_c7[j] += reinterpret_cast<float*>(&ymm_t0)[7];
 				b += rsb;
 			}
 		}
@@ -318,7 +312,6 @@ namespace core
 			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
 			__m256 ymm_b0;
 			__m256 ymm_t0, ymm_t1, ymm_t2, ymm_t3, ymm_t4, ymm_t5, ymm_t6, ymm_t7;
-			__m256 ymm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -356,7 +349,6 @@ namespace core
 					ymm_t1 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 2, 0, 0));
 					ymm_t5 = _mm256_permute2f128_ps(ymm_t0, ymm_t4, _MM_SHUFFLE(0, 3, 0, 1));
 					ymm_t0 = _mm256_add_ps(ymm_t1, ymm_t5);
-					ymm_c0 = _mm256_add_ps(ymm_c0, ymm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -366,18 +358,18 @@ namespace core
 						ymm_a0 = _mm256_set_ps(ptr_a7[k], ptr_a6[k], ptr_a5[k], ptr_a4[k], ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						ymm_b0 = _mm256_set1_ps(b[k]);
 						// return the weighted sum
-						ymm_c0 = _mm256_fmadd_ps(ymm_a0, ymm_b0, ymm_c0);
+						ymm_t0 = _mm256_fmadd_ps(ymm_a0, ymm_b0, ymm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<float*>(&ymm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<float*>(&ymm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<float*>(&ymm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<float*>(&ymm_c0)[3];
-				ptr_c4[j] += reinterpret_cast<float*>(&ymm_c0)[4];
-				ptr_c5[j] += reinterpret_cast<float*>(&ymm_c0)[5];
-				ptr_c6[j] += reinterpret_cast<float*>(&ymm_c0)[6];
-				ptr_c7[j] += reinterpret_cast<float*>(&ymm_c0)[7];
+				ptr_c0[j] += reinterpret_cast<float*>(&ymm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<float*>(&ymm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<float*>(&ymm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<float*>(&ymm_t0)[3];
+				ptr_c4[j] += reinterpret_cast<float*>(&ymm_t0)[4];
+				ptr_c5[j] += reinterpret_cast<float*>(&ymm_t0)[5];
+				ptr_c6[j] += reinterpret_cast<float*>(&ymm_t0)[6];
+				ptr_c7[j] += reinterpret_cast<float*>(&ymm_t0)[7];
 				b += rsb;
 			}
 		}

@@ -403,56 +403,6 @@ int main()
 	try
 	{
 		core::cpu_inst::enable_simd(true);
-		// a
-		__m128 xmm_a0 = _mm_set_ps(.04f, .03f, .02f, .01f);
-		__m128 xmm_a1 = _mm_set_ps(.4f, .3f, .2f, .1f);
-		__m128 xmm_a2 = _mm_set_ps(4, 3, 2, 1);
-		__m128 xmm_a3 = _mm_set_ps(40, 30, 20, 10);
-		// b
-		__m128 xmm_b0 = _mm_set_ps(40, 30, 20, 10);
-		__m128 xmm_b1 = _mm_set_ps(4, 3, 2, 1);
-		__m128 xmm_b2 = _mm_set_ps(.4f, .3f, .2f, .1f);
-		__m128 xmm_b3 = _mm_set_ps(.04f, .03f, .02f, .01f);
-		// c
-		__m128 xmm_c0 = _mm_mul_ps(xmm_a0, xmm_b0);
-		__m128 xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
-		__m128 xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b2);
-		__m128 xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b3);
-
-		__m128 xmm1, xmm2, xmm3;
-		xmm1 = xmm2 = xmm3 = _mm_setzero_ps();
-
-
-		// print
-		printf("%f, %f, %f, %f\n", xmm_c0.m128_f32[0], xmm_c0.m128_f32[1], xmm_c0.m128_f32[2], xmm_c0.m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c1.m128_f32[0], xmm_c1.m128_f32[1], xmm_c1.m128_f32[2], xmm_c1.m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c2.m128_f32[0], xmm_c2.m128_f32[1], xmm_c2.m128_f32[2], xmm_c2.m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c3.m128_f32[0], xmm_c3.m128_f32[1], xmm_c3.m128_f32[2], xmm_c3.m128_f32[3]);
-		// a
-		__m128 xmm_a[] = {
-			_mm_set_ps(.04f, .03f, .02f, .01f),
-			_mm_set_ps(.4f, .3f, .2f, .1f),
-			_mm_set_ps(4, 3, 2, 1),
-			_mm_set_ps(40, 30, 20, 10)
-		};
-		// b
-		__m128 xmm_b[] = {
-			_mm_set_ps(40, 30, 20, 10),
-			_mm_set_ps(4, 3, 2, 1),
-			_mm_set_ps(.4f, .3f, .2f, .1f),
-			_mm_set_ps(.04f, .03f, .02f, .01f)
-		};
-		// c
-		__m128 xmm_c[4];
-		xmm_c[0] = _mm_mul_ps(xmm_a[0], xmm_b[0]);
-		xmm_c[1] = _mm_mul_ps(xmm_a[1], xmm_b[1]);
-		xmm_c[2] = _mm_mul_ps(xmm_a[2], xmm_b[2]);
-		xmm_c[3] = _mm_mul_ps(xmm_a[3], xmm_b[3]);
-		// print
-		printf("%f, %f, %f, %f\n", xmm_c[0].m128_f32[0], xmm_c[0].m128_f32[1], xmm_c[0].m128_f32[2], xmm_c[0].m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c[1].m128_f32[0], xmm_c[1].m128_f32[1], xmm_c[1].m128_f32[2], xmm_c[1].m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c[2].m128_f32[0], xmm_c[2].m128_f32[1], xmm_c[2].m128_f32[2], xmm_c[2].m128_f32[3]);
-		printf("%f, %f, %f, %f\n", xmm_c[3].m128_f32[0], xmm_c[3].m128_f32[1], xmm_c[3].m128_f32[2], xmm_c[3].m128_f32[3]);
 
 		size_t row = 13;
 		size_t p = 14;
@@ -460,16 +410,22 @@ int main()
 		size_t dim = 1;
 		core::matrix<float> a(row, p, dim);
 		core::matrix<float> b(p, col, dim);
-		core::matrix<float> c(row, col, dim, 0.0F);
+		core::matrix<float> t(col, p, dim);
+		core::matrix<float> c(row, col, dim);
+		core::matrix<float> d(row, col, dim);
+
 		// Initialization matrix
 		a.linear_fill(1.0F, 1.0F);
 		b.linear_fill(1.0F, 1.0F);
+
+		core::cpu_transpose(t, b);
 		// Matrix-matrix multiplication
 		core::cpu_gemm(c, a, b);
-
+		core::cpu_gemm(d, a, t, true);
 		print("a", a);
 		print("b", b);
-		print("c=a*b", c);
+		print("c", c);
+		print("d", d);
 	}
 	catch (std::exception err)
 	{

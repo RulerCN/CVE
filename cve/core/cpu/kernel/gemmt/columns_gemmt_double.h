@@ -86,7 +86,6 @@ namespace core
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0;
 			__m128d xmm_t0, xmm_t1;
-			__m128d xmm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -105,7 +104,6 @@ namespace core
 					}
 					// return the horizontal sum
 					xmm_t0 = _mm_hadd_pd(xmm_t0, xmm_t1);
-					xmm_c0 = _mm_add_pd(xmm_c0, xmm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -115,12 +113,12 @@ namespace core
 						xmm_a0 = _mm_set_pd(ptr_a1[k], ptr_a0[k]);
 						xmm_b0 = _mm_set1_pd(b[k]);
 						// return the weighted sum
-						xmm_c0 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b0), xmm_c0);
+						xmm_t0 = _mm_add_pd(_mm_mul_pd(xmm_a0, xmm_b0), xmm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<double*>(&xmm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<double*>(&xmm_c0)[1];
+				ptr_c0[j] += reinterpret_cast<double*>(&xmm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<double*>(&xmm_t0)[1];
 				b += rsb;
 			}
 		}
@@ -139,7 +137,6 @@ namespace core
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0;
 			__m128d xmm_t0, xmm_t1;
-			__m128d xmm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -158,7 +155,6 @@ namespace core
 					}
 					// return the horizontal sum
 					xmm_t0 = _mm_hadd_pd(xmm_t0, xmm_t1);
-					xmm_c0 = _mm_add_pd(xmm_c0, xmm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -168,12 +164,12 @@ namespace core
 						xmm_a0 = _mm_set_pd(ptr_a1[k], ptr_a0[k]);
 						xmm_b0 = _mm_set1_pd(b[k]);
 						// return the weighted sum
-						xmm_c0 = _mm_fmadd_pd(xmm_a0, xmm_b0, xmm_c0);
+						xmm_t0 = _mm_fmadd_pd(xmm_a0, xmm_b0, xmm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<double*>(&xmm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<double*>(&xmm_c0)[1];
+				ptr_c0[j] += reinterpret_cast<double*>(&xmm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<double*>(&xmm_t0)[1];
 				b += rsb;
 			}
 		}
@@ -196,7 +192,6 @@ namespace core
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0;
 			__m256d ymm_t0, ymm_t1, ymm_t2, ymm_t3;
-			__m256d ymm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -222,7 +217,6 @@ namespace core
 					ymm_t1 = _mm256_permute2f128_pd(ymm_t0, ymm_t2, _MM_SHUFFLE(0, 2, 0, 0));
 					ymm_t3 = _mm256_permute2f128_pd(ymm_t0, ymm_t2, _MM_SHUFFLE(0, 3, 0, 1));
 					ymm_t0 = _mm256_add_pd(ymm_t1, ymm_t3);
-					ymm_c0 = _mm256_add_pd(ymm_c0, ymm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -232,14 +226,14 @@ namespace core
 						ymm_a0 = _mm256_set_pd(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						ymm_b0 = _mm256_set1_pd(b[k]);
 						// return the weighted sum
-						ymm_c0 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b0), ymm_c0);
+						ymm_t0 = _mm256_add_pd(_mm256_mul_pd(ymm_a0, ymm_b0), ymm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<double*>(&ymm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<double*>(&ymm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<double*>(&ymm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<double*>(&ymm_c0)[3];
+				ptr_c0[j] += reinterpret_cast<double*>(&ymm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<double*>(&ymm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<double*>(&ymm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<double*>(&ymm_t0)[3];
 				b += rsb;
 			}
 		}
@@ -262,7 +256,6 @@ namespace core
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0;
 			__m256d ymm_t0, ymm_t1, ymm_t2, ymm_t3;
-			__m256d ymm_c0;
 
 			for (size_t j = 0; j < n; ++j)
 			{
@@ -288,7 +281,6 @@ namespace core
 					ymm_t1 = _mm256_permute2f128_pd(ymm_t0, ymm_t2, _MM_SHUFFLE(0, 2, 0, 0));
 					ymm_t3 = _mm256_permute2f128_pd(ymm_t0, ymm_t2, _MM_SHUFFLE(0, 3, 0, 1));
 					ymm_t0 = _mm256_add_pd(ymm_t1, ymm_t3);
-					ymm_c0 = _mm256_add_pd(ymm_c0, ymm_t0);
 				}
 				if (aligned_p < p)
 				{
@@ -298,14 +290,14 @@ namespace core
 						ymm_a0 = _mm256_set_pd(ptr_a3[k], ptr_a2[k], ptr_a1[k], ptr_a0[k]);
 						ymm_b0 = _mm256_set1_pd(b[k]);
 						// return the weighted sum
-						ymm_c0 = _mm256_fmadd_pd(ymm_a0, ymm_b0, ymm_c0);
+						ymm_t0 = _mm256_fmadd_pd(ymm_a0, ymm_b0, ymm_t0);
 					}
 				}
 				// store data into memory
-				ptr_c0[j] += reinterpret_cast<double*>(&ymm_c0)[0];
-				ptr_c1[j] += reinterpret_cast<double*>(&ymm_c0)[1];
-				ptr_c2[j] += reinterpret_cast<double*>(&ymm_c0)[2];
-				ptr_c3[j] += reinterpret_cast<double*>(&ymm_c0)[3];
+				ptr_c0[j] += reinterpret_cast<double*>(&ymm_t0)[0];
+				ptr_c1[j] += reinterpret_cast<double*>(&ymm_t0)[1];
+				ptr_c2[j] += reinterpret_cast<double*>(&ymm_t0)[2];
+				ptr_c3[j] += reinterpret_cast<double*>(&ymm_t0)[3];
 				b += rsb;
 			}
 		}

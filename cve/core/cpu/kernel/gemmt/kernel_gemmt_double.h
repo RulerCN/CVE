@@ -52,6 +52,7 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
+			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
 			const struct block_gemmt_double<inst> block_functor;
 			const struct columns_gemmt_double<inst> columns_functor;
@@ -100,6 +101,7 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
+			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
 			const size_t surplus_rsa = surplus_m * rsa;
 			const size_t surplus_rsc = surplus_m * rsc;
@@ -156,6 +158,7 @@ namespace core
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_m = m - aligned_m;
+			const size_t surplus_n = n - aligned_n;
 			const size_t surplus_p = p - aligned_p;
 			const size_t surplus_rsa = surplus_m * rsa;
 			const size_t surplus_rsc = surplus_m * rsc;

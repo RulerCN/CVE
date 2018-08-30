@@ -80,7 +80,7 @@ namespace core
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
+			__m128 xmm_a0;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
 			__m128 xmm_c0;
@@ -140,7 +140,7 @@ namespace core
 			const float *ptr_b1 = b + rsb;
 			const float *ptr_b2 = ptr_b1 + rsb;
 			const float *ptr_b3 = ptr_b2 + rsb;
-			__m128 xmm_a0, xmm_a1, xmm_a2, xmm_a3;
+			__m128 xmm_a0;
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128 xmm_t0, xmm_t1, xmm_t2, xmm_t3;
 			__m128 xmm_c0;
@@ -204,7 +204,7 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
+			__m256 ymm_a0;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_t0, ymm_t1, ymm_t2, ymm_t3, ymm_t4, ymm_t5, ymm_t6, ymm_t7;
 			__m256 ymm_c0;
@@ -281,7 +281,7 @@ namespace core
 			const float *ptr_b5 = ptr_b4 + rsb;
 			const float *ptr_b6 = ptr_b5 + rsb;
 			const float *ptr_b7 = ptr_b6 + rsb;
-			__m256 ymm_a0, ymm_a1, ymm_a2, ymm_a3, ymm_a4, ymm_a5, ymm_a6, ymm_a7;
+			__m256 ymm_a0;
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3, ymm_b4, ymm_b5, ymm_b6, ymm_b7;
 			__m256 ymm_t0, ymm_t1, ymm_t2, ymm_t3, ymm_t4, ymm_t5, ymm_t6, ymm_t7;
 			__m256 ymm_c0;
