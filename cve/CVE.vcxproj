@@ -183,6 +183,7 @@
     <ClInclude Include="core\cpu\convert\cpu_cvtmul_uint32.h" />
     <ClInclude Include="core\cpu\cpu_arithmetic.h" />
     <ClInclude Include="core\cpu\cpu_cvtmul.h" />
+    <ClInclude Include="core\cpu\cpu_gemm.h" />
     <ClInclude Include="core\cpu\cpu_logic.h" />
     <ClInclude Include="core\cpu\cpu_onehot.h" />
     <ClInclude Include="core\cpu\cpu_reduce_mean.h" />
@@ -195,7 +196,8 @@
     <ClInclude Include="core\cpu\cpu_mapping.h" />
     <ClInclude Include="core\cpu\cpu_matmul.h" />
     <ClInclude Include="core\cpu\cpu_sliding_window.h" />
-    <ClInclude Include="core\cpu\gemm\cpu_gemm.h" />
+    <ClInclude Include="core\cpu\gemm\cpu_addmm.h" />
+    <ClInclude Include="core\cpu\gemm\cpu_addmmt.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds_value.h" />
@@ -234,7 +236,16 @@
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_float.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_int32.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_uint32.h" />
-    <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\block_gemmt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\block_gemmt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\columns_gemmt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\columns_gemmt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\kernel_gemmt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\kernel_gemmt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\rect_gemmt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\rect_gemmt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\rows_gemmt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gemmt\rows_gemmt_float.h" />
     <ClInclude Include="core\cpu\kernel\gemm\block_gemm_double.h" />
     <ClInclude Include="core\cpu\kernel\gemm\block_gemm_float.h" />
     <ClInclude Include="core\cpu\kernel\gemm\kernel_gemm_double.h" />
@@ -243,7 +254,6 @@
     <ClInclude Include="core\cpu\kernel\gemm\columns_gemm_double.h" />
     <ClInclude Include="core\cpu\kernel\gemm\columns_gemm_float.h" />
     <ClInclude Include="core\cpu\kernel\gemm\rect_gemm_float.h" />
-    <ClInclude Include="core\cpu\kernel\gemm\rows_gemmt_float.h" />
     <ClInclude Include="core\cpu\kernel\gemm\rows_gemm_double.h" />
     <ClInclude Include="core\cpu\kernel\gemm\rows_gemm_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />

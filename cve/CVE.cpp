@@ -418,6 +418,11 @@ int main()
 		__m128 xmm_c1 = _mm_mul_ps(xmm_a1, xmm_b1);
 		__m128 xmm_c2 = _mm_mul_ps(xmm_a2, xmm_b2);
 		__m128 xmm_c3 = _mm_mul_ps(xmm_a3, xmm_b3);
+
+		__m128 xmm1, xmm2, xmm3;
+		xmm1 = xmm2 = xmm3 = _mm_setzero_ps();
+
+
 		// print
 		printf("%f, %f, %f, %f\n", xmm_c0.m128_f32[0], xmm_c0.m128_f32[1], xmm_c0.m128_f32[2], xmm_c0.m128_f32[3]);
 		printf("%f, %f, %f, %f\n", xmm_c1.m128_f32[0], xmm_c1.m128_f32[1], xmm_c1.m128_f32[2], xmm_c1.m128_f32[3]);
