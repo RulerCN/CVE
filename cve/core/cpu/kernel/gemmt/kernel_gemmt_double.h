@@ -46,7 +46,7 @@ namespace core
 		{
 			const double *ptr_b;
 			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_p * rsb;
+			const size_t block_rsb = block_n * rsb;
 			const size_t block_rsc = block_m * rsc;
 			const size_t aligned_m = m & ~(block_m - 1);
 			const size_t aligned_p = p & ~(block_p - 1);
@@ -81,7 +81,7 @@ namespace core
 					ptr_b += block_rsb;
 				}
 				if (surplus_n > 0)
-					rect_functor(surplus_m, surplus_n, surplus_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+					rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
 			}
 		}
 	};
@@ -95,7 +95,7 @@ namespace core
 		{
 			const double *ptr_b;
 			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_p * rsb;
+			const size_t block_rsb = block_n * rsb;
 			const size_t block_rsc = block_m * rsc;
 			const size_t aligned_m = m & ~(block_m - 1);
 			const size_t aligned_p = p & ~(block_p - 1);
@@ -134,7 +134,7 @@ namespace core
 						ptr_b += block_rsb;
 					}
 					if (surplus_n > 0)
-						rect_functor(surplus_m, surplus_n, surplus_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+						rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
 					a += surplus_rsa;
 					c += surplus_rsc;
 				}
@@ -152,7 +152,7 @@ namespace core
 			const double *ptr_b;
 			const size_t msb = n * rsb;
 			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_p * rsb;
+			const size_t block_rsb = block_n * rsb;
 			const size_t block_rsc = block_m * rsc;
 			const size_t aligned_m = m & ~(block_m - 1);
 			const size_t aligned_p = p & ~(block_p - 1);
@@ -191,7 +191,7 @@ namespace core
 						ptr_b += block_rsb;
 					}
 					if (surplus_n > 0)
-						rect_functor(surplus_m, surplus_n, surplus_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+						rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
 					a += surplus_rsa;
 					c += surplus_rsc;
 				}

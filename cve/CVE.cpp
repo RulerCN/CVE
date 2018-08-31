@@ -408,11 +408,17 @@ int main()
 		size_t p = 14;
 		size_t col = 15;
 		size_t dim = 1;
-		core::matrix<float> a(row, p, dim);
-		core::matrix<float> b(p, col, dim);
-		core::matrix<float> t(col, p, dim);
-		core::matrix<float> c(row, col, dim);
-		core::matrix<float> d(row, col, dim);
+		core::matrix<double> a(row, p, dim);
+		core::matrix<double> b(p, col, dim);
+		core::matrix<double> t(col, p, dim);
+		core::matrix<double> c(row, col, dim);
+		core::matrix<double> d(row, col, dim);
+
+		core::matrix<float> fa(row, p, dim);
+		core::matrix<float> fb(p, col, dim);
+		core::matrix<float> fc(row, col, dim);
+		core::matrix<float> fd(row, col, dim);
+		core::matrix<float> fe(row, col, dim);
 
 		// Initialization matrix
 		a.linear_fill(1.0F, 1.0F);
@@ -422,10 +428,19 @@ int main()
 		// Matrix-matrix multiplication
 		core::cpu_gemm(c, a, b);
 		core::cpu_gemm(d, a, t, true);
-		print("a", a);
-		print("b", b);
-		print("c", c);
-		print("d", d);
+
+		core::cpu_convert(fa, a);
+		core::cpu_convert(fb, b);
+		core::cpu_convert(fc, c);
+		core::cpu_convert(fd, d);
+
+		core::cpu_sub(fe, fc, fd);
+
+		print("a", fa);
+		print("b", fb);
+		print("c", fc);
+		print("d", fd);
+		print("e", fe);
 	}
 	catch (std::exception err)
 	{

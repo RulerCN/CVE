@@ -545,10 +545,10 @@ namespace core
 				ymm_c1 = _mm256_add_ps(ymm_c1, ymm_t10);
 				ymm_c2 = _mm256_add_ps(ymm_c2, ymm_t20);
 				ymm_c3 = _mm256_add_ps(ymm_c3, ymm_t30);
-				ymm_c4 = _mm256_add_ps(ymm_c4, ymm_t00);
-				ymm_c5 = _mm256_add_ps(ymm_c5, ymm_t10);
-				ymm_c6 = _mm256_add_ps(ymm_c6, ymm_t20);
-				ymm_c7 = _mm256_add_ps(ymm_c7, ymm_t30);
+				ymm_c4 = _mm256_add_ps(ymm_c4, ymm_t40);
+				ymm_c5 = _mm256_add_ps(ymm_c5, ymm_t50);
+				ymm_c6 = _mm256_add_ps(ymm_c6, ymm_t60);
+				ymm_c7 = _mm256_add_ps(ymm_c7, ymm_t70);
 			}
 			if (aligned_p < p)
 			{
@@ -807,10 +807,10 @@ namespace core
 				ymm_c1 = _mm256_add_ps(ymm_c1, ymm_t10);
 				ymm_c2 = _mm256_add_ps(ymm_c2, ymm_t20);
 				ymm_c3 = _mm256_add_ps(ymm_c3, ymm_t30);
-				ymm_c4 = _mm256_add_ps(ymm_c4, ymm_t00);
-				ymm_c5 = _mm256_add_ps(ymm_c5, ymm_t10);
-				ymm_c6 = _mm256_add_ps(ymm_c6, ymm_t20);
-				ymm_c7 = _mm256_add_ps(ymm_c7, ymm_t30);
+				ymm_c4 = _mm256_add_ps(ymm_c4, ymm_t40);
+				ymm_c5 = _mm256_add_ps(ymm_c5, ymm_t50);
+				ymm_c6 = _mm256_add_ps(ymm_c6, ymm_t60);
+				ymm_c7 = _mm256_add_ps(ymm_c7, ymm_t70);
 			}
 			if (aligned_p < p)
 			{

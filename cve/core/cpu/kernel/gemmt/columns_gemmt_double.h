@@ -143,7 +143,7 @@ namespace core
 				if (aligned_p > 0)
 				{
 					xmm_t0 = xmm_t1 = _mm_setzero_pd();
-					for (size_t k = 0; k < aligned_p; k += 4)
+					for (size_t k = 0; k < aligned_p; k += 2)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_pd(ptr_a0 + k);
@@ -198,7 +198,7 @@ namespace core
 				if (aligned_p > 0)
 				{
 					ymm_t0 = ymm_t1 = ymm_t2 = ymm_t3 = _mm256_setzero_pd();
-					for (size_t k = 0; k < aligned_p; k += 8)
+					for (size_t k = 0; k < aligned_p; k += 4)
 					{
 						ymm_a0 = _mm256_loadu_pd(ptr_a0 + k);
 						ymm_a1 = _mm256_loadu_pd(ptr_a1 + k);
@@ -262,7 +262,7 @@ namespace core
 				if (aligned_p > 0)
 				{
 					ymm_t0 = ymm_t1 = ymm_t2 = ymm_t3 = _mm256_setzero_pd();
-					for (size_t k = 0; k < aligned_p; k += 8)
+					for (size_t k = 0; k < aligned_p; k += 4)
 					{
 						ymm_a0 = _mm256_loadu_pd(ptr_a0 + k);
 						ymm_a1 = _mm256_loadu_pd(ptr_a1 + k);
