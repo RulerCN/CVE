@@ -404,9 +404,9 @@ int main()
 	{
 		core::cpu_inst::enable_simd(true);
 
-		size_t row = 13;
-		size_t p = 14;
-		size_t col = 15;
+		size_t row = 23;
+		size_t p = 24;
+		size_t col = 25;
 		size_t dim = 1;
 		core::matrix<double> a(row, p, dim);
 		core::matrix<double> b(p, col, dim);
