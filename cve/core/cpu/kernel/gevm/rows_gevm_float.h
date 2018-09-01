@@ -54,7 +54,7 @@ namespace core
 					c[j] += val_a * b[j]; ++j;
 				}
 				for (size_t j = aligned_n; j < n; ++j)
-					c[j] += val_a * ptr_b[j];
+					c[j] += val_a * b[j];
 				b += rsb;
 			}
 		}

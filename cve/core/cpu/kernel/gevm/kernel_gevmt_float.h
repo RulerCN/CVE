@@ -27,33 +27,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_H__
-#define __CORE_H__
+#ifndef __CORE_CPU_KERNEL_GEVMT_FLOAT_H__
+#define __CORE_CPU_KERNEL_GEVMT_FLOAT_H__
 
-#include "sample_allocator.h"
-#include "allocator.h"
-#include "sample_allocator.h"
-#include "scalar.h"
-#include "vector.h"
-#include "matrix.h"
-#include "tensor.h"
-#include "rb_tree.h"
-#include "tree.h"
+#include "block_gevmt_float.h"
+#include "rows_gevmt_float.h"
 
-#include "cpu/cpu_convert.h"
-#include "cpu/cpu_cvtmul.h"
-#include "cpu/cpu_reduce.h"
-#include "cpu/cpu_transpose.h"
-#include "cpu/cpu_border.h"
-#include "cpu/cpu_replicate.h"
-#include "cpu/cpu_sliding_window.h"
-#include "cpu/cpu_mapping.h"
-#include "cpu/cpu_arithmetic.h"
-#include "cpu/cpu_onehot.h"
-#include "cpu/cpu_logic.h"
-#include "cpu/cpu_matmul.h"
+namespace core
+{
+	// Class template kernel_gevmt_float
+	template<size_t block_n, size_t block_p, cpu_inst_type inst>
+	struct kernel_gevmt_float
+	{
+		// C(1xn) += A(1xp) * B(nxp)^T
+		void operator()(size_t n, size_t p, const float *a, const float *b, size_t rsb, float *c) const
+		{
+			const size_t block_rsb = block_n * rsb;
+			const size_t aligned_p = p & ~(block_p - 1);
+			const size_t aligned_n = n & ~(block_n - 1);
+			const size_t surplus_n = n - aligned_n;
+			const struct block_gevmt_float<inst> block_functor;
+			const struct rows_gevmt_float<inst> rows_functor;
 
-#include "cpu/cpu_gemm.h"
-#include "cpu/cpu_gevm.h"
+			for (size_t j = 0; j < aligned_n; j += block_n)
+			{
+				block_functor(aligned_p, p, a, b, rsb, c + j);
+				b += block_rsb;
+			}
+			if (surplus_n > 0)
+				rows_functor(surplus_n, aligned_p, p, a, b, rsb, c + aligned_n);
+		}
+	};
+
+} // namespace core
 
 #endif

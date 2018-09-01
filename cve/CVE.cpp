@@ -405,42 +405,59 @@ int main()
 		core::cpu_inst::enable_simd(true);
 
 		size_t row = 23;
-		size_t p = 24;
-		size_t col = 25;
+		size_t col = 26;
 		size_t dim = 1;
-		core::matrix<double> a(row, p, dim);
-		core::matrix<double> b(p, col, dim);
-		core::matrix<double> t(col, p, dim);
-		core::matrix<double> c(row, col, dim);
-		core::matrix<double> d(row, col, dim);
 
-		core::matrix<float> fa(row, p, dim);
-		core::matrix<float> fb(p, col, dim);
-		core::matrix<float> fc(row, col, dim);
-		core::matrix<float> fd(row, col, dim);
-		core::matrix<float> fe(row, col, dim);
-
-		// Initialization matrix
+		core::vector<float> a(row, dim);
+		core::matrix<float> b(row, col, dim);
+		core::vector<float> c(col, dim);
+		// Initialization
 		a.linear_fill(1.0F, 1.0F);
 		b.linear_fill(1.0F, 1.0F);
+		// Vector-matrix multiplication
+		core::cpu_gevm(c, a, b);
 
-		core::cpu_transpose(t, b);
-		// Matrix-matrix multiplication
-		core::cpu_gemm(c, a, b);
-		core::cpu_gemm(d, a, t, true);
+		print("a", a);
+		print("b", b);
+		print("c", c);
 
-		core::cpu_convert(fa, a);
-		core::cpu_convert(fb, b);
-		core::cpu_convert(fc, c);
-		core::cpu_convert(fd, d);
+		//size_t row = 23;
+		//size_t p = 25;
+		//size_t col = 26;
+		//size_t dim = 1;
+		//core::matrix<double> a(row, p, dim);
+		//core::matrix<double> b(p, col, dim);
+		//core::matrix<double> t(col, p, dim);
+		//core::matrix<double> c(row, col, dim);
+		//core::matrix<double> d(row, col, dim);
 
-		core::cpu_sub(fe, fc, fd);
+		//core::matrix<float> fa(row, p, dim);
+		//core::matrix<float> fb(p, col, dim);
+		//core::matrix<float> fc(row, col, dim);
+		//core::matrix<float> fd(row, col, dim);
+		//core::matrix<float> fe(row, col, dim);
 
-		print("a", fa);
-		print("b", fb);
-		print("c", fc);
-		print("d", fd);
-		print("e", fe);
+		//// Initialization matrix
+		//a.linear_fill(1.0F, 1.0F);
+		//b.linear_fill(1.0F, 1.0F);
+
+		//core::cpu_transpose(t, b);
+		//// Matrix-matrix multiplication
+		//core::cpu_gemm(c, a, b);
+		//core::cpu_gemm(d, a, t, true);
+
+		//core::cpu_convert(fa, a);
+		//core::cpu_convert(fb, b);
+		//core::cpu_convert(fc, c);
+		//core::cpu_convert(fd, d);
+
+		//core::cpu_sub(fe, fc, fd);
+
+		//print("a", fa);
+		//print("b", fb);
+		//print("c", fc);
+		//print("d", fd);
+		//print("e", fe);
 	}
 	catch (std::exception err)
 	{

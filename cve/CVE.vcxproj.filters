@@ -628,6 +628,30 @@
     <ClInclude Include="core\cpu\gevm\cpu_addvm.h">
       <Filter>core\cpu\gevm</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\cpu_gevm.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\block_gevmt_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\block_gevmt_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\rows_gevmt_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\rows_gevmt_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\kernel_gevmt_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\kernel_gevmt_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gevm\cpu_addvmt.h">
+      <Filter>core\cpu\gevm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
