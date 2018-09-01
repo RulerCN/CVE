@@ -40,7 +40,7 @@ namespace core
 	struct block_gevm_float
 	{
 		// C(1xn) += A(1x4) * B(4xn)
-		void operator()(size_t, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
@@ -68,7 +68,7 @@ namespace core
 	struct block_gevm_float<cpu_sse3>
 	{
 		// C(1xn) += A(1x4) * B(4xn)
-		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_n, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
@@ -128,7 +128,7 @@ namespace core
 	struct block_gevm_float<cpu_sse3 | cpu_fma>
 	{
 		// C(1xn) += A(1x4) * B(4xn)
-		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_n, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
@@ -186,7 +186,7 @@ namespace core
 	struct block_gevm_float<cpu_avx>
 	{
 		// C(1xn) += A(1x8) * B(8xn)
-		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_n, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;
@@ -268,7 +268,7 @@ namespace core
 	struct block_gevm_float<cpu_avx | cpu_fma>
 	{
 		// C(1xn) += A(1x8) * B(8xn)
-		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t aligned_n, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;

@@ -613,6 +613,21 @@
     <ClInclude Include="core\cpu\kernel\gemm\rows_gemmt_float.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\rows_gevm_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\rows_gevm_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\kernel_gevm_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\kernel_gevm_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gevm\cpu_addvm.h">
+      <Filter>core\cpu\gevm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -680,6 +695,9 @@
     </Filter>
     <Filter Include="core\cpu\kernel\gevm">
       <UniqueIdentifier>{dbf996df-f209-4b98-ad3f-e0d53fb16b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\gevm">
+      <UniqueIdentifier>{407ddd30-5669-4322-a9df-9bd0abbd73e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
