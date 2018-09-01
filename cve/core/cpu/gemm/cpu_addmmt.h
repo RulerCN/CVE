@@ -33,8 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/gemmt/kernel_gemmt_float.h"
-#include "../kernel/gemmt/kernel_gemmt_double.h"
+#include "../kernel/gemm/kernel_gemmt_float.h"
+#include "../kernel/gemm/kernel_gemmt_double.h"
 
 namespace core
 {

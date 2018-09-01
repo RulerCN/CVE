@@ -568,36 +568,6 @@
     <ClInclude Include="core\cpu\kernel\gemm\kernel_gemm_double.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\block_gemmt_double.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\block_gemmt_float.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\rows_gemmt_double.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\rows_gemmt_float.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\kernel_gemmt_float.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\columns_gemmt_float.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\columns_gemmt_double.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\rect_gemmt_double.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\rect_gemmt_float.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gemmt\kernel_gemmt_double.h">
-      <Filter>core\cpu\kernel\gemmt</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\gemm\cpu_addmm.h">
       <Filter>core\cpu\gemm</Filter>
     </ClInclude>
@@ -606,6 +576,42 @@
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_gemm.h">
       <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\block_gevm_float.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevm\block_gevm_double.h">
+      <Filter>core\cpu\kernel\gevm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\columns_gemmt_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\columns_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\kernel_gemmt_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\kernel_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rect_gemmt_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rect_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rows_gemmt_double.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gemm\rows_gemmt_float.h">
+      <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -672,8 +678,8 @@
     <Filter Include="core\cpu\gemm">
       <UniqueIdentifier>{14d5e361-5d25-409b-9317-e136127c25e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\cpu\kernel\gemmt">
-      <UniqueIdentifier>{c9c6f72f-f964-44fe-b0f7-3a0fb33cef33}</UniqueIdentifier>
+    <Filter Include="core\cpu\kernel\gevm">
+      <UniqueIdentifier>{dbf996df-f209-4b98-ad3f-e0d53fb16b73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
