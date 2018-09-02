@@ -59,6 +59,37 @@ namespace core
 		}
 	};
 
+	// Class template kernel_gemt_double
+	template<size_t block_p, size_t block_n, cpu_inst_type inst>
+	struct kernel_gemt_double
+	{
+		// C(lxn) += A(lxp) * B(lxpxn)
+		void operator()(size_t l, size_t p, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		{
+			const size_t msb = p * rsb;
+			const size_t block_rsb = block_p * rsb;
+			const size_t aligned_p = p & ~(block_p - 1);
+			const size_t aligned_n = n & ~(block_n - 1);
+			const size_t surplus_p = p - aligned_p;
+			const struct block_gevm_double<inst> block_functor;
+			const struct rows_gevm_double<inst> rows_functor;
+
+			for (size_t r = 0; r < l; ++r)
+			{
+				for (size_t k = 0; k < aligned_p; k += block_p)
+				{
+					block_functor(aligned_n, n, a + k, b, rsb, c);
+					b += block_rsb;
+				}
+				if (surplus_p > 0)
+					rows_functor(surplus_p, aligned_n, n, a + aligned_p, b, rsb, c);
+				a += rsa;
+				b += msb;
+				c += rsc;
+			}
+		}
+	};
+
 } // namespace core
 
 #endif

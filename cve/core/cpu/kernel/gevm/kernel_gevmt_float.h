@@ -59,6 +59,37 @@ namespace core
 		}
 	};
 
+	// Class template kernel_gemtt_float
+	template<size_t block_n, size_t block_p, cpu_inst_type inst>
+	struct kernel_gemtt_float
+	{
+		// C(lxn) += A(lxp) * B(lxnxp)^T
+		void operator()(size_t l, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		{
+			const size_t msb = n * rsb;
+			const size_t block_rsb = block_n * rsb;
+			const size_t aligned_p = p & ~(block_p - 1);
+			const size_t aligned_n = n & ~(block_n - 1);
+			const size_t surplus_n = n - aligned_n;
+			const struct block_gevmt_float<inst> block_functor;
+			const struct rows_gevmt_float<inst> rows_functor;
+
+			for (size_t r = 0; r < l; ++r)
+			{
+				for (size_t j = 0; j < aligned_n; j += block_n)
+				{
+					block_functor(aligned_p, p, a, b, rsb, c + j);
+					b += block_rsb;
+				}
+				if (surplus_n > 0)
+					rows_functor(surplus_n, aligned_p, p, a, b, rsb, c + aligned_n);
+				a += rsa;
+				b += msb;
+				c += rsc;
+			}
+		}
+	};
+
 } // namespace core
 
 #endif

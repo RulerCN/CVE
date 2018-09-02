@@ -97,6 +97,122 @@ namespace core
 		return c;
 	}
 
+	// The multiplication of the matrix and the tensor
+
+	template <class A, class A1, class A2>
+	matrix<float, A>& cpu_addvmt(matrix<float, A> &c, const matrix<float, A1> &a, const tensor<float, A2> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.rows() != a.rows() || c.rows() != b.batch() || c.row_size() != b.rows() || a.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_float<8, 8, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else if (cpu_inst::is_support_sse3())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_float<4, 4, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else
+			kernel_gemtt_float<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		return c;
+	}
+
+	template <class A, class A1, class A2>
+	matrix<double, A>& cpu_addvmt(matrix<double, A> &c, const matrix<double, A1> &a, const tensor<double, A2> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.rows() != a.rows() || c.rows() != b.batch() || c.row_size() != b.rows() || a.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_double<4, 4, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else if (cpu_inst::is_support_sse3())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_double<2, 2, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else
+			kernel_gemtt_double<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		return c;
+	}
+
+	// The multiplication of the tensor and the tensor
+
+	template <class A, class A1, class A2>
+	tensor<float, A>& cpu_addvmt(tensor<float, A> &c, const tensor<float, A1> &a, const tensor<float, A2> &b)
+	{
+		if (c.empty() || a.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.batch() * c.rows() != a.batch() * a.rows() || c.batch() * c.rows() != b.batch() || c.row_size() != b.rows() || a.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_float<8, 8, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else if (cpu_inst::is_support_sse3())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_float<4, 4, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else
+			kernel_gemtt_float<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		return c;
+	}
+
+	template <class A, class A1, class A2>
+	tensor<double, A>& cpu_addvmt(tensor<double, A> &c, const tensor<double, A1> &a, const tensor<double, A2> &b)
+	{
+		if (c.empty() || a.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.batch() * c.rows() != a.batch() * a.rows() || c.batch() * c.rows() != b.batch() || c.row_size() != b.rows() || a.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_double<4, 4, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else if (cpu_inst::is_support_sse3())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			else
+				kernel_gemtt_double<2, 2, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		}
+		else
+			kernel_gemtt_double<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+		return c;
+	}
+
 } // namespace core
 
 #endif

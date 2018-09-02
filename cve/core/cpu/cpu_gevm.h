@@ -59,53 +59,53 @@ namespace core
 		return d;
 	}
 
-	//// The multiplication of the matrix and the tensor
+	// The multiplication of the matrix and the tensor
 
-	//template <class T, class A, class A1, class A2>
-	//matrix<T, A>& cpu_gevm(matrix<T, A> &c, const matrix<T, A1> &a, const tensor<T, A2> &b, bool transpose = false)
-	//{
-	//	c.fill(T(0));
-	//	if (transpose)
-	//		cpu_addvmt(c, a, b);
-	//	else
-	//		cpu_addvm(c, a, b);
-	//	return c;
-	//}
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_gevm(matrix<T, A> &c, const matrix<T, A1> &a, const tensor<T, A2> &b, bool transpose = false)
+	{
+		c.fill(T(0));
+		if (transpose)
+			cpu_addvmt(c, a, b);
+		else
+			cpu_addvm(c, a, b);
+		return c;
+	}
 
-	//template <class T, class A, class A1, class A2>
-	//matrix<T, A>& cpu_gevm(matrix<T, A> &d, const matrix<T, A1> &a, tensor matrix<T, A2> &b, const matrix<T, A1> &c, bool transpose = false)
-	//{
-	//	d.fill(c);
-	//	if (transpose)
-	//		cpu_addvmt(d, a, b);
-	//	else
-	//		cpu_addvm(d, a, b);
-	//	return d;
-	//}
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_gevm(matrix<T, A> &d, const matrix<T, A1> &a, tensor matrix<T, A2> &b, const matrix<T, A1> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addvmt(d, a, b);
+		else
+			cpu_addvm(d, a, b);
+		return d;
+	}
 
-	//// The multiplication of the tensor and the tensor
+	// The multiplication of the tensor and the tensor
 
-	//template <class T, class A, class A1, class A2>
-	//tensor<T, A>& cpu_gevm(tensor<T, A> &c, const tensor<T, A1> &a, const tensor<T, A2> &b, bool transpose = false)
-	//{
-	//	c.fill(T(0));
-	//	if (transpose)
-	//		cpu_addvmt(c, a, b);
-	//	else
-	//		cpu_addvm(c, a, b);
-	//	return c;
-	//}
+	template <class T, class A, class A1, class A2>
+	tensor<T, A>& cpu_gevm(tensor<T, A> &c, const tensor<T, A1> &a, const tensor<T, A2> &b, bool transpose = false)
+	{
+		c.fill(T(0));
+		if (transpose)
+			cpu_addvmt(c, a, b);
+		else
+			cpu_addvm(c, a, b);
+		return c;
+	}
 
-	//template <class T, class A, class A1, class A2>
-	//tensor<T, A>& cpu_gevm(tensor<T, A> &d, const tensor<T, A1> &a, const tensor<T, A2> &b, const tensor<T, A1> &c, bool transpose = false)
-	//{
-	//	d.fill(c);
-	//	if (transpose)
-	//		cpu_addvmt(d, a, b);
-	//	else
-	//		cpu_addvm(d, a, b);
-	//	return d;
-	//}
+	template <class T, class A, class A1, class A2>
+	tensor<T, A>& cpu_gevm(tensor<T, A> &d, const tensor<T, A1> &a, const tensor<T, A2> &b, const tensor<T, A1> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addvmt(d, a, b);
+		else
+			cpu_addvm(d, a, b);
+		return d;
+	}
 
 } // namespace core
 
