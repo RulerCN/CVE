@@ -92,7 +92,7 @@ namespace core
 	static const char invalid_border_size[]        = "Invalid border size.";
 	static const char invalid_window_size[]        = "Invalid window size.";
 	static const char invalid_sliding_stride[]     = "Invalid sliding stride.";
-	static const char invalid_mode_parameters[]    = "Invalid mode parameters.";
+	static const char invalid_axis_parameters[]    = "Invalid axis parameters.";
 	// out_of_range
 	static const char scalar_out_of_range[]        = "Scalar subscript out of range.";
 	static const char vector_out_of_range[]        = "Vector subscript out of range.";

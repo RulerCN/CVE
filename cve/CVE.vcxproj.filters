@@ -64,9 +64,6 @@
     <ClInclude Include="core\cpu\cpu_get_element.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_transpose.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
@@ -394,150 +391,6 @@
     <ClInclude Include="core\cpu\convert\cpu_cvtmul_uint32.h">
       <Filter>core\cpu\convert</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_col_max.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_col_min.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_row_max.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_row_min.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sum_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sum_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sum_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sum_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sum_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sum_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sum_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sum_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sum_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_x_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xy_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xy_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xy_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xyz_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xyz_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_xyz_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sumt_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sumt_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\common_reduce_sumt_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sumt_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sumt_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\block_reduce_sumt_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sumt_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sumt_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\rows_reduce_sumt_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_sum_int32.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_sum_double.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_sum_float.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_y_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_max.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_col_min.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_max.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\reduce\kernel_reduce_row_min.h">
-      <Filter>core\cpu\kernel\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_z_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_double.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\reduce\cpu_reduce_sum_yz_float.h">
-      <Filter>core\cpu\reduce</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_sum.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_reduce_mean.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\gemm\block_gemm_float.h">
       <Filter>core\cpu\kernel\gemm</Filter>
     </ClInclude>
@@ -652,6 +505,144 @@
     <ClInclude Include="core\cpu\gevm\cpu_addvmt.h">
       <Filter>core\cpu\gevm</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sum_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sum_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sum_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sumt_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sumt_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\block_sumt_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sum_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sum_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sum_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sumt_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sumt_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\common_sumt_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sum_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sum_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sum_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sum_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sum_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sum_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sumt_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sumt_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\rows_sumt_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_x_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_x_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_x_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xy_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xy_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xy_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xyz_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xyz_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_xyz_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_y_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_y_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_y_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_yz_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_yz_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_yz_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_z_double.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_z_float.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sum\cpu_sum_z_int32.h">
+      <Filter>core\cpu\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_mean.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_sum.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\kernel_min.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\kernel_mint.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\kernel_max.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\kernel_maxt.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\block_min.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -684,14 +675,8 @@
     <Filter Include="core\cpu\kernel\convert">
       <UniqueIdentifier>{09590bb2-e77a-4c44-bf02-0f62649b7e3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\cpu\kernel\reduce">
-      <UniqueIdentifier>{c8fac610-adb5-4246-8eeb-b5ffd9f12551}</UniqueIdentifier>
-    </Filter>
     <Filter Include="core\cpu\convert">
       <UniqueIdentifier>{dffd8f1b-9b1c-4c87-b3ca-a93e664e294d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\cpu\reduce">
-      <UniqueIdentifier>{97261d09-bc53-428f-afe2-7c8ed07945dc}</UniqueIdentifier>
     </Filter>
     <Filter Include="core\cpu\kernel\matmul">
       <UniqueIdentifier>{ccb7c80d-5536-414b-b592-d9b83ab907fe}</UniqueIdentifier>
@@ -723,10 +708,17 @@
     <Filter Include="core\cpu\gevm">
       <UniqueIdentifier>{407ddd30-5669-4322-a9df-9bd0abbd73e9}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="core\cpu\reduce\cpu_reduce_sum_yz_int32.h">
-      <Filter>core\cpu\reduce</Filter>
-    </None>
+    <Filter Include="core\cpu\kernel\sum">
+      <UniqueIdentifier>{8b14e26c-f5c5-490a-a8a4-c9308aa2f422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\sum">
+      <UniqueIdentifier>{3c83bb61-d9c9-4c1a-82e8-84936c3f5ee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\min">
+      <UniqueIdentifier>{885ea1d8-e60e-4bbd-b8f9-6ad2e1f1f853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\max">
+      <UniqueIdentifier>{dcb64250-a425-4e13-9d1e-9cdc1090fa1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
