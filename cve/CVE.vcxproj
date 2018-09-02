@@ -295,6 +295,7 @@
     <ClInclude Include="core\cpu\kernel\max\kernel_max.h" />
     <ClInclude Include="core\cpu\kernel\max\kernel_maxt.h" />
     <ClInclude Include="core\cpu\kernel\min\block_min.h" />
+    <ClInclude Include="core\cpu\kernel\min\block_mint.h" />
     <ClInclude Include="core\cpu\kernel\min\kernel_min.h" />
     <ClInclude Include="core\cpu\kernel\min\kernel_mint.h" />
     <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h" />
