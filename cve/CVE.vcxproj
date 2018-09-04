@@ -298,6 +298,8 @@
     <ClInclude Include="core\cpu\kernel\min\block_mint.h" />
     <ClInclude Include="core\cpu\kernel\min\kernel_min.h" />
     <ClInclude Include="core\cpu\kernel\min\kernel_mint.h" />
+    <ClInclude Include="core\cpu\kernel\min\rows_min.h" />
+    <ClInclude Include="core\cpu\kernel\min\rows_mint.h" />
     <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h" />
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_double.h" />
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_float.h" />

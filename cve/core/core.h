@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "cpu/cpu_convert.h"
 #include "cpu/cpu_cvtmul.h"
-#include "cpu/cpu_reduce.h"
+//#include "cpu/cpu_reduce.h"
 #include "cpu/cpu_transpose.h"
 #include "cpu/cpu_border.h"
 #include "cpu/cpu_replicate.h"

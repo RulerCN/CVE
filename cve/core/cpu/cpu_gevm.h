@@ -73,7 +73,7 @@ namespace core
 	}
 
 	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_gevm(matrix<T, A> &d, const matrix<T, A1> &a, tensor matrix<T, A2> &b, const matrix<T, A1> &c, bool transpose = false)
+	matrix<T, A>& cpu_gevm(matrix<T, A> &d, const matrix<T, A1> &a, const tensor<T, A2> &b, const matrix<T, A1> &c, bool transpose = false)
 	{
 		d.fill(c);
 		if (transpose)

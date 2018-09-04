@@ -646,6 +646,12 @@
     <ClInclude Include="core\cpu\kernel\min\block_mint.h">
       <Filter>core\cpu\kernel\min</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\rows_min.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\rows_mint.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -722,6 +728,12 @@
     </Filter>
     <Filter Include="core\cpu\kernel\max">
       <UniqueIdentifier>{dcb64250-a425-4e13-9d1e-9cdc1090fa1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\min">
+      <UniqueIdentifier>{5dd8b782-7d46-46f2-b545-6753e7fb658f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\max">
+      <UniqueIdentifier>{8787d4c9-250d-4525-8312-5f0e44b712d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

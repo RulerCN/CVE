@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_SUM_FLOAT_H__
 #define __CORE_CPU_KERNEL_SUM_FLOAT_H__
 
-#include "common_sum_float.h"
-#include "common_sumt_float.h"
-#include "rows_sum_float.h"
-#include "rows_sumt_float.h"
 #include "block_sum_float.h"
 #include "block_sumt_float.h"
+#include "rows_sum_float.h"
+#include "rows_sumt_float.h"
+#include "common_sum_float.h"
+#include "common_sumt_float.h"
 
 namespace core
 {

@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_SUM_INT32_H__
 #define __CORE_CPU_KERNEL_SUM_INT32_H__
 
-#include "common_sum_int32.h"
-#include "common_sumt_int32.h"
-#include "rows_sum_int32.h"
-#include "rows_sumt_int32.h"
 #include "block_sum_int32.h"
 #include "block_sumt_int32.h"
+#include "rows_sum_int32.h"
+#include "rows_sumt_int32.h"
+#include "common_sum_int32.h"
+#include "common_sumt_int32.h"
 
 namespace core
 {

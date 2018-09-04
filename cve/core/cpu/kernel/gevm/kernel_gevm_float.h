@@ -66,11 +66,11 @@ namespace core
 		// C(lxn) += A(lxp) * B(lxpxn)
 		void operator()(size_t l, size_t p, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
-			const size_t msb = p * rsb;
 			const size_t block_rsb = block_p * rsb;
 			const size_t aligned_p = p & ~(block_p - 1);
 			const size_t aligned_n = n & ~(block_n - 1);
 			const size_t surplus_p = p - aligned_p;
+			const size_t surplus_rsb = surplus_p * rsb;
 			const struct block_gevm_float<inst> block_functor;
 			const struct rows_gevm_float<inst> rows_functor;
 
@@ -82,9 +82,11 @@ namespace core
 					b += block_rsb;
 				}
 				if (surplus_p > 0)
+				{
 					rows_functor(surplus_p, aligned_n, n, a + aligned_p, b, rsb, c);
+					b += surplus_rsb;
+				}
 				a += rsa;
-				b += msb;
 				c += rsc;
 			}
 		}

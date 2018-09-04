@@ -141,6 +141,50 @@ int main()
 		*pData++ = (float)distribution(engine) + 0.1F;
 		*pLabel++ = 1;
 	}
+
+	__m256d ymm_t0 = _mm256_set_pd(1, 2, 3, 4);
+	__m256d ymm_a0, ymm_a1;
+
+	ymm_a0 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 2, 0, 0));
+	ymm_a1 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 3, 0, 1));
+	ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
+	ymm_a0 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 0, 0));
+	ymm_a1 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 3, 3));
+	ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
+
+	ymm_a0 = ymm_t0;
+	//__m128d xmm_t0 = _mm_set_pd(1, 2);
+	//__m128d xmm_a0, xmm_a1;
+	//xmm_a0 = _mm_shuffle_pd(xmm_t0, xmm_t0, _MM_SHUFFLE(0, 0, 0, 0));
+	//xmm_a1 = _mm_shuffle_pd(xmm_t0, xmm_t0, _MM_SHUFFLE(0, 0, 3, 3));
+	//xmm_t0 = _mm_min_pd(xmm_a0, xmm_a1);
+
+	//__m128 xmm_t0 = _mm_set_ps(1, 2, 3, 4);
+	//__m128 xmm_a0, xmm_a1;
+
+	//xmm_a0 = _mm_shuffle_ps(xmm_t0, xmm_t0, _MM_SHUFFLE(1, 0, 1, 0));
+	//xmm_a1 = _mm_shuffle_ps(xmm_t0, xmm_t0, _MM_SHUFFLE(3, 2, 3, 2));
+	//xmm_t0 = _mm_min_ps(xmm_a0, xmm_a1);
+	//xmm_a0 = _mm_shuffle_ps(xmm_t0, xmm_t0, _MM_SHUFFLE(2, 0, 2, 0));
+	//xmm_a1 = _mm_shuffle_ps(xmm_t0, xmm_t0, _MM_SHUFFLE(3, 1, 3, 1));
+	//xmm_t0 = _mm_min_ps(xmm_a0, xmm_a1);
+
+	//	xmm_t0 = _mm_min_epi8(xmm_t0, xmm_t4);
+	//	xmm_t1 = _mm_min_epi8(xmm_t1, xmm_t5);
+	//	xmm_t2 = _mm_min_epi8(xmm_t2, xmm_t6);
+	//	xmm_t3 = _mm_min_epi8(xmm_t3, xmm_t7);
+
+	//	xmm_a0 = _mm_unpacklo_epi32(xmm_t0, xmm_t1);
+	//	xmm_a1 = _mm_unpacklo_epi32(xmm_t2, xmm_t3);
+	//	xmm_a2 = _mm_unpackhi_epi32(xmm_t0, xmm_t1);
+	//	xmm_a3 = _mm_unpackhi_epi32(xmm_t2, xmm_t3);
+	//	xmm_a0 = _mm_min_epi8(xmm_a0, xmm_a2);
+	//	xmm_a1 = _mm_min_epi8(xmm_a1, xmm_a3);
+	//	xmm_t0 = _mm_unpacklo_epi64(xmm_a0, xmm_a1);
+	//	xmm_t1 = _mm_unpackhi_epi64(xmm_a0, xmm_a1);
+	//	xmm_t0 = _mm_min_epi8(xmm_t0, xmm_t1);
+
+
 	//// Save train samples as image
 	//float scale = 320.0F;
 	//core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
