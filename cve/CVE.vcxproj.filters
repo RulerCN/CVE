@@ -652,6 +652,9 @@
     <ClInclude Include="core\cpu\kernel\min\rows_mint.h">
       <Filter>core\cpu\kernel\min</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\min\cpu_min.h">
+      <Filter>core\cpu\min</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

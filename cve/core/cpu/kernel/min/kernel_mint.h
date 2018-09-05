@@ -35,61 +35,53 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class template kernel_mmint
-	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
-	struct kernel_mmint
-	{
-		// b[j] = min(b[j], a[i][j])
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, T *b) const
-		{
-			const size_t block_rsa = block_m * rsa;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const struct block_mint<T, inst> block_functor;
-			const struct rows_mint<T, inst> rows_functor;
+	// Function template kernel_mint
 
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
+	void kernel_mint(size_t m, size_t n, const T *a, size_t rsa, T *b)
+	{
+		const size_t block_rsa = block_m * rsa;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const struct block_mint<T, inst> block_functor;
+		const struct rows_mint<T, inst> rows_functor;
+
+		for (size_t i = 0; i < aligned_m; i += block_m)
+		{
+			block_functor(aligned_n, n, a, rsa, b);
+			a += block_rsa;
+		}
+		if (surplus_m > 0)
+			rows_functor(surplus_m, aligned_n, n, a, rsa, b);
+	}
+
+	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
+	void kernel_mint(size_t l, size_t m, size_t n, const T *a, size_t rsa, T *b, size_t rsb)
+	{
+		const size_t block_rsa = block_m * rsa;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_rsa = surplus_m * rsa;
+		const struct block_mint<T, inst> block_functor;
+		const struct rows_mint<T, inst> rows_functor;
+
+		for (size_t r = 0; r < l; ++r)
+		{
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
 				block_functor(aligned_n, n, a, rsa, b);
 				a += block_rsa;
 			}
 			if (surplus_m > 0)
-				rows_functor(surplus_m, aligned_n, n, a, rsa, b);
-		}
-	};
-
-	// Class template kernel_tmint
-	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
-	struct kernel_tmint
-	{
-		// b[l][j] = min(b[l][j], a[l][i][j])
-		void operator()(size_t l, size_t m, size_t n, const T *a, size_t rsa, T *b, size_t rsb) const
-		{
-			const size_t block_rsa = block_m * rsa;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_rsa = surplus_m * rsa;
-			const struct block_mint<T, inst> block_functor;
-			const struct rows_mint<T, inst> rows_functor;
-
-			for (size_t r = 0; r < l; ++r)
 			{
-				for (size_t i = 0; i < aligned_m; i += block_m)
-				{
-					block_functor(aligned_n, n, a, rsa, b);
-					a += block_rsa;
-				}
-				if (surplus_m > 0)
-				{
-					rows_functor(surplus_m, aligned_n, n, a, rsa, b);
-					a += surplus_rsa;
-				}
-				b += rsb;
+				rows_functor(surplus_m, aligned_n, n, a, rsa, b);
+				a += surplus_rsa;
 			}
+			b += rsb;
 		}
-	};
+	}
 
 } // namespace core
 
