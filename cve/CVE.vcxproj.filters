@@ -631,15 +631,6 @@
     <ClInclude Include="core\cpu\kernel\min\kernel_min.h">
       <Filter>core\cpu\kernel\min</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\min\kernel_mint.h">
-      <Filter>core\cpu\kernel\min</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\max\kernel_max.h">
-      <Filter>core\cpu\kernel\max</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\max\kernel_maxt.h">
-      <Filter>core\cpu\kernel\max</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\min\block_min.h">
       <Filter>core\cpu\kernel\min</Filter>
     </ClInclude>
@@ -660,6 +651,54 @@
     </ClInclude>
     <ClInclude Include="core\cpu\min\cpu_min_xyz.h">
       <Filter>core\cpu\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\min\cpu_min_y.h">
+      <Filter>core\cpu\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\min\cpu_min_yz.h">
+      <Filter>core\cpu\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\min\cpu_min_z.h">
+      <Filter>core\cpu\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\block_max.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\block_maxt.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\kernel_max.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\rows_max.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\rows_maxt.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_x.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_xy.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_xyz.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_y.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_yz.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\max\cpu_max_z.h">
+      <Filter>core\cpu\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_min.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_max.h">
+      <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

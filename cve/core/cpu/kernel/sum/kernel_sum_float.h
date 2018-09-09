@@ -139,7 +139,7 @@ namespace core
 	}
 
 	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
-	void kernel_sumt_float(size_t l, size_t m, size_t n, const T *a, size_t rsa, float *b)
+	void kernel_sumt_float(size_t l, size_t m, size_t n, const T *a, size_t rsa, float *b, size_t rsb)
 	{
 		const size_t block_rsa = block_m * rsa;
 		const size_t aligned_m = m & ~(block_m - 1);
@@ -169,6 +169,7 @@ namespace core
 					functor(surplus_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
 				a += surplus_rsa;
 			}
+			b += rsb;
 		}
 	}
 

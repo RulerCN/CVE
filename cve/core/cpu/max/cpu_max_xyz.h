@@ -27,148 +27,148 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_MIN_XYZ_H__
-#define __CORE_CPU_MIN_XYZ_H__
+#ifndef __CORE_CPU_MAX_XYZ_H__
+#define __CORE_CPU_MAX_XYZ_H__
 
 #include "../../tensor.h"
-#include "../kernel/min/kernel_min.h"
+#include "../kernel/max/kernel_max.h"
 
 namespace core
 {
-	// Computes the min of elements of a tensor
+	// Computes the max of elements of a tensor
 
 	template <class A>
-	signed char& cpu_min_xyz(signed char &b, const tensor<signed char, A> &a)
+	signed char& cpu_max_xyz(signed char &b, const tensor<signed char, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = int8_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<signed char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	unsigned char& cpu_min_xyz(unsigned char &b, const tensor<unsigned char, A> &a)
+	unsigned char& cpu_max_xyz(unsigned char &b, const tensor<unsigned char, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = uint8_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<unsigned char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	signed short& cpu_min_xyz(signed short &b, const tensor<signed short, A> &a)
+	signed short& cpu_max_xyz(signed short &b, const tensor<signed short, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = int16_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<signed short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	unsigned short& cpu_min_xyz(unsigned short &b, const tensor<unsigned short, A> &a)
+	unsigned short& cpu_max_xyz(unsigned short &b, const tensor<unsigned short, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = uint16_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<unsigned short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	signed int& cpu_min_xyz(signed int &b, const tensor<signed int, A> &a)
+	signed int& cpu_max_xyz(signed int &b, const tensor<signed int, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = int32_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<signed int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<signed int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	unsigned int& cpu_min_xyz(unsigned int &b, const tensor<unsigned int, A> &a)
+	unsigned int& cpu_max_xyz(unsigned int &b, const tensor<unsigned int, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = uint32_max;
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<unsigned int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<unsigned int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	float& cpu_min_xyz(float &b, const tensor<float, A> &a)
+	float& cpu_max_xyz(float &b, const tensor<float, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = flt_max;
 		if (cpu_inst::is_support_avx())
-			kernel_min<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse())
-			kernel_min<float, 4, 4, cpu_sse>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<float, 4, 4, cpu_sse>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<float, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<float, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
 	template <class A>
-	double& cpu_min_xyz(double &b, const tensor<double, A> &a)
+	double& cpu_max_xyz(double &b, const tensor<double, A> &a)
 	{
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		b = dbl_max;
 		if (cpu_inst::is_support_avx())
-			kernel_min<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse2())
-			kernel_min<double, 2, 2, cpu_sse2>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<double, 2, 2, cpu_sse2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else
-			kernel_min<double, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
+			kernel_max<double, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), &b);
 		return b;
 	}
 
-	// Computes the min of elements of a tensor
+	// Computes the max of elements of a tensor
 
 	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_min_xyz(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	tensor<signed char, A1>& cpu_max_xyz(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -177,16 +177,16 @@ namespace core
 
 		b.fill(int8_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<signed char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_min_xyz(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	tensor<unsigned char, A1>& cpu_max_xyz(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -195,16 +195,16 @@ namespace core
 
 		b.fill(uint8_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned char, 16, 16, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<unsigned char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned char, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_min_xyz(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	tensor<signed short, A1>& cpu_max_xyz(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -213,16 +213,16 @@ namespace core
 
 		b.fill(int16_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<signed short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_min_xyz(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	tensor<unsigned short, A1>& cpu_max_xyz(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -231,16 +231,16 @@ namespace core
 
 		b.fill(uint16_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned short, 8, 8, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<unsigned short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned short, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_min_xyz(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	tensor<signed int, A1>& cpu_max_xyz(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -249,16 +249,16 @@ namespace core
 
 		b.fill(int32_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<signed int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<signed int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<signed int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_min_xyz(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	tensor<unsigned int, A1>& cpu_max_xyz(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -267,16 +267,16 @@ namespace core
 
 		b.fill(uint32_max);
 		if (cpu_inst::is_support_avx2())
-			kernel_min<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
-			kernel_min<unsigned int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned int, 4, 4, cpu_sse41>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<unsigned int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<unsigned int, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<float, A1>& cpu_min_xyz(tensor<float, A1> &b, const tensor<float, A2> &a)
+	tensor<float, A1>& cpu_max_xyz(tensor<float, A1> &b, const tensor<float, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -285,16 +285,16 @@ namespace core
 
 		b.fill(flt_max);
 		if (cpu_inst::is_support_avx())
-			kernel_min<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse())
-			kernel_min<float, 4, 4, cpu_sse>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<float, 4, 4, cpu_sse>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<float, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<float, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 
 	template <class A1, class A2>
-	tensor<double, A1>& cpu_min_xyz(tensor<double, A1> &b, const tensor<double, A2> &a)
+	tensor<double, A1>& cpu_max_xyz(tensor<double, A1> &b, const tensor<double, A2> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -303,11 +303,11 @@ namespace core
 
 		b.fill(dbl_max);
 		if (cpu_inst::is_support_avx())
-			kernel_min<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse2())
-			kernel_min<double, 2, 2, cpu_sse2>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<double, 2, 2, cpu_sse2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else
-			kernel_min<double, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
+			kernel_max<double, 4, 4, cpu_none>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		return b;
 	}
 

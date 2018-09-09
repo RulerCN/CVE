@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "cpu/cpu_convert.h"
 #include "cpu/cpu_cvtmul.h"
-//#include "cpu/cpu_reduce.h"
 #include "cpu/cpu_transpose.h"
 #include "cpu/cpu_border.h"
 #include "cpu/cpu_replicate.h"
@@ -51,9 +50,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_arithmetic.h"
 #include "cpu/cpu_onehot.h"
 #include "cpu/cpu_logic.h"
-#include "cpu/cpu_matmul.h"
-
+#include "cpu/cpu_max.h"
+#include "cpu/cpu_mean.h"
+#include "cpu/cpu_min.h"
 #include "cpu/cpu_gemm.h"
 #include "cpu/cpu_gevm.h"
+
+#include "cpu/cpu_matmul.h"
 
 #endif

@@ -359,11 +359,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<signed char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<signed char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -379,11 +379,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<unsigned char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -399,11 +399,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<signed short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<signed short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -419,11 +419,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<unsigned short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -439,11 +439,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<signed int, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<signed int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -459,11 +459,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<unsigned int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -479,11 +479,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse())
-			kernel_sumt_float<float, 4, 4, cpu_sse>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 4, 4, cpu_sse>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<float, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -499,11 +499,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<double, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<double, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<double, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -519,11 +519,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<signed char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<signed char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -537,11 +537,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<unsigned char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 8, 16, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned char, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -555,11 +555,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<signed short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<signed short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -573,11 +573,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
-			kernel_sumt_float<unsigned short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 4, 8, cpu_sse41>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned short, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -591,11 +591,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<signed int, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<signed int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<signed int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<signed int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -609,11 +609,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx2())
-			kernel_sumt_float<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<unsigned int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<unsigned int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<unsigned int, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -627,11 +627,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse())
-			kernel_sumt_float<float, 4, 4, cpu_sse>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 4, 4, cpu_sse>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<float, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<float, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 
@@ -645,11 +645,11 @@ namespace core
 
 		b.fill(0.0f);
 		if (cpu_inst::is_support_avx())
-			kernel_sumt_float<double, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_sumt_float<double, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 4, 4, cpu_sse2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else
-			kernel_sumt_float<double, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
+			kernel_sumt_float<double, 4, 4, cpu_none>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		return b;
 	}
 

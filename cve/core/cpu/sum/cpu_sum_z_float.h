@@ -30,7 +30,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_SUM_Z_FLOAT_H__
 #define __CORE_CPU_SUM_Z_FLOAT_H__
 
-#include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
 #include "../kernel/sum/kernel_sum_float.h"
