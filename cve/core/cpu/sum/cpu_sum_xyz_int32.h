@@ -170,7 +170,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<signed char, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -188,7 +188,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned char, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -206,7 +206,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<signed short, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -224,7 +224,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned short, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -242,7 +242,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -260,7 +260,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<unsigned int, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -278,7 +278,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<float, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
@@ -296,7 +296,7 @@ namespace core
 	template <class A1, class A2>
 	tensor<signed int, A1>& cpu_sum_xyz(tensor<signed int, A1> &b, const tensor<double, A2> &a)
 	{
-		if (a.empty())
+		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
