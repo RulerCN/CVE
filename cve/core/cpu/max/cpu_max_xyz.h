@@ -43,7 +43,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = int8_max;
+		b = int8_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -59,7 +59,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = uint8_max;
+		b = uint8_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -75,7 +75,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = int16_max;
+		b = int16_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -91,7 +91,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = uint16_max;
+		b = uint16_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -107,7 +107,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = int32_max;
+		b = int32_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -123,7 +123,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = uint32_max;
+		b = uint32_min;
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse41())
@@ -139,7 +139,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = flt_max;
+		b = flt_min;
 		if (cpu_inst::is_support_avx())
 			kernel_max<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse())
@@ -155,7 +155,7 @@ namespace core
 		if (a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
 
-		b = dbl_max;
+		b = dbl_min;
 		if (cpu_inst::is_support_avx())
 			kernel_max<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), &b);
 		else if (cpu_inst::is_support_sse2())
@@ -175,7 +175,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int8_max);
+		b.fill(int8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -193,7 +193,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint8_max);
+		b.fill(uint8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned char, 32, 32, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -211,7 +211,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int16_max);
+		b.fill(int16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -229,7 +229,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint16_max);
+		b.fill(uint16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned short, 16, 16, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -247,7 +247,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int32_max);
+		b.fill(int32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<signed int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -265,7 +265,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint32_max);
+		b.fill(uint32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_max<unsigned int, 8, 8, cpu_avx2>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -283,7 +283,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(flt_max);
+		b.fill(flt_min);
 		if (cpu_inst::is_support_avx())
 			kernel_max<float, 8, 8, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse())
@@ -301,7 +301,7 @@ namespace core
 		if (b.size() != size_t(1))
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(dbl_max);
+		b.fill(dbl_min);
 		if (cpu_inst::is_support_avx())
 			kernel_max<double, 4, 4, cpu_avx>(size_t(1), a.size(), a.data(), a.size(), b.data());
 		else if (cpu_inst::is_support_sse2())

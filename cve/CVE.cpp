@@ -448,22 +448,21 @@ int main()
 	{
 		core::cpu_inst::enable_simd(true);
 
-		size_t row = 23;
-		size_t col = 26;
+		size_t row = 32;
+		size_t col = 32;
 		size_t dim = 1;
+		core::matrix<unsigned char> a(row, col, dim);
+		core::vector<unsigned char> min(row, dim);
+		core::vector<unsigned char> mint(col, dim);
 
-		core::vector<float> a(row, dim);
-		core::matrix<float> b(row, col, dim);
-		core::vector<float> c(col, dim);
 		// Initialization
-		a.linear_fill(1.0F, 1.0F);
-		b.linear_fill(1.0F, 1.0F);
-		// Vector-matrix multiplication
-		core::cpu_gevm(c, a, b);
-
+		a.linear_fill(0, 16, 1);
+		cpu_max(min, a, core::axis_x);
+		cpu_min(mint, a, core::axis_y);
+		//cpu_min(min, a, core::axis_x);
 		print("a", a);
-		print("b", b);
-		print("c", c);
+		print("min", min);
+		print("mint", mint);
 
 		//size_t row = 23;
 		//size_t p = 25;

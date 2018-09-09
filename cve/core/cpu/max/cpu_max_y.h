@@ -49,7 +49,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int8_max);
+		b.fill(int8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed char, 32, 32, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -69,7 +69,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint8_max);
+		b.fill(uint8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned char, 32, 32, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -89,7 +89,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int16_max);
+		b.fill(int16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed short, 16, 16, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -109,7 +109,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint16_max);
+		b.fill(uint16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned short, 16, 16, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -129,7 +129,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int32_max);
+		b.fill(int32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed int, 8, 8, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -149,7 +149,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint32_max);
+		b.fill(uint32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned int, 8, 8, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -169,7 +169,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(flt_max);
+		b.fill(flt_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<float, 8, 8, cpu_avx>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse())
@@ -189,7 +189,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(dbl_max);
+		b.fill(dbl_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<double, 4, 4, cpu_avx>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
@@ -209,7 +209,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int8_max);
+		b.fill(int8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed char, 32, 32, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -227,7 +227,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint8_max);
+		b.fill(uint8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned char, 32, 32, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -245,7 +245,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int16_max);
+		b.fill(int16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed short, 16, 16, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -263,7 +263,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint16_max);
+		b.fill(uint16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned short, 16, 16, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -281,7 +281,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int32_max);
+		b.fill(int32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed int, 8, 8, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -299,7 +299,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint32_max);
+		b.fill(uint32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned int, 8, 8, cpu_avx2>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse41())
@@ -317,7 +317,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(flt_max);
+		b.fill(flt_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<float, 8, 8, cpu_avx>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse())
@@ -335,7 +335,7 @@ namespace core
 		if (b.size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(dbl_max);
+		b.fill(dbl_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<double, 4, 4, cpu_avx>(a.rows(), a.row_size(), a.data(), a.row_size(), b.data());
 		else if (cpu_inst::is_support_sse2())
@@ -357,7 +357,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int8_max);
+		b.fill(int8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed char, 32, 32, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -377,7 +377,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint8_max);
+		b.fill(uint8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned char, 32, 32, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -397,7 +397,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int16_max);
+		b.fill(int16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed short, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -417,7 +417,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint16_max);
+		b.fill(uint16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned short, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -437,7 +437,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int32_max);
+		b.fill(int32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -457,7 +457,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint32_max);
+		b.fill(uint32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -477,7 +477,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(flt_max);
+		b.fill(flt_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse())
@@ -497,7 +497,7 @@ namespace core
 		if (b.rows() != a.batch() || b.row_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(dbl_max);
+		b.fill(dbl_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<double, 4, 4, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())
@@ -517,7 +517,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int8_max);
+		b.fill(int8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed char, 32, 32, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -535,7 +535,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint8_max);
+		b.fill(uint8_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned char, 32, 32, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -553,7 +553,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int16_max);
+		b.fill(int16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed short, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -571,7 +571,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint16_max);
+		b.fill(uint16_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned short, 16, 16, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -589,7 +589,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(int32_max);
+		b.fill(int32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<signed int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -607,7 +607,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(uint32_max);
+		b.fill(uint32_min);
 		if (cpu_inst::is_support_avx2())
 			kernel_maxt<unsigned int, 8, 8, cpu_avx2>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse41())
@@ -625,7 +625,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(flt_max);
+		b.fill(flt_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<float, 8, 8, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse())
@@ -643,7 +643,7 @@ namespace core
 		if (b.batch() != a.batch() || b.matrix_size() != a.row_size())
 			throw ::std::invalid_argument(invalid_shape);
 
-		b.fill(dbl_max);
+		b.fill(dbl_min);
 		if (cpu_inst::is_support_avx())
 			kernel_maxt<double, 4, 4, cpu_avx>(a.batch(), a.rows(), a.row_size(), a.data(), a.row_size(), b.data(), b.row_size());
 		else if (cpu_inst::is_support_sse2())

@@ -1483,7 +1483,7 @@ namespace core
 			const double *ptr_a1 = a + rsa;
 			const double *ptr_a2 = ptr_a1 + rsa;
 			const double *ptr_a3 = ptr_a2 + rsa;
-			double val_a0, val_a1, val_a2, val_a3, val_a4;
+			double val_a0, val_a1, val_a2, val_a3;
 			double val_b0;
 			__m256d ymm_a0, ymm_a1, ymm_a2, ymm_a3;
 			__m256d ymm_b0;

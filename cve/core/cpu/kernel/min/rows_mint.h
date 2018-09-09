@@ -50,7 +50,7 @@ namespace core
 					b[j] = a[j] < b[j] ? a[j] : b[j]; ++j;
 					b[j] = a[j] < b[j] ? a[j] : b[j]; ++j;
 				}
-				for (j = aligned_n; j < n; ++j)
+				for (size_t j = aligned_n; j < n; ++j)
 					b[j] = a[j] < b[j] ? a[j] : b[j];
 				a += rsa;
 			}

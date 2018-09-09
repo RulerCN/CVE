@@ -53,7 +53,7 @@ namespace core
 					val_b = a[j] > val_b ? a[j] : val_b; ++j;
 					val_b = a[j] > val_b ? a[j] : val_b; ++j;
 				}
-				for (j = aligned_n; j < n; ++j)
+				for (size_t j = aligned_n; j < n; ++j)
 					val_b = a[j] > val_b ? a[j] : val_b;
 				b[i] = val_b;
 				a += rsa;

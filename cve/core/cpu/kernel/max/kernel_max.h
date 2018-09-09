@@ -31,7 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_KERNEL_MAX_H__
 
 #include "block_max.h"
+#include "block_maxt.h"
 #include "rows_max.h"
+#include "rows_maxt.h"
 
 namespace core
 {

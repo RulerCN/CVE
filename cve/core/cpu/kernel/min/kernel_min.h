@@ -31,7 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_KERNEL_MIN_H__
 
 #include "block_min.h"
+#include "block_mint.h"
 #include "rows_min.h"
+#include "rows_mint.h"
 
 namespace core
 {
