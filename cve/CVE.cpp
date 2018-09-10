@@ -448,21 +448,37 @@ int main()
 	{
 		core::cpu_inst::enable_simd(true);
 
-		size_t row = 32;
-		size_t col = 32;
+		size_t row = 35;
+		size_t col = 35;
 		size_t dim = 1;
-		core::matrix<unsigned char> a(row, col, dim);
-		core::vector<unsigned char> min(row, dim);
-		core::vector<unsigned char> mint(col, dim);
+		core::matrix<signed short> a(row, col, dim);
+		core::vector<signed short> min(row, dim);
+		core::vector<signed short> mean(row, dim);
+		core::vector<float> meanf(row, dim);
+		core::vector<signed short> max(row, dim);
+		core::vector<signed short> mint(col, dim);
+		core::vector<signed short> meant(row, dim);
+		core::vector<float> meantf(row, dim);
+		core::vector<signed short> maxt(col, dim);
 
 		// Initialization
-		a.linear_fill(0, 16, 1);
-		cpu_max(min, a, core::axis_x);
-		cpu_min(mint, a, core::axis_y);
-		//cpu_min(min, a, core::axis_x);
+		a.linear_fill(0, 0x0100, 0x0001);
+		core::cpu_min(min, a, core::axis_x);
+		core::cpu_mean(meanf, a, core::axis_x);
+		core::cpu_convert(mean, meanf);
+		core::cpu_max(max, a, core::axis_x);
+		core::cpu_min(mint, a, core::axis_y);
+		core::cpu_mean(meantf, a, core::axis_y);
+		core::cpu_convert(meant, meantf);
+		core::cpu_max(maxt, a, core::axis_y);
+
 		print("a", a);
 		print("min", min);
+		print("mean", mean);
+		print("max", max);
 		print("mint", mint);
+		print("meant", meant);
+		print("maxt", maxt);
 
 		//size_t row = 23;
 		//size_t p = 25;
@@ -660,7 +676,7 @@ void print(const char *name, const ::core::vector<signed char, Allocator> &vec)
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(static_cast<unsigned char>(*i)) << ",";
+		std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(static_cast<unsigned char>(*i)) << ",";
 	std::cout << "\n";
 }
 
@@ -670,7 +686,7 @@ void print(const char *name, const ::core::vector<unsigned char, Allocator> &vec
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(*i) << ",";
+		std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(*i) << ",";
 	std::cout << "\n";
 }
 
@@ -680,7 +696,7 @@ void print(const char *name, const ::core::vector<signed short, Allocator> &vec)
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << "0x" << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(static_cast<unsigned short>(*i)) << ",";
+		std::cout << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(static_cast<unsigned short>(*i)) << ",";
 	std::cout << "\n";
 }
 
@@ -690,7 +706,7 @@ void print(const char *name, const ::core::vector<unsigned short, Allocator> &ve
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << "0x" << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(*i) << ",";
+		std::cout << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(*i) << ",";
 	std::cout << "\n";
 }
 
@@ -700,7 +716,7 @@ void print(const char *name, const ::core::vector<signed int, Allocator> &vec)
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << "0x" << std::hex << std::setfill('0') << std::setw(8) << *i << ",";
+		std::cout << std::hex << std::setfill('0') << std::setw(8) << *i << ",";
 	std::cout << "\n";
 }
 
@@ -722,7 +738,7 @@ void print(const char *name, const core::matrix<signed char, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(static_cast<unsigned char>(*i)) << ",";
+			std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(static_cast<unsigned char>(*i)) << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
@@ -736,7 +752,7 @@ void print(const char *name, const core::matrix<unsigned char, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << "0x" << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(*i) << ",";
+			std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(*i) << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
@@ -750,7 +766,7 @@ void print(const char *name, const core::matrix<signed short, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << "0x" << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(static_cast<unsigned short>(*i)) << ",";
+			std::cout << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(static_cast<unsigned short>(*i)) << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
@@ -764,7 +780,7 @@ void print(const char *name, const core::matrix<unsigned short, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << "0x" << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(*i) << ",";
+			std::cout << std::hex << std::setfill('0') << std::setw(4) << static_cast<int>(*i) << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
@@ -778,7 +794,7 @@ void print(const char *name, const core::matrix<int, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << "0x" << std::hex << std::setfill('0') << std::setw(8) << *i << ",";
+			std::cout << std::hex << std::setfill('0') << std::setw(8) << *i << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";
