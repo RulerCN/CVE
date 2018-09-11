@@ -834,6 +834,7 @@ namespace core
 				ymm_b0 = _mm256_add_ps(ymm_b0, _mm256_cvtepi32_ps(ymm_a0));
 				// store data into memory
 				_mm256_storeu_ps(b, ymm_b0);
+				b += 8;
 			}
 		}
 	};

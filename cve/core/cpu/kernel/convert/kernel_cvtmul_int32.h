@@ -42,7 +42,7 @@ namespace core
 		{
 			constexpr size_t block = 8;
 
-			while (n > block)
+			while (n >= block)
 			{
 				c[0] = a * static_cast<signed int>(b[0]);
 				c[1] = a * static_cast<signed int>(b[1]);
@@ -71,7 +71,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -112,7 +112,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -153,7 +153,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1;
 			__m128i xmm_c0, xmm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -186,7 +186,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1;
 			__m128i xmm_c0, xmm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -220,7 +220,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -241,7 +241,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -269,7 +269,7 @@ namespace core
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -290,7 +290,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -318,7 +318,7 @@ namespace core
 			__m128 xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_ps(b);
@@ -344,7 +344,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_ps(b);
@@ -373,7 +373,7 @@ namespace core
 			__m128d xmm_b0, xmm_b1;
 			__m128i xmm_c0, xmm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_pd(b);
@@ -406,7 +406,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1;
 			__m256i ymm_c0, ymm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -442,7 +442,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1;
 			__m256i ymm_c0, ymm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -479,7 +479,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1;
 			__m256i ymm_c0, ymm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -497,7 +497,7 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -528,7 +528,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1;
 			__m256i ymm_c0, ymm_c1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -546,7 +546,7 @@ namespace core
 				b += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
@@ -576,7 +576,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
@@ -597,7 +597,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
@@ -625,7 +625,7 @@ namespace core
 			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
@@ -646,7 +646,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
@@ -674,7 +674,7 @@ namespace core
 			__m256 ymm_b0, ymm_b1, ymm_b2, ymm_b3;
 			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_ps(b);
@@ -700,7 +700,7 @@ namespace core
 				c += block;
 				n -= block;
 			}
-			while (n > bit)
+			while (n >= bit)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_ps(b);
@@ -730,7 +730,7 @@ namespace core
 			__m256d ymm_b0, ymm_b1;
 			__m256i ymm_c0;
 
-			while (n > block)
+			while (n >= block)
 			{
 				// load data from memory
 				ymm_b0 = _mm256_loadu_pd(b);

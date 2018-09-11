@@ -43,7 +43,7 @@ namespace core
 		{
 			constexpr size_t block = 8;
 
-			while (n > block)
+			while (n >= block)
 			{
 				b[0] = exp(a[0]);
 				b[1] = exp(a[1]);

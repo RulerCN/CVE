@@ -457,8 +457,8 @@ int main()
 		core::vector<float> meanf(row, dim);
 		core::vector<signed short> max(row, dim);
 		core::vector<signed short> mint(col, dim);
-		core::vector<signed short> meant(row, dim);
-		core::vector<float> meantf(row, dim);
+		core::vector<signed short> meant(col, dim);
+		core::vector<float> meantf(col, dim);
 		core::vector<signed short> maxt(col, dim);
 
 		// Initialization

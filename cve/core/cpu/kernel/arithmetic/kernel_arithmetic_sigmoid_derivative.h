@@ -44,7 +44,7 @@ namespace core
 			constexpr size_t block = 4;
 			constexpr T one = 1;
 
-			while (n > block)
+			while (n >= block)
 			{
 				c[0] = a[0] * b[0] * (one - b[0]);
 				c[1] = a[1] * b[1] * (one - b[1]);
