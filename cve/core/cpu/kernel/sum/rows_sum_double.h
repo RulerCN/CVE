@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct rows_sum_double
 	{
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const T *a, size_t rsa, double *b) const
 		{
 			const T *ptr_a;
 			double val_b0, val_b1, val_b2, val_b3;
@@ -48,20 +48,26 @@ namespace core
 			{
 				ptr_a = a;
 				val_b0 = 0;
-				val_b1 = 0;
-				val_b2 = 0;
-				val_b3 = 0;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					val_b0 += static_cast<double>(ptr_a[0]);
-					val_b1 += static_cast<double>(ptr_a[1]);
-					val_b2 += static_cast<double>(ptr_a[2]);
-					val_b3 += static_cast<double>(ptr_a[3]);
-					ptr_a += 4;
+					val_b1 = val_b2 = val_b3 = val_b0;
+					for (size_t j = 0; j < n; j += 4)
+					{
+						val_b0 += static_cast<double>(ptr_a[0]);
+						val_b1 += static_cast<double>(ptr_a[1]);
+						val_b2 += static_cast<double>(ptr_a[2]);
+						val_b3 += static_cast<double>(ptr_a[3]);
+						ptr_a += 4;
+					}
+					val_b0 += val_b1;
+					val_b2 += val_b3;
+					val_b0 += val_b2;
 				}
-				val_b0 += val_b1;
-				val_b2 += val_b3;
-				val_b0 += val_b2;
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						val_b0 += static_cast<double>(a[j]);
+				}
 				b[i] += val_b0;
 				a += rsa;
 			}
@@ -71,8 +77,9 @@ namespace core
 	template<>
 	struct rows_sum_double<signed char, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const signed char *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed char *a, size_t rsa, double *b) const
 		{
+			float val_b0;
 			__m128i xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
 			__m128d xmm_b0;
@@ -116,7 +123,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned char, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const unsigned char *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned char *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
@@ -161,7 +168,7 @@ namespace core
 	template<>
 	struct rows_sum_double<signed short, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const signed short *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
@@ -200,7 +207,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned short, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const unsigned short *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
@@ -239,7 +246,7 @@ namespace core
 	template<>
 	struct rows_sum_double<signed int, cpu_sse3>
 	{
-		void operator()(size_t m, size_t n, const signed int *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed int *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
@@ -272,7 +279,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned int, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const unsigned int *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned int *a, size_t rsa, double *b) const
 		{
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
 			const __m128i val = _mm_set1_epi64x(0x41e0000000000000LL);
@@ -315,7 +322,7 @@ namespace core
 	template<>
 	struct rows_sum_double<float, cpu_sse3>
 	{
-		void operator()(size_t m, size_t n, const float *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, double *b) const
 		{
 			__m128 xmm_a0, xmm_a1;
 			__m128d xmm_t0, xmm_t1;
@@ -348,7 +355,7 @@ namespace core
 	template<>
 	struct rows_sum_double<double, cpu_sse3>
 	{
-		void operator()(size_t m, size_t n, const double *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, double *b) const
 		{
 			__m128d xmm_a0, xmm_a1;
 			__m128d xmm_b0;
@@ -379,7 +386,7 @@ namespace core
 	template<>
 	struct rows_sum_double<signed char, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const signed char *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed char *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m256i ymm_a0, ymm_a1;
@@ -424,7 +431,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned char, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned char *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned char *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m256i ymm_a0, ymm_a1;
@@ -469,7 +476,7 @@ namespace core
 	template<>
 	struct rows_sum_double<signed short, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const signed short *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m256i ymm_a0;
@@ -508,7 +515,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned short, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned short *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned short *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0, xmm_a1;
 			__m256i ymm_a0;
@@ -547,7 +554,7 @@ namespace core
 	template<>
 	struct rows_sum_double<signed int, cpu_avx>
 	{
-		void operator()(size_t m, size_t n, const signed int *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed int *a, size_t rsa, double *b) const
 		{
 			__m128i xmm_a0;
 			__m256d ymm_a0;
@@ -579,7 +586,7 @@ namespace core
 	template<>
 	struct rows_sum_double<unsigned int, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned int *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned int *a, size_t rsa, double *b) const
 		{
 			const __m128i abs = _mm_set1_epi32(0x7fffffff);
 			const __m256i val = _mm256_set1_epi64x(0x41e0000000000000LL);
@@ -619,7 +626,7 @@ namespace core
 	template<>
 	struct rows_sum_double<float, cpu_avx>
 	{
-		void operator()(size_t m, size_t n, const float *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, double *b) const
 		{
 			__m128 xmm_a0;
 			__m256d ymm_a0;
@@ -651,7 +658,7 @@ namespace core
 	template<>
 	struct rows_sum_double<double, cpu_avx>
 	{
-		void operator()(size_t m, size_t n, const double *a, size_t rsa, double *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, double *b) const
 		{
 			__m256d ymm_a0;
 			__m256d ymm_b0, ymm_b1;
