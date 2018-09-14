@@ -289,3 +289,4 @@ __pycache__/
 /cve/data
 /cve/core/cpu/kernel/kernel_matrix_multiply - 副本.h
 /document/algorithm
+/cve/core/cpu/kernel/sum - 副本

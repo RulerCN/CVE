@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template rows_maxt
+
 	template<class T, cpu_inst_type inst>
 	struct rows_maxt
 	{

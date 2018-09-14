@@ -451,25 +451,21 @@ int main()
 		size_t row = 35;
 		size_t col = 35;
 		size_t dim = 1;
-		core::matrix<signed short> a(row, col, dim);
-		core::vector<signed short> min(row, dim);
-		core::vector<signed short> mean(row, dim);
-		core::vector<float> meanf(row, dim);
-		core::vector<signed short> max(row, dim);
-		core::vector<signed short> mint(col, dim);
-		core::vector<signed short> meant(col, dim);
-		core::vector<float> meantf(col, dim);
-		core::vector<signed short> maxt(col, dim);
+		core::matrix<float> a(row, col, dim);
+		core::vector<float> min(row, dim);
+		core::vector<float> mean(row, dim);
+		core::vector<float> max(row, dim);
+		core::vector<float> mint(col, dim);
+		core::vector<float> meant(col, dim);
+		core::vector<float> maxt(col, dim);
 
 		// Initialization
-		a.linear_fill(0, 0x0100, 0x0001);
+		a.linear_fill(0.0f, 1.0f, 0.01f);
 		core::cpu_min(min, a, core::axis_x);
-		core::cpu_mean(meanf, a, core::axis_x);
-		core::cpu_convert(mean, meanf);
+		core::cpu_mean(mean, a, core::axis_x);
 		core::cpu_max(max, a, core::axis_x);
 		core::cpu_min(mint, a, core::axis_y);
-		core::cpu_mean(meantf, a, core::axis_y);
-		core::cpu_convert(meant, meantf);
+		core::cpu_mean(meant, a, core::axis_y);
 		core::cpu_max(maxt, a, core::axis_y);
 
 		print("a", a);
@@ -726,7 +722,8 @@ void print(const char *name, const ::core::vector<float, Allocator> &vec)
 	std::cout << name << "[" << vec.length() << "] =\n";
 	std::cout << "    ";
 	for (auto i = vec.begin(); i != vec.end(); ++i)
-		std::cout << std::setfill(' ') << std::setw(6) << *i << ",";
+		//std::cout << std::setfill(' ') << std::setw(6) << *i << ",";
+		std::cout << std::setfill(' ') << *i << ",";
 	std::cout << "\n";
 }
 
@@ -808,7 +805,8 @@ void print(const char *name, const core::matrix<float, Allocator> &mat)
 	{
 		std::cout << "    ";
 		for (auto i = mat.begin(j); i != mat.end(j); ++i)
-			std::cout << std::setfill(' ') << std::setw(6) << *i << ",";
+			std::cout << std::setfill(' ') << *i << ",";
+			//std::cout << std::setfill(' ') << std::setw(6) << *i << ",";
 		std::cout << "\n";
 	}
 	std::cout << "\n";

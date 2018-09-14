@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct rows_sum_int32
 	{
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			const T *ptr_a;
 			signed int val_b0, val_b1, val_b2, val_b3;
@@ -48,20 +48,26 @@ namespace core
 			{
 				ptr_a = a;
 				val_b0 = 0;
-				val_b1 = 0;
-				val_b2 = 0;
-				val_b3 = 0;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					val_b0 += static_cast<signed int>(ptr_a[0]);
-					val_b1 += static_cast<signed int>(ptr_a[1]);
-					val_b2 += static_cast<signed int>(ptr_a[2]);
-					val_b3 += static_cast<signed int>(ptr_a[3]);
-					ptr_a += 4;
+					val_b1 = val_b2 = val_b3 = val_b0;
+					for (size_t j = 0; j < n; j += 4)
+					{
+						val_b0 += static_cast<signed int>(ptr_a[0]);
+						val_b1 += static_cast<signed int>(ptr_a[1]);
+						val_b2 += static_cast<signed int>(ptr_a[2]);
+						val_b3 += static_cast<signed int>(ptr_a[3]);
+						ptr_a += 4;
+					}
+					val_b0 += val_b1;
+					val_b2 += val_b3;
+					val_b0 += val_b2;
 				}
-				val_b0 += val_b1;
-				val_b2 += val_b3;
-				val_b0 += val_b2;
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						val_b0 += a[j];
+				}
 				b[i] += val_b0;
 				a += rsa;
 			}

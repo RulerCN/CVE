@@ -35,27 +35,41 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template rows_max
+
 	template<class T, cpu_inst_type inst>
 	struct rows_max
 	{
 		// b[i] = max(b[i], a[i][j])
 		void operator()(size_t m, size_t aligned_n, size_t n, const T *a, size_t rsa, T *b) const
 		{
-			T val_b;
+			const T *ptr_a;
+			T val_b0, val_b1, val_b2, val_b3;
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				val_b = b[i];
-				for (size_t j = 0; j < aligned_n;)
+				ptr_a = a;
+				val_b0 = b[i];
+				if (aligned_n > 0)
 				{
-					val_b = a[j] > val_b ? a[j] : val_b; ++j;
-					val_b = a[j] > val_b ? a[j] : val_b; ++j;
-					val_b = a[j] > val_b ? a[j] : val_b; ++j;
-					val_b = a[j] > val_b ? a[j] : val_b; ++j;
+					val_b1 = val_b2 = val_b3 = val_b0;
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						val_b0 = ptr_a[0] > val_b0 ? ptr_a[0] : val_b0;
+						val_b1 = ptr_a[1] > val_b1 ? ptr_a[1] : val_b1;
+						val_b2 = ptr_a[2] > val_b2 ? ptr_a[2] : val_b2;
+						val_b3 = ptr_a[3] > val_b3 ? ptr_a[3] : val_b3;
+						ptr_a += 4;
+					}
+					val_b0 = val_b1 > val_b0 ? val_b1 : val_b0;
+					val_b2 = val_b3 > val_b2 ? val_b3 : val_b2;
+					val_b0 = val_b2 > val_b0 ? val_b2 : val_b0;
 				}
-				for (size_t j = aligned_n; j < n; ++j)
-					val_b = a[j] > val_b ? a[j] : val_b;
-				b[i] = val_b;
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						val_b0 = a[j] > val_b0 ? a[j] : val_b0;
+				}
+				b[i] = val_b0;
 				a += rsa;
 			}
 		}
