@@ -46,12 +46,12 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_a = a;
 				val_b0 = 0;
 				if (aligned_n > 0)
 				{
+					ptr_a = a;
 					val_b1 = val_b2 = val_b3 = val_b0;
-					for (size_t j = 0; j < n; j += 4)
+					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						val_b0 += static_cast<float>(ptr_a[0]);
 						val_b1 += static_cast<float>(ptr_a[1]);
@@ -89,7 +89,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 16)
+					for (size_t j = 0; j < aligned_n; j += 16)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -139,7 +139,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 16)
+					for (size_t j = 0; j < aligned_n; j += 16)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -189,7 +189,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -233,7 +233,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -277,7 +277,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 4)
+					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -319,7 +319,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 4)
+					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -363,7 +363,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n; j += 4)
+					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_ps(a + j);
@@ -403,7 +403,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					xmm_b0 = _mm_setzero_ps();
-					for (size_t j = 0; j < n;)
+					for (size_t j = 0; j < aligned_n;)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_pd(a + j);
@@ -450,7 +450,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 16)
+					for (size_t j = 0; j < aligned_n; j += 16)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -499,7 +499,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 16)
+					for (size_t j = 0; j < aligned_n; j += 16)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -548,7 +548,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -592,7 +592,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
@@ -635,7 +635,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
@@ -679,7 +679,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
@@ -725,7 +725,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n; j += 8)
+					for (size_t j = 0; j < aligned_n; j += 8)
 					{
 						// load data from memory
 						ymm_a0 = _mm256_loadu_ps(a + j);
@@ -768,7 +768,7 @@ namespace core
 				if (aligned_n > 0)
 				{
 					ymm_b0 = _mm256_setzero_ps();
-					for (size_t j = 0; j < n;)
+					for (size_t j = 0; j < aligned_n;)
 					{
 						// load data from memory
 						ymm_a0 = _mm256_loadu_pd(a + j);

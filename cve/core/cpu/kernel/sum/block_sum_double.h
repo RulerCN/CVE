@@ -435,7 +435,6 @@ namespace core
 			const signed int *ptr_a3 = ptr_a2 + rsa;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3, xmm_a4, xmm_a5, xmm_a6, xmm_a7;
 			__m128d xmm_t0, xmm_t1, xmm_t2, xmm_t3, xmm_t4, xmm_t5, xmm_t6, xmm_t7;
-			__m128d xmm_t0, xmm_t1;
 			__m128d xmm_b0 = _mm_loadu_pd(b);
 			__m128d xmm_b1 = _mm_loadu_pd(b + 2);
 

@@ -39,23 +39,31 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct rows_sumt_int32
 	{
-		void operator()(size_t m, size_t n, const T *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const T *a, size_t rsa, signed int *b) const
 		{
 			const T *ptr_a;
 			signed int *ptr_b;
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_a = a;
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					ptr_b[0] += static_cast<signed int>(ptr_a[0]);
-					ptr_b[1] += static_cast<signed int>(ptr_a[1]);
-					ptr_b[2] += static_cast<signed int>(ptr_a[2]);
-					ptr_b[3] += static_cast<signed int>(ptr_a[3]);
-					ptr_a += 4;
-					ptr_b += 4;
+					ptr_a = a;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						ptr_b[0] += static_cast<signed int>(ptr_a[0]);
+						ptr_b[1] += static_cast<signed int>(ptr_a[1]);
+						ptr_b[2] += static_cast<signed int>(ptr_a[2]);
+						ptr_b[3] += static_cast<signed int>(ptr_a[3]);
+						ptr_a += 4;
+						ptr_b += 4;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -65,7 +73,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed char, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const signed char *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed char *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
@@ -73,36 +81,44 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 16)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
-					xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 2);
-					xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 3);
-					// data-type conversion
-					xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepi8_epi16(xmm_a0);
-					xmm_a2 = _mm_cvtepi8_epi16(xmm_a2);
-					xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
-					xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
-					xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
-					xmm_a3 = _mm_cvtepi16_epi32(xmm_a3);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
-					xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a2);
-					xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a3);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 2, xmm_b2);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 3, xmm_b3);
-					ptr_b += 16;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 16)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
+						xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 2);
+						xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 3);
+						// data-type conversion
+						xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepi8_epi16(xmm_a0);
+						xmm_a2 = _mm_cvtepi8_epi16(xmm_a2);
+						xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
+						xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
+						xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
+						xmm_a3 = _mm_cvtepi16_epi32(xmm_a3);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
+						xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a2);
+						xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a3);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 2, xmm_b2);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 3, xmm_b3);
+						ptr_b += 16;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -112,7 +128,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned char, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const unsigned char *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned char *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1, xmm_a2, xmm_a3;
@@ -120,36 +136,44 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 16)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
-					xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 2);
-					xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 3);
-					// data-type conversion
-					xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepu8_epi16(xmm_a0);
-					xmm_a2 = _mm_cvtepu8_epi16(xmm_a2);
-					xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
-					xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
-					xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
-					xmm_a3 = _mm_cvtepi16_epi32(xmm_a3);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
-					xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a2);
-					xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a3);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 2, xmm_b2);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 3, xmm_b3);
-					ptr_b += 16;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 16)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
+						xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 2);
+						xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 3);
+						// data-type conversion
+						xmm_a2 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepu8_epi16(xmm_a0);
+						xmm_a2 = _mm_cvtepu8_epi16(xmm_a2);
+						xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a3 = _mm_shuffle_epi32(xmm_a2, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
+						xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
+						xmm_a2 = _mm_cvtepi16_epi32(xmm_a2);
+						xmm_a3 = _mm_cvtepi16_epi32(xmm_a3);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
+						xmm_b2 = _mm_add_epi32(xmm_b2, xmm_a2);
+						xmm_b3 = _mm_add_epi32(xmm_b3, xmm_a3);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 2, xmm_b2);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 3, xmm_b3);
+						ptr_b += 16;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -159,7 +183,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed short, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const signed short *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed short *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1;
@@ -167,24 +191,32 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
-					// data-type conversion
-					xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
-					xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
+						// data-type conversion
+						xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepi16_epi32(xmm_a0);
+						xmm_a1 = _mm_cvtepi16_epi32(xmm_a1);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -194,7 +226,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned short, cpu_sse41>
 	{
-		void operator()(size_t m, size_t n, const unsigned short *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned short *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1;
@@ -202,24 +234,32 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
-					// data-type conversion
-					xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
-					xmm_a0 = _mm_cvtepu16_epi32(xmm_a0);
-					xmm_a1 = _mm_cvtepu16_epi32(xmm_a1);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b) + 1);
+						// data-type conversion
+						xmm_a1 = _mm_shuffle_epi32(xmm_a0, _MM_SHUFFLE(1, 0, 3, 2));
+						xmm_a0 = _mm_cvtepu16_epi32(xmm_a0);
+						xmm_a1 = _mm_cvtepu16_epi32(xmm_a1);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						xmm_b1 = _mm_add_epi32(xmm_b1, xmm_a1);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b) + 1, xmm_b1);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -229,7 +269,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed int, cpu_sse2>
 	{
-		void operator()(size_t m, size_t n, const signed int *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed int *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0;
@@ -237,17 +277,25 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					ptr_b += 4;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						ptr_b += 4;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -257,7 +305,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned int, cpu_sse2>
 	{
-		void operator()(size_t m, size_t n, const unsigned int *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned int *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0;
@@ -265,17 +313,25 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					ptr_b += 4;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_a0);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						ptr_b += 4;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -285,7 +341,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<float, cpu_sse2>
 	{
-		void operator()(size_t m, size_t n, const float *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128 xmm_a0;
@@ -294,19 +350,27 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 4)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_ps(a + j);
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					// data-type conversion
-					xmm_t0 = _mm_cvtps_epi32(xmm_a0);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_t0);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					ptr_b += 4;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 4)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_ps(a + j);
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						// data-type conversion
+						xmm_t0 = _mm_cvtps_epi32(xmm_a0);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_t0);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						ptr_b += 4;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -316,7 +380,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<double, cpu_sse2>
 	{
-		void operator()(size_t m, size_t n, const double *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128d xmm_a0, xmm_a1;
@@ -325,24 +389,32 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n;)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_pd(a + j);
-					j += 2;
-					xmm_a1 = _mm_loadu_pd(a + j);
-					j += 2;
-					xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
-					// data-type conversion
-					xmm_t0 = _mm_cvtpd_epi32(xmm_a0);
-					xmm_t1 = _mm_cvtpd_epi32(xmm_a1);
-					xmm_t0 = _mm_unpacklo_epi64(xmm_t0, xmm_t1);
-					// return the summation
-					xmm_b0 = _mm_add_epi32(xmm_b0, xmm_t0);
-					// store data into memory
-					_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
-					ptr_b += 4;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n;)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_pd(a + j);
+						j += 2;
+						xmm_a1 = _mm_loadu_pd(a + j);
+						j += 2;
+						xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(ptr_b));
+						// data-type conversion
+						xmm_t0 = _mm_cvtpd_epi32(xmm_a0);
+						xmm_t1 = _mm_cvtpd_epi32(xmm_a1);
+						xmm_t0 = _mm_unpacklo_epi64(xmm_t0, xmm_t1);
+						// return the summation
+						xmm_b0 = _mm_add_epi32(xmm_b0, xmm_t0);
+						// store data into memory
+						_mm_storeu_si128(reinterpret_cast<__m128i*>(ptr_b), xmm_b0);
+						ptr_b += 4;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -352,7 +424,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed char, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const signed char *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed char *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1;
@@ -361,26 +433,34 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 16)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b) + 1);
-					// data-type conversion
-					ymm_a0 = _mm256_cvtepi8_epi16(xmm_a0);
-					xmm_a0 = _mm256_extracti128_si256(ymm_a0, 0);
-					xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
-					ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
-					ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					ymm_b1 = _mm256_add_epi32(ymm_b1, ymm_a1);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b) + 1, ymm_b1);
-					ptr_b += 16;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 16)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b) + 1);
+						// data-type conversion
+						ymm_a0 = _mm256_cvtepi8_epi16(xmm_a0);
+						xmm_a0 = _mm256_extracti128_si256(ymm_a0, 0);
+						xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
+						ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
+						ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						ymm_b1 = _mm256_add_epi32(ymm_b1, ymm_a1);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b) + 1, ymm_b1);
+						ptr_b += 16;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -390,7 +470,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned char, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned char *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned char *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0, xmm_a1;
@@ -399,26 +479,34 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 16)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b) + 1);
-					// data-type conversion
-					ymm_a0 = _mm256_cvtepu8_epi16(xmm_a0);
-					xmm_a0 = _mm256_extracti128_si256(ymm_a0, 0);
-					xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
-					ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
-					ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					ymm_b1 = _mm256_add_epi32(ymm_b1, ymm_a1);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b) + 1, ymm_b1);
-					ptr_b += 16;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 16)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b) + 1);
+						// data-type conversion
+						ymm_a0 = _mm256_cvtepu8_epi16(xmm_a0);
+						xmm_a0 = _mm256_extracti128_si256(ymm_a0, 0);
+						xmm_a1 = _mm256_extracti128_si256(ymm_a0, 1);
+						ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
+						ymm_a1 = _mm256_cvtepi16_epi32(xmm_a1);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						ymm_b1 = _mm256_add_epi32(ymm_b1, ymm_a1);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b) + 1, ymm_b1);
+						ptr_b += 16;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -428,7 +516,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed short, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const signed short *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed short *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0;
@@ -437,19 +525,27 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// data-type conversion
-					ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// data-type conversion
+						ymm_a0 = _mm256_cvtepi16_epi32(xmm_a0);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -459,7 +555,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned short, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned short *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned short *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m128i xmm_a0;
@@ -468,19 +564,27 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// data-type conversion
-					ymm_a0 = _mm256_cvtepu16_epi32(xmm_a0);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						xmm_a0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// data-type conversion
+						ymm_a0 = _mm256_cvtepu16_epi32(xmm_a0);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -490,7 +594,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<signed int, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const signed int *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const signed int *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m256i ymm_a0;
@@ -498,17 +602,25 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -518,7 +630,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<unsigned int, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const unsigned int *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const unsigned int *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m256i ymm_a0;
@@ -526,17 +638,25 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						ymm_a0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(a + j));
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_a0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -546,7 +666,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<float, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const float *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const float *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m256 ymm_a0;
@@ -555,19 +675,27 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n; j += 8)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					ymm_a0 = _mm256_loadu_ps(a + j);
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// data-type conversion
-					ymm_t0 = _mm256_cvtps_epi32(ymm_a0);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_t0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n; j += 8)
+					{
+						// load data from memory
+						ymm_a0 = _mm256_loadu_ps(a + j);
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// data-type conversion
+						ymm_t0 = _mm256_cvtps_epi32(ymm_a0);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_t0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}
@@ -577,7 +705,7 @@ namespace core
 	template<>
 	struct rows_sumt_int32<double, cpu_avx2>
 	{
-		void operator()(size_t m, size_t n, const double *a, size_t rsa, signed int *b) const
+		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, size_t rsa, signed int *b) const
 		{
 			signed int *ptr_b;
 			__m256d ymm_a0, ymm_a1;
@@ -587,24 +715,32 @@ namespace core
 
 			for (size_t i = 0; i < m; ++i)
 			{
-				ptr_b = b;
-				for (size_t j = 0; j < n;)
+				if (aligned_n > 0)
 				{
-					// load data from memory
-					ymm_a0 = _mm256_loadu_pd(a + j);
-					j += 4;
-					ymm_a1 = _mm256_loadu_pd(a + j);
-					j += 4;
-					ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
-					// data-type conversion
-					xmm_t0 = _mm256_cvtpd_epi32(ymm_a0);
-					xmm_t1 = _mm256_cvtpd_epi32(ymm_a1);
-					ymm_t0 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_t0), xmm_t1, 1);
-					// return the summation
-					ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_t0);
-					// store data into memory
-					_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
-					ptr_b += 8;
+					ptr_b = b;
+					for (size_t j = 0; j < aligned_n;)
+					{
+						// load data from memory
+						ymm_a0 = _mm256_loadu_pd(a + j);
+						j += 4;
+						ymm_a1 = _mm256_loadu_pd(a + j);
+						j += 4;
+						ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(ptr_b));
+						// data-type conversion
+						xmm_t0 = _mm256_cvtpd_epi32(ymm_a0);
+						xmm_t1 = _mm256_cvtpd_epi32(ymm_a1);
+						ymm_t0 = _mm256_insertf128_si256(_mm256_castsi128_si256(xmm_t0), xmm_t1, 1);
+						// return the summation
+						ymm_b0 = _mm256_add_epi32(ymm_b0, ymm_t0);
+						// store data into memory
+						_mm256_storeu_si256(reinterpret_cast<__m256i*>(ptr_b), ymm_b0);
+						ptr_b += 8;
+					}
+				}
+				if (aligned_n < n)
+				{
+					for (size_t j = aligned_n; j < n; ++j)
+						b[j] += static_cast<signed int>(a[j]);
 				}
 				a += rsa;
 			}

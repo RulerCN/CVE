@@ -34,8 +34,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "block_sumt_float.h"
 #include "rows_sum_float.h"
 #include "rows_sumt_float.h"
-#include "common_sum_float.h"
-#include "common_sumt_float.h"
 
 namespace core
 {
@@ -48,27 +46,17 @@ namespace core
 		const size_t aligned_m = m & ~(block_m - 1);
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
-		const size_t surplus_n = n - aligned_n;
-		const struct common_sum_float<T> functor;
 		const struct rows_sum_float<T, inst> rows_functor;
 		const struct block_sum_float<T, inst> block_functor;
 
 		for (size_t i = 0; i < aligned_m; i += block_m)
 		{
-			if (aligned_n > 0)
-				block_functor(aligned_n, a, rsa, b);
-			if (surplus_n > 0)
-				functor(block_m, surplus_n, a + aligned_n, rsa, b);
+			block_functor(aligned_n, n, a, rsa, b);
 			a += block_rsa;
 			b += block_m;
 		}
 		if (surplus_m > 0)
-		{
-			if (aligned_n > 0)
-				rows_functor(surplus_m, aligned_n, a, rsa, b);
-			if (surplus_n > 0)
-				functor(surplus_m, surplus_n, a + aligned_n, rsa, b);
-		}
+			rows_functor(surplus_m, aligned_n, n, a, rsa, b);
 	}
 
 	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
@@ -78,9 +66,7 @@ namespace core
 		const size_t aligned_m = m & ~(block_m - 1);
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
-		const size_t surplus_n = n - aligned_n;
 		const size_t surplus_rsa = surplus_m * rsa;
-		const struct common_sum_float<T> functor;
 		const struct rows_sum_float<T, inst> rows_functor;
 		const struct block_sum_float<T, inst> block_functor;
 
@@ -88,19 +74,13 @@ namespace core
 		{
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
-				if (aligned_n > 0)
-					block_functor(aligned_n, a, rsa, b);
-				if (surplus_n > 0)
-					functor(block_m, surplus_n, a + aligned_n, rsa, b);
+				block_functor(aligned_n, n, a, rsa, b);
 				a += block_rsa;
 				b += block_m;
 			}
 			if (surplus_m > 0)
 			{
-				if (aligned_n > 0)
-					rows_functor(surplus_m, aligned_n, a, rsa, b);
-				if (surplus_n > 0)
-					functor(surplus_m, surplus_n, a + aligned_n, rsa, b);
+				rows_functor(surplus_m, aligned_n, n, a, rsa, b);
 				a += surplus_rsa;
 				b += surplus_m;
 			}
@@ -116,26 +96,16 @@ namespace core
 		const size_t aligned_m = m & ~(block_m - 1);
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
-		const size_t surplus_n = n - aligned_n;
-		const struct common_sumt_float<T> functor;
 		const struct rows_sumt_float<T, inst> rows_functor;
 		const struct block_sumt_float<T, inst> block_functor;
 
 		for (size_t i = 0; i < aligned_m; i += block_m)
 		{
-			if (aligned_n > 0)
-				block_functor(aligned_n, a, rsa, b);
-			if (surplus_n > 0)
-				functor(block_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
+			block_functor(aligned_n, n, a, rsa, b);
 			a += block_rsa;
 		}
 		if (surplus_m > 0)
-		{
-			if (aligned_n > 0)
-				rows_functor(surplus_m, aligned_n, a, rsa, b);
-			if (surplus_n > 0)
-				functor(surplus_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
-		}
+			rows_functor(surplus_m, aligned_n, n, a, rsa, b);
 	}
 
 	template<class T, size_t block_m, size_t block_n, cpu_inst_type inst>
@@ -145,9 +115,7 @@ namespace core
 		const size_t aligned_m = m & ~(block_m - 1);
 		const size_t aligned_n = n & ~(block_n - 1);
 		const size_t surplus_m = m - aligned_m;
-		const size_t surplus_n = n - aligned_n;
 		const size_t surplus_rsa = surplus_m * rsa;
-		const struct common_sumt_float<T> functor;
 		const struct rows_sumt_float<T, inst> rows_functor;
 		const struct block_sumt_float<T, inst> block_functor;
 
@@ -155,18 +123,12 @@ namespace core
 		{
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
-				if (aligned_n > 0)
-					block_functor(aligned_n, a, rsa, b);
-				if (surplus_n > 0)
-					functor(block_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
+				block_functor(aligned_n, n, a, rsa, b);
 				a += block_rsa;
 			}
 			if (surplus_m > 0)
 			{
-				if (aligned_n > 0)
-					rows_functor(surplus_m, aligned_n, a, rsa, b);
-				if (surplus_n > 0)
-					functor(surplus_m, surplus_n, a + aligned_n, rsa, b + aligned_n);
+				rows_functor(surplus_m, aligned_n, n, a, rsa, b);
 				a += surplus_rsa;
 			}
 			b += rsb;

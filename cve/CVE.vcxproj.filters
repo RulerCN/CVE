@@ -523,24 +523,6 @@
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_int32.h">
       <Filter>core\cpu\kernel\sum</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sum_double.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sum_float.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sum_int32.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sumt_double.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sumt_float.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\sum\common_sumt_int32.h">
-      <Filter>core\cpu\kernel\sum</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\sum\kernel_sum_double.h">
       <Filter>core\cpu\kernel\sum</Filter>
     </ClInclude>
