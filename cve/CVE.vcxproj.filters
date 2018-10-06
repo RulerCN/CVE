@@ -109,9 +109,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_matmul.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_arithmetic.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
@@ -214,65 +211,11 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid_derivative.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_exp.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sigmoid.h">
       <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sigmoid_derivative.h">
-      <Filter>core\cpu\arithmetic</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_cvrv.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcm.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmcv.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm00.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm01.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm10.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rmrm11.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvcm.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\matmul\kernel_matmul_rvrm.h">
-      <Filter>core\cpu\kernel\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_cvrv.h">
-      <Filter>core\cpu\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcm.h">
-      <Filter>core\cpu\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmcv.h">
-      <Filter>core\cpu\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_rmrm.h">
-      <Filter>core\cpu\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_rvcm.h">
-      <Filter>core\cpu\matmul</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\matmul\cpu_matmul_rvrm.h">
-      <Filter>core\cpu\matmul</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_subs.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
@@ -682,6 +625,45 @@
     <ClInclude Include="core\cpu\cpu_max.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\max\kernel_maxt.h">
+      <Filter>core\cpu\kernel\max</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\min\kernel_mint.h">
+      <Filter>core\cpu\kernel\min</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sumt_double.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sumt_float.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sum\kernel_sumt_int32.h">
+      <Filter>core\cpu\kernel\sum</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_desigmoid.h">
+      <Filter>core\cpu\kernel\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_desigmoid.h">
+      <Filter>core\cpu\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gevv\cpu_addvv.h">
+      <Filter>core\cpu\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_double.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_float.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_float.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_double.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_gevv.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -716,12 +698,6 @@
     </Filter>
     <Filter Include="core\cpu\convert">
       <UniqueIdentifier>{dffd8f1b-9b1c-4c87-b3ca-a93e664e294d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\cpu\kernel\matmul">
-      <UniqueIdentifier>{ccb7c80d-5536-414b-b592-d9b83ab907fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\cpu\matmul">
-      <UniqueIdentifier>{8d648244-8449-407c-955d-8a97ba03e50c}</UniqueIdentifier>
     </Filter>
     <Filter Include="core\cpu\kernel\logic">
       <UniqueIdentifier>{22a336f1-a6f5-4de0-a14a-eac14c41dc6a}</UniqueIdentifier>
@@ -764,6 +740,12 @@
     </Filter>
     <Filter Include="core\cpu\max">
       <UniqueIdentifier>{8787d4c9-250d-4525-8312-5f0e44b712d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\gevv">
+      <UniqueIdentifier>{4efbe375-fa85-4755-9e67-98f9a8592412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\gevv">
+      <UniqueIdentifier>{6bd20840-bec7-4fbb-9f75-82a046a37d23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

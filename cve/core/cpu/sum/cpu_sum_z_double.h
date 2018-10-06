@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/sum/kernel_sum_double.h"
+#include "../kernel/sum/kernel_sumt_double.h"
 
 namespace core
 {

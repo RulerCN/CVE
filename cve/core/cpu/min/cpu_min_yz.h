@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/min/kernel_min.h"
+#include "../kernel/min/kernel_mint.h"
 
 namespace core
 {

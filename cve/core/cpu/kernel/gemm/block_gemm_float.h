@@ -40,7 +40,7 @@ namespace core
 	struct block_gemm_float
 	{
 		// C(4xn) += A(4x4) * B(4xn)
-		void operator()(size_t, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t /*aligned_n*/, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;

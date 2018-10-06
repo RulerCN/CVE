@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/max/kernel_max.h"
+#include "../kernel/max/kernel_maxt.h"
 
 namespace core
 {

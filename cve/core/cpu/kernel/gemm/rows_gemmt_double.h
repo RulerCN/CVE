@@ -40,7 +40,7 @@ namespace core
 	struct rows_gemmt_double
 	{
 		// C(mx4) += A(mxp) * B(4xp)^T
-		void operator()(size_t m, size_t, size_t p, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		void operator()(size_t m, size_t /*aligned_p*/, size_t p, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;

@@ -40,7 +40,7 @@ namespace core
 	struct block_gevm_float
 	{
 		// C(1xn) += A(1x4) * B(4xn)
-		void operator()(size_t, size_t n, const float *a, const float *b, size_t rsb, float *c) const
+		void operator()(size_t /*aligned_n*/, size_t n, const float *a, const float *b, size_t rsb, float *c) const
 		{
 			const float *ptr_b0 = b;
 			const float *ptr_b1 = b + rsb;

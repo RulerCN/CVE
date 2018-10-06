@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct block_sum_float
 	{
-		void operator()(size_t, size_t n, const T *a, size_t rsa, float *b) const
+		void operator()(size_t /*aligned_n*/, size_t n, const T *a, size_t rsa, float *b) const
 		{
 			const T *ptr_a0 = a;
 			const T *ptr_a1 = a + rsa;

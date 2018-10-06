@@ -39,7 +39,7 @@ namespace core
 	template<class T, cpu_inst_type inst>
 	struct block_sumt_double
 	{
-		void operator()(size_t, size_t n, const T *a, size_t rsa, double *b) const
+		void operator()(size_t /*aligned_n*/, size_t n, const T *a, size_t rsa, double *b) const
 		{
 			const T *ptr_a0 = a;
 			const T *ptr_a1 = a + rsa;

@@ -142,17 +142,17 @@ int main()
 		*pLabel++ = 1;
 	}
 
-	__m256d ymm_t0 = _mm256_set_pd(1, 2, 3, 4);
-	__m256d ymm_a0, ymm_a1;
+	//__m256d ymm_t0 = _mm256_set_pd(1, 2, 3, 4);
+	//__m256d ymm_a0, ymm_a1;
 
-	ymm_a0 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 2, 0, 0));
-	ymm_a1 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 3, 0, 1));
-	ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
-	ymm_a0 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 0, 0));
-	ymm_a1 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 3, 3));
-	ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
+	//ymm_a0 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 2, 0, 0));
+	//ymm_a1 = _mm256_permute2f128_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 3, 0, 1));
+	//ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
+	//ymm_a0 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 0, 0));
+	//ymm_a1 = _mm256_shuffle_pd(ymm_t0, ymm_t0, _MM_SHUFFLE(0, 0, 3, 3));
+	//ymm_t0 = _mm256_min_pd(ymm_a0, ymm_a1);
 
-	ymm_a0 = ymm_t0;
+	//ymm_a0 = ymm_t0;
 	//__m128d xmm_t0 = _mm_set_pd(1, 2);
 	//__m128d xmm_a0, xmm_a1;
 	//xmm_a0 = _mm_shuffle_pd(xmm_t0, xmm_t0, _MM_SHUFFLE(0, 0, 0, 0));
@@ -475,6 +475,11 @@ int main()
 		print("mint", mint);
 		print("meant", meant);
 		print("maxt", maxt);
+
+
+		core::matrix<float> vv(col, col, dim);
+		core::cpu_gevv(vv, mint, maxt);
+		print("gevv", vv);
 
 		//size_t row = 23;
 		//size_t p = 25;

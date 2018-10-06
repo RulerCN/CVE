@@ -40,7 +40,7 @@ namespace core
 	struct block_gevmt_double
 	{
 		// C(1x4) += A(1xp) * B(4xp)^T
-		void operator()(size_t, size_t p, const double *a, const double *b, size_t rsb, double *c) const
+		void operator()(size_t /*aligned_p*/, size_t p, const double *a, const double *b, size_t rsb, double *c) const
 		{
 			const double *ptr_b0 = b;
 			const double *ptr_b1 = b + rsb;

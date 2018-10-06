@@ -40,7 +40,7 @@ namespace core
 	struct columns_gemmt_double
 	{
 		// C(4xn) += A(4xp) * B(nxp)^T
-		void operator()(size_t n, size_t, size_t p, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
+		void operator()(size_t n, size_t /*aligned_p*/, size_t p, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc) const
 		{
 			double *ptr_c0 = c;
 			double *ptr_c1 = c + rsc;

@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../../vector.h"
 #include "../../matrix.h"
 #include "../../tensor.h"
-#include "../kernel/sum/kernel_sum_float.h"
+#include "../kernel/sum/kernel_sumt_float.h"
 
 namespace core
 {

@@ -40,7 +40,7 @@ namespace core
 	struct columns_gemmt_float
 	{
 		// C(4xn) += A(4xp) * B(nxp)^T
-		void operator()(size_t n, size_t, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		void operator()(size_t n, size_t /*aligned_p*/, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
 		{
 			float *ptr_c0 = c;
 			float *ptr_c1 = c + rsc;

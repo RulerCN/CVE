@@ -40,6 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "arithmetic/cpu_arithmetic_msub.h"
 #include "arithmetic/cpu_arithmetic_exp.h"
 #include "arithmetic/cpu_arithmetic_sigmoid.h"
-#include "arithmetic/cpu_arithmetic_sigmoid_derivative.h"
+#include "arithmetic/cpu_arithmetic_desigmoid.h"
 
 #endif
