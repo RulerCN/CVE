@@ -27,43 +27,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_GEVV_H__
-#define __CORE_CPU_GEVV_H__
+#ifndef __CORE_CPU_KERNEL_GEVVT_FLOAT_H__
+#define __CORE_CPU_KERNEL_GEVVT_FLOAT_H__
 
-#include "gevv/cpu_addvvt.h"
+#include "rows_gevvt_float.h"
 
 namespace core
 {
-	// The multiplication of the row vector and the column vector
+	// Function template kernel_gevvt_float
 
-	template <class T, class A1, class A2>
-	T& cpu_gevvt(T &c, const vector<T, A1> &a, const vector<T, A2> &b)
+	template<size_t block_n, cpu_inst_type inst>
+	void kernel_gevvt_float(size_t n, const float *a, const float *b, float *c)
 	{
-		c = T(0);
-		return cpu_addvvt(c, a, b);
-	}
+		const size_t aligned_n = n & ~(block_n - 1);
+		const struct rows_gevvt_float<inst> functor;
 
-	template <class T, class A1, class A2>
-	T& cpu_gevvt(T &d, const vector<T, A1> &a, const vector<T, A2> &b, const T &c)
-	{
-		d = c;
-		return cpu_addtvvt(d, a, b);
-	}
-
-	// The multiplication of the row vector and the column vector
-
-	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_gevvt(vector<T, A> &c, const vector<T, A1> &a, const vector<T, A2> &b)
-	{
-		c.fill(T(0));
-		return cpu_addvvt(c, a, b);
-	}
-
-	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_gevvt(vector<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const vector<T, A> &c)
-	{
-		d.fill(c);
-		return cpu_addtvvt(d, a, b);
+		functor(aligned_n, n, a, b, c);
 	}
 
 } // namespace core

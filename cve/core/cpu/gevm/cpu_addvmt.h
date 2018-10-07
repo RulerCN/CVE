@@ -52,19 +52,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gevmt_float<8, 8, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_float<8, 8, cpu_avx | cpu_fma>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gevmt_float<8, 8, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_float<8, 8, cpu_avx>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gevmt_float<4, 4, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_float<4, 4, cpu_sse3 | cpu_fma>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gevmt_float<4, 4, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_float<4, 4, cpu_sse3>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gevmt_float<4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gevmt_float<4, 4, cpu_none>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
@@ -81,19 +81,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gevmt_double<4, 4, cpu_avx | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_double<4, 4, cpu_avx | cpu_fma>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gevmt_double<4, 4, cpu_avx>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_double<4, 4, cpu_avx>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gevmt_double<2, 2, cpu_sse3 | cpu_fma>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_double<2, 2, cpu_sse3 | cpu_fma>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gevmt_double<2, 2, cpu_sse3>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gevmt_double<2, 2, cpu_sse3>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gevmt_double<4, 4, cpu_none>()(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gevmt_double<4, 4, cpu_none>(b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
@@ -112,19 +112,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_float<8, 8, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<8, 8, cpu_avx>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_float<4, 4, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<4, 4, cpu_sse3>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gemtt_float<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gemtt_float<4, 4, cpu_none>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
@@ -141,19 +141,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_double<4, 4, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<4, 4, cpu_avx>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_double<2, 2, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<2, 2, cpu_sse3>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gemtt_double<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gemtt_double<4, 4, cpu_none>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
@@ -170,19 +170,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<8, 8, cpu_avx | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_float<8, 8, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<8, 8, cpu_avx>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<4, 4, cpu_sse3 | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_float<4, 4, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_float<4, 4, cpu_sse3>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gemtt_float<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gemtt_float<4, 4, cpu_none>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 
@@ -197,19 +197,19 @@ namespace core
 		if (cpu_inst::is_support_avx())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<4, 4, cpu_avx | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_double<4, 4, cpu_avx>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<4, 4, cpu_avx>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else if (cpu_inst::is_support_sse3())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<2, 2, cpu_sse3 | cpu_fma>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 			else
-				kernel_gemtt_double<2, 2, cpu_sse3>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+				kernel_gemtt_double<2, 2, cpu_sse3>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		}
 		else
-			kernel_gemtt_double<4, 4, cpu_none>()(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
+			kernel_gemtt_double<4, 4, cpu_none>(b.batch(), b.rows(), b.row_size(), a.data(), b.data(), b.row_size(), c.data());
 		return c;
 	}
 

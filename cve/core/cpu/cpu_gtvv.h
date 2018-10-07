@@ -27,38 +27,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_GEVV_DOUBLE_H__
-#define __CORE_CPU_KERNEL_GEVV_DOUBLE_H__
+#ifndef __CORE_CPU_GTVV_H__
+#define __CORE_CPU_GTVV_H__
 
-#include "rows_gevv_double.h"
+#include "gtvv/cpu_addtvv.h"
 
 namespace core
 {
-	// Function template kernel_gevv_double
+	// The multiplication of the column vector and the row vector
 
-	template<size_t block_n, cpu_inst_type inst>
-	void kernel_gevv_double(size_t m, size_t n, const double *a, const double *b, double *c, size_t rsc)
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_gtvv(matrix<T, A> &c, const vector<T, A1> &a, const vector<T, A2> &b)
 	{
-		const size_t aligned_n = n & ~(block_n - 1);
-		const struct rows_gevv_double<inst> functor;
-
-		functor(m, aligned_n, n, a, b, c, rsc);
+		c.fill(T(0));
+		return cpu_addtvv(c, a, b);
 	}
 
-	template<size_t block_n, cpu_inst_type inst>
-	void kernel_gevv_double(size_t l, size_t m, size_t n, const double *a, size_t rsa, const double *b, size_t rsb, double *c, size_t rsc)
+	template <class T, class A, class A1, class A2>
+	matrix<T, A>& cpu_gtvv(matrix<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const vector<T, A> &c)
 	{
-		const size_t block_rsc = m * rsc;
-		const size_t aligned_n = n & ~(block_n - 1);
-		const struct rows_gevv_double<inst> functor;
-
-		for (size_t r = 0; r < l; ++r)
-		{
-			functor(m, aligned_n, n, a, b, c, rsc);
-			a += rsa;
-			b += rsb;
-			c += block_rsc;
-		}
+		d.fill(c);
+		return cpu_addtvv(d, a, b);
 	}
 
 } // namespace core

@@ -27,16 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_ROWS_GEVV_DOUBLE_H__
-#define __CORE_CPU_KERNEL_ROWS_GEVV_DOUBLE_H__
+#ifndef __CORE_CPU_KERNEL_ROWS_GTVV_DOUBLE_H__
+#define __CORE_CPU_KERNEL_ROWS_GTVV_DOUBLE_H__
 
 #include "../../cpu_inst.h"
 
 namespace core
 {
-	// Class template rows_gevv_double
+	// Class template rows_gtvv_double
 	template<cpu_inst_type inst>
-	struct rows_gevv_double
+	struct rows_gtvv_double
 	{
 		// C(mxn) += A(mx1) * B(1xn)
 		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, const double *b, double *c, size_t rsc) const
@@ -61,7 +61,7 @@ namespace core
 	};
 
 	template<>
-	struct rows_gevv_double<cpu_sse2>
+	struct rows_gtvv_double<cpu_sse2>
 	{
 		// C(mxn) += A(mx1) * B(1xn)
 		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, const double *b, double *c, size_t rsc) const
@@ -91,7 +91,7 @@ namespace core
 	};
 
 	template<>
-	struct rows_gevv_double<cpu_sse2 | cpu_fma>
+	struct rows_gtvv_double<cpu_sse2 | cpu_fma>
 	{
 		// C(mxn) += A(mx1) * B(1xn)
 		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, const double *b, double *c, size_t rsc) const
@@ -121,7 +121,7 @@ namespace core
 	};
 
 	template<>
-	struct rows_gevv_double<cpu_avx>
+	struct rows_gtvv_double<cpu_avx>
 	{
 		// C(mxn) += A(mx1) * B(1xn)
 		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, const double *b, double *c, size_t rsc) const
@@ -151,7 +151,7 @@ namespace core
 	};
 
 	template<>
-	struct rows_gevv_double<cpu_avx | cpu_fma>
+	struct rows_gtvv_double<cpu_avx | cpu_fma>
 	{
 		// C(mxn) += A(mx1) * B(1xn)
 		void operator()(size_t m, size_t aligned_n, size_t n, const double *a, const double *b, double *c, size_t rsc) const

@@ -186,6 +186,7 @@
     <ClInclude Include="core\cpu\cpu_gemm.h" />
     <ClInclude Include="core\cpu\cpu_gevm.h" />
     <ClInclude Include="core\cpu\cpu_gevv.h" />
+    <ClInclude Include="core\cpu\cpu_gtvv.h" />
     <ClInclude Include="core\cpu\cpu_logic.h" />
     <ClInclude Include="core\cpu\cpu_max.h" />
     <ClInclude Include="core\cpu\cpu_mean.h" />
@@ -203,7 +204,8 @@
     <ClInclude Include="core\cpu\gemm\cpu_addmmt.h" />
     <ClInclude Include="core\cpu\gevm\cpu_addvm.h" />
     <ClInclude Include="core\cpu\gevm\cpu_addvmt.h" />
-    <ClInclude Include="core\cpu\gevv\cpu_addvv.h" />
+    <ClInclude Include="core\cpu\gevv\cpu_addvvt.h" />
+    <ClInclude Include="core\cpu\gtvv\cpu_addtvv.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_add.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_adds_value.h" />
@@ -274,10 +276,14 @@
     <ClInclude Include="core\cpu\kernel\gevm\rows_gevmt_float.h" />
     <ClInclude Include="core\cpu\kernel\gevm\rows_gevm_double.h" />
     <ClInclude Include="core\cpu\kernel\gevm\rows_gevm_float.h" />
-    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_double.h" />
-    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_float.h" />
-    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_double.h" />
-    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_float.h" />
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevvt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevvt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevvt_double.h" />
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevvt_float.h" />
+    <ClInclude Include="core\cpu\kernel\gtvv\kernel_gtvv_double.h" />
+    <ClInclude Include="core\cpu\kernel\gtvv\kernel_gtvv_float.h" />
+    <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_double.h" />
+    <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h" />
     <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />

@@ -37,28 +37,74 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Class template kernel_gemmt_float
+	// Function template kernel_gemmt_float
 	template<size_t block_m, size_t block_n, size_t block_p, cpu_inst_type inst>
-	struct kernel_gemmt_float
+	void kernel_gemmt_float(size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc)
 	{
-		// C(mxn) += A(mxp) * B(nxp)^T
-		void operator()(size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
-		{
-			const float *ptr_b;
-			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_n * rsb;
-			const size_t block_rsc = block_m * rsc;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_p = p & ~(block_p - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_n = n - aligned_n;
-			const size_t surplus_p = p - aligned_p;
-			const struct block_gemmt_float<inst> block_functor;
-			const struct columns_gemmt_float<inst> columns_functor;
-			const struct rows_gemmt_float<inst> rows_functor;
-			const struct rect_gemmt_float<inst> rect_functor;
+		const float *ptr_b;
+		const size_t block_rsa = block_m * rsa;
+		const size_t block_rsb = block_n * rsb;
+		const size_t block_rsc = block_m * rsc;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_p = p & ~(block_p - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const size_t surplus_p = p - aligned_p;
+		const struct block_gemmt_float<inst> block_functor;
+		const struct columns_gemmt_float<inst> columns_functor;
+		const struct rows_gemmt_float<inst> rows_functor;
+		const struct rect_gemmt_float<inst> rect_functor;
 
+		for (size_t i = 0; i < aligned_m; i += block_m)
+		{
+			ptr_b = b;
+			for (size_t j = 0; j < aligned_n; j += block_n)
+			{
+				block_functor(aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
+				ptr_b += block_rsb;
+			}
+			if (surplus_n > 0)
+				columns_functor(surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+			a += block_rsa;
+			c += block_rsc;
+		}
+		if (surplus_m > 0)
+		{
+			ptr_b = b;
+			for (size_t j = 0; j < aligned_n; j += block_n)
+			{
+				rows_functor(surplus_m, aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
+				ptr_b += block_rsb;
+			}
+			if (surplus_n > 0)
+				rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+		}
+	}
+
+	// Function template kernel_getmt_float
+	template<size_t block_m, size_t block_n, size_t block_p, cpu_inst_type inst>
+	void kernel_getmt_float(size_t l, size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc)
+	{
+		const float *ptr_b;
+		const size_t block_rsa = block_m * rsa;
+		const size_t block_rsb = block_n * rsb;
+		const size_t block_rsc = block_m * rsc;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_p = p & ~(block_p - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const size_t surplus_p = p - aligned_p;
+		const size_t surplus_rsa = surplus_m * rsa;
+		const size_t surplus_rsc = surplus_m * rsc;
+		const struct block_gemmt_float<inst> block_functor;
+		const struct columns_gemmt_float<inst> columns_functor;
+		const struct rows_gemmt_float<inst> rows_functor;
+		const struct rect_gemmt_float<inst> rect_functor;
+
+		for (size_t r = 0; r < l; ++r)
+		{
 			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
 				ptr_b = b;
@@ -82,123 +128,65 @@ namespace core
 				}
 				if (surplus_n > 0)
 					rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+				a += surplus_rsa;
+				c += surplus_rsc;
 			}
 		}
-	};
+	}
 
-	// Class template kernel_getmt_float
+	// Function template kernel_gettt_float
 	template<size_t block_m, size_t block_n, size_t block_p, cpu_inst_type inst>
-	struct kernel_getmt_float
+	void kernel_gettt_float(size_t l, size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc)
 	{
-		// C(lxmxn) += A(lxmxp) * B(nxp)^T
-		void operator()(size_t l, size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
+		const float *ptr_b;
+		const size_t msb = n * rsb;
+		const size_t block_rsa = block_m * rsa;
+		const size_t block_rsb = block_n * rsb;
+		const size_t block_rsc = block_m * rsc;
+		const size_t aligned_m = m & ~(block_m - 1);
+		const size_t aligned_p = p & ~(block_p - 1);
+		const size_t aligned_n = n & ~(block_n - 1);
+		const size_t surplus_m = m - aligned_m;
+		const size_t surplus_n = n - aligned_n;
+		const size_t surplus_p = p - aligned_p;
+		const size_t surplus_rsa = surplus_m * rsa;
+		const size_t surplus_rsc = surplus_m * rsc;
+		const struct block_gemmt_float<inst> block_functor;
+		const struct columns_gemmt_float<inst> columns_functor;
+		const struct rows_gemmt_float<inst> rows_functor;
+		const struct rect_gemmt_float<inst> rect_functor;
+
+		for (size_t r = 0; r < l; ++r)
 		{
-			const float *ptr_b;
-			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_n * rsb;
-			const size_t block_rsc = block_m * rsc;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_p = p & ~(block_p - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_n = n - aligned_n;
-			const size_t surplus_p = p - aligned_p;
-			const size_t surplus_rsa = surplus_m * rsa;
-			const size_t surplus_rsc = surplus_m * rsc;
-			const struct block_gemmt_float<inst> block_functor;
-			const struct columns_gemmt_float<inst> columns_functor;
-			const struct rows_gemmt_float<inst> rows_functor;
-			const struct rect_gemmt_float<inst> rect_functor;
-
-			for (size_t r = 0; r < l; ++r)
+			for (size_t i = 0; i < aligned_m; i += block_m)
 			{
-				for (size_t i = 0; i < aligned_m; i += block_m)
+				ptr_b = b;
+				for (size_t j = 0; j < aligned_n; j += block_n)
 				{
-					ptr_b = b;
-					for (size_t j = 0; j < aligned_n; j += block_n)
-					{
-						block_functor(aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
-						ptr_b += block_rsb;
-					}
-					if (surplus_n > 0)
-						columns_functor(surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
-					a += block_rsa;
-					c += block_rsc;
+					block_functor(aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
+					ptr_b += block_rsb;
 				}
-				if (surplus_m > 0)
-				{
-					ptr_b = b;
-					for (size_t j = 0; j < aligned_n; j += block_n)
-					{
-						rows_functor(surplus_m, aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
-						ptr_b += block_rsb;
-					}
-					if (surplus_n > 0)
-						rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
-					a += surplus_rsa;
-					c += surplus_rsc;
-				}
+				if (surplus_n > 0)
+					columns_functor(surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+				a += block_rsa;
+				c += block_rsc;
 			}
-		}
-	};
-
-	// Class template kernel_gettt_float
-	template<size_t block_m, size_t block_n, size_t block_p, cpu_inst_type inst>
-	struct kernel_gettt_float
-	{
-		// C(lxmxn) += A(lxmxp) * B(lxnxp)^T
-		void operator()(size_t l, size_t m, size_t n, size_t p, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc) const
-		{
-			const float *ptr_b;
-			const size_t msb = n * rsb;
-			const size_t block_rsa = block_m * rsa;
-			const size_t block_rsb = block_n * rsb;
-			const size_t block_rsc = block_m * rsc;
-			const size_t aligned_m = m & ~(block_m - 1);
-			const size_t aligned_p = p & ~(block_p - 1);
-			const size_t aligned_n = n & ~(block_n - 1);
-			const size_t surplus_m = m - aligned_m;
-			const size_t surplus_n = n - aligned_n;
-			const size_t surplus_p = p - aligned_p;
-			const size_t surplus_rsa = surplus_m * rsa;
-			const size_t surplus_rsc = surplus_m * rsc;
-			const struct block_gemmt_float<inst> block_functor;
-			const struct columns_gemmt_float<inst> columns_functor;
-			const struct rows_gemmt_float<inst> rows_functor;
-			const struct rect_gemmt_float<inst> rect_functor;
-
-			for (size_t r = 0; r < l; ++r)
+			if (surplus_m > 0)
 			{
-				for (size_t i = 0; i < aligned_m; i += block_m)
+				ptr_b = b;
+				for (size_t j = 0; j < aligned_n; j += block_n)
 				{
-					ptr_b = b;
-					for (size_t j = 0; j < aligned_n; j += block_n)
-					{
-						block_functor(aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
-						ptr_b += block_rsb;
-					}
-					if (surplus_n > 0)
-						columns_functor(surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
-					a += block_rsa;
-					c += block_rsc;
+					rows_functor(surplus_m, aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
+					ptr_b += block_rsb;
 				}
-				if (surplus_m > 0)
-				{
-					ptr_b = b;
-					for (size_t j = 0; j < aligned_n; j += block_n)
-					{
-						rows_functor(surplus_m, aligned_p, p, a, rsa, ptr_b, rsb, c + j, rsc);
-						ptr_b += block_rsb;
-					}
-					if (surplus_n > 0)
-						rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
-					a += surplus_rsa;
-					c += surplus_rsc;
-				}
-				b += msb;
+				if (surplus_n > 0)
+					rect_functor(surplus_m, surplus_n, aligned_p, p, a, rsa, ptr_b, rsb, c + aligned_n, rsc);
+				a += surplus_rsa;
+				c += surplus_rsc;
 			}
+			b += msb;
 		}
-	};
+	}
 
 } // namespace core
 

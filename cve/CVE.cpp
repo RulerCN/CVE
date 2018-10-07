@@ -478,8 +478,8 @@ int main()
 
 
 		core::matrix<float> vv(col, col, dim);
-		core::cpu_gevv(vv, mint, maxt);
-		print("gevv", vv);
+		core::cpu_gtvv(vv, mint, maxt);
+		print("gtvv", vv);
 
 		//size_t row = 23;
 		//size_t p = 25;

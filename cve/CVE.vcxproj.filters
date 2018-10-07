@@ -646,19 +646,37 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_desigmoid.h">
       <Filter>core\cpu\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\gevv\cpu_addvv.h">
+    <ClInclude Include="core\cpu\kernel\gtvv\kernel_gtvv_double.h">
+      <Filter>core\cpu\kernel\gtvv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gtvv\kernel_gtvv_float.h">
+      <Filter>core\cpu\kernel\gtvv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_double.h">
+      <Filter>core\cpu\kernel\gtvv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_float.h">
+      <Filter>core\cpu\kernel\gtvv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gtvv\cpu_addtvv.h">
+      <Filter>core\cpu\gtvv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_gtvv.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevvt_float.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\gevv\rows_gevvt_double.h">
+      <Filter>core\cpu\kernel\gevv</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\gevv\cpu_addvvt.h">
       <Filter>core\cpu\gevv</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_double.h">
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevvt_float.h">
       <Filter>core\cpu\kernel\gevv</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gevv\rows_gevv_float.h">
-      <Filter>core\cpu\kernel\gevv</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_float.h">
-      <Filter>core\cpu\kernel\gevv</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevv_double.h">
+    <ClInclude Include="core\cpu\kernel\gevv\kernel_gevvt_double.h">
       <Filter>core\cpu\kernel\gevv</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_gevv.h">
@@ -741,11 +759,17 @@
     <Filter Include="core\cpu\max">
       <UniqueIdentifier>{8787d4c9-250d-4525-8312-5f0e44b712d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\cpu\kernel\gevv">
+    <Filter Include="core\cpu\kernel\gtvv">
       <UniqueIdentifier>{4efbe375-fa85-4755-9e67-98f9a8592412}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\cpu\gevv">
+    <Filter Include="core\cpu\kernel\gevv">
+      <UniqueIdentifier>{57f94940-292b-4a6a-a0df-13507a04f241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\gtvv">
       <UniqueIdentifier>{6bd20840-bec7-4fbb-9f75-82a046a37d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\gevv">
+      <UniqueIdentifier>{83ce5b19-cb36-48dc-ae64-7eb38590f153}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

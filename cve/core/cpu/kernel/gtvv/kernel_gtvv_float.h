@@ -27,38 +27,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_KERNEL_GEVV_FLOAT_H__
-#define __CORE_CPU_KERNEL_GEVV_FLOAT_H__
+#ifndef __CORE_CPU_KERNEL_GTVV_FLOAT_H__
+#define __CORE_CPU_KERNEL_GTVV_FLOAT_H__
 
-#include "rows_gevv_float.h"
+#include "rows_gtvv_float.h"
 
 namespace core
 {
-	// Function template kernel_gevv_float
+	// Function template kernel_gtvv_float
 
 	template<size_t block_n, cpu_inst_type inst>
-	void kernel_gevv_float(size_t m, size_t n, const float *a, const float *b, float *c, size_t rsc)
+	void kernel_gtvv_float(size_t m, size_t n, const float *a, const float *b, float *c, size_t rsc)
 	{
 		const size_t aligned_n = n & ~(block_n - 1);
-		const struct rows_gevv_float<inst> functor;
+		const struct rows_gtvv_float<inst> functor;
 
 		functor(m, aligned_n, n, a, b, c, rsc);
-	}
-
-	template<size_t block_n, cpu_inst_type inst>
-	void kernel_gevv_float(size_t l, size_t m, size_t n, const float *a, size_t rsa, const float *b, size_t rsb, float *c, size_t rsc)
-	{
-		const size_t block_rsc = m * rsc;
-		const size_t aligned_n = n & ~(block_n - 1);
-		const struct rows_gevv_float<inst> functor;
-
-		for (size_t r = 0; r < l; ++r)
-		{
-			functor(m, aligned_n, n, a, b, c, rsc);
-			a += rsa;
-			b += rsb;
-			c += block_rsc;
-		}
 	}
 
 } // namespace core
