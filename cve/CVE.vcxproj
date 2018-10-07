@@ -198,7 +198,7 @@
     <ClInclude Include="core\cpu\cpu_convert.h" />
     <ClInclude Include="core\cpu\cpu_get_element.h" />
     <ClInclude Include="core\cpu\cpu_mapping.h" />
-    <ClInclude Include="core\cpu\cpu_sliding_window.h" />
+    <ClInclude Include="core\cpu\cpu_sliding.h" />
     <ClInclude Include="core\cpu\cpu_sum.h" />
     <ClInclude Include="core\cpu\gemm\cpu_addmm.h" />
     <ClInclude Include="core\cpu\gemm\cpu_addmmt.h" />
@@ -286,7 +286,6 @@
     <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h" />
-    <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h" />
@@ -308,6 +307,9 @@
     <ClInclude Include="core\cpu\kernel\min\rows_min.h" />
     <ClInclude Include="core\cpu\kernel\min\rows_mint.h" />
     <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h" />
+    <ClInclude Include="core\cpu\kernel\sliding\block_sliding.h" />
+    <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_neighbour.h" />
+    <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_window.h" />
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_double.h" />
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_float.h" />
     <ClInclude Include="core\cpu\kernel\sum\block_sumt_int32.h" />
@@ -342,6 +344,7 @@
     <ClInclude Include="core\cpu\min\cpu_min_yz.h" />
     <ClInclude Include="core\cpu\min\cpu_min_z.h" />
     <ClInclude Include="core\cpu\onehot\cpu_onehot_sub.h" />
+    <ClInclude Include="core\cpu\sliding\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_xyz_double.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_xyz_float.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_xyz_int32.h" />

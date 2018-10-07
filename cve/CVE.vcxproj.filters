@@ -76,12 +76,6 @@
     <ClInclude Include="core\cpu\cpu_mapping.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_sliding_window.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_sliding_window.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="ann\linear_layer.h">
       <Filter>ann</Filter>
     </ClInclude>
@@ -682,6 +676,21 @@
     <ClInclude Include="core\cpu\cpu_gevv.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_neighbour.h">
+      <Filter>core\cpu\kernel\sliding</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_window.h">
+      <Filter>core\cpu\kernel\sliding</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\sliding\block_sliding.h">
+      <Filter>core\cpu\kernel\sliding</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\sliding\cpu_sliding_window.h">
+      <Filter>core\cpu\sliding</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_sliding.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -770,6 +779,12 @@
     </Filter>
     <Filter Include="core\cpu\gevv">
       <UniqueIdentifier>{83ce5b19-cb36-48dc-ae64-7eb38590f153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\sliding">
+      <UniqueIdentifier>{c236d449-35dc-46a3-bc39-f5f77e828c6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\sliding">
+      <UniqueIdentifier>{bf7b2063-dbbf-4769-8090-31def9737f96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
