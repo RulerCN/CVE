@@ -170,6 +170,8 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sub.h" />
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_subs.h" />
     <ClInclude Include="core\cpu\compare\cpu_compare_eq.h" />
+    <ClInclude Include="core\cpu\compare\cpu_compare_gt.h" />
+    <ClInclude Include="core\cpu\compare\cpu_compare_lt.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_double.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_float.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_int16.h" />

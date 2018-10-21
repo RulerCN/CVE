@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Equality of value and scalar
+	// Equality operators of value and scalar
 
 	template <class A1, class A2>
 	scalar<signed char, A1>& cpu_eq(scalar<signed char, A1> &c, const signed char a, const scalar<signed char> &b)
@@ -177,7 +177,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of value and vector
+	// Equality operators of value and vector
 
 	template <class A1, class A2>
 	vector<signed char, A1>& cpu_eq(vector<signed char, A1> &c, const signed char a, const vector<signed char> &b)
@@ -315,7 +315,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of value and matrix
+	// Equality operators of value and matrix
 
 	template <class A1, class A2>
 	matrix<signed char, A1>& cpu_eq(matrix<signed char, A1> &c, const signed char a, const matrix<signed char> &b)
@@ -453,7 +453,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of value and tensor
+	// Equality operators of value and tensor
 
 	template <class A1, class A2>
 	tensor<signed char, A1>& cpu_eq(tensor<signed char, A1> &c, const signed char a, const tensor<signed char> &b)
@@ -591,7 +591,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of scalar and scalar
+	// Equality operators of scalar and scalar
 
 	template <class A1, class A2, class A3>
 	scalar<signed char, A1>& cpu_eq(scalar<signed char, A1> &c, const scalar<signed char, A2> &a, const scalar<signed char, A3> &b)
@@ -729,7 +729,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of vector and vector
+	// Equality operators of vector and vector
 
 	template <class A1, class A2, class A3>
 	vector<signed char, A1>& cpu_eq(vector<signed char, A1> &c, const vector<signed char, A2> &a, const vector<signed char, A3> &b)
@@ -867,7 +867,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of matrix and matrix
+	// Equality operators of matrix and matrix
 
 	template <class A1, class A2, class A3>
 	matrix<signed char, A1>& cpu_eq(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const matrix<signed char, A3> &b)
@@ -1005,7 +1005,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of tensor and tensor
+	// Equality operators of tensor and tensor
 
 	template <class A1, class A2, class A3>
 	tensor<signed char, A1>& cpu_eq(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const tensor<signed char, A3> &b)
@@ -1143,7 +1143,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of vector and scalar
+	// Equality operators of vector and scalar
 
 	template <class A1, class A2, class A3>
 	vector<signed char, A1>& cpu_eq(vector<signed char, A1> &c, const vector<signed char, A2> &a, const scalar<signed char, A3> &b)
@@ -1297,7 +1297,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of matrix and vector
+	// Equality operators of matrix and vector
 
 	template <class A1, class A2, class A3>
 	matrix<signed char, A1>& cpu_eq(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const vector<signed char, A3> &b)
@@ -1451,7 +1451,7 @@ namespace core
 		return c;
 	}
 
-	// Equality of tensor and matrix
+	// Equality operators of tensor and matrix
 
 	template <class A1, class A2, class A3>
 	tensor<signed char, A1>& cpu_eq(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const matrix<signed char, A3> &b)

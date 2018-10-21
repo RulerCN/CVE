@@ -712,6 +712,12 @@
     <ClInclude Include="core\cpu\compare\cpu_compare_eq.h">
       <Filter>core\cpu\compare</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\compare\cpu_compare_gt.h">
+      <Filter>core\cpu\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\compare\cpu_compare_lt.h">
+      <Filter>core\cpu\compare</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
