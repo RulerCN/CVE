@@ -40,8 +40,8 @@ namespace core
 {
 	// The derivative of the sigmoid function for scalar
 
-	template <class A, class A1, class A2>
-	scalar<float, A>& cpu_desigmoid(scalar<float, A> &c, const scalar<float, A1> &a, const scalar<float, A2> &b)
+	template <class A>
+	scalar<float, A>& cpu_desigmoid(scalar<float, A> &c, const scalar<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -57,8 +57,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	scalar<double, A>& cpu_desigmoid(scalar<double, A> &c, const scalar<double, A1> &a, const scalar<double, A2> &b)
+	template <class A>
+	scalar<double, A>& cpu_desigmoid(scalar<double, A> &c, const scalar<double, A> &a, const scalar<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -76,8 +76,8 @@ namespace core
 
 	// The derivative of the sigmoid function for vector
 
-	template <class A, class A1, class A2>
-	vector<float, A>& cpu_desigmoid(vector<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
+	template <class A>
+	vector<float, A>& cpu_desigmoid(vector<float, A> &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -93,8 +93,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	vector<double, A>& cpu_desigmoid(vector<double, A> &c, const vector<double, A1> &a, const vector<double, A2> &b)
+	template <class A>
+	vector<double, A>& cpu_desigmoid(vector<double, A> &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -112,8 +112,8 @@ namespace core
 
 	// The derivative of the sigmoid function for matrix
 
-	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_desigmoid(matrix<float, A> &c, const matrix<float, A1> &a, const matrix<float, A2> &b)
+	template <class A>
+	matrix<float, A>& cpu_desigmoid(matrix<float, A> &c, const matrix<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -129,8 +129,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_desigmoid(matrix<double, A> &c, const matrix<double, A1> &a, const matrix<double, A2> &b)
+	template <class A>
+	matrix<double, A>& cpu_desigmoid(matrix<double, A> &c, const matrix<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -148,8 +148,8 @@ namespace core
 
 	// The derivative of the sigmoid function for tensor
 
-	template <class A, class A1, class A2>
-	tensor<float, A>& cpu_desigmoid(tensor<float, A> &c, const tensor<float, A1> &a, const tensor<float, A2> &b)
+	template <class A>
+	tensor<float, A>& cpu_desigmoid(tensor<float, A> &c, const tensor<float, A> &a, const tensor<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -165,8 +165,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	tensor<double, A>& cpu_desigmoid(tensor<double, A> &c, const tensor<double, A1> &a, const tensor<double, A2> &b)
+	template <class A>
+	tensor<double, A>& cpu_desigmoid(tensor<double, A> &c, const tensor<double, A> &a, const tensor<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

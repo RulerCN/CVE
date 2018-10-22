@@ -582,18 +582,8 @@ namespace core
 			if (empty() || other.empty())
 				throw ::std::domain_error(scalar_not_initialized);
 			if (count != other.size())
-				throw ::std::invalid_argument(invalid_length);
+				throw ::std::invalid_argument(invalid_size);
 			::std::copy(other.buffer, other.buffer + count, buffer);
-		}
-
-		void linear_fill(const value_type& init, const value_type& delta)
-		{
-			value_type value(init);
-			for (size_type i = 0; i < count; ++i)
-			{
-				buffer[i] = value;
-				value += delta;
-			}
 		}
 
 		template<class Generator>

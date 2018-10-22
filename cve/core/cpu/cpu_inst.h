@@ -42,331 +42,357 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <x86intrin.h>
 #endif
 
-#define CPUIDFIELD_MASK_POS            0x0000001FU
-#define CPUIDFIELD_MASK_LEN            0x000003E0U
-#define CPUIDFIELD_MASK_REG            0x00000C00U
-#define CPUIDFIELD_MASK_FIDSUB         0x000FF000U
-#define CPUIDFIELD_MASK_FID            0xFFF00000U
-
-#define CPUIDFIELD_SHIFT_POS           0
-#define CPUIDFIELD_SHIFT_LEN           5
-#define CPUIDFIELD_SHIFT_REG           10
-#define CPUIDFIELD_SHIFT_FIDSUB        12
-#define CPUIDFIELD_SHIFT_FID           20
-
-#define CPUIDFIELD_MAKE(fid, fidsub, reg, pos, len) \
-	(((fid) & 0xF0000000) | (((fid) << CPUIDFIELD_SHIFT_FID) & 0x0FF00000) | \
-	(((fidsub) << CPUIDFIELD_SHIFT_FIDSUB) & CPUIDFIELD_MASK_FIDSUB) | \
-	(((reg) << CPUIDFIELD_SHIFT_REG) & CPUIDFIELD_MASK_REG) | \
-	(((pos) << CPUIDFIELD_SHIFT_POS) & CPUIDFIELD_MASK_POS) | \
-	((((len) - 1) << CPUIDFIELD_SHIFT_LEN) & CPUIDFIELD_MASK_LEN))
-
-#define CPUIDFIELD_FID(cpuidfield)     (((cpuidfield) & 0xF0000000) | (((cpuidfield) & 0x0FF00000) >> CPUIDFIELD_SHIFT_FID))
-#define CPUIDFIELD_FIDSUB(cpuidfield)  (((cpuidfield) & CPUIDFIELD_MASK_FIDSUB) >> CPUIDFIELD_SHIFT_FIDSUB)
-#define CPUIDFIELD_REG(cpuidfield)     (((cpuidfield) & CPUIDFIELD_MASK_REG) >> CPUIDFIELD_SHIFT_REG)
-#define CPUIDFIELD_POS(cpuidfield)     (((cpuidfield) & CPUIDFIELD_MASK_POS) >> CPUIDFIELD_SHIFT_POS)
-#define CPUIDFIELD_LEN(cpuidfield)     ((((cpuidfield) & CPUIDFIELD_MASK_LEN) >> CPUIDFIELD_SHIFT_LEN) + 1)
-#define CPUID_GETBITS32(src, pos, len) (((src) >> (pos)) & (((unsigned int) -1) >> (32 - len)))
-
-#define CPUF_LFuncStd                  CPUIDFIELD_MAKE(0, 0, 0, 0, 32)
-#define CPUF_Stepping                  CPUIDFIELD_MAKE(1, 0, 0, 0, 4)
-#define CPUF_BaseModel                 CPUIDFIELD_MAKE(1, 0, 0, 4, 4)
-#define CPUF_BaseFamily                CPUIDFIELD_MAKE(1, 0, 0, 8, 4)
-#define CPUF_ProcessorType             CPUIDFIELD_MAKE(1, 0, 0, 12, 2)
-#define CPUF_ExtModel                  CPUIDFIELD_MAKE(1, 0, 0, 16, 4)
-#define CPUF_ExtFamily                 CPUIDFIELD_MAKE(1, 0, 0, 20, 8)
-#define CPUF_BrandId8                  CPUIDFIELD_MAKE(1, 0, 1, 0, 8)
-#define CPUF_CLFlush                   CPUIDFIELD_MAKE(1, 0, 1, 8, 8)
-#define CPUF_MaxApicId                 CPUIDFIELD_MAKE(1, 0, 1, 16, 8)
-#define CPUF_ApicId                    CPUIDFIELD_MAKE(1, 0, 1, 24, 8)
-#define CPUF_SSE3                      CPUIDFIELD_MAKE(1, 0, 2, 0, 1)
-#define CPUF_PCLMULQDQ                 CPUIDFIELD_MAKE(1, 0, 2, 1, 1)
-#define CPUF_DTES64                    CPUIDFIELD_MAKE(1, 0, 2, 2, 1)
-#define CPUF_MONITOR                   CPUIDFIELD_MAKE(1, 0, 2, 3, 1)
-#define CPUF_DS_CPL                    CPUIDFIELD_MAKE(1, 0, 2, 4, 1)
-#define CPUF_VMX                       CPUIDFIELD_MAKE(1, 0, 2, 5, 1)
-#define CPUF_SMX                       CPUIDFIELD_MAKE(1, 0, 2, 6, 1)
-#define CPUF_EIST                      CPUIDFIELD_MAKE(1, 0, 2, 7, 1)
-#define CPUF_TM2                       CPUIDFIELD_MAKE(1, 0, 2, 8, 1)
-#define CPUF_SSSE3                     CPUIDFIELD_MAKE(1, 0, 2, 9, 1)
-#define CPUF_CNXT_ID                   CPUIDFIELD_MAKE(1, 0, 2, 10, 1)
-#define CPUF_FMA                       CPUIDFIELD_MAKE(1, 0, 2, 12, 1)
-#define CPUF_CX16                      CPUIDFIELD_MAKE(1, 0, 2, 13, 1)
-#define CPUF_xTPR                      CPUIDFIELD_MAKE(1, 0, 2, 14, 1)
-#define CPUF_PDCM                      CPUIDFIELD_MAKE(1, 0, 2, 15, 1)
-#define CPUF_PCID                      CPUIDFIELD_MAKE(1, 0, 2, 17, 1)
-#define CPUF_DCA                       CPUIDFIELD_MAKE(1, 0, 2, 18, 1)
-#define CPUF_SSE41                     CPUIDFIELD_MAKE(1, 0, 2, 19, 1)
-#define CPUF_SSE42                     CPUIDFIELD_MAKE(1, 0, 2, 20, 1)
-#define CPUF_x2APIC                    CPUIDFIELD_MAKE(1, 0, 2, 21, 1)
-#define CPUF_MOVBE                     CPUIDFIELD_MAKE(1, 0, 2, 22, 1)
-#define CPUF_POPCNT                    CPUIDFIELD_MAKE(1, 0, 2, 23, 1)
-#define CPUF_TSC_DEADLINE              CPUIDFIELD_MAKE(1, 0, 2, 24, 1)
-#define CPUF_AES                       CPUIDFIELD_MAKE(1, 0, 2, 25, 1)
-#define CPUF_XSAVE                     CPUIDFIELD_MAKE(1, 0, 2, 26, 1)
-#define CPUF_OSXSAVE                   CPUIDFIELD_MAKE(1, 0, 2, 27, 1)
-#define CPUF_AVX                       CPUIDFIELD_MAKE(1, 0, 2, 28, 1)
-#define CPUF_F16C                      CPUIDFIELD_MAKE(1, 0, 2, 29, 1)
-#define CPUF_RDRAND                    CPUIDFIELD_MAKE(1, 0, 2, 30, 1)
-#define CPUF_FPU                       CPUIDFIELD_MAKE(1, 0, 3, 0, 1)
-#define CPUF_VME                       CPUIDFIELD_MAKE(1, 0, 3, 1, 1)
-#define CPUF_DE                        CPUIDFIELD_MAKE(1, 0, 3, 2, 1)
-#define CPUF_PSE                       CPUIDFIELD_MAKE(1, 0, 3, 3, 1)
-#define CPUF_TSC                       CPUIDFIELD_MAKE(1, 0, 3, 4, 1)
-#define CPUF_MSR                       CPUIDFIELD_MAKE(1, 0, 3, 5, 1)
-#define CPUF_PAE                       CPUIDFIELD_MAKE(1, 0, 3, 6, 1)
-#define CPUF_MCE                       CPUIDFIELD_MAKE(1, 0, 3, 7, 1)
-#define CPUF_CX8                       CPUIDFIELD_MAKE(1, 0, 3, 8, 1)
-#define CPUF_APIC                      CPUIDFIELD_MAKE(1, 0, 3, 9, 1)
-#define CPUF_SEP                       CPUIDFIELD_MAKE(1, 0, 3, 11, 1)
-#define CPUF_MTRR                      CPUIDFIELD_MAKE(1, 0, 3, 12, 1)
-#define CPUF_PGE                       CPUIDFIELD_MAKE(1, 0, 3, 13, 1)
-#define CPUF_MCA                       CPUIDFIELD_MAKE(1, 0, 3, 14, 1)
-#define CPUF_CMOV                      CPUIDFIELD_MAKE(1, 0, 3, 15, 1)
-#define CPUF_PAT                       CPUIDFIELD_MAKE(1, 0, 3, 16, 1)
-#define CPUF_PSE36                     CPUIDFIELD_MAKE(1, 0, 3, 17, 1)
-#define CPUF_PSN                       CPUIDFIELD_MAKE(1, 0, 3, 18, 1)
-#define CPUF_CLFSH                     CPUIDFIELD_MAKE(1, 0, 3, 19, 1)
-#define CPUF_DS                        CPUIDFIELD_MAKE(1, 0, 3, 21, 1)
-#define CPUF_ACPI                      CPUIDFIELD_MAKE(1, 0, 3, 22, 1)
-#define CPUF_MMX                       CPUIDFIELD_MAKE(1, 0, 3, 23, 1)
-#define CPUF_FXSR                      CPUIDFIELD_MAKE(1, 0, 3, 24, 1)
-#define CPUF_SSE                       CPUIDFIELD_MAKE(1, 0, 3, 25, 1)
-#define CPUF_SSE2                      CPUIDFIELD_MAKE(1, 0, 3, 26, 1)
-#define CPUF_SS                        CPUIDFIELD_MAKE(1, 0, 3, 27, 1)
-#define CPUF_HTT                       CPUIDFIELD_MAKE(1, 0, 3, 28, 1)
-#define CPUF_TM                        CPUIDFIELD_MAKE(1, 0, 3, 29, 1)
-#define CPUF_PBE                       CPUIDFIELD_MAKE(1, 0, 3, 31, 1)
-#define CPUF_Cache_Type                CPUIDFIELD_MAKE(4, 0, 0, 0, 5)
-#define CPUF_Cache_Level               CPUIDFIELD_MAKE(4, 0, 0, 5, 3)
-#define CPUF_CACHE_SI                  CPUIDFIELD_MAKE(4, 0, 0, 8, 1)
-#define CPUF_CACHE_FA                  CPUIDFIELD_MAKE(4, 0, 0, 9, 1)
-#define CPUF_MaxApicIdShare            CPUIDFIELD_MAKE(4, 0, 0, 14, 12)
-#define CPUF_MaxApicIdCore             CPUIDFIELD_MAKE(4, 0, 0, 26, 6)
-#define CPUF_Cache_LineSize            CPUIDFIELD_MAKE(4, 0, 1, 0, 12)
-#define CPUF_Cache_Partitions          CPUIDFIELD_MAKE(4, 0, 1, 12, 10)
-#define CPUF_Cache_Ways                CPUIDFIELD_MAKE(4, 0, 1, 22, 10)
-#define CPUF_Cache_Sets                CPUIDFIELD_MAKE(4, 0, 2, 0, 32)
-#define CPUF_CACHE_INVD                CPUIDFIELD_MAKE(4, 0, 3, 0, 1)
-#define CPUF_CACHE_INCLUSIVENESS       CPUIDFIELD_MAKE(4, 0, 3, 1, 1)
-#define CPUF_CACHE_COMPLEXINDEX        CPUIDFIELD_MAKE(4, 0, 3, 2, 1)
-#define CPUF_MonLineSizeMin            CPUIDFIELD_MAKE(5, 0, 0, 0, 16)
-#define CPUF_MonLineSizeMax            CPUIDFIELD_MAKE(5, 0, 1, 0, 16)
-#define CPUF_EMX                       CPUIDFIELD_MAKE(5, 0, 2, 0, 1)
-#define CPUF_IBE                       CPUIDFIELD_MAKE(5, 0, 2, 1, 1)
-#define CPUF_MWAIT_Number_C0           CPUIDFIELD_MAKE(5, 0, 3, 0, 4)
-#define CPUF_MWAIT_Number_C1           CPUIDFIELD_MAKE(5, 0, 3, 4, 4)
-#define CPUF_MWAIT_Number_C2           CPUIDFIELD_MAKE(5, 0, 3, 8, 4)
-#define CPUF_MWAIT_Number_C3           CPUIDFIELD_MAKE(5, 0, 3, 12, 4)
-#define CPUF_MWAIT_Number_C4           CPUIDFIELD_MAKE(5, 0, 3, 16, 4)
-#define CPUF_DTS                       CPUIDFIELD_MAKE(6, 0, 0, 0, 1)
-#define CPUF_TURBO_BOOST               CPUIDFIELD_MAKE(6, 0, 0, 1, 1)
-#define CPUF_ARAT                      CPUIDFIELD_MAKE(6, 0, 0, 2, 1)
-#define CPUF_PLN                       CPUIDFIELD_MAKE(6, 0, 0, 4, 1)
-#define CPUF_ECMD                      CPUIDFIELD_MAKE(6, 0, 0, 5, 1)
-#define CPUF_PTM                       CPUIDFIELD_MAKE(6, 0, 0, 6, 1)
-#define CPUF_DTS_ITs                   CPUIDFIELD_MAKE(6, 0, 1, 0, 4)
-#define CPUF_PERF                      CPUIDFIELD_MAKE(6, 0, 2, 0, 1)
-#define CPUF_ACNT2                     CPUIDFIELD_MAKE(6, 0, 2, 1, 1)
-#define CPUF_ENERGY_PERF_BIAS          CPUIDFIELD_MAKE(6, 0, 2, 3, 1)
-#define CPUF_Max07Subleaf              CPUIDFIELD_MAKE(7, 0, 0, 0, 32)
-#define CPUF_FSGSBASE                  CPUIDFIELD_MAKE(7, 0, 1, 0, 1)
-#define CPUF_TSC_ADJUST                CPUIDFIELD_MAKE(7, 0, 1, 1, 1)
-#define CPUF_BMI1                      CPUIDFIELD_MAKE(7, 0, 1, 3, 1)
-#define CPUF_HLE                       CPUIDFIELD_MAKE(7, 0, 1, 4, 1)
-#define CPUF_AVX2                      CPUIDFIELD_MAKE(7, 0, 1, 5, 1)
-#define CPUF_SMEP                      CPUIDFIELD_MAKE(7, 0, 1, 7, 1)
-#define CPUF_BMI2                      CPUIDFIELD_MAKE(7, 0, 1, 8, 1)
-#define CPUF_ERMS                      CPUIDFIELD_MAKE(7, 0, 1, 9, 1)
-#define CPUF_INVPCID                   CPUIDFIELD_MAKE(7, 0, 1, 10, 1)
-#define CPUF_RTM                       CPUIDFIELD_MAKE(7, 0, 1, 11, 1)
-#define CPUF_RDSEED                    CPUIDFIELD_MAKE(7, 0, 1, 18, 1)
-#define CPUF_ADX                       CPUIDFIELD_MAKE(7, 0, 1, 19, 1)
-#define CPUF_SMAP                      CPUIDFIELD_MAKE(7, 0, 1, 20, 1)
-#define CPUF_PLATFORM_DCA_CAP          CPUIDFIELD_MAKE(9, 0, 0, 0, 32)
-#define CPUF_APM_Version               CPUIDFIELD_MAKE(0xA, 0, 0, 0, 8)
-#define CPUF_APM_Counters              CPUIDFIELD_MAKE(0xA, 0, 0, 8, 8)
-#define CPUF_APM_Bits                  CPUIDFIELD_MAKE(0xA, 0, 0, 16, 8)
-#define CPUF_APM_Length                CPUIDFIELD_MAKE(0xA, 0, 0, 24, 8)
-#define CPUF_APM_CC                    CPUIDFIELD_MAKE(0xA, 0, 1, 0, 1)
-#define CPUF_APM_IR                    CPUIDFIELD_MAKE(0xA, 0, 1, 1, 1)
-#define CPUF_APM_RC                    CPUIDFIELD_MAKE(0xA, 0, 1, 2, 1)
-#define CPUF_APM_LLCR                  CPUIDFIELD_MAKE(0xA, 0, 1, 3, 1)
-#define CPUF_APM_LLCM                  CPUIDFIELD_MAKE(0xA, 0, 1, 4, 1)
-#define CPUF_APM_BIR                   CPUIDFIELD_MAKE(0xA, 0, 1, 5, 1)
-#define CPUF_APM_BMR                   CPUIDFIELD_MAKE(0xA, 0, 1, 6, 1)
-#define CPUF_APM_FC_Number             CPUIDFIELD_MAKE(0xA, 0, 3, 0, 5)
-#define CPUF_APM_FC_Bits               CPUIDFIELD_MAKE(0xA, 0, 3, 5, 8)
-#define CPUF_Topology_Bits             CPUIDFIELD_MAKE(0xB, 0, 0, 0, 5)
-#define CPUF_Topology_Number           CPUIDFIELD_MAKE(0xB, 0, 1, 0, 16)
-#define CPUF_Topology_Level            CPUIDFIELD_MAKE(0xB, 0, 2, 0, 8)
-#define CPUF_Topology_Type             CPUIDFIELD_MAKE(0xB, 0, 2, 8, 8)
-#define CPUF_X2APICID                  CPUIDFIELD_MAKE(0xB, 0, 3, 0, 32)
-#define CPUF_XFeatureSupportedMaskLo   CPUIDFIELD_MAKE(0xD, 0, 0, 0, 32)
-#define CPUF_XFeatureEnabledSizeMax    CPUIDFIELD_MAKE(0xD, 0, 1, 0, 32)
-#define CPUF_XFeatureSupportedSizeMax  CPUIDFIELD_MAKE(0xD, 0, 2, 0, 32)
-#define CPUF_XFeatureSupportedMaskHi   CPUIDFIELD_MAKE(0xD, 0, 3, 0, 32)
-#define CPUF_XSAVEOPT                  CPUIDFIELD_MAKE(0xD, 1, 0, 0, 1)
-#define CPUF_YmmSaveStateSize          CPUIDFIELD_MAKE(0xD, 2, 0, 0, 32)
-#define CPUF_YmmSaveStateOffset        CPUIDFIELD_MAKE(0xD, 2, 1, 0, 32)
-#define CPUF_LwpSaveStateSize          CPUIDFIELD_MAKE(0xD, 62, 0, 0, 32)
-#define CPUF_LwpSaveStateOffset        CPUIDFIELD_MAKE(0xD, 62, 1, 0, 32)
-#define CPUF_LFuncExt                  CPUIDFIELD_MAKE(0x80000000U, 0, 0, 0, 32)
-#define CPUF_BrandId16                 CPUIDFIELD_MAKE(0x80000001U, 0, 1, 0, 16)
-#define CPUF_PkgType                   CPUIDFIELD_MAKE(0x80000001U, 0, 1, 28, 4)
-#define CPUF_LahfSahf                  CPUIDFIELD_MAKE(0x80000001U, 0, 2, 0, 1)
-#define CPUF_CmpLegacy                 CPUIDFIELD_MAKE(0x80000001U, 0, 2, 1, 1)
-#define CPUF_SVM                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 2, 1)
-#define CPUF_ExtApicSpace              CPUIDFIELD_MAKE(0x80000001U, 0, 2, 3, 1)
-#define CPUF_AltMovCr8                 CPUIDFIELD_MAKE(0x80000001U, 0, 2, 4, 1)
-#define CPUF_ABM                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 5, 1)
-#define CPUF_SSE4A                     CPUIDFIELD_MAKE(0x80000001U, 0, 2, 6, 1)
-#define CPUF_MisAlignSse               CPUIDFIELD_MAKE(0x80000001U, 0, 2, 7, 1)
-#define CPUF_3DNowPrefetch             CPUIDFIELD_MAKE(0x80000001U, 0, 2, 8, 1)
-#define CPUF_OSVW                      CPUIDFIELD_MAKE(0x80000001U, 0, 2, 9, 1)
-#define CPUF_IBS                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 10, 1)
-#define CPUF_XOP                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 11, 1)
-#define CPUF_SKINIT                    CPUIDFIELD_MAKE(0x80000001U, 0, 2, 12, 1)
-#define CPUF_WDT                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 13, 1)
-#define CPUF_LWP                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 15, 1)
-#define CPUF_FMA4                      CPUIDFIELD_MAKE(0x80000001U, 0, 2, 16, 1)
-#define CPUF_BIT_NODEID                CPUIDFIELD_MAKE(0x80000001U, 0, 2, 19, 1)
-#define CPUF_TBM                       CPUIDFIELD_MAKE(0x80000001U, 0, 2, 21, 1)
-#define CPUF_TopologyExtensions        CPUIDFIELD_MAKE(0x80000001U, 0, 2, 22, 1)
-#define CPUF_SYSCALL                   CPUIDFIELD_MAKE(0x80000001U, 0, 3, 11, 1)
-#define CPUF_XD                        CPUIDFIELD_MAKE(0x80000001U, 0, 3, 20, 1)
-#define CPUF_MmxExt                    CPUIDFIELD_MAKE(0x80000001U, 0, 3, 22, 1)
-#define CPUF_FFXSR                     CPUIDFIELD_MAKE(0x80000001U, 0, 3, 25, 1)
-#define CPUF_Page1GB                   CPUIDFIELD_MAKE(0x80000001U, 0, 3, 26, 1)
-#define CPUF_RDTSCP                    CPUIDFIELD_MAKE(0x80000001U, 0, 3, 27, 1)
-#define CPUF_LM                        CPUIDFIELD_MAKE(0x80000001U, 0, 3, 29, 1)
-#define CPUF_3DNowExt                  CPUIDFIELD_MAKE(0x80000001U, 0, 3, 30, 1)
-#define CPUF_3DNow                     CPUIDFIELD_MAKE(0x80000001U, 0, 3, 31, 1)
-#define CPUF_L1ITlb2and4MSize          CPUIDFIELD_MAKE(0x80000005U, 0, 0, 0, 8)
-#define CPUF_L1ITlb2and4MAssoc         CPUIDFIELD_MAKE(0x80000005U, 0, 0, 8, 8)
-#define CPUF_L1DTlb2and4MSize          CPUIDFIELD_MAKE(0x80000005U, 0, 0, 16, 8)
-#define CPUF_L1DTlb2and4MAssoc         CPUIDFIELD_MAKE(0x80000005U, 0, 0, 24, 8)
-#define CPUF_L1ITlb4KSize              CPUIDFIELD_MAKE(0x80000005U, 0, 1, 0, 8)
-#define CPUF_L1ITlb4KAssoc             CPUIDFIELD_MAKE(0x80000005U, 0, 1, 8, 8)
-#define CPUF_L1DTlb4KSize              CPUIDFIELD_MAKE(0x80000005U, 0, 1, 16, 8)
-#define CPUF_L1DTlb4KAssoc             CPUIDFIELD_MAKE(0x80000005U, 0, 1, 24, 8)
-#define CPUF_L1DcLineSize              CPUIDFIELD_MAKE(0x80000005U, 0, 2, 0, 8)
-#define CPUF_L1DcLinesPerTag           CPUIDFIELD_MAKE(0x80000005U, 0, 2, 8, 8)
-#define CPUF_L1DcAssoc                 CPUIDFIELD_MAKE(0x80000005U, 0, 2, 16, 8)
-#define CPUF_L1DcSize                  CPUIDFIELD_MAKE(0x80000005U, 0, 2, 24, 8)
-#define CPUF_L1IcLineSize              CPUIDFIELD_MAKE(0x80000005U, 0, 3, 0, 8)
-#define CPUF_L1IcLinesPerTag           CPUIDFIELD_MAKE(0x80000005U, 0, 3, 8, 8)
-#define CPUF_L1IcAssoc                 CPUIDFIELD_MAKE(0x80000005U, 0, 3, 16, 8)
-#define CPUF_L1IcSize                  CPUIDFIELD_MAKE(0x80000005U, 0, 3, 24, 8)
-#define CPUF_L2ITlb2and4MSize          CPUIDFIELD_MAKE(0x80000006U, 0, 0, 0, 12)
-#define CPUF_L2ITlb2and4MAssoc         CPUIDFIELD_MAKE(0x80000006U, 0, 0, 12, 4)
-#define CPUF_L2DTlb2and4MSize          CPUIDFIELD_MAKE(0x80000006U, 0, 0, 16, 12)
-#define CPUF_L2DTlb2and4MAssoc         CPUIDFIELD_MAKE(0x80000006U, 0, 0, 28, 4)
-#define CPUF_L2ITlb4KSize              CPUIDFIELD_MAKE(0x80000006U, 0, 1, 0, 12)
-#define CPUF_L2ITlb4KAssoc             CPUIDFIELD_MAKE(0x80000006U, 0, 1, 12, 4)
-#define CPUF_L2DTlb4KSize              CPUIDFIELD_MAKE(0x80000006U, 0, 1, 16, 12)
-#define CPUF_L2DTlb4KAssoc             CPUIDFIELD_MAKE(0x80000006U, 0, 1, 28, 4)
-#define CPUF_L2LineSize                CPUIDFIELD_MAKE(0x80000006U, 0, 2, 0, 8)
-#define CPUF_L2LinesPerTag             CPUIDFIELD_MAKE(0x80000006U, 0, 2, 8, 4)
-#define CPUF_L2Assoc                   CPUIDFIELD_MAKE(0x80000006U, 0, 2, 12, 4)
-#define CPUF_L2Size                    CPUIDFIELD_MAKE(0x80000006U, 0, 2, 16, 16)
-#define CPUF_L3LineSize                CPUIDFIELD_MAKE(0x80000006U, 0, 3, 0, 8)
-#define CPUF_L3LinesPerTag             CPUIDFIELD_MAKE(0x80000006U, 0, 3, 8, 4)
-#define CPUF_L3Assoc                   CPUIDFIELD_MAKE(0x80000006U, 0, 3, 12, 4)
-#define CPUF_L3Size                    CPUIDFIELD_MAKE(0x80000006U, 0, 3, 18, 14)
-#define CPUF_TS                        CPUIDFIELD_MAKE(0x80000007U, 0, 3, 0, 1)
-#define CPUF_FID                       CPUIDFIELD_MAKE(0x80000007U, 0, 3, 1, 1)
-#define CPUF_VID                       CPUIDFIELD_MAKE(0x80000007U, 0, 3, 2, 1)
-#define CPUF_TTP                       CPUIDFIELD_MAKE(0x80000007U, 0, 3, 3, 1)
-#define CPUF_HTC                       CPUIDFIELD_MAKE(0x80000007U, 0, 3, 4, 1)
-#define CPUF_100MHzSteps               CPUIDFIELD_MAKE(0x80000007U, 0, 3, 6, 1)
-#define CPUF_HwPstate                  CPUIDFIELD_MAKE(0x80000007U, 0, 3, 7, 1)
-#define CPUF_TscInvariant              CPUIDFIELD_MAKE(0x80000007U, 0, 3, 8, 1)
-#define CPUF_CPB                       CPUIDFIELD_MAKE(0x80000007U, 0, 3, 9, 1)
-#define CPUF_EffFreqRO                 CPUIDFIELD_MAKE(0x80000007U, 0, 3, 10, 1)
-#define CPUF_PhysAddrSize              CPUIDFIELD_MAKE(0x80000008U, 0, 0, 0, 8)
-#define CPUF_LinAddrSize               CPUIDFIELD_MAKE(0x80000008U, 0, 0, 8, 8)
-#define CPUF_GuestPhysAddrSize         CPUIDFIELD_MAKE(0x80000008U, 0, 0, 16, 8)
-#define CPUF_NC                        CPUIDFIELD_MAKE(0x80000008U, 0, 2, 0, 8)
-#define CPUF_ApicIdCoreIdSize          CPUIDFIELD_MAKE(0x80000008U, 0, 2, 12, 4)
-#define CPUF_SvmRev                    CPUIDFIELD_MAKE(0x8000000AU, 0, 0, 0, 8)
-#define CPUF_NASID                     CPUIDFIELD_MAKE(0x8000000AU, 0, 1, 0, 32)
-#define CPUF_NP                        CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 0, 1)
-#define CPUF_LbrVirt                   CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 1, 1)
-#define CPUF_SVML                      CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 2, 1)
-#define CPUF_NRIPS                     CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 3, 1)
-#define CPUF_TscRateMsr                CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 4, 1)
-#define CPUF_VmcbClean                 CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 5, 1)
-#define CPUF_FlushByAsid               CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 6, 1)
-#define CPUF_DecodeAssists             CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 7, 1)
-#define CPUF_PauseFilter               CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 10, 1)
-#define CPUF_PauseFilterThreshold      CPUIDFIELD_MAKE(0x8000000AU, 0, 3, 12, 1)
-#define CPUF_L1ITlb1GSize              CPUIDFIELD_MAKE(0x80000019U, 0, 0, 0, 12)
-#define CPUF_L1ITlb1GAssoc             CPUIDFIELD_MAKE(0x80000019U, 0, 0, 12, 4)
-#define CPUF_L1DTlb1GSize              CPUIDFIELD_MAKE(0x80000019U, 0, 0, 16, 12)
-#define CPUF_L1DTlb1GAssoc             CPUIDFIELD_MAKE(0x80000019U, 0, 0, 28, 4)
-#define CPUF_L2ITlb1GSize              CPUIDFIELD_MAKE(0x80000019U, 0, 1, 0, 12)
-#define CPUF_L2ITlb1GAssoc             CPUIDFIELD_MAKE(0x80000019U, 0, 1, 12, 4)
-#define CPUF_L2DTlb1GSize              CPUIDFIELD_MAKE(0x80000019U, 0, 1, 16, 12)
-#define CPUF_L2DTlb1GAssoc             CPUIDFIELD_MAKE(0x80000019U, 0, 1, 28, 4)
-#define CPUF_FP128                     CPUIDFIELD_MAKE(0x8000001AU, 0, 0, 0, 1)
-#define CPUF_MOVU                      CPUIDFIELD_MAKE(0x8000001AU, 0, 0, 1, 1)
-#define CPUF_IBSFFV                    CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 0, 1)
-#define CPUF_FetchSam                  CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 1, 1)
-#define CPUF_OpSam                     CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 2, 1)
-#define CPUF_RdWrOpCnt                 CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 3, 1)
-#define CPUF_OpCnt                     CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 4, 1)
-#define CPUF_BrnTrgt                   CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 5, 1)
-#define CPUF_OpCntExt                  CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 6, 1)
-#define CPUF_RipInvalidChk             CPUIDFIELD_MAKE(0x8000001BU, 0, 0, 7, 1)
-#define CPUF_LwpAvail                  CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 0, 1)
-#define CPUF_LwpVAL                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 1, 1)
-#define CPUF_LwpIRE                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 2, 1)
-#define CPUF_LwpBRE                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 3, 1)
-#define CPUF_LwpDME                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 4, 1)
-#define CPUF_LwpCNH                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 5, 1)
-#define CPUF_LwpRNH                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 6, 1)
-#define CPUF_LwpInt                    CPUIDFIELD_MAKE(0x8000001CU, 0, 0, 31, 1)
-#define CPUF_LwpCbSize                 CPUIDFIELD_MAKE(0x8000001CU, 0, 1, 0, 8)
-#define CPUF_LwpEventSize              CPUIDFIELD_MAKE(0x8000001CU, 0, 1, 8, 8)
-#define CPUF_LwpMaxEvents              CPUIDFIELD_MAKE(0x8000001CU, 0, 1, 16, 8)
-#define CPUF_LwpEventOffset            CPUIDFIELD_MAKE(0x8000001CU, 0, 1, 24, 8)
-#define CPUF_LwpLatencyMax             CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 0, 5)
-#define CPUF_LwpDataAddress            CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 5, 1)
-#define CPUF_LwpLatencyRnd             CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 6, 3)
-#define CPUF_LwpVersion                CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 9, 7)
-#define CPUF_LwpMinBufferSize          CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 16, 8)
-#define CPUF_LwpBranchPrediction       CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 28, 1)
-#define CPUF_LwpIpFiltering            CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 29, 1)
-#define CPUF_LwpCacheLevels            CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 30, 1)
-#define CPUF_LwpCacheLatency           CPUIDFIELD_MAKE(0x8000001CU, 0, 2, 31, 1)
-#define CPUF_D_LwpAvail                CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 0, 1)
-#define CPUF_D_LwpVAL                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 1, 1)
-#define CPUF_D_LwpIRE                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 2, 1)
-#define CPUF_D_LwpBRE                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 3, 1)
-#define CPUF_D_LwpDME                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 4, 1)
-#define CPUF_D_LwpCNH                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 5, 1)
-#define CPUF_D_LwpRNH                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 6, 1)
-#define CPUF_D_LwpInt                  CPUIDFIELD_MAKE(0x8000001CU, 0, 3, 31, 1)
-#define CPUF_CacheType                 CPUIDFIELD_MAKE(0x8000001DU, 0, 0, 0, 5)
-#define CPUF_CacheLevel                CPUIDFIELD_MAKE(0x8000001DU, 0, 0, 5, 3)
-#define CPUF_SelfInitialization        CPUIDFIELD_MAKE(0x8000001DU, 0, 0, 8, 1)
-#define CPUF_FullyAssociative          CPUIDFIELD_MAKE(0x8000001DU, 0, 0, 9, 1)
-#define CPUF_NumSharingCache           CPUIDFIELD_MAKE(0x8000001DU, 0, 0, 14, 12)
-#define CPUF_CacheLineSize             CPUIDFIELD_MAKE(0x8000001DU, 0, 1, 0, 12)
-#define CPUF_CachePhysPartitions       CPUIDFIELD_MAKE(0x8000001DU, 0, 1, 12, 10)
-#define CPUF_CacheNumWays              CPUIDFIELD_MAKE(0x8000001DU, 0, 1, 22, 10)
-#define CPUF_CacheNumSets              CPUIDFIELD_MAKE(0x8000001DU, 0, 2, 0, 32)
-#define CPUF_WBINVD                    CPUIDFIELD_MAKE(0x8000001DU, 0, 3, 0, 1)
-#define CPUF_CacheInclusive            CPUIDFIELD_MAKE(0x8000001DU, 0, 3, 1, 1)
-#define CPUF_ExtendedApicId            CPUIDFIELD_MAKE(0x8000001EU, 0, 0, 0, 32)
-#define CPUF_ComputeUnitId             CPUIDFIELD_MAKE(0x8000001EU, 0, 1, 0, 8)
-#define CPUF_CoresPerComputeUnit       CPUIDFIELD_MAKE(0x8000001EU, 0, 1, 8, 2)
-#define CPUF_NodeId                    CPUIDFIELD_MAKE(0x8000001EU, 0, 2, 0, 8)
-#define CPUF_NodesPerProcessor         CPUIDFIELD_MAKE(0x8000001EU, 0, 2, 8, 3)
-
 namespace core
 {
+	constexpr unsigned int CPUIDFIELD_MASK_POS     = 0x0000001fU;
+	constexpr unsigned int CPUIDFIELD_MASK_LEN     = 0x000003e0U;
+	constexpr unsigned int CPUIDFIELD_MASK_REG     = 0x00000c00U;
+	constexpr unsigned int CPUIDFIELD_MASK_FIDSUB  = 0x000ff000U;
+	constexpr unsigned int CPUIDFIELD_MASK_FID     = 0xfff00000U;
+
+	constexpr unsigned int CPUIDFIELD_SHIFT_POS    = 0;
+	constexpr unsigned int CPUIDFIELD_SHIFT_LEN    = 5;
+	constexpr unsigned int CPUIDFIELD_SHIFT_REG    = 10;
+	constexpr unsigned int CPUIDFIELD_SHIFT_FIDSUB = 12;
+	constexpr unsigned int CPUIDFIELD_SHIFT_FID    = 20;
+
+	constexpr unsigned int CPUIDFIELD_MAKE(unsigned int fid, unsigned int fidsub, unsigned int reg, unsigned int pos, unsigned int len)
+	{
+		return (fid & 0xf0000000) |
+			((fid       << CPUIDFIELD_SHIFT_FID)    & 0x0ff00000) |
+			((fidsub    << CPUIDFIELD_SHIFT_FIDSUB) & CPUIDFIELD_MASK_FIDSUB) |
+			((reg       << CPUIDFIELD_SHIFT_REG)    & CPUIDFIELD_MASK_REG) |
+			((pos       << CPUIDFIELD_SHIFT_POS)    & CPUIDFIELD_MASK_POS) |
+			(((len - 1) << CPUIDFIELD_SHIFT_LEN)    & CPUIDFIELD_MASK_LEN);
+	}
+
+	constexpr unsigned int CPUIDFIELD_FID(unsigned int cpuidfield)
+	{
+		return (cpuidfield & 0xF0000000) | ((cpuidfield & 0x0FF00000) >> CPUIDFIELD_SHIFT_FID);
+	}
+
+	constexpr unsigned int CPUIDFIELD_FIDSUB(unsigned int cpuidfield)
+	{
+		return (cpuidfield & CPUIDFIELD_MASK_FIDSUB) >> CPUIDFIELD_SHIFT_FIDSUB;
+	}
+
+	constexpr unsigned int CPUIDFIELD_REG(unsigned int cpuidfield)
+	{
+		return (cpuidfield & CPUIDFIELD_MASK_REG) >> CPUIDFIELD_SHIFT_REG;
+	}
+
+	constexpr unsigned int CPUIDFIELD_POS(unsigned int cpuidfield)
+	{
+		return (cpuidfield & CPUIDFIELD_MASK_POS) >> CPUIDFIELD_SHIFT_POS;
+	}
+
+	constexpr unsigned int CPUIDFIELD_LEN(unsigned int cpuidfield)
+	{
+		return ((cpuidfield & CPUIDFIELD_MASK_LEN) >> CPUIDFIELD_SHIFT_LEN) + 1;
+	}
+
+	constexpr unsigned int CPUID_GETBITS32(unsigned int src, unsigned int pos, unsigned int len)
+	{
+		return (src >> pos) & (0xffffffffU >> (32 - len));
+	}
+
+	constexpr unsigned int CPUF_LFuncStd                 = CPUIDFIELD_MAKE(0, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_Stepping                 = CPUIDFIELD_MAKE(1, 0, 0, 0, 4);
+	constexpr unsigned int CPUF_BaseModel                = CPUIDFIELD_MAKE(1, 0, 0, 4, 4);
+	constexpr unsigned int CPUF_BaseFamily               = CPUIDFIELD_MAKE(1, 0, 0, 8, 4);
+	constexpr unsigned int CPUF_ProcessorType            = CPUIDFIELD_MAKE(1, 0, 0, 12, 2);
+	constexpr unsigned int CPUF_ExtModel                 = CPUIDFIELD_MAKE(1, 0, 0, 16, 4);
+	constexpr unsigned int CPUF_ExtFamily                = CPUIDFIELD_MAKE(1, 0, 0, 20, 8);
+	constexpr unsigned int CPUF_BrandId8                 = CPUIDFIELD_MAKE(1, 0, 1, 0, 8);
+	constexpr unsigned int CPUF_CLFlush                  = CPUIDFIELD_MAKE(1, 0, 1, 8, 8);
+	constexpr unsigned int CPUF_MaxApicId                = CPUIDFIELD_MAKE(1, 0, 1, 16, 8);
+	constexpr unsigned int CPUF_ApicId                   = CPUIDFIELD_MAKE(1, 0, 1, 24, 8);
+	constexpr unsigned int CPUF_SSE3                     = CPUIDFIELD_MAKE(1, 0, 2, 0, 1);
+	constexpr unsigned int CPUF_PCLMULQDQ                = CPUIDFIELD_MAKE(1, 0, 2, 1, 1);
+	constexpr unsigned int CPUF_DTES64                   = CPUIDFIELD_MAKE(1, 0, 2, 2, 1);
+	constexpr unsigned int CPUF_MONITOR                  = CPUIDFIELD_MAKE(1, 0, 2, 3, 1);
+	constexpr unsigned int CPUF_DS_CPL                   = CPUIDFIELD_MAKE(1, 0, 2, 4, 1);
+	constexpr unsigned int CPUF_VMX                      = CPUIDFIELD_MAKE(1, 0, 2, 5, 1);
+	constexpr unsigned int CPUF_SMX                      = CPUIDFIELD_MAKE(1, 0, 2, 6, 1);
+	constexpr unsigned int CPUF_EIST                     = CPUIDFIELD_MAKE(1, 0, 2, 7, 1);
+	constexpr unsigned int CPUF_TM2                      = CPUIDFIELD_MAKE(1, 0, 2, 8, 1);
+	constexpr unsigned int CPUF_SSSE3                    = CPUIDFIELD_MAKE(1, 0, 2, 9, 1);
+	constexpr unsigned int CPUF_CNXT_ID                  = CPUIDFIELD_MAKE(1, 0, 2, 10, 1);
+	constexpr unsigned int CPUF_FMA                      = CPUIDFIELD_MAKE(1, 0, 2, 12, 1);
+	constexpr unsigned int CPUF_CX16                     = CPUIDFIELD_MAKE(1, 0, 2, 13, 1);
+	constexpr unsigned int CPUF_xTPR                     = CPUIDFIELD_MAKE(1, 0, 2, 14, 1);
+	constexpr unsigned int CPUF_PDCM                     = CPUIDFIELD_MAKE(1, 0, 2, 15, 1);
+	constexpr unsigned int CPUF_PCID                     = CPUIDFIELD_MAKE(1, 0, 2, 17, 1);
+	constexpr unsigned int CPUF_DCA                      = CPUIDFIELD_MAKE(1, 0, 2, 18, 1);
+	constexpr unsigned int CPUF_SSE41                    = CPUIDFIELD_MAKE(1, 0, 2, 19, 1);
+	constexpr unsigned int CPUF_SSE42                    = CPUIDFIELD_MAKE(1, 0, 2, 20, 1);
+	constexpr unsigned int CPUF_x2APIC                   = CPUIDFIELD_MAKE(1, 0, 2, 21, 1);
+	constexpr unsigned int CPUF_MOVBE                    = CPUIDFIELD_MAKE(1, 0, 2, 22, 1);
+	constexpr unsigned int CPUF_POPCNT                   = CPUIDFIELD_MAKE(1, 0, 2, 23, 1);
+	constexpr unsigned int CPUF_TSC_DEADLINE             = CPUIDFIELD_MAKE(1, 0, 2, 24, 1);
+	constexpr unsigned int CPUF_AES                      = CPUIDFIELD_MAKE(1, 0, 2, 25, 1);
+	constexpr unsigned int CPUF_XSAVE                    = CPUIDFIELD_MAKE(1, 0, 2, 26, 1);
+	constexpr unsigned int CPUF_OSXSAVE                  = CPUIDFIELD_MAKE(1, 0, 2, 27, 1);
+	constexpr unsigned int CPUF_AVX                      = CPUIDFIELD_MAKE(1, 0, 2, 28, 1);
+	constexpr unsigned int CPUF_F16C                     = CPUIDFIELD_MAKE(1, 0, 2, 29, 1);
+	constexpr unsigned int CPUF_RDRAND                   = CPUIDFIELD_MAKE(1, 0, 2, 30, 1);
+	constexpr unsigned int CPUF_FPU                      = CPUIDFIELD_MAKE(1, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_VME                      = CPUIDFIELD_MAKE(1, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_DE                       = CPUIDFIELD_MAKE(1, 0, 3, 2, 1);
+	constexpr unsigned int CPUF_PSE                      = CPUIDFIELD_MAKE(1, 0, 3, 3, 1);
+	constexpr unsigned int CPUF_TSC                      = CPUIDFIELD_MAKE(1, 0, 3, 4, 1);
+	constexpr unsigned int CPUF_MSR                      = CPUIDFIELD_MAKE(1, 0, 3, 5, 1);
+	constexpr unsigned int CPUF_PAE                      = CPUIDFIELD_MAKE(1, 0, 3, 6, 1);
+	constexpr unsigned int CPUF_MCE                      = CPUIDFIELD_MAKE(1, 0, 3, 7, 1);
+	constexpr unsigned int CPUF_CX8                      = CPUIDFIELD_MAKE(1, 0, 3, 8, 1);
+	constexpr unsigned int CPUF_APIC                     = CPUIDFIELD_MAKE(1, 0, 3, 9, 1);
+	constexpr unsigned int CPUF_SEP                      = CPUIDFIELD_MAKE(1, 0, 3, 11, 1);
+	constexpr unsigned int CPUF_MTRR                     = CPUIDFIELD_MAKE(1, 0, 3, 12, 1);
+	constexpr unsigned int CPUF_PGE                      = CPUIDFIELD_MAKE(1, 0, 3, 13, 1);
+	constexpr unsigned int CPUF_MCA                      = CPUIDFIELD_MAKE(1, 0, 3, 14, 1);
+	constexpr unsigned int CPUF_CMOV                     = CPUIDFIELD_MAKE(1, 0, 3, 15, 1);
+	constexpr unsigned int CPUF_PAT                      = CPUIDFIELD_MAKE(1, 0, 3, 16, 1);
+	constexpr unsigned int CPUF_PSE36                    = CPUIDFIELD_MAKE(1, 0, 3, 17, 1);
+	constexpr unsigned int CPUF_PSN                      = CPUIDFIELD_MAKE(1, 0, 3, 18, 1);
+	constexpr unsigned int CPUF_CLFSH                    = CPUIDFIELD_MAKE(1, 0, 3, 19, 1);
+	constexpr unsigned int CPUF_DS                       = CPUIDFIELD_MAKE(1, 0, 3, 21, 1);
+	constexpr unsigned int CPUF_ACPI                     = CPUIDFIELD_MAKE(1, 0, 3, 22, 1);
+	constexpr unsigned int CPUF_MMX                      = CPUIDFIELD_MAKE(1, 0, 3, 23, 1);
+	constexpr unsigned int CPUF_FXSR                     = CPUIDFIELD_MAKE(1, 0, 3, 24, 1);
+	constexpr unsigned int CPUF_SSE                      = CPUIDFIELD_MAKE(1, 0, 3, 25, 1);
+	constexpr unsigned int CPUF_SSE2                     = CPUIDFIELD_MAKE(1, 0, 3, 26, 1);
+	constexpr unsigned int CPUF_SS                       = CPUIDFIELD_MAKE(1, 0, 3, 27, 1);
+	constexpr unsigned int CPUF_HTT                      = CPUIDFIELD_MAKE(1, 0, 3, 28, 1);
+	constexpr unsigned int CPUF_TM                       = CPUIDFIELD_MAKE(1, 0, 3, 29, 1);
+	constexpr unsigned int CPUF_PBE                      = CPUIDFIELD_MAKE(1, 0, 3, 31, 1);
+	constexpr unsigned int CPUF_Cache_Type               = CPUIDFIELD_MAKE(4, 0, 0, 0, 5);
+	constexpr unsigned int CPUF_Cache_Level              = CPUIDFIELD_MAKE(4, 0, 0, 5, 3);
+	constexpr unsigned int CPUF_CACHE_SI                 = CPUIDFIELD_MAKE(4, 0, 0, 8, 1);
+	constexpr unsigned int CPUF_CACHE_FA                 = CPUIDFIELD_MAKE(4, 0, 0, 9, 1);
+	constexpr unsigned int CPUF_MaxApicIdShare           = CPUIDFIELD_MAKE(4, 0, 0, 14, 12);
+	constexpr unsigned int CPUF_MaxApicIdCore            = CPUIDFIELD_MAKE(4, 0, 0, 26, 6);
+	constexpr unsigned int CPUF_Cache_LineSize           = CPUIDFIELD_MAKE(4, 0, 1, 0, 12);
+	constexpr unsigned int CPUF_Cache_Partitions         = CPUIDFIELD_MAKE(4, 0, 1, 12, 10);
+	constexpr unsigned int CPUF_Cache_Ways               = CPUIDFIELD_MAKE(4, 0, 1, 22, 10);
+	constexpr unsigned int CPUF_Cache_Sets               = CPUIDFIELD_MAKE(4, 0, 2, 0, 32);
+	constexpr unsigned int CPUF_CACHE_INVD               = CPUIDFIELD_MAKE(4, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_CACHE_INCLUSIVENESS      = CPUIDFIELD_MAKE(4, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_CACHE_COMPLEXINDEX       = CPUIDFIELD_MAKE(4, 0, 3, 2, 1);
+	constexpr unsigned int CPUF_MonLineSizeMin           = CPUIDFIELD_MAKE(5, 0, 0, 0, 16);
+	constexpr unsigned int CPUF_MonLineSizeMax           = CPUIDFIELD_MAKE(5, 0, 1, 0, 16);
+	constexpr unsigned int CPUF_EMX                      = CPUIDFIELD_MAKE(5, 0, 2, 0, 1);
+	constexpr unsigned int CPUF_IBE                      = CPUIDFIELD_MAKE(5, 0, 2, 1, 1);
+	constexpr unsigned int CPUF_MWAIT_Number_C0          = CPUIDFIELD_MAKE(5, 0, 3, 0, 4);
+	constexpr unsigned int CPUF_MWAIT_Number_C1          = CPUIDFIELD_MAKE(5, 0, 3, 4, 4);
+	constexpr unsigned int CPUF_MWAIT_Number_C2          = CPUIDFIELD_MAKE(5, 0, 3, 8, 4);
+	constexpr unsigned int CPUF_MWAIT_Number_C3          = CPUIDFIELD_MAKE(5, 0, 3, 12, 4);
+	constexpr unsigned int CPUF_MWAIT_Number_C4          = CPUIDFIELD_MAKE(5, 0, 3, 16, 4);
+	constexpr unsigned int CPUF_DTS                      = CPUIDFIELD_MAKE(6, 0, 0, 0, 1);
+	constexpr unsigned int CPUF_TURBO_BOOST              = CPUIDFIELD_MAKE(6, 0, 0, 1, 1);
+	constexpr unsigned int CPUF_ARAT                     = CPUIDFIELD_MAKE(6, 0, 0, 2, 1);
+	constexpr unsigned int CPUF_PLN                      = CPUIDFIELD_MAKE(6, 0, 0, 4, 1);
+	constexpr unsigned int CPUF_ECMD                     = CPUIDFIELD_MAKE(6, 0, 0, 5, 1);
+	constexpr unsigned int CPUF_PTM                      = CPUIDFIELD_MAKE(6, 0, 0, 6, 1);
+	constexpr unsigned int CPUF_DTS_ITs                  = CPUIDFIELD_MAKE(6, 0, 1, 0, 4);
+	constexpr unsigned int CPUF_PERF                     = CPUIDFIELD_MAKE(6, 0, 2, 0, 1);
+	constexpr unsigned int CPUF_ACNT2                    = CPUIDFIELD_MAKE(6, 0, 2, 1, 1);
+	constexpr unsigned int CPUF_ENERGY_PERF_BIAS         = CPUIDFIELD_MAKE(6, 0, 2, 3, 1);
+	constexpr unsigned int CPUF_Max07Subleaf             = CPUIDFIELD_MAKE(7, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_FSGSBASE                 = CPUIDFIELD_MAKE(7, 0, 1, 0, 1);
+	constexpr unsigned int CPUF_TSC_ADJUST               = CPUIDFIELD_MAKE(7, 0, 1, 1, 1);
+	constexpr unsigned int CPUF_BMI1                     = CPUIDFIELD_MAKE(7, 0, 1, 3, 1);
+	constexpr unsigned int CPUF_HLE                      = CPUIDFIELD_MAKE(7, 0, 1, 4, 1);
+	constexpr unsigned int CPUF_AVX2                     = CPUIDFIELD_MAKE(7, 0, 1, 5, 1);
+	constexpr unsigned int CPUF_SMEP                     = CPUIDFIELD_MAKE(7, 0, 1, 7, 1);
+	constexpr unsigned int CPUF_BMI2                     = CPUIDFIELD_MAKE(7, 0, 1, 8, 1);
+	constexpr unsigned int CPUF_ERMS                     = CPUIDFIELD_MAKE(7, 0, 1, 9, 1);
+	constexpr unsigned int CPUF_INVPCID                  = CPUIDFIELD_MAKE(7, 0, 1, 10, 1);
+	constexpr unsigned int CPUF_RTM                      = CPUIDFIELD_MAKE(7, 0, 1, 11, 1);
+	constexpr unsigned int CPUF_RDSEED                   = CPUIDFIELD_MAKE(7, 0, 1, 18, 1);
+	constexpr unsigned int CPUF_ADX                      = CPUIDFIELD_MAKE(7, 0, 1, 19, 1);
+	constexpr unsigned int CPUF_SMAP                     = CPUIDFIELD_MAKE(7, 0, 1, 20, 1);
+	constexpr unsigned int CPUF_PLATFORM_DCA_CAP         = CPUIDFIELD_MAKE(9, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_APM_Version              = CPUIDFIELD_MAKE(0xA, 0, 0, 0, 8);
+	constexpr unsigned int CPUF_APM_Counters             = CPUIDFIELD_MAKE(0xA, 0, 0, 8, 8);
+	constexpr unsigned int CPUF_APM_Bits                 = CPUIDFIELD_MAKE(0xA, 0, 0, 16, 8);
+	constexpr unsigned int CPUF_APM_Length               = CPUIDFIELD_MAKE(0xA, 0, 0, 24, 8);
+	constexpr unsigned int CPUF_APM_CC                   = CPUIDFIELD_MAKE(0xA, 0, 1, 0, 1);
+	constexpr unsigned int CPUF_APM_IR                   = CPUIDFIELD_MAKE(0xA, 0, 1, 1, 1);
+	constexpr unsigned int CPUF_APM_RC                   = CPUIDFIELD_MAKE(0xA, 0, 1, 2, 1);
+	constexpr unsigned int CPUF_APM_LLCR                 = CPUIDFIELD_MAKE(0xA, 0, 1, 3, 1);
+	constexpr unsigned int CPUF_APM_LLCM                 = CPUIDFIELD_MAKE(0xA, 0, 1, 4, 1);
+	constexpr unsigned int CPUF_APM_BIR                  = CPUIDFIELD_MAKE(0xA, 0, 1, 5, 1);
+	constexpr unsigned int CPUF_APM_BMR                  = CPUIDFIELD_MAKE(0xA, 0, 1, 6, 1);
+	constexpr unsigned int CPUF_APM_FC_Number            = CPUIDFIELD_MAKE(0xA, 0, 3, 0, 5);
+	constexpr unsigned int CPUF_APM_FC_Bits              = CPUIDFIELD_MAKE(0xA, 0, 3, 5, 8);
+	constexpr unsigned int CPUF_Topology_Bits            = CPUIDFIELD_MAKE(0xB, 0, 0, 0, 5);
+	constexpr unsigned int CPUF_Topology_Number          = CPUIDFIELD_MAKE(0xB, 0, 1, 0, 16);
+	constexpr unsigned int CPUF_Topology_Level           = CPUIDFIELD_MAKE(0xB, 0, 2, 0, 8);
+	constexpr unsigned int CPUF_Topology_Type            = CPUIDFIELD_MAKE(0xB, 0, 2, 8, 8);
+	constexpr unsigned int CPUF_X2APICID                 = CPUIDFIELD_MAKE(0xB, 0, 3, 0, 32);
+	constexpr unsigned int CPUF_XFeatureSupportedMaskLo  = CPUIDFIELD_MAKE(0xD, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_XFeatureEnabledSizeMax   = CPUIDFIELD_MAKE(0xD, 0, 1, 0, 32);
+	constexpr unsigned int CPUF_XFeatureSupportedSizeMax = CPUIDFIELD_MAKE(0xD, 0, 2, 0, 32);
+	constexpr unsigned int CPUF_XFeatureSupportedMaskHi  = CPUIDFIELD_MAKE(0xD, 0, 3, 0, 32);
+	constexpr unsigned int CPUF_XSAVEOPT                 = CPUIDFIELD_MAKE(0xD, 1, 0, 0, 1);
+	constexpr unsigned int CPUF_YmmSaveStateSize         = CPUIDFIELD_MAKE(0xD, 2, 0, 0, 32);
+	constexpr unsigned int CPUF_YmmSaveStateOffset       = CPUIDFIELD_MAKE(0xD, 2, 1, 0, 32);
+	constexpr unsigned int CPUF_LwpSaveStateSize         = CPUIDFIELD_MAKE(0xD, 62, 0, 0, 32);
+	constexpr unsigned int CPUF_LwpSaveStateOffset       = CPUIDFIELD_MAKE(0xD, 62, 1, 0, 32);
+	constexpr unsigned int CPUF_LFuncExt                 = CPUIDFIELD_MAKE(0x80000000U, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_BrandId16                = CPUIDFIELD_MAKE(0x80000001U, 0, 1, 0, 16);
+	constexpr unsigned int CPUF_PkgType                  = CPUIDFIELD_MAKE(0x80000001U, 0, 1, 28, 4);
+	constexpr unsigned int CPUF_LahfSahf                 = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 0, 1);
+	constexpr unsigned int CPUF_CmpLegacy                = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 1, 1);
+	constexpr unsigned int CPUF_SVM                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 2, 1);
+	constexpr unsigned int CPUF_ExtApicSpace             = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 3, 1);
+	constexpr unsigned int CPUF_AltMovCr8                = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 4, 1);
+	constexpr unsigned int CPUF_ABM                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 5, 1);
+	constexpr unsigned int CPUF_SSE4A                    = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 6, 1);
+	constexpr unsigned int CPUF_MisAlignSse              = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 7, 1);
+	constexpr unsigned int CPUF_3DNowPrefetch            = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 8, 1);
+	constexpr unsigned int CPUF_OSVW                     = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 9, 1);
+	constexpr unsigned int CPUF_IBS                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 10, 1);
+	constexpr unsigned int CPUF_XOP                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 11, 1);
+	constexpr unsigned int CPUF_SKINIT                   = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 12, 1);
+	constexpr unsigned int CPUF_WDT                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 13, 1);
+	constexpr unsigned int CPUF_LWP                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 15, 1);
+	constexpr unsigned int CPUF_FMA4                     = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 16, 1);
+	constexpr unsigned int CPUF_BIT_NODEID               = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 19, 1);
+	constexpr unsigned int CPUF_TBM                      = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 21, 1);
+	constexpr unsigned int CPUF_TopologyExtensions       = CPUIDFIELD_MAKE(0x80000001U, 0, 2, 22, 1);
+	constexpr unsigned int CPUF_SYSCALL                  = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 11, 1);
+	constexpr unsigned int CPUF_XD                       = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 20, 1);
+	constexpr unsigned int CPUF_MmxExt                   = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 22, 1);
+	constexpr unsigned int CPUF_FFXSR                    = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 25, 1);
+	constexpr unsigned int CPUF_Page1GB                  = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 26, 1);
+	constexpr unsigned int CPUF_RDTSCP                   = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 27, 1);
+	constexpr unsigned int CPUF_LM                       = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 29, 1);
+	constexpr unsigned int CPUF_3DNowExt                 = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 30, 1);
+	constexpr unsigned int CPUF_3DNow                    = CPUIDFIELD_MAKE(0x80000001U, 0, 3, 31, 1);
+	constexpr unsigned int CPUF_L1ITlb2and4MSize         = CPUIDFIELD_MAKE(0x80000005U, 0, 0, 0, 8);
+	constexpr unsigned int CPUF_L1ITlb2and4MAssoc        = CPUIDFIELD_MAKE(0x80000005U, 0, 0, 8, 8);
+	constexpr unsigned int CPUF_L1DTlb2and4MSize         = CPUIDFIELD_MAKE(0x80000005U, 0, 0, 16, 8);
+	constexpr unsigned int CPUF_L1DTlb2and4MAssoc        = CPUIDFIELD_MAKE(0x80000005U, 0, 0, 24, 8);
+	constexpr unsigned int CPUF_L1ITlb4KSize             = CPUIDFIELD_MAKE(0x80000005U, 0, 1, 0, 8);
+	constexpr unsigned int CPUF_L1ITlb4KAssoc            = CPUIDFIELD_MAKE(0x80000005U, 0, 1, 8, 8);
+	constexpr unsigned int CPUF_L1DTlb4KSize             = CPUIDFIELD_MAKE(0x80000005U, 0, 1, 16, 8);
+	constexpr unsigned int CPUF_L1DTlb4KAssoc            = CPUIDFIELD_MAKE(0x80000005U, 0, 1, 24, 8);
+	constexpr unsigned int CPUF_L1DcLineSize             = CPUIDFIELD_MAKE(0x80000005U, 0, 2, 0, 8);
+	constexpr unsigned int CPUF_L1DcLinesPerTag          = CPUIDFIELD_MAKE(0x80000005U, 0, 2, 8, 8);
+	constexpr unsigned int CPUF_L1DcAssoc                = CPUIDFIELD_MAKE(0x80000005U, 0, 2, 16, 8);
+	constexpr unsigned int CPUF_L1DcSize                 = CPUIDFIELD_MAKE(0x80000005U, 0, 2, 24, 8);
+	constexpr unsigned int CPUF_L1IcLineSize             = CPUIDFIELD_MAKE(0x80000005U, 0, 3, 0, 8);
+	constexpr unsigned int CPUF_L1IcLinesPerTag          = CPUIDFIELD_MAKE(0x80000005U, 0, 3, 8, 8);
+	constexpr unsigned int CPUF_L1IcAssoc                = CPUIDFIELD_MAKE(0x80000005U, 0, 3, 16, 8);
+	constexpr unsigned int CPUF_L1IcSize                 = CPUIDFIELD_MAKE(0x80000005U, 0, 3, 24, 8);
+	constexpr unsigned int CPUF_L2ITlb2and4MSize         = CPUIDFIELD_MAKE(0x80000006U, 0, 0, 0, 12);
+	constexpr unsigned int CPUF_L2ITlb2and4MAssoc        = CPUIDFIELD_MAKE(0x80000006U, 0, 0, 12, 4);
+	constexpr unsigned int CPUF_L2DTlb2and4MSize         = CPUIDFIELD_MAKE(0x80000006U, 0, 0, 16, 12);
+	constexpr unsigned int CPUF_L2DTlb2and4MAssoc        = CPUIDFIELD_MAKE(0x80000006U, 0, 0, 28, 4);
+	constexpr unsigned int CPUF_L2ITlb4KSize             = CPUIDFIELD_MAKE(0x80000006U, 0, 1, 0, 12);
+	constexpr unsigned int CPUF_L2ITlb4KAssoc            = CPUIDFIELD_MAKE(0x80000006U, 0, 1, 12, 4);
+	constexpr unsigned int CPUF_L2DTlb4KSize             = CPUIDFIELD_MAKE(0x80000006U, 0, 1, 16, 12);
+	constexpr unsigned int CPUF_L2DTlb4KAssoc            = CPUIDFIELD_MAKE(0x80000006U, 0, 1, 28, 4);
+	constexpr unsigned int CPUF_L2LineSize               = CPUIDFIELD_MAKE(0x80000006U, 0, 2, 0, 8);
+	constexpr unsigned int CPUF_L2LinesPerTag            = CPUIDFIELD_MAKE(0x80000006U, 0, 2, 8, 4);
+	constexpr unsigned int CPUF_L2Assoc                  = CPUIDFIELD_MAKE(0x80000006U, 0, 2, 12, 4);
+	constexpr unsigned int CPUF_L2Size                   = CPUIDFIELD_MAKE(0x80000006U, 0, 2, 16, 16);
+	constexpr unsigned int CPUF_L3LineSize               = CPUIDFIELD_MAKE(0x80000006U, 0, 3, 0, 8);
+	constexpr unsigned int CPUF_L3LinesPerTag            = CPUIDFIELD_MAKE(0x80000006U, 0, 3, 8, 4);
+	constexpr unsigned int CPUF_L3Assoc                  = CPUIDFIELD_MAKE(0x80000006U, 0, 3, 12, 4);
+	constexpr unsigned int CPUF_L3Size                   = CPUIDFIELD_MAKE(0x80000006U, 0, 3, 18, 14);
+	constexpr unsigned int CPUF_TS                       = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_FID                      = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_VID                      = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 2, 1);
+	constexpr unsigned int CPUF_TTP                      = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 3, 1);
+	constexpr unsigned int CPUF_HTC                      = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 4, 1);
+	constexpr unsigned int CPUF_100MHzSteps              = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 6, 1);
+	constexpr unsigned int CPUF_HwPstate                 = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 7, 1);
+	constexpr unsigned int CPUF_TscInvariant             = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 8, 1);
+	constexpr unsigned int CPUF_CPB                      = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 9, 1);
+	constexpr unsigned int CPUF_EffFreqRO                = CPUIDFIELD_MAKE(0x80000007U, 0, 3, 10, 1);
+	constexpr unsigned int CPUF_PhysAddrSize             = CPUIDFIELD_MAKE(0x80000008U, 0, 0, 0, 8);
+	constexpr unsigned int CPUF_LinAddrSize              = CPUIDFIELD_MAKE(0x80000008U, 0, 0, 8, 8);
+	constexpr unsigned int CPUF_GuestPhysAddrSize        = CPUIDFIELD_MAKE(0x80000008U, 0, 0, 16, 8);
+	constexpr unsigned int CPUF_NC                       = CPUIDFIELD_MAKE(0x80000008U, 0, 2, 0, 8);
+	constexpr unsigned int CPUF_ApicIdCoreIdSize         = CPUIDFIELD_MAKE(0x80000008U, 0, 2, 12, 4);
+	constexpr unsigned int CPUF_SvmRev                   = CPUIDFIELD_MAKE(0x8000000aU, 0, 0, 0, 8);
+	constexpr unsigned int CPUF_NASID                    = CPUIDFIELD_MAKE(0x8000000aU, 0, 1, 0, 32);
+	constexpr unsigned int CPUF_NP                       = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_LbrVirt                  = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_SVML                     = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 2, 1);
+	constexpr unsigned int CPUF_NRIPS                    = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 3, 1);
+	constexpr unsigned int CPUF_TscRateMsr               = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 4, 1);
+	constexpr unsigned int CPUF_VmcbClean                = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 5, 1);
+	constexpr unsigned int CPUF_FlushByAsid              = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 6, 1);
+	constexpr unsigned int CPUF_DecodeAssists            = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 7, 1);
+	constexpr unsigned int CPUF_PauseFilter              = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 10, 1);
+	constexpr unsigned int CPUF_PauseFilterThreshold     = CPUIDFIELD_MAKE(0x8000000aU, 0, 3, 12, 1);
+	constexpr unsigned int CPUF_L1ITlb1GSize             = CPUIDFIELD_MAKE(0x80000019U, 0, 0, 0, 12);
+	constexpr unsigned int CPUF_L1ITlb1GAssoc            = CPUIDFIELD_MAKE(0x80000019U, 0, 0, 12, 4);
+	constexpr unsigned int CPUF_L1DTlb1GSize             = CPUIDFIELD_MAKE(0x80000019U, 0, 0, 16, 12);
+	constexpr unsigned int CPUF_L1DTlb1GAssoc            = CPUIDFIELD_MAKE(0x80000019U, 0, 0, 28, 4);
+	constexpr unsigned int CPUF_L2ITlb1GSize             = CPUIDFIELD_MAKE(0x80000019U, 0, 1, 0, 12);
+	constexpr unsigned int CPUF_L2ITlb1GAssoc            = CPUIDFIELD_MAKE(0x80000019U, 0, 1, 12, 4);
+	constexpr unsigned int CPUF_L2DTlb1GSize             = CPUIDFIELD_MAKE(0x80000019U, 0, 1, 16, 12);
+	constexpr unsigned int CPUF_L2DTlb1GAssoc            = CPUIDFIELD_MAKE(0x80000019U, 0, 1, 28, 4);
+	constexpr unsigned int CPUF_FP128                    = CPUIDFIELD_MAKE(0x8000001aU, 0, 0, 0, 1);
+	constexpr unsigned int CPUF_MOVU                     = CPUIDFIELD_MAKE(0x8000001aU, 0, 0, 1, 1);
+	constexpr unsigned int CPUF_IBSFFV                   = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 0, 1);
+	constexpr unsigned int CPUF_FetchSam                 = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 1, 1);
+	constexpr unsigned int CPUF_OpSam                    = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 2, 1);
+	constexpr unsigned int CPUF_RdWrOpCnt                = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 3, 1);
+	constexpr unsigned int CPUF_OpCnt                    = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 4, 1);
+	constexpr unsigned int CPUF_BrnTrgt                  = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 5, 1);
+	constexpr unsigned int CPUF_OpCntExt                 = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 6, 1);
+	constexpr unsigned int CPUF_RipInvalidChk            = CPUIDFIELD_MAKE(0x8000001bU, 0, 0, 7, 1);
+	constexpr unsigned int CPUF_LwpAvail                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 0, 1);
+	constexpr unsigned int CPUF_LwpVAL                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 1, 1);
+	constexpr unsigned int CPUF_LwpIRE                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 2, 1);
+	constexpr unsigned int CPUF_LwpBRE                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 3, 1);
+	constexpr unsigned int CPUF_LwpDME                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 4, 1);
+	constexpr unsigned int CPUF_LwpCNH                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 5, 1);
+	constexpr unsigned int CPUF_LwpRNH                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 6, 1);
+	constexpr unsigned int CPUF_LwpInt                   = CPUIDFIELD_MAKE(0x8000001cU, 0, 0, 31, 1);
+	constexpr unsigned int CPUF_LwpCbSize                = CPUIDFIELD_MAKE(0x8000001cU, 0, 1, 0, 8);
+	constexpr unsigned int CPUF_LwpEventSize             = CPUIDFIELD_MAKE(0x8000001cU, 0, 1, 8, 8);
+	constexpr unsigned int CPUF_LwpMaxEvents             = CPUIDFIELD_MAKE(0x8000001cU, 0, 1, 16, 8);
+	constexpr unsigned int CPUF_LwpEventOffset           = CPUIDFIELD_MAKE(0x8000001cU, 0, 1, 24, 8);
+	constexpr unsigned int CPUF_LwpLatencyMax            = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 0, 5);
+	constexpr unsigned int CPUF_LwpDataAddress           = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 5, 1);
+	constexpr unsigned int CPUF_LwpLatencyRnd            = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 6, 3);
+	constexpr unsigned int CPUF_LwpVersion               = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 9, 7);
+	constexpr unsigned int CPUF_LwpMinBufferSize         = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 16, 8);
+	constexpr unsigned int CPUF_LwpBranchPrediction      = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 28, 1);
+	constexpr unsigned int CPUF_LwpIpFiltering           = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 29, 1);
+	constexpr unsigned int CPUF_LwpCacheLevels           = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 30, 1);
+	constexpr unsigned int CPUF_LwpCacheLatency          = CPUIDFIELD_MAKE(0x8000001cU, 0, 2, 31, 1);
+	constexpr unsigned int CPUF_D_LwpAvail               = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_D_LwpVAL                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_D_LwpIRE                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 2, 1);
+	constexpr unsigned int CPUF_D_LwpBRE                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 3, 1);
+	constexpr unsigned int CPUF_D_LwpDME                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 4, 1);
+	constexpr unsigned int CPUF_D_LwpCNH                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 5, 1);
+	constexpr unsigned int CPUF_D_LwpRNH                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 6, 1);
+	constexpr unsigned int CPUF_D_LwpInt                 = CPUIDFIELD_MAKE(0x8000001cU, 0, 3, 31, 1);
+	constexpr unsigned int CPUF_CacheType                = CPUIDFIELD_MAKE(0x8000001dU, 0, 0, 0, 5);
+	constexpr unsigned int CPUF_CacheLevel               = CPUIDFIELD_MAKE(0x8000001dU, 0, 0, 5, 3);
+	constexpr unsigned int CPUF_SelfInitialization       = CPUIDFIELD_MAKE(0x8000001dU, 0, 0, 8, 1);
+	constexpr unsigned int CPUF_FullyAssociative         = CPUIDFIELD_MAKE(0x8000001dU, 0, 0, 9, 1);
+	constexpr unsigned int CPUF_NumSharingCache          = CPUIDFIELD_MAKE(0x8000001dU, 0, 0, 14, 12);
+	constexpr unsigned int CPUF_CacheLineSize            = CPUIDFIELD_MAKE(0x8000001dU, 0, 1, 0, 12);
+	constexpr unsigned int CPUF_CachePhysPartitions      = CPUIDFIELD_MAKE(0x8000001dU, 0, 1, 12, 10);
+	constexpr unsigned int CPUF_CacheNumWays             = CPUIDFIELD_MAKE(0x8000001dU, 0, 1, 22, 10);
+	constexpr unsigned int CPUF_CacheNumSets             = CPUIDFIELD_MAKE(0x8000001dU, 0, 2, 0, 32);
+	constexpr unsigned int CPUF_WBINVD                   = CPUIDFIELD_MAKE(0x8000001dU, 0, 3, 0, 1);
+	constexpr unsigned int CPUF_CacheInclusive           = CPUIDFIELD_MAKE(0x8000001dU, 0, 3, 1, 1);
+	constexpr unsigned int CPUF_ExtendedApicId           = CPUIDFIELD_MAKE(0x8000001eU, 0, 0, 0, 32);
+	constexpr unsigned int CPUF_ComputeUnitId            = CPUIDFIELD_MAKE(0x8000001eU, 0, 1, 0, 8);
+	constexpr unsigned int CPUF_CoresPerComputeUnit      = CPUIDFIELD_MAKE(0x8000001eU, 0, 1, 8, 2);
+	constexpr unsigned int CPUF_NodeId                   = CPUIDFIELD_MAKE(0x8000001eU, 0, 2, 0, 8);
+	constexpr unsigned int CPUF_NodesPerProcessor        = CPUIDFIELD_MAKE(0x8000001eU, 0, 2, 8, 3);
+
 	// Class cpu_inst
 	class cpu_inst
 	{

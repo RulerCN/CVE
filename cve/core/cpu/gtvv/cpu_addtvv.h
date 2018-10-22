@@ -39,8 +39,8 @@ namespace core
 {
 	// The multiplication of the column vector and the row vector
 
-	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_addtvv(matrix<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
+	template <class A>
+	matrix<float, A>& cpu_addtvv(matrix<float, A> &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -68,8 +68,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_addtvv(matrix<double, A> &c, const vector<double, A1> &a, const vector<double, A2> &b)
+	template <class A>
+	matrix<double, A>& cpu_addtvv(matrix<double, A> &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);

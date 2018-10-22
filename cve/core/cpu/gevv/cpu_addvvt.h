@@ -38,8 +38,8 @@ namespace core
 {
 	// The multiplication of the column vector and the row vector
 
-	template <class A1, class A2>
-	float& cpu_addvvt(float &c, const vector<float, A1> &a, const vector<float, A2> &b)
+	template <class A>
+	float& cpu_addvvt(float &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -65,8 +65,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	double& cpu_addvvt(double &c, const vector<double, A1> &a, const vector<double, A2> &b)
+	template <class A>
+	double& cpu_addvvt(double &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -94,8 +94,8 @@ namespace core
 
 	// The multiplication of the column vector and the row vector
 
-	template <class A, class A1, class A2>
-	vector<float, A>& cpu_addvvt(vector<float, A> &c, const vector<float, A1> &a, const vector<float, A2> &b)
+	template <class A>
+	vector<float, A>& cpu_addvvt(vector<float, A> &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -121,8 +121,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	vector<double, A>& cpu_addvvt(vector<double, A> &c, const vector<double, A1> &a, const vector<double, A2> &b)
+	template <class A>
+	vector<double, A>& cpu_addvvt(vector<double, A> &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);

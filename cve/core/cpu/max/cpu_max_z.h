@@ -38,8 +38,8 @@ namespace core
 {
 	// Computes the max of elements across the z axis of a tensor
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_max_z(matrix<signed char, A1> &b, const tensor<signed char, A2> &a)
+	template <class A>
+	matrix<signed char, A>& cpu_max_z(matrix<signed char, A> &b, const tensor<signed char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -58,8 +58,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_max_z(matrix<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	template <class A>
+	matrix<unsigned char, A>& cpu_max_z(matrix<unsigned char, A> &b, const tensor<unsigned char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -78,8 +78,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_max_z(matrix<signed short, A1> &b, const tensor<signed short, A2> &a)
+	template <class A>
+	matrix<signed short, A>& cpu_max_z(matrix<signed short, A> &b, const tensor<signed short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -98,8 +98,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_max_z(matrix<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	template <class A>
+	matrix<unsigned short, A>& cpu_max_z(matrix<unsigned short, A> &b, const tensor<unsigned short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -118,8 +118,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_max_z(matrix<signed int, A1> &b, const tensor<signed int, A2> &a)
+	template <class A>
+	matrix<signed int, A>& cpu_max_z(matrix<signed int, A> &b, const tensor<signed int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -138,8 +138,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_max_z(matrix<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	template <class A>
+	matrix<unsigned int, A>& cpu_max_z(matrix<unsigned int, A> &b, const tensor<unsigned int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -158,8 +158,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_max_z(matrix<float, A1> &b, const tensor<float, A2> &a)
+	template <class A>
+	matrix<float, A>& cpu_max_z(matrix<float, A> &b, const tensor<float, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -178,8 +178,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_max_z(matrix<double, A1> &b, const tensor<double, A2> &a)
+	template <class A>
+	matrix<double, A>& cpu_max_z(matrix<double, A> &b, const tensor<double, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -200,8 +200,8 @@ namespace core
 
 	// Computes the max of elements across the z axis of a tensor
 
-	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_max_z(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	template <class A>
+	tensor<signed char, A>& cpu_max_z(tensor<signed char, A> &b, const tensor<signed char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -218,8 +218,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_max_z(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	template <class A>
+	tensor<unsigned char, A>& cpu_max_z(tensor<unsigned char, A> &b, const tensor<unsigned char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -236,8 +236,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_max_z(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	template <class A>
+	tensor<signed short, A>& cpu_max_z(tensor<signed short, A> &b, const tensor<signed short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -254,8 +254,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_max_z(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	template <class A>
+	tensor<unsigned short, A>& cpu_max_z(tensor<unsigned short, A> &b, const tensor<unsigned short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -272,8 +272,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_max_z(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	template <class A>
+	tensor<signed int, A>& cpu_max_z(tensor<signed int, A> &b, const tensor<signed int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -290,8 +290,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_max_z(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	template <class A>
+	tensor<unsigned int, A>& cpu_max_z(tensor<unsigned int, A> &b, const tensor<unsigned int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -308,8 +308,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_max_z(tensor<float, A1> &b, const tensor<float, A2> &a)
+	template <class A>
+	tensor<float, A>& cpu_max_z(tensor<float, A> &b, const tensor<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -326,8 +326,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_max_z(tensor<double, A1> &b, const tensor<double, A2> &a)
+	template <class A>
+	tensor<double, A>& cpu_max_z(tensor<double, A> &b, const tensor<double, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

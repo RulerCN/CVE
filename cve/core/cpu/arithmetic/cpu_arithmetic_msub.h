@@ -41,8 +41,8 @@ namespace core
 {
 	// Multiply-Sub of value and scalar
 
-	template <class A1, class A2>
-	scalar<float, A1>& cpu_msub(scalar<float, A1> &c, float a, const scalar<float, A2> &b)
+	template <class A>
+	scalar<float, A>& cpu_msub(scalar<float, A> &c, float a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -68,8 +68,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<double, A1>& cpu_msub(scalar<double, A1> &c, double a, const scalar<double, A2> &b)
+	template <class A>
+	scalar<double, A>& cpu_msub(scalar<double, A> &c, double a, const scalar<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -97,8 +97,8 @@ namespace core
 
 	// Multiply-Sub of value and vector
 
-	template <class A1, class A2>
-	vector<float, A1>& cpu_msub(vector<float, A1> &c, float a, const vector<float, A2> &b)
+	template <class A>
+	vector<float, A>& cpu_msub(vector<float, A> &c, float a, const vector<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -124,8 +124,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<double, A1>& cpu_msub(vector<double, A1> &c, double a, const vector<double, A2> &b)
+	template <class A>
+	vector<double, A>& cpu_msub(vector<double, A> &c, double a, const vector<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -153,8 +153,8 @@ namespace core
 
 	// Multiply-Sub of value and matrix
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_msub(matrix<float, A1> &c, float a, const matrix<float, A2> &b)
+	template <class A>
+	matrix<float, A>& cpu_msub(matrix<float, A> &c, float a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -180,8 +180,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_msub(matrix<double, A1> &c, double a, const matrix<double, A2> &b)
+	template <class A>
+	matrix<double, A>& cpu_msub(matrix<double, A> &c, double a, const matrix<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -209,8 +209,8 @@ namespace core
 
 	// Multiply-Sub of value and tensor
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_msub(tensor<float, A1> &c, float a, const tensor<float, A2> &b)
+	template <class A>
+	tensor<float, A>& cpu_msub(tensor<float, A> &c, float a, const tensor<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -236,8 +236,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_msub(tensor<double, A1> &c, double a, const tensor<double, A2> &b)
+	template <class A>
+	tensor<double, A>& cpu_msub(tensor<double, A> &c, double a, const tensor<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -265,8 +265,8 @@ namespace core
 
 	// Multiply-Sub of scalar and scalar
 
-	template <class A1, class A2, class A3>
-	scalar<float, A1>& cpu_msub(scalar<float, A1> &c, const scalar<float, A2> &a, const scalar<float, A3> &b)
+	template <class A>
+	scalar<float, A>& cpu_msub(scalar<float, A> &c, const scalar<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -292,8 +292,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<double, A1>& cpu_msub(scalar<double, A1> &c, const scalar<double, A2> &a, const scalar<double, A3> &b)
+	template <class A>
+	scalar<double, A>& cpu_msub(scalar<double, A> &c, const scalar<double, A> &a, const scalar<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -321,8 +321,8 @@ namespace core
 
 	// Multiply-Sub of vector and vector
 
-	template <class A1, class A2, class A3>
-	vector<float, A1>& cpu_msub(vector<float, A1> &c, const vector<float, A2> &a, const vector<float, A3> &b)
+	template <class A>
+	vector<float, A>& cpu_msub(vector<float, A> &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -348,8 +348,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<double, A1>& cpu_msub(vector<double, A1> &c, const vector<double, A2> &a, const vector<double, A3> &b)
+	template <class A>
+	vector<double, A>& cpu_msub(vector<double, A> &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -377,8 +377,8 @@ namespace core
 
 	// Multiply-Sub of matrix and matrix
 
-	template <class A1, class A2, class A3>
-	matrix<float, A1>& cpu_msub(matrix<float, A1> &c, const matrix<float, A2> &a, const matrix<float, A3> &b)
+	template <class A>
+	matrix<float, A>& cpu_msub(matrix<float, A> &c, const matrix<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -404,8 +404,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<double, A1>& cpu_msub(matrix<double, A1> &c, const matrix<double, A2> &a, const matrix<double, A3> &b)
+	template <class A>
+	matrix<double, A>& cpu_msub(matrix<double, A> &c, const matrix<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -433,8 +433,8 @@ namespace core
 
 	// Multiply-Sub of tensor and tensor
 
-	template <class A1, class A2, class A3>
-	tensor<float, A1>& cpu_msub(tensor<float, A1> &c, const tensor<float, A2> &a, const tensor<float, A3> &b)
+	template <class A>
+	tensor<float, A>& cpu_msub(tensor<float, A> &c, const tensor<float, A> &a, const tensor<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -460,8 +460,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<double, A1>& cpu_msub(tensor<double, A1> &c, const tensor<double, A2> &a, const tensor<double, A3> &b)
+	template <class A>
+	tensor<double, A>& cpu_msub(tensor<double, A> &c, const tensor<double, A> &a, const tensor<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -489,8 +489,8 @@ namespace core
 
 	// Multiply-Sub of vector and scalar
 
-	template <class A1, class A2, class A3>
-	vector<float, A1>& cpu_msub(vector<float, A1> &c, const vector<float, A2> &a, const scalar<float, A3> &b)
+	template <class A>
+	vector<float, A>& cpu_msub(vector<float, A> &c, const vector<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -518,8 +518,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<double, A1>& cpu_msub(vector<double, A1> &c, const vector<double, A2> &a, const scalar<double, A3> &b)
+	template <class A>
+	vector<double, A>& cpu_msub(vector<double, A> &c, const vector<double, A> &a, const scalar<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -549,8 +549,8 @@ namespace core
 
 	// Multiply-Sub of matrix and vector
 
-	template <class A1, class A2, class A3>
-	matrix<float, A1>& cpu_msub(matrix<float, A1> &c, const matrix<float, A2> &a, const vector<float, A3> &b)
+	template <class A>
+	matrix<float, A>& cpu_msub(matrix<float, A> &c, const matrix<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -578,8 +578,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<double, A1>& cpu_msub(matrix<double, A1> &c, const matrix<double, A2> &a, const vector<double, A3> &b)
+	template <class A>
+	matrix<double, A>& cpu_msub(matrix<double, A> &c, const matrix<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -609,8 +609,8 @@ namespace core
 
 	// Multiply-Sub of tensor and matrix
 
-	template <class A1, class A2, class A3>
-	tensor<float, A1>& cpu_msub(tensor<float, A1> &c, const tensor<float, A2> &a, const matrix<float, A3> &b)
+	template <class A>
+	tensor<float, A>& cpu_msub(tensor<float, A> &c, const tensor<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -638,8 +638,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<double, A1>& cpu_msub(tensor<double, A1> &c, const tensor<double, A2> &a, const matrix<double, A3> &b)
+	template <class A>
+	tensor<double, A>& cpu_msub(tensor<double, A> &c, const tensor<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

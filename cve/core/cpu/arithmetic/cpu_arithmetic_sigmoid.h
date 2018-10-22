@@ -39,8 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// The sigmoid function for scalar
-	template <class T, class A1, class A2>
-	scalar<T, A1>& cpu_sigmoid(scalar<T, A1> &b, const scalar<T, A2> &a)
+
+	template <class A>
+	scalar<float, A>& cpu_sigmoid(scalar<float, A> &b, const scalar<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -50,25 +51,53 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_sigmoid<float, cpu_none>()(b.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A>
+	scalar<double, A>& cpu_sigmoid(scalar<double, A> &b, const scalar<double, A> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_avx2>()(b.size(), a.data(), b.data());
+		}
+		else if (cpu_inst::is_support_sse41())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_sse41>()(b.size(), a.data(), b.data());
+		}
+		else
+			kernel_sigmoid<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	// The sigmoid function for vector
-	template <class T, class A1, class A2>
-	vector<T, A1>& cpu_sigmoid(vector<T, A1> &b, const vector<T, A2> &a)
+
+	template <class A>
+	vector<float, A>& cpu_sigmoid(vector<float, A> &b, const vector<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -78,25 +107,53 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_sigmoid<float, cpu_none>()(b.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A>
+	vector<double, A>& cpu_sigmoid(vector<double, A> &b, const vector<double, A> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_avx2>()(b.size(), a.data(), b.data());
+		}
+		else if (cpu_inst::is_support_sse41())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_sse41>()(b.size(), a.data(), b.data());
+		}
+		else
+			kernel_sigmoid<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	// The sigmoid function for matrix
-	template <class T, class A1, class A2>
-	matrix<T, A1>& cpu_sigmoid(matrix<T, A1> &b, const matrix<T, A2> &a)
+
+	template <class A>
+	matrix<float, A>& cpu_sigmoid(matrix<float, A> &b, const matrix<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -106,25 +163,53 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_sigmoid<float, cpu_none>()(b.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A>
+	matrix<double, A>& cpu_sigmoid(matrix<double, A> &b, const matrix<double, A> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_avx2>()(b.size(), a.data(), b.data());
+		}
+		else if (cpu_inst::is_support_sse41())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_sse41>()(b.size(), a.data(), b.data());
+		}
+		else
+			kernel_sigmoid<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 
 	// The sigmoid function for tensor
-	template <class T, class A1, class A2>
-	tensor<T, A1>& cpu_sigmoid(tensor<T, A1> &b, const tensor<T, A2> &a)
+
+	template <class A>
+	tensor<float, A>& cpu_sigmoid(tensor<float, A> &b, const tensor<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -134,19 +219,46 @@ namespace core
 		if (cpu_inst::is_support_avx2())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_avx2>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_avx2>()(b.size(), a.data(), b.data());
 		}
 		else if (cpu_inst::is_support_sse41())
 		{
 			if (cpu_inst::is_support_fma())
-				kernel_sigmoid<T, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
 			else
-				kernel_sigmoid<T, cpu_sse41>()(b.size(), a.data(), b.data());
+				kernel_sigmoid<float, cpu_sse41>()(b.size(), a.data(), b.data());
 		}
 		else
-			kernel_sigmoid<T, cpu_none>()(b.size(), a.data(), b.data());
+			kernel_sigmoid<float, cpu_none>()(b.size(), a.data(), b.data());
+		return b;
+	}
+
+	template <class A>
+	tensor<double, A>& cpu_sigmoid(tensor<double, A> &b, const tensor<double, A> &a)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.size() != a.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_avx2 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_avx2>()(b.size(), a.data(), b.data());
+		}
+		else if (cpu_inst::is_support_sse41())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_sigmoid<double, cpu_sse41 | cpu_fma>()(b.size(), a.data(), b.data());
+			else
+				kernel_sigmoid<double, cpu_sse41>()(b.size(), a.data(), b.data());
+		}
+		else
+			kernel_sigmoid<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
 

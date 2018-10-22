@@ -39,8 +39,8 @@ namespace core
 {
 	// The multiplication of the vector and the matrix
 
-	template <class A, class A1, class A2>
-	vector<float, A>& cpu_addvmt(vector<float, A> &c, const vector<float, A1> &a, const matrix<float, A2> &b)
+	template <class A>
+	vector<float, A>& cpu_addvmt(vector<float, A> &c, const vector<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -68,8 +68,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	vector<double, A>& cpu_addvmt(vector<double, A> &c, const vector<double, A1> &a, const matrix<double, A2> &b)
+	template <class A>
+	vector<double, A>& cpu_addvmt(vector<double, A> &c, const vector<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -99,8 +99,8 @@ namespace core
 
 	// The multiplication of the matrix and the tensor
 
-	template <class A, class A1, class A2>
-	matrix<float, A>& cpu_addvmt(matrix<float, A> &c, const matrix<float, A1> &a, const tensor<float, A2> &b)
+	template <class A>
+	matrix<float, A>& cpu_addvmt(matrix<float, A> &c, const matrix<float, A> &a, const tensor<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -128,8 +128,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	matrix<double, A>& cpu_addvmt(matrix<double, A> &c, const matrix<double, A1> &a, const tensor<double, A2> &b)
+	template <class A>
+	matrix<double, A>& cpu_addvmt(matrix<double, A> &c, const matrix<double, A> &a, const tensor<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -159,8 +159,8 @@ namespace core
 
 	// The multiplication of the tensor and the tensor
 
-	template <class A, class A1, class A2>
-	tensor<float, A>& cpu_addvmt(tensor<float, A> &c, const tensor<float, A1> &a, const tensor<float, A2> &b)
+	template <class A>
+	tensor<float, A>& cpu_addvmt(tensor<float, A> &c, const tensor<float, A> &a, const tensor<float, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -186,8 +186,8 @@ namespace core
 		return c;
 	}
 
-	template <class A, class A1, class A2>
-	tensor<double, A>& cpu_addvmt(tensor<double, A> &c, const tensor<double, A1> &a, const tensor<double, A2> &b)
+	template <class A>
+	tensor<double, A>& cpu_addvmt(tensor<double, A> &c, const tensor<double, A> &a, const tensor<double, A> &b)
 	{
 		if (c.empty() || a.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

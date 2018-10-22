@@ -39,8 +39,8 @@ namespace core
 {
 	// Computes the min of elements across the y axis of a matrix
 
-	template <class A1, class A2>
-	vector<signed char, A1>& cpu_min_y(vector<signed char, A1> &b, const matrix<signed char, A2> &a)
+	template <class A>
+	vector<signed char, A>& cpu_min_y(vector<signed char, A> &b, const matrix<signed char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -59,8 +59,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_min_y(vector<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	template <class A>
+	vector<unsigned char, A>& cpu_min_y(vector<unsigned char, A> &b, const matrix<unsigned char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -79,8 +79,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<signed short, A1>& cpu_min_y(vector<signed short, A1> &b, const matrix<signed short, A2> &a)
+	template <class A>
+	vector<signed short, A>& cpu_min_y(vector<signed short, A> &b, const matrix<signed short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -99,8 +99,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_min_y(vector<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	template <class A>
+	vector<unsigned short, A>& cpu_min_y(vector<unsigned short, A> &b, const matrix<unsigned short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -119,8 +119,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<signed int, A1>& cpu_min_y(vector<signed int, A1> &b, const matrix<signed int, A2> &a)
+	template <class A>
+	vector<signed int, A>& cpu_min_y(vector<signed int, A> &b, const matrix<signed int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -139,8 +139,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_min_y(vector<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	template <class A>
+	vector<unsigned int, A>& cpu_min_y(vector<unsigned int, A> &b, const matrix<unsigned int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -159,8 +159,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<float, A1>& cpu_min_y(vector<float, A1> &b, const matrix<float, A2> &a)
+	template <class A>
+	vector<float, A>& cpu_min_y(vector<float, A> &b, const matrix<float, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -179,8 +179,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	vector<double, A1>& cpu_min_y(vector<double, A1> &b, const matrix<double, A2> &a)
+	template <class A>
+	vector<double, A>& cpu_min_y(vector<double, A> &b, const matrix<double, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -201,8 +201,8 @@ namespace core
 
 	// Computes the min of elements across the y axis of a matrix
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_min_y(matrix<signed char, A1> &b, const matrix<signed char, A2> &a)
+	template <class A>
+	matrix<signed char, A>& cpu_min_y(matrix<signed char, A> &b, const matrix<signed char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -219,8 +219,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_min_y(matrix<unsigned char, A1> &b, const matrix<unsigned char, A2> &a)
+	template <class A>
+	matrix<unsigned char, A>& cpu_min_y(matrix<unsigned char, A> &b, const matrix<unsigned char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -237,8 +237,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_min_y(matrix<signed short, A1> &b, const matrix<signed short, A2> &a)
+	template <class A>
+	matrix<signed short, A>& cpu_min_y(matrix<signed short, A> &b, const matrix<signed short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -255,8 +255,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_min_y(matrix<unsigned short, A1> &b, const matrix<unsigned short, A2> &a)
+	template <class A>
+	matrix<unsigned short, A>& cpu_min_y(matrix<unsigned short, A> &b, const matrix<unsigned short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -273,8 +273,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_min_y(matrix<signed int, A1> &b, const matrix<signed int, A2> &a)
+	template <class A>
+	matrix<signed int, A>& cpu_min_y(matrix<signed int, A> &b, const matrix<signed int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -291,8 +291,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_min_y(matrix<unsigned int, A1> &b, const matrix<unsigned int, A2> &a)
+	template <class A>
+	matrix<unsigned int, A>& cpu_min_y(matrix<unsigned int, A> &b, const matrix<unsigned int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -309,8 +309,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_min_y(matrix<float, A1> &b, const matrix<float, A2> &a)
+	template <class A>
+	matrix<float, A>& cpu_min_y(matrix<float, A> &b, const matrix<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -327,8 +327,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_min_y(matrix<double, A1> &b, const matrix<double, A2> &a)
+	template <class A>
+	matrix<double, A>& cpu_min_y(matrix<double, A> &b, const matrix<double, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -347,8 +347,8 @@ namespace core
 
 	// Computes the min of elements across the y axis of a tensor
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_min_y(matrix<signed char, A1> &b, const tensor<signed char, A2> &a)
+	template <class A>
+	matrix<signed char, A>& cpu_min_y(matrix<signed char, A> &b, const tensor<signed char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -367,8 +367,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_min_y(matrix<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	template <class A>
+	matrix<unsigned char, A>& cpu_min_y(matrix<unsigned char, A> &b, const tensor<unsigned char, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -387,8 +387,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_min_y(matrix<signed short, A1> &b, const tensor<signed short, A2> &a)
+	template <class A>
+	matrix<signed short, A>& cpu_min_y(matrix<signed short, A> &b, const tensor<signed short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -407,8 +407,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_min_y(matrix<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	template <class A>
+	matrix<unsigned short, A>& cpu_min_y(matrix<unsigned short, A> &b, const tensor<unsigned short, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -427,8 +427,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_min_y(matrix<signed int, A1> &b, const tensor<signed int, A2> &a)
+	template <class A>
+	matrix<signed int, A>& cpu_min_y(matrix<signed int, A> &b, const tensor<signed int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -447,8 +447,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_min_y(matrix<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	template <class A>
+	matrix<unsigned int, A>& cpu_min_y(matrix<unsigned int, A> &b, const tensor<unsigned int, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -467,8 +467,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_min_y(matrix<float, A1> &b, const tensor<float, A2> &a)
+	template <class A>
+	matrix<float, A>& cpu_min_y(matrix<float, A> &b, const tensor<float, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -487,8 +487,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_min_y(matrix<double, A1> &b, const tensor<double, A2> &a)
+	template <class A>
+	matrix<double, A>& cpu_min_y(matrix<double, A> &b, const tensor<double, A> &a)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -509,8 +509,8 @@ namespace core
 
 	// Computes the min of elements across the y axis of a tensor
 
-	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_min_y(tensor<signed char, A1> &b, const tensor<signed char, A2> &a)
+	template <class A>
+	tensor<signed char, A>& cpu_min_y(tensor<signed char, A> &b, const tensor<signed char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -527,8 +527,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_min_y(tensor<unsigned char, A1> &b, const tensor<unsigned char, A2> &a)
+	template <class A>
+	tensor<unsigned char, A>& cpu_min_y(tensor<unsigned char, A> &b, const tensor<unsigned char, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -545,8 +545,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_min_y(tensor<signed short, A1> &b, const tensor<signed short, A2> &a)
+	template <class A>
+	tensor<signed short, A>& cpu_min_y(tensor<signed short, A> &b, const tensor<signed short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -563,8 +563,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_min_y(tensor<unsigned short, A1> &b, const tensor<unsigned short, A2> &a)
+	template <class A>
+	tensor<unsigned short, A>& cpu_min_y(tensor<unsigned short, A> &b, const tensor<unsigned short, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -581,8 +581,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_min_y(tensor<signed int, A1> &b, const tensor<signed int, A2> &a)
+	template <class A>
+	tensor<signed int, A>& cpu_min_y(tensor<signed int, A> &b, const tensor<signed int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -599,8 +599,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_min_y(tensor<unsigned int, A1> &b, const tensor<unsigned int, A2> &a)
+	template <class A>
+	tensor<unsigned int, A>& cpu_min_y(tensor<unsigned int, A> &b, const tensor<unsigned int, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -617,8 +617,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_min_y(tensor<float, A1> &b, const tensor<float, A2> &a)
+	template <class A>
+	tensor<float, A>& cpu_min_y(tensor<float, A> &b, const tensor<float, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -635,8 +635,8 @@ namespace core
 		return b;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_min_y(tensor<double, A1> &b, const tensor<double, A2> &a)
+	template <class A>
+	tensor<double, A>& cpu_min_y(tensor<double, A> &b, const tensor<double, A> &a)
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

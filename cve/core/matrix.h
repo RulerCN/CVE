@@ -1210,51 +1210,18 @@ namespace core
 			fill(il.begin(), il.end());
 		}
 
-		void fill(const matrix<T, Allocator>& other)
-		{
-			if (empty() || other.empty())
-				throw ::std::domain_error(matrix_not_initialized);
-			if (count != other.size())
-				throw ::std::invalid_argument(invalid_length);
-			::std::copy(other.buffer, other.buffer + count, buffer);
-		}
-
-		void linear_fill(const value_type& init, const value_type& delta)
-		{
-			value_type value(init);
-			for (size_type i = 0; i < count; ++i)
-			{
-				buffer[i] = value;
-				value += delta;
-			}
-		}
-
-		void linear_fill(const value_type& init, const value_type& row_delta, const value_type& col_delta)
-		{
-			value_type row_value(init);
-			pointer current = buffer;
-			for (size_type j = 0; j < height; ++j)
-			{
-				value_type col_value(row_value);
-				for (size_type i = 0; i < stride; ++i)
-				{
-					*current++ = col_value;
-					col_value += col_delta;
-				}
-				row_value += row_delta;
-			}
-		}
-
-		void value(const scalar_type& element)
+		void fill(const scalar_type& scalar)
 		{
 			if (empty())
 				throw ::std::domain_error(matrix_not_initialized);
-			if (element.size() != channels)
+			if (scalar.empty())
+				throw ::std::domain_error(scalar_not_initialized);
+			if (scalar.size() != channels)
 				throw ::std::invalid_argument(invalid_dimension);
 			pointer current = buffer;
 			size_type number = area();
-			const_pointer first = element.data();
-			const_pointer last = first + element.size();
+			const_pointer first = scalar.data();
+			const_pointer last = first + scalar.size();
 			for (size_type i = 0; i < number; ++i)
 			{
 				::std::copy(first, last, current);
@@ -1262,22 +1229,31 @@ namespace core
 			}
 		}
 
-		void linear_value(const scalar_type& init, const value_type& row_delta, const value_type& col_delta)
+		void fill(const vector_type& vector)
 		{
 			if (empty())
 				throw ::std::domain_error(matrix_not_initialized);
-			if (init.size() != channels)
-				throw ::std::invalid_argument(invalid_dimension);
-			vector_type first_row = vector_type(width, channels, buffer);
-			first_row.linear_value(init, col_delta);
+			if (vector.empty())
+				throw ::std::domain_error(vector_not_initialized);
+			if (vector.size() != stride)
+				throw ::std::invalid_argument(invalid_size);
 			pointer current = buffer;
-			for (size_type j = 1; j < height; ++j)
+			const_pointer first = vector.data();
+			const_pointer last = first + vector.size();
+			for (size_type i = 0; i < height; ++i)
 			{
-				pointer next = current + stride;
-				for (size_type i = 0; i < stride; ++i)
-					next[i] = current[i] + row_delta;
-				current = next;
+				::std::copy(first, last, current);
+				current += stride;
 			}
+		}
+
+		void fill(const matrix<T, Allocator>& other)
+		{
+			if (empty() || other.empty())
+				throw ::std::domain_error(matrix_not_initialized);
+			if (count != other.size())
+				throw ::std::invalid_argument(invalid_size);
+			::std::copy(other.buffer, other.buffer + count, buffer);
 		}
 
 		template<class Generator>

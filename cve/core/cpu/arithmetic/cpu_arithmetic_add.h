@@ -41,8 +41,8 @@ namespace core
 {
 	// Addition of value and scalar
 
-	template <class A1, class A2>
-	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &c, signed char a, const scalar<signed char, A2> &b)
+	template <class A>
+	scalar<signed char, A>& cpu_add(scalar<signed char, A> &c, signed char a, const scalar<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -58,8 +58,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned char, A1>& cpu_add(scalar<unsigned char, A1> &c, unsigned char a, const scalar<unsigned char, A2> &b)
+	template <class A>
+	scalar<unsigned char, A>& cpu_add(scalar<unsigned char, A> &c, unsigned char a, const scalar<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -75,8 +75,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<signed short, A1>& cpu_add(scalar<signed short, A1> &c, signed short a, const scalar<signed short, A2> &b)
+	template <class A>
+	scalar<signed short, A>& cpu_add(scalar<signed short, A> &c, signed short a, const scalar<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -92,8 +92,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned short, A1>& cpu_add(scalar<unsigned short, A1> &c, unsigned short a, const scalar<unsigned short, A2> &b)
+	template <class A>
+	scalar<unsigned short, A>& cpu_add(scalar<unsigned short, A> &c, unsigned short a, const scalar<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -109,8 +109,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<signed int, A1>& cpu_add(scalar<signed int, A1> &c, signed int a, const scalar<signed int, A2> &b)
+	template <class A>
+	scalar<signed int, A>& cpu_add(scalar<signed int, A> &c, signed int a, const scalar<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -126,8 +126,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<unsigned int, A1>& cpu_add(scalar<unsigned int, A1> &c, unsigned int a, const scalar<unsigned int, A2> &b)
+	template <class A>
+	scalar<unsigned int, A>& cpu_add(scalar<unsigned int, A> &c, unsigned int a, const scalar<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -143,8 +143,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<float, A1>& cpu_add(scalar<float, A1> &c, float a, const scalar<float, A2> &b)
+	template <class A>
+	scalar<float, A>& cpu_add(scalar<float, A> &c, float a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -160,8 +160,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	scalar<double, A1>& cpu_add(scalar<double, A1> &c, double a, const scalar<double, A2> &b)
+	template <class A>
+	scalar<double, A>& cpu_add(scalar<double, A> &c, double a, const scalar<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -179,8 +179,8 @@ namespace core
 
 	// Addition of value and vector
 
-	template <class A1, class A2>
-	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, signed char a, const vector<signed char, A2> &b)
+	template <class A>
+	vector<signed char, A>& cpu_add(vector<signed char, A> &c, signed char a, const vector<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -196,8 +196,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, unsigned char a, const vector<unsigned char, A2> &b)
+	template <class A>
+	vector<unsigned char, A>& cpu_add(vector<unsigned char, A> &c, unsigned char a, const vector<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -213,8 +213,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, signed short a, const vector<signed short, A2> &b)
+	template <class A>
+	vector<signed short, A>& cpu_add(vector<signed short, A> &c, signed short a, const vector<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -230,8 +230,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, unsigned short a, const vector<unsigned short, A2> &b)
+	template <class A>
+	vector<unsigned short, A>& cpu_add(vector<unsigned short, A> &c, unsigned short a, const vector<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -247,8 +247,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, signed int a, const vector<signed int, A2> &b)
+	template <class A>
+	vector<signed int, A>& cpu_add(vector<signed int, A> &c, signed int a, const vector<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -264,8 +264,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, unsigned int a, const vector<unsigned int, A2> &b)
+	template <class A>
+	vector<unsigned int, A>& cpu_add(vector<unsigned int, A> &c, unsigned int a, const vector<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -281,8 +281,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<float, A1>& cpu_add(vector<float, A1> &c, float a, const vector<float, A2> &b)
+	template <class A>
+	vector<float, A>& cpu_add(vector<float, A> &c, float a, const vector<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -298,8 +298,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	vector<double, A1>& cpu_add(vector<double, A1> &c, double a, const vector<double, A2> &b)
+	template <class A>
+	vector<double, A>& cpu_add(vector<double, A> &c, double a, const vector<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -317,8 +317,8 @@ namespace core
 
 	// Addition of value and matrix
 
-	template <class A1, class A2>
-	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, signed char a, const matrix<signed char, A2> &b)
+	template <class A>
+	matrix<signed char, A>& cpu_add(matrix<signed char, A> &c, signed char a, const matrix<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -334,8 +334,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, unsigned char a, const matrix<unsigned char, A2> &b)
+	template <class A>
+	matrix<unsigned char, A>& cpu_add(matrix<unsigned char, A> &c, unsigned char a, const matrix<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -351,8 +351,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, signed short a, const matrix<signed short, A2> &b)
+	template <class A>
+	matrix<signed short, A>& cpu_add(matrix<signed short, A> &c, signed short a, const matrix<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -368,8 +368,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, unsigned short a, const matrix<unsigned short, A2> &b)
+	template <class A>
+	matrix<unsigned short, A>& cpu_add(matrix<unsigned short, A> &c, unsigned short a, const matrix<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -385,8 +385,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, signed int a, const matrix<signed int, A2> &b)
+	template <class A>
+	matrix<signed int, A>& cpu_add(matrix<signed int, A> &c, signed int a, const matrix<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -402,8 +402,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, unsigned int a, const matrix<unsigned int, A2> &b)
+	template <class A>
+	matrix<unsigned int, A>& cpu_add(matrix<unsigned int, A> &c, unsigned int a, const matrix<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -419,8 +419,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &c, float a, const matrix<float, A2> &b)
+	template <class A>
+	matrix<float, A>& cpu_add(matrix<float, A> &c, float a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -436,8 +436,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &c, double a, const matrix<double, A2> &b)
+	template <class A>
+	matrix<double, A>& cpu_add(matrix<double, A> &c, double a, const matrix<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -455,8 +455,8 @@ namespace core
 
 	// Addition of value and tensor
 
-	template <class A1, class A2>
-	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, signed char a, const tensor<signed char, A2> &b)
+	template <class A>
+	tensor<signed char, A>& cpu_add(tensor<signed char, A> &c, signed char a, const tensor<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -472,8 +472,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, unsigned char a, const tensor<unsigned char, A2> &b)
+	template <class A>
+	tensor<unsigned char, A>& cpu_add(tensor<unsigned char, A> &c, unsigned char a, const tensor<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -489,8 +489,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, signed short a, const tensor<signed short, A2> &b)
+	template <class A>
+	tensor<signed short, A>& cpu_add(tensor<signed short, A> &c, signed short a, const tensor<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -506,8 +506,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, unsigned short a, const tensor<unsigned short, A2> &b)
+	template <class A>
+	tensor<unsigned short, A>& cpu_add(tensor<unsigned short, A> &c, unsigned short a, const tensor<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -523,8 +523,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, signed int a, const tensor<signed int, A2> &b)
+	template <class A>
+	tensor<signed int, A>& cpu_add(tensor<signed int, A> &c, signed int a, const tensor<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -540,8 +540,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, unsigned int a, const tensor<unsigned int, A2> &b)
+	template <class A>
+	tensor<unsigned int, A>& cpu_add(tensor<unsigned int, A> &c, unsigned int a, const tensor<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -557,8 +557,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &c, float a, const tensor<float, A2> &b)
+	template <class A>
+	tensor<float, A>& cpu_add(tensor<float, A> &c, float a, const tensor<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -574,8 +574,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &c, double a, const tensor<double, A2> &b)
+	template <class A>
+	tensor<double, A>& cpu_add(tensor<double, A> &c, double a, const tensor<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -593,8 +593,8 @@ namespace core
 
 	// Addition of scalar and scalar
 
-	template <class A1, class A2, class A3>
-	scalar<signed char, A1>& cpu_add(scalar<signed char, A1> &c, const scalar<signed char, A2> &a, const scalar<signed char, A3> &b)
+	template <class A>
+	scalar<signed char, A>& cpu_add(scalar<signed char, A> &c, const scalar<signed char, A> &a, const scalar<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -610,8 +610,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<unsigned char, A1>& cpu_add(scalar<unsigned char, A1> &c, const scalar<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
+	template <class A>
+	scalar<unsigned char, A>& cpu_add(scalar<unsigned char, A> &c, const scalar<unsigned char, A> &a, const scalar<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -627,8 +627,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<signed short, A1>& cpu_add(scalar<signed short, A1> &c, const scalar<signed short, A2> &a, const scalar<signed short, A3> &b)
+	template <class A>
+	scalar<signed short, A>& cpu_add(scalar<signed short, A> &c, const scalar<signed short, A> &a, const scalar<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -644,8 +644,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<unsigned short, A1>& cpu_add(scalar<unsigned short, A1> &c, const scalar<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
+	template <class A>
+	scalar<unsigned short, A>& cpu_add(scalar<unsigned short, A> &c, const scalar<unsigned short, A> &a, const scalar<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -661,8 +661,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<signed int, A1>& cpu_add(scalar<signed int, A1> &c, const scalar<signed int, A2> &a, const scalar<signed int, A3> &b)
+	template <class A>
+	scalar<signed int, A>& cpu_add(scalar<signed int, A> &c, const scalar<signed int, A> &a, const scalar<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -678,8 +678,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<unsigned int, A1>& cpu_add(scalar<unsigned int, A1> &c, const scalar<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
+	template <class A>
+	scalar<unsigned int, A>& cpu_add(scalar<unsigned int, A> &c, const scalar<unsigned int, A> &a, const scalar<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -695,8 +695,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<float, A1>& cpu_add(scalar<float, A1> &c, const scalar<float, A2> &a, const scalar<float, A3> &b)
+	template <class A>
+	scalar<float, A>& cpu_add(scalar<float, A> &c, const scalar<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -712,8 +712,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	scalar<double, A1>& cpu_add(scalar<double, A1> &c, const scalar<double, A2> &a, const scalar<double, A3> &b)
+	template <class A>
+	scalar<double, A>& cpu_add(scalar<double, A> &c, const scalar<double, A> &a, const scalar<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(scalar_not_initialized);
@@ -731,8 +731,8 @@ namespace core
 
 	// Addition of vector and vector
 
-	template <class A1, class A2, class A3>
-	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const vector<signed char, A2> &a, const vector<signed char, A3> &b)
+	template <class A>
+	vector<signed char, A>& cpu_add(vector<signed char, A> &c, const vector<signed char, A> &a, const vector<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -748,8 +748,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
+	template <class A>
+	vector<unsigned char, A>& cpu_add(vector<unsigned char, A> &c, const vector<unsigned char, A> &a, const vector<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -765,8 +765,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, const vector<signed short, A2> &a, const vector<signed short, A3> &b)
+	template <class A>
+	vector<signed short, A>& cpu_add(vector<signed short, A> &c, const vector<signed short, A> &a, const vector<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -782,8 +782,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
+	template <class A>
+	vector<unsigned short, A>& cpu_add(vector<unsigned short, A> &c, const vector<unsigned short, A> &a, const vector<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -799,8 +799,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, const vector<signed int, A2> &a, const vector<signed int, A3> &b)
+	template <class A>
+	vector<signed int, A>& cpu_add(vector<signed int, A> &c, const vector<signed int, A> &a, const vector<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -816,8 +816,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
+	template <class A>
+	vector<unsigned int, A>& cpu_add(vector<unsigned int, A> &c, const vector<unsigned int, A> &a, const vector<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -833,8 +833,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<float, A1>& cpu_add(vector<float, A1> &c, const vector<float, A2> &a, const vector<float, A3> &b)
+	template <class A>
+	vector<float, A>& cpu_add(vector<float, A> &c, const vector<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -850,8 +850,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<double, A1>& cpu_add(vector<double, A1> &c, const vector<double, A2> &a, const vector<double, A3> &b)
+	template <class A>
+	vector<double, A>& cpu_add(vector<double, A> &c, const vector<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -869,8 +869,8 @@ namespace core
 
 	// Addition of matrix and matrix
 
-	template <class A1, class A2, class A3>
-	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const matrix<signed char, A3> &b)
+	template <class A>
+	matrix<signed char, A>& cpu_add(matrix<signed char, A> &c, const matrix<signed char, A> &a, const matrix<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -886,8 +886,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
+	template <class A>
+	matrix<unsigned char, A>& cpu_add(matrix<unsigned char, A> &c, const matrix<unsigned char, A> &a, const matrix<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -903,8 +903,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const matrix<signed short, A3> &b)
+	template <class A>
+	matrix<signed short, A>& cpu_add(matrix<signed short, A> &c, const matrix<signed short, A> &a, const matrix<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -920,8 +920,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
+	template <class A>
+	matrix<unsigned short, A>& cpu_add(matrix<unsigned short, A> &c, const matrix<unsigned short, A> &a, const matrix<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -937,8 +937,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const matrix<signed int, A3> &b)
+	template <class A>
+	matrix<signed int, A>& cpu_add(matrix<signed int, A> &c, const matrix<signed int, A> &a, const matrix<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -954,8 +954,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
+	template <class A>
+	matrix<unsigned int, A>& cpu_add(matrix<unsigned int, A> &c, const matrix<unsigned int, A> &a, const matrix<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -971,8 +971,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &c, const matrix<float, A2> &a, const matrix<float, A3> &b)
+	template <class A>
+	matrix<float, A>& cpu_add(matrix<float, A> &c, const matrix<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -988,8 +988,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &c, const matrix<double, A2> &a, const matrix<double, A3> &b)
+	template <class A>
+	matrix<double, A>& cpu_add(matrix<double, A> &c, const matrix<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1007,8 +1007,8 @@ namespace core
 
 	// Addition of tensor and tensor
 
-	template <class A1, class A2, class A3>
-	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const tensor<signed char, A3> &b)
+	template <class A>
+	tensor<signed char, A>& cpu_add(tensor<signed char, A> &c, const tensor<signed char, A> &a, const tensor<signed char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1024,8 +1024,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const tensor<unsigned char, A3> &b)
+	template <class A>
+	tensor<unsigned char, A>& cpu_add(tensor<unsigned char, A> &c, const tensor<unsigned char, A> &a, const tensor<unsigned char, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1041,8 +1041,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const tensor<signed short, A3> &b)
+	template <class A>
+	tensor<signed short, A>& cpu_add(tensor<signed short, A> &c, const tensor<signed short, A> &a, const tensor<signed short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1058,8 +1058,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const tensor<unsigned short, A3> &b)
+	template <class A>
+	tensor<unsigned short, A>& cpu_add(tensor<unsigned short, A> &c, const tensor<unsigned short, A> &a, const tensor<unsigned short, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1075,8 +1075,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const tensor<signed int, A3> &b)
+	template <class A>
+	tensor<signed int, A>& cpu_add(tensor<signed int, A> &c, const tensor<signed int, A> &a, const tensor<signed int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1092,8 +1092,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const tensor<unsigned int, A3> &b)
+	template <class A>
+	tensor<unsigned int, A>& cpu_add(tensor<unsigned int, A> &c, const tensor<unsigned int, A> &a, const tensor<unsigned int, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1109,8 +1109,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &c, const tensor<float, A2> &a, const tensor<float, A3> &b)
+	template <class A>
+	tensor<float, A>& cpu_add(tensor<float, A> &c, const tensor<float, A> &a, const tensor<float, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1126,8 +1126,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &c, const tensor<double, A2> &a, const tensor<double, A3> &b)
+	template <class A>
+	tensor<double, A>& cpu_add(tensor<double, A> &c, const tensor<double, A> &a, const tensor<double, A> &b)
 	{
 		if (c.empty() || b.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1145,8 +1145,8 @@ namespace core
 
 	// Addition of vector and scalar
 
-	template <class A1, class A2, class A3>
-	vector<signed char, A1>& cpu_add(vector<signed char, A1> &c, const vector<signed char, A2> &a, const scalar<signed char, A3> &b)
+	template <class A>
+	vector<signed char, A>& cpu_add(vector<signed char, A> &c, const vector<signed char, A> &a, const scalar<signed char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1164,8 +1164,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned char, A1>& cpu_add(vector<unsigned char, A1> &c, const vector<unsigned char, A2> &a, const scalar<unsigned char, A3> &b)
+	template <class A>
+	vector<unsigned char, A>& cpu_add(vector<unsigned char, A> &c, const vector<unsigned char, A> &a, const scalar<unsigned char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1183,8 +1183,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<signed short, A1>& cpu_add(vector<signed short, A1> &c, const vector<signed short, A2> &a, const scalar<signed short, A3> &b)
+	template <class A>
+	vector<signed short, A>& cpu_add(vector<signed short, A> &c, const vector<signed short, A> &a, const scalar<signed short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1202,8 +1202,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned short, A1>& cpu_add(vector<unsigned short, A1> &c, const vector<unsigned short, A2> &a, const scalar<unsigned short, A3> &b)
+	template <class A>
+	vector<unsigned short, A>& cpu_add(vector<unsigned short, A> &c, const vector<unsigned short, A> &a, const scalar<unsigned short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1221,8 +1221,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<signed int, A1>& cpu_add(vector<signed int, A1> &c, const vector<signed int, A2> &a, const scalar<signed int, A3> &b)
+	template <class A>
+	vector<signed int, A>& cpu_add(vector<signed int, A> &c, const vector<signed int, A> &a, const scalar<signed int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1240,8 +1240,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<unsigned int, A1>& cpu_add(vector<unsigned int, A1> &c, const vector<unsigned int, A2> &a, const scalar<unsigned int, A3> &b)
+	template <class A>
+	vector<unsigned int, A>& cpu_add(vector<unsigned int, A> &c, const vector<unsigned int, A> &a, const scalar<unsigned int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1259,8 +1259,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<float, A1>& cpu_add(vector<float, A1> &c, const vector<float, A2> &a, const scalar<float, A3> &b)
+	template <class A>
+	vector<float, A>& cpu_add(vector<float, A> &c, const vector<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1278,8 +1278,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	vector<double, A1>& cpu_add(vector<double, A1> &c, const vector<double, A2> &a, const scalar<double, A3> &b)
+	template <class A>
+	vector<double, A>& cpu_add(vector<double, A> &c, const vector<double, A> &a, const scalar<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
@@ -1299,8 +1299,8 @@ namespace core
 
 	// Addition of matrix and vector
 
-	template <class A1, class A2, class A3>
-	matrix<signed char, A1>& cpu_add(matrix<signed char, A1> &c, const matrix<signed char, A2> &a, const vector<signed char, A3> &b)
+	template <class A>
+	matrix<signed char, A>& cpu_add(matrix<signed char, A> &c, const matrix<signed char, A> &a, const vector<signed char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1318,8 +1318,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned char, A1>& cpu_add(matrix<unsigned char, A1> &c, const matrix<unsigned char, A2> &a, const vector<unsigned char, A3> &b)
+	template <class A>
+	matrix<unsigned char, A>& cpu_add(matrix<unsigned char, A> &c, const matrix<unsigned char, A> &a, const vector<unsigned char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1337,8 +1337,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<signed short, A1>& cpu_add(matrix<signed short, A1> &c, const matrix<signed short, A2> &a, const vector<signed short, A3> &b)
+	template <class A>
+	matrix<signed short, A>& cpu_add(matrix<signed short, A> &c, const matrix<signed short, A> &a, const vector<signed short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1356,8 +1356,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned short, A1>& cpu_add(matrix<unsigned short, A1> &c, const matrix<unsigned short, A2> &a, const vector<unsigned short, A3> &b)
+	template <class A>
+	matrix<unsigned short, A>& cpu_add(matrix<unsigned short, A> &c, const matrix<unsigned short, A> &a, const vector<unsigned short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1375,8 +1375,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<signed int, A1>& cpu_add(matrix<signed int, A1> &c, const matrix<signed int, A2> &a, const vector<signed int, A3> &b)
+	template <class A>
+	matrix<signed int, A>& cpu_add(matrix<signed int, A> &c, const matrix<signed int, A> &a, const vector<signed int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1394,8 +1394,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<unsigned int, A1>& cpu_add(matrix<unsigned int, A1> &c, const matrix<unsigned int, A2> &a, const vector<unsigned int, A3> &b)
+	template <class A>
+	matrix<unsigned int, A>& cpu_add(matrix<unsigned int, A> &c, const matrix<unsigned int, A> &a, const vector<unsigned int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1413,8 +1413,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<float, A1>& cpu_add(matrix<float, A1> &c, const matrix<float, A2> &a, const vector<float, A3> &b)
+	template <class A>
+	matrix<float, A>& cpu_add(matrix<float, A> &c, const matrix<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1432,8 +1432,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	matrix<double, A1>& cpu_add(matrix<double, A1> &c, const matrix<double, A2> &a, const vector<double, A3> &b)
+	template <class A>
+	matrix<double, A>& cpu_add(matrix<double, A> &c, const matrix<double, A> &a, const vector<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -1453,8 +1453,8 @@ namespace core
 
 	// Addition of tensor and matrix
 
-	template <class A1, class A2, class A3>
-	tensor<signed char, A1>& cpu_add(tensor<signed char, A1> &c, const tensor<signed char, A2> &a, const matrix<signed char, A3> &b)
+	template <class A>
+	tensor<signed char, A>& cpu_add(tensor<signed char, A> &c, const tensor<signed char, A> &a, const matrix<signed char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1472,8 +1472,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned char, A1>& cpu_add(tensor<unsigned char, A1> &c, const tensor<unsigned char, A2> &a, const matrix<unsigned char, A3> &b)
+	template <class A>
+	tensor<unsigned char, A>& cpu_add(tensor<unsigned char, A> &c, const tensor<unsigned char, A> &a, const matrix<unsigned char, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1491,8 +1491,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<signed short, A1>& cpu_add(tensor<signed short, A1> &c, const tensor<signed short, A2> &a, const matrix<signed short, A3> &b)
+	template <class A>
+	tensor<signed short, A>& cpu_add(tensor<signed short, A> &c, const tensor<signed short, A> &a, const matrix<signed short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1510,8 +1510,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned short, A1>& cpu_add(tensor<unsigned short, A1> &c, const tensor<unsigned short, A2> &a, const matrix<unsigned short, A3> &b)
+	template <class A>
+	tensor<unsigned short, A>& cpu_add(tensor<unsigned short, A> &c, const tensor<unsigned short, A> &a, const matrix<unsigned short, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1529,8 +1529,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<signed int, A1>& cpu_add(tensor<signed int, A1> &c, const tensor<signed int, A2> &a, const matrix<signed int, A3> &b)
+	template <class A>
+	tensor<signed int, A>& cpu_add(tensor<signed int, A> &c, const tensor<signed int, A> &a, const matrix<signed int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1548,8 +1548,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<unsigned int, A1>& cpu_add(tensor<unsigned int, A1> &c, const tensor<unsigned int, A2> &a, const matrix<unsigned int, A3> &b)
+	template <class A>
+	tensor<unsigned int, A>& cpu_add(tensor<unsigned int, A> &c, const tensor<unsigned int, A> &a, const matrix<unsigned int, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1567,8 +1567,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<float, A1>& cpu_add(tensor<float, A1> &c, const tensor<float, A2> &a, const matrix<float, A3> &b)
+	template <class A>
+	tensor<float, A>& cpu_add(tensor<float, A> &c, const tensor<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);
@@ -1586,8 +1586,8 @@ namespace core
 		return c;
 	}
 
-	template <class A1, class A2, class A3>
-	tensor<double, A1>& cpu_add(tensor<double, A1> &c, const tensor<double, A2> &a, const matrix<double, A3> &b)
+	template <class A>
+	tensor<double, A>& cpu_add(tensor<double, A> &c, const tensor<double, A> &a, const matrix<double, A> &b)
 	{
 		if (c.empty() || a.empty())
 			throw ::std::invalid_argument(tensor_not_initialized);

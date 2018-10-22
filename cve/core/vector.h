@@ -851,59 +851,31 @@ namespace core
 			fill(il.begin(), il.end());
 		}
 
+		void fill(const scalar_type& scalar)
+		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
+			if (scalar.empty())
+				throw ::std::domain_error(scalar_not_initialized);
+			if (scalar.size() != channels)
+				throw ::std::invalid_argument(invalid_dimension);
+			pointer current = buffer;
+			const_pointer first = scalar.data();
+			const_pointer last = first + scalar.size();
+			for (size_type i = 0; i < number; ++i)
+			{
+				::std::copy(first, last, current);
+				current += channels;
+			}
+		}
+
 		void fill(const vector<T, Allocator>& other)
 		{
 			if (empty() || other.empty())
 				throw ::std::domain_error(vector_not_initialized);
 			if (count != other.size())
-				throw ::std::invalid_argument(invalid_length);
+				throw ::std::invalid_argument(invalid_size);
 			::std::copy(other.buffer, other.buffer + count, buffer);
-		}
-
-		void linear_fill(const value_type& init, const value_type& delta)
-		{
-			if (empty())
-				throw ::std::domain_error(vector_not_initialized);
-			value_type value(init);
-			for (size_type i = 0; i < count; ++i)
-			{
-				buffer[i] = value;
-				value += delta;
-			}
-		}
-
-		void value(const scalar_type& element)
-		{
-			if (empty())
-				throw ::std::domain_error(vector_not_initialized);
-			if (element.size() != channels)
-				throw ::std::invalid_argument(invalid_dimension);
-			pointer current = buffer;
-			const_pointer first = element.data();
-			const_pointer last = first + element.size();
-			for (size_type i = 0; i < number; ++i)
-			{
-				::std::copy(first, last, current);
-				current += channels;
-			}
-		}
-
-		void linear_value(const scalar_type& init, const value_type& delta)
-		{
-			if (empty())
-				throw ::std::domain_error(vector_not_initialized);
-			if (init.size() != channels)
-				throw ::std::invalid_argument(invalid_dimension);
-			pointer current = buffer;
-			scalar_type element(init);
-			const_pointer first = element.data();
-			const_pointer last = first + element.size();
-			for (size_type i = 0; i < number; ++i)
-			{
-				::std::copy(first, last, current);
-				current += channels;
-				element += delta;
-			}
 		}
 
 		template<class Generator>
