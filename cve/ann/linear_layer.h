@@ -81,42 +81,53 @@ namespace ann
 		// construct/copy/destroy:
 
 		linear_layer(const Allocator& alloc = Allocator())
-			: is_train(false)
-			, is_update(false)
-			, learning_rate(0)
-			, input_dimension(0)
-			, output_dimension(0)
+			: layer_base_type()
 		{}
 
-		linear_layer(size_type input_dim, size_type output_dim, bool has_bias, bool train, value_type rate)
+		linear_layer(size_type in_dim, size_type out_dim, bool has_bias, bool train, value_type rate)
 		{
-			assign(input_dim, output_dim, has_bias, rate, train);
+			assign(in_dim, out_dim, has_bias, rate, train);
 		}
 
-		void assign(size_type input_dim, size_type output_dim, bool has_bias, bool train, value_type rate)
+		void assign(size_type in_dim, size_type out_dim, bool has_bias = true)
 		{
-			this->is_train = train;
-			this->is_update = train;
-			this->learning_rate = rate;
-			this->input_dimension = input_dim;
-			this->output_dimension = output_dim;
-
-			weight.assign(this->input_dimension, this->output_dimension, size_t(1));
+			_in_dim = in_dim;
+			_out_dim = out_dim;
+			_weight.assign(_in_dim, _out_dim, size_t(1));
 			if (has_bias)
-				bias.assign(this->output_dimension, size_t(1));
-			if (this->is_train)
-			{
-				// The gradient of weight
-				weight_gradient.assign(weight, ::core::without_copy);
-				// The gradient of bias
-				if (!bias.empty())
-					bias_gradient.assign(bias, ::core::without_copy);
-				// The mean vector of the data
-				data_mean.assign(this->input_dimension, size_t(1));
-				// The mean vector of the loss
-				loss_mean.assign(this->output_dimension, size_t(1));
-			}
+				_bias.assign(_out_dim, size_t(1));
 		}
+
+		// Forward propagation
+		tensor_reference forward(tensor_reference input)
+		{
+			if (input.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (input.matrix_size() != _weight.rows())
+				throw ::std::invalid_argument(::core::invalid_shape);
+
+			_input.reassign(size_t(1), input.batch(), input.area(), input.dimension(), input.data(), false);
+			_output.reassign(size_t(1), input.batch(), _weight.columns(), _weight.dimension());
+			if (has_bias)
+				::core::cpu_gemm(_output, _input, _weight, _bias);
+			else
+				::core::cpu_gemm(_output, _input, _weight);
+			_output.reshape(_output.rows(), size_t(1), _output.columns(), _output.dimension());
+			return _output;
+		}
+
+		//if (this->is_train)
+		//{
+		//	// The gradient of weight
+		//	weight_gradient.assign(weight, ::core::without_copy);
+		//	// The gradient of bias
+		//	if (!bias.empty())
+		//		bias_gradient.assign(bias, ::core::without_copy);
+		//	// The mean vector of the data
+		//	data_mean.assign(this->input_dimension, size_t(1));
+		//	// The mean vector of the loss
+		//	loss_mean.assign(this->output_dimension, size_t(1));
+		//}
 
 		// Initialize linear layer
 
@@ -181,8 +192,13 @@ namespace ann
 			return this->error;
 		}
 	private:
-		matrix_type weight;
-		vector_type bias;
+		size_type   _in_dim;
+		size_type   _out_dim;
+		matrix_type _weight;
+		vector_type _bias;
+		tensor_type _input;
+		tensor_type _output;
+
 		matrix_type weight_gradient;
 		vector_type bias_gradient;
 		vector_type data_mean;

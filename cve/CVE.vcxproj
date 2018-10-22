@@ -169,6 +169,9 @@
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_desigmoid.h" />
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_sub.h" />
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_subs.h" />
+    <ClInclude Include="core\cpu\compare\cpu_compare_eq.h" />
+    <ClInclude Include="core\cpu\compare\cpu_compare_gt.h" />
+    <ClInclude Include="core\cpu\compare\cpu_compare_lt.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_double.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_float.h" />
     <ClInclude Include="core\cpu\convert\cpu_convert_int16.h" />
@@ -230,6 +233,12 @@
     <ClInclude Include="core\cpu\kernel\border\kernel_border_reflect101.h" />
     <ClInclude Include="core\cpu\kernel\border\kernel_border_replicate.h" />
     <ClInclude Include="core\cpu\kernel\border\kernel_border_wrap.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_eq.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_eq_value.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_gt.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_gt_value.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_lt.h" />
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_lt_value.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_double.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_float.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_convert_int16.h" />

@@ -84,19 +84,19 @@ namespace ann
 			: is_train(false)
 			, is_update(false)
 			, learning_rate(0)
-			, input_dimension(0)
-			, output_dimension(0)
+			//, input_dimension(0)
+			//, output_dimension(0)
 		{}
 
 	protected:
 		bool        is_train;
 		bool        is_update;
 		value_type  learning_rate;
-		size_type   input_dimension;
-		size_type   output_dimension;
-		tensor_type input_data;
-		tensor_type output_data;
-		tensor_type loss_data;
+		//size_type   input_dimension;
+		//size_type   output_dimension;
+		//tensor_type input_data;
+		//tensor_type output_data;
+		//tensor_type loss_data;
 	};
 
 } // namespace ann

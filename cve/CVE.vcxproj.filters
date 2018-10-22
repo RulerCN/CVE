@@ -691,6 +691,33 @@
     <ClInclude Include="core\cpu\cpu_sliding.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_eq.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_eq_value.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_gt.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_gt_value.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_lt.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\compare\kernel_compare_lt_value.h">
+      <Filter>core\cpu\kernel\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\compare\cpu_compare_eq.h">
+      <Filter>core\cpu\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\compare\cpu_compare_gt.h">
+      <Filter>core\cpu\compare</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\compare\cpu_compare_lt.h">
+      <Filter>core\cpu\compare</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -785,6 +812,12 @@
     </Filter>
     <Filter Include="core\cpu\sliding">
       <UniqueIdentifier>{bf7b2063-dbbf-4769-8090-31def9737f96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\compare">
+      <UniqueIdentifier>{9cf951fe-8816-4610-9770-beb90d8f35bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\compare">
+      <UniqueIdentifier>{3c77664e-547a-4e70-afa4-90e6a04e667c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
