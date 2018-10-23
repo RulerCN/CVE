@@ -150,19 +150,19 @@ namespace ann
 		}
 
 		// Forward propagation
-		tensor_reference forward(tensor_reference data)
-		{
-			if (data.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (data.matrix_size() != weight.rows())
-				throw ::std::invalid_argument(::core::invalid_shape);
+		//tensor_reference forward(tensor_reference data)
+		//{
+		//	if (data.empty())
+		//		throw ::std::domain_error(::core::tensor_not_initialized);
+		//	if (data.matrix_size() != weight.rows())
+		//		throw ::std::invalid_argument(::core::invalid_shape);
 
-			this->input.reassign(size_t(1), data.batch(), data.area(), data.dimension(), data.data(), false);
-			this->output.reassign(size_t(1), data.batch(), weight.columns(), weight.dimension());
-			::core::cpu_matmul(this->output_data[0], this->input_data[0], weight);
-			this->output.reshape(this->output_data.rows(), size_t(1), this->output_data.columns(), this->output_data.dimension());
-			return this->output;
-		}
+		//	this->input.reassign(size_t(1), data.batch(), data.area(), data.dimension(), data.data(), false);
+		//	this->output.reassign(size_t(1), data.batch(), weight.columns(), weight.dimension());
+		//	::core::cpu_matmul(this->output_data[0], this->input_data[0], weight);
+		//	this->output.reshape(this->output_data.rows(), size_t(1), this->output_data.columns(), this->output_data.dimension());
+		//	return this->output;
+		//}
 
 		// Update
 		tensor_reference update(tensor_reference loss)

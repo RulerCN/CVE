@@ -37,8 +37,8 @@ namespace core
 {
 	// The multiplication of the matrix and the matrix
 
-	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_gemm(matrix<T, A> &c, const matrix<T, A1> &a, const matrix<T, A2> &b, bool transpose = false)
+	template <class T, class A>
+	matrix<T, A>& cpu_gemm(matrix<T, A> &c, const matrix<T, A> &a, const matrix<T, A> &b, bool transpose = false)
 	{
 		c.fill(T(0));
 		if (transpose)
@@ -48,8 +48,8 @@ namespace core
 		return c;
 	}
 
-	template <class T, class A, class A1, class A2>
-	matrix<T, A>& cpu_gemm(matrix<T, A> &d, const matrix<T, A1> &a, const matrix<T, A2> &b, const matrix<T, A1> &c, bool transpose = false)
+	template <class T, class A>
+	matrix<T, A>& cpu_gemm(matrix<T, A> &d, const matrix<T, A> &a, const matrix<T, A> &b, const matrix<T, A> &c, bool transpose = false)
 	{
 		d.fill(c);
 		if (transpose)
@@ -61,8 +61,8 @@ namespace core
 
 	// The multiplication of the tensor and the matrix
 
-	template <class T, class A, class A1, class A2>
-	tensor<T, A>& cpu_gemm(tensor<T, A> &c, const tensor<T, A1> &a, const matrix<T, A2> &b, bool transpose = false)
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &c, const tensor<T, A> &a, const matrix<T, A> &b, bool transpose = false)
 	{
 		c.fill(T(0));
 		if (transpose)
@@ -72,8 +72,8 @@ namespace core
 		return c;
 	}
 
-	template <class T, class A, class A1, class A2>
-	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A1> &a, const matrix<T, A2> &b, const tensor<T, A1> &c, bool transpose = false)
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const matrix<T, A> &b, const tensor<T, A> &c, bool transpose = false)
 	{
 		d.fill(c);
 		if (transpose)
@@ -85,8 +85,8 @@ namespace core
 
 	// The multiplication of the tensor and the tensor
 
-	template <class T, class A, class A1, class A2>
-	tensor<T, A>& cpu_gemm(tensor<T, A> &c, const tensor<T, A1> &a, const tensor<T, A2> &b, bool transpose = false)
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &c, const tensor<T, A> &a, const tensor<T, A> &b, bool transpose = false)
 	{
 		c.fill(T(0));
 		if (transpose)
@@ -96,8 +96,8 @@ namespace core
 		return c;
 	}
 
-	template <class T, class A, class A1, class A2>
-	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A1> &a, const tensor<T, A2> &b, const tensor<T, A1> &c, bool transpose = false)
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const tensor<T, A> &b, const tensor<T, A> &c, bool transpose = false)
 	{
 		d.fill(c);
 		if (transpose)

@@ -27,29 +27,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_GTVV_H__
-#define __CORE_CPU_GTVV_H__
+#ifndef __CORE_CPU_FILL_H__
+#define __CORE_CPU_FILL_H__
 
-#include "gtvv/cpu_addtvv.h"
-
-namespace core
-{
-	// The multiplication of the column vector and the row vector
-
-	template <class T, class A>
-	matrix<T, A>& cpu_gtvv(matrix<T, A> &c, const vector<T, A> &a, const vector<T, A> &b)
-	{
-		c.fill(T(0));
-		return cpu_addtvv(c, a, b);
-	}
-
-	template <class T, class A>
-	matrix<T, A>& cpu_gtvv(matrix<T, A> &d, const vector<T, A> &a, const vector<T, A> &b, const vector<T, A> &c)
-	{
-		d.fill(c);
-		return cpu_addtvv(d, a, b);
-	}
-
-} // namespace core
+#include "fill/cpu_fill_linear.h"
 
 #endif

@@ -47,8 +47,8 @@ namespace core
 	//        | a[1],a[2],a[3],...,a[x] |
 	//----------------------------------------------------------------
 
-	template <class T, class A1, class A2>
-	matrix<T, A1>& cpu_replicate(matrix<T, A1> &b, const vector<T, A2> &a, size_t m, size_t n)
+	template <class T, class A>
+	matrix<T, A>& cpu_replicate(matrix<T, A> &b, const vector<T, A> &a, size_t m, size_t n)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);
@@ -79,8 +79,8 @@ namespace core
 	//        | a[y][1],a[y][2],a[y][3],...,a[y][x] |
 	//----------------------------------------------------------------
 
-	template <class T, class A1, class A2>
-	matrix<T, A1>& cpu_replicate(matrix<T, A1> &b, const matrix<T, A2> &a, size_t m, size_t n)
+	template <class T, class A>
+	matrix<T, A>& cpu_replicate(matrix<T, A> &b, const matrix<T, A> &a, size_t m, size_t n)
 	{
 		if (b.empty())
 			throw ::std::invalid_argument(matrix_not_initialized);

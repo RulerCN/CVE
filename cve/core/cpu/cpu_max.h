@@ -41,8 +41,8 @@ namespace core
 {
 	// Computes the max of elements across dimensions of a vector
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_max(T1 &b, const vector<T2, A2> &a, axis_type axis = axis_x)
+	template <class T, class A>
+	T& cpu_max(T &b, const vector<T, A> &a, axis_type axis = axis_x)
 	{
 		switch (axis)
 		{
@@ -55,8 +55,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_max(vector<T1, A1> &b, const vector<T2, A2> &a, axis_type axis = axis_x)
+	template <class T, class A>
+	vector<T, A>& cpu_max(vector<T, A> &b, const vector<T, A> &a, axis_type axis = axis_x)
 	{
 		switch (axis)
 		{
@@ -71,8 +71,8 @@ namespace core
 
 	// Computes the max of elements across dimensions of a matrix
 
-	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_max(vector<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	vector<T, A>& cpu_max(vector<T, A> &b, const matrix<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -88,8 +88,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_max(T1 &b, const matrix<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	T& cpu_max(T &b, const matrix<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -102,8 +102,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& cpu_max(matrix<T1, A1> &b, const matrix<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	matrix<T, A>& cpu_max(matrix<T, A> &b, const matrix<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -124,8 +124,8 @@ namespace core
 
 	// Computes the max of elements across dimensions of a tensor
 
-	template <class T1, class T2, class A1, class A2>
-	matrix<T1, A1>& cpu_max(matrix<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	matrix<T, A>& cpu_max(matrix<T, A> &b, const tensor<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -144,8 +144,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	vector<T1, A1>& cpu_max(vector<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	vector<T, A>& cpu_max(vector<T, A> &b, const tensor<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -161,8 +161,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_max(T1 &b, const tensor<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	T& cpu_max(T &b, const tensor<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{
@@ -175,8 +175,8 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	tensor<T1, A1>& cpu_max(tensor<T1, A1> &b, const tensor<T2, A2> &a, axis_type axis)
+	template <class T, class A>
+	tensor<T, A>& cpu_max(tensor<T, A> &b, const tensor<T, A> &a, axis_type axis)
 	{
 		switch (axis)
 		{

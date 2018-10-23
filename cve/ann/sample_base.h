@@ -32,11 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <algorithm>
 #include <random>
-#include "../core/scalar.h"
-#include "../core/vector.h"
-#include "../core/matrix.h"
-#include "../core/tensor.h"
-#include "../core/cpu/cpu_get_element.h"
+#include "../core/core.h"
 
 namespace ann
 {
@@ -93,9 +89,7 @@ namespace ann
 		// Initialization of index
 		void initialize(void)
 		{
-			constexpr size_t zero = 0;
-			constexpr size_t one = 1;
-			index.linear_fill(zero, one);
+			core::cpu_linear(index, size_t(0), size_t(1));
 			iterator = index.cbegin();
 		}
 

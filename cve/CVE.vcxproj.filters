@@ -718,6 +718,15 @@
     <ClInclude Include="core\cpu\compare\cpu_compare_lt.h">
       <Filter>core\cpu\compare</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\fill\kernel_fill_linear.h">
+      <Filter>core\cpu\kernel\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\fill\cpu_fill_linear.h">
+      <Filter>core\cpu\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_fill.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -818,6 +827,12 @@
     </Filter>
     <Filter Include="core\cpu\compare">
       <UniqueIdentifier>{3c77664e-547a-4e70-afa4-90e6a04e667c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\fill">
+      <UniqueIdentifier>{dea7aafc-2488-4f0b-bd42-8184a9bc46d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\fill">
+      <UniqueIdentifier>{3cad24dd-99d0-43ea-aa83-14254f3c04a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

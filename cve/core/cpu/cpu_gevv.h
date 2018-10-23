@@ -36,15 +36,15 @@ namespace core
 {
 	// The multiplication of the row vector and the column vector
 
-	template <class T, class A1, class A2>
-	T& cpu_gevvt(T &c, const vector<T, A1> &a, const vector<T, A2> &b)
+	template <class T, class A>
+	T& cpu_gevvt(T &c, const vector<T, A> &a, const vector<T, A> &b)
 	{
 		c = T(0);
 		return cpu_addvvt(c, a, b);
 	}
 
-	template <class T, class A1, class A2>
-	T& cpu_gevvt(T &d, const vector<T, A1> &a, const vector<T, A2> &b, const T &c)
+	template <class T, class A>
+	T& cpu_gevvt(T &d, const vector<T, A> &a, const vector<T, A> &b, const T &c)
 	{
 		d = c;
 		return cpu_addtvvt(d, a, b);
@@ -52,15 +52,15 @@ namespace core
 
 	// The multiplication of the row vector and the column vector
 
-	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_gevvt(vector<T, A> &c, const vector<T, A1> &a, const vector<T, A2> &b)
+	template <class T, class A>
+	vector<T, A>& cpu_gevvt(vector<T, A> &c, const vector<T, A> &a, const vector<T, A> &b)
 	{
 		c.fill(T(0));
 		return cpu_addvvt(c, a, b);
 	}
 
-	template <class T, class A, class A1, class A2>
-	vector<T, A>& cpu_gevvt(vector<T, A> &d, const vector<T, A1> &a, const vector<T, A2> &b, const vector<T, A> &c)
+	template <class T, class A>
+	vector<T, A>& cpu_gevvt(vector<T, A> &d, const vector<T, A> &a, const vector<T, A> &b, const vector<T, A> &c)
 	{
 		d.fill(c);
 		return cpu_addtvvt(d, a, b);

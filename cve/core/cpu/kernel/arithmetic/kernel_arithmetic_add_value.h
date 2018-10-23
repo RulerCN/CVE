@@ -265,7 +265,7 @@ namespace core
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
-			const __m128i xmm_a = _mm_set1_epi16(a);
+			const __m128i xmm_a = _mm_set1_epi32(a);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
