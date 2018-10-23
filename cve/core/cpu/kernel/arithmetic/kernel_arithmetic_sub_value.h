@@ -265,7 +265,7 @@ namespace core
 		{
 			constexpr size_t block = 16;
 			constexpr size_t bit = 4;
-			const __m128i xmm_a = _mm_set1_epi16(a);
+			const __m128i xmm_a = _mm_set1_epi32(a);
 			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
 			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
 
@@ -345,6 +345,104 @@ namespace core
 				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
 				// c = a - b;
 				xmm_c0 = _mm_sub_epi32(xmm_a, xmm_b0);
+				// store data into memory
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c), xmm_c0);
+				b += bit;
+				c += bit;
+				n -= bit;
+			}
+			for (size_t i = 0; i < n; ++i)
+				c[i] = a - b[i];
+		}
+	};
+
+	template<>
+	struct kernel_sub_value<signed long long, cpu_sse2>
+	{
+		void operator()(size_t n, signed long long a, const signed long long *b, signed long long *c) const
+		{
+			constexpr size_t block = 8;
+			constexpr size_t bit = 2;
+			const __m128i xmm_a = _mm_set1_epi64x(a);
+			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+
+			while (n >= block)
+			{
+				// load data from memory
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
+				xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 1);
+				xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 2);
+				xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 3);
+				// c = a - b;
+				xmm_c0 = _mm_sub_epi64(xmm_a, xmm_b0);
+				xmm_c1 = _mm_sub_epi64(xmm_a, xmm_b1);
+				xmm_c2 = _mm_sub_epi64(xmm_a, xmm_b2);
+				xmm_c3 = _mm_sub_epi64(xmm_a, xmm_b3);
+				// store data into memory
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c), xmm_c0);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 1, xmm_c1);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 2, xmm_c2);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 3, xmm_c3);
+				b += block;
+				c += block;
+				n -= block;
+			}
+			while (n >= bit)
+			{
+				// load data from memory
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
+				// c = a - b;
+				xmm_c0 = _mm_sub_epi64(xmm_a, xmm_b0);
+				// store data into memory
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c), xmm_c0);
+				b += bit;
+				c += bit;
+				n -= bit;
+			}
+			for (size_t i = 0; i < n; ++i)
+				c[i] = a - b[i];
+		}
+	};
+
+	template<>
+	struct kernel_sub_value<unsigned long long, cpu_sse2>
+	{
+		void operator()(size_t n, unsigned long long a, const unsigned long long *b, unsigned long long *c) const
+		{
+			constexpr size_t block = 8;
+			constexpr size_t bit = 2;
+			const __m128i xmm_a = _mm_set1_epi64x(a);
+			__m128i xmm_b0, xmm_b1, xmm_b2, xmm_b3;
+			__m128i xmm_c0, xmm_c1, xmm_c2, xmm_c3;
+
+			while (n >= block)
+			{
+				// load data from memory
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
+				xmm_b1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 1);
+				xmm_b2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 2);
+				xmm_b3 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b) + 3);
+				// c = a - b;
+				xmm_c0 = _mm_sub_epi64(xmm_a, xmm_b0);
+				xmm_c1 = _mm_sub_epi64(xmm_a, xmm_b1);
+				xmm_c2 = _mm_sub_epi64(xmm_a, xmm_b2);
+				xmm_c3 = _mm_sub_epi64(xmm_a, xmm_b3);
+				// store data into memory
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c), xmm_c0);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 1, xmm_c1);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 2, xmm_c2);
+				_mm_storeu_si128(reinterpret_cast<__m128i*>(c) + 3, xmm_c3);
+				b += block;
+				c += block;
+				n -= block;
+			}
+			while (n >= bit)
+			{
+				// load data from memory
+				xmm_b0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(b));
+				// c = a - b;
+				xmm_c0 = _mm_sub_epi64(xmm_a, xmm_b0);
 				// store data into memory
 				_mm_storeu_si128(reinterpret_cast<__m128i*>(c), xmm_c0);
 				b += bit;
@@ -737,6 +835,104 @@ namespace core
 				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
 				// c = a - b;
 				ymm_c0 = _mm256_sub_epi32(ymm_a, ymm_b0);
+				// store data into memory
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c), ymm_c0);
+				b += bit;
+				c += bit;
+				n -= bit;
+			}
+			for (size_t i = 0; i < n; ++i)
+				c[i] = a - b[i];
+		}
+	};
+
+	template<>
+	struct kernel_sub_value<signed long long, cpu_avx2>
+	{
+		void operator()(size_t n, signed long long a, const signed long long *b, signed long long *c) const
+		{
+			constexpr size_t block = 16;
+			constexpr size_t bit = 4;
+			const __m256i ymm_a = _mm256_set1_epi64x(a);
+			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
+			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+
+			while (n >= block)
+			{
+				// load data from memory
+				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
+				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 1);
+				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 2);
+				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 3);
+				// c = a - b;
+				ymm_c0 = _mm256_sub_epi64(ymm_a, ymm_b0);
+				ymm_c1 = _mm256_sub_epi64(ymm_a, ymm_b1);
+				ymm_c2 = _mm256_sub_epi64(ymm_a, ymm_b2);
+				ymm_c3 = _mm256_sub_epi64(ymm_a, ymm_b3);
+				// store data into memory
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c), ymm_c0);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 1, ymm_c1);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 2, ymm_c2);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 3, ymm_c3);
+				b += block;
+				c += block;
+				n -= block;
+			}
+			while (n >= bit)
+			{
+				// load data from memory
+				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
+				// c = a - b;
+				ymm_c0 = _mm256_sub_epi64(ymm_a, ymm_b0);
+				// store data into memory
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c), ymm_c0);
+				b += bit;
+				c += bit;
+				n -= bit;
+			}
+			for (size_t i = 0; i < n; ++i)
+				c[i] = a - b[i];
+		}
+	};
+
+	template<>
+	struct kernel_sub_value<unsigned long long, cpu_avx2>
+	{
+		void operator()(size_t n, unsigned long long a, const unsigned long long *b, unsigned long long *c) const
+		{
+			constexpr size_t block = 16;
+			constexpr size_t bit = 4;
+			const __m256i ymm_a = _mm256_set1_epi64x(a);
+			__m256i ymm_b0, ymm_b1, ymm_b2, ymm_b3;
+			__m256i ymm_c0, ymm_c1, ymm_c2, ymm_c3;
+
+			while (n >= block)
+			{
+				// load data from memory
+				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
+				ymm_b1 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 1);
+				ymm_b2 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 2);
+				ymm_b3 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b) + 3);
+				// c = a - b;
+				ymm_c0 = _mm256_sub_epi64(ymm_a, ymm_b0);
+				ymm_c1 = _mm256_sub_epi64(ymm_a, ymm_b1);
+				ymm_c2 = _mm256_sub_epi64(ymm_a, ymm_b2);
+				ymm_c3 = _mm256_sub_epi64(ymm_a, ymm_b3);
+				// store data into memory
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c), ymm_c0);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 1, ymm_c1);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 2, ymm_c2);
+				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c) + 3, ymm_c3);
+				b += block;
+				c += block;
+				n -= block;
+			}
+			while (n >= bit)
+			{
+				// load data from memory
+				ymm_b0 = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(b));
+				// c = a - b;
+				ymm_c0 = _mm256_sub_epi64(ymm_a, ymm_b0);
 				// store data into memory
 				_mm256_storeu_si256(reinterpret_cast<__m256i*>(c), ymm_c0);
 				b += bit;

@@ -144,6 +144,40 @@ namespace core
 	}
 
 	template <class A>
+	scalar<signed long long, A>& cpu_sub(scalar<signed long long, A>&c, signed long long a, const scalar<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<signed long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<signed long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<signed long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	scalar<unsigned long long, A>& cpu_sub(scalar<unsigned long long, A>&c, unsigned long long a, const scalar<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<unsigned long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<unsigned long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<unsigned long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
 	scalar<float, A>& cpu_sub(scalar<float, A>&c, float a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
@@ -278,6 +312,40 @@ namespace core
 			kernel_sub_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
 			kernel_sub_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<signed long long, A>& cpu_sub(vector<signed long long, A>&c, signed long long a, const vector<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<signed long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<signed long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<signed long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<unsigned long long, A>& cpu_sub(vector<unsigned long long, A>&c, unsigned long long a, const vector<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<unsigned long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<unsigned long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<unsigned long long, cpu_none>()(c.size(), a, b.data(), c.data());
 		return c;
 	}
 
@@ -420,6 +488,40 @@ namespace core
 	}
 
 	template <class A>
+	matrix<signed long long, A>& cpu_sub(matrix<signed long long, A>&c, signed long long a, const matrix<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<signed long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<signed long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<signed long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	matrix<unsigned long long, A>& cpu_sub(matrix<unsigned long long, A>&c, unsigned long long a, const matrix<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<unsigned long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<unsigned long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<unsigned long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
 	matrix<float, A>& cpu_sub(matrix<float, A>&c, float a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
@@ -554,6 +656,40 @@ namespace core
 			kernel_sub_value<unsigned int, cpu_sse2>()(c.size(), a, b.data(), c.data());
 		else
 			kernel_sub_value<unsigned int, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<signed long long, A>& cpu_sub(tensor<signed long long, A>&c, signed long long a, const tensor<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<signed long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<signed long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<signed long long, cpu_none>()(c.size(), a, b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<unsigned long long, A>& cpu_sub(tensor<unsigned long long, A>&c, unsigned long long a, const tensor<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_value<unsigned long long, cpu_avx2>()(c.size(), a, b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_value<unsigned long long, cpu_sse2>()(c.size(), a, b.data(), c.data());
+		else
+			kernel_sub_value<unsigned long long, cpu_none>()(c.size(), a, b.data(), c.data());
 		return c;
 	}
 
@@ -696,6 +832,40 @@ namespace core
 	}
 
 	template <class A>
+	scalar<signed long long, A>& cpu_sub(scalar<signed long long, A> &c, const scalar<signed long long, A> &a, const scalar<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<signed long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<signed long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<signed long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	scalar<unsigned long long, A>& cpu_sub(scalar<unsigned long long, A> &c, const scalar<unsigned long long, A> &a, const scalar<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<unsigned long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<unsigned long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<unsigned long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
 	scalar<float, A>& cpu_sub(scalar<float, A> &c, const scalar<float, A> &a, const scalar<float, A> &b)
 	{
 		if (c.empty() || b.empty())
@@ -830,6 +1000,40 @@ namespace core
 			kernel_sub<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_sub<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<signed long long, A>& cpu_sub(vector<signed long long, A> &c, const vector<signed long long, A> &a, const vector<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<signed long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<signed long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<signed long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<unsigned long long, A>& cpu_sub(vector<unsigned long long, A> &c, const vector<unsigned long long, A> &a, const vector<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<unsigned long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<unsigned long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<unsigned long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
 		return c;
 	}
 
@@ -972,6 +1176,40 @@ namespace core
 	}
 
 	template <class A>
+	matrix<signed long long, A>& cpu_sub(matrix<signed long long, A> &c, const matrix<signed long long, A> &a, const matrix<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<signed long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<signed long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<signed long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	matrix<unsigned long long, A>& cpu_sub(matrix<unsigned long long, A> &c, const matrix<unsigned long long, A> &a, const matrix<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<unsigned long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<unsigned long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<unsigned long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
 	matrix<float, A>& cpu_sub(matrix<float, A> &c, const matrix<float, A> &a, const matrix<float, A> &b)
 	{
 		if (c.empty() || b.empty())
@@ -1106,6 +1344,40 @@ namespace core
 			kernel_sub<unsigned int, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_sub<unsigned int, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<signed long long, A>& cpu_sub(tensor<signed long long, A> &c, const tensor<signed long long, A> &a, const tensor<signed long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<signed long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<signed long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<signed long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<unsigned long long, A>& cpu_sub(tensor<unsigned long long, A> &c, const tensor<unsigned long long, A> &a, const tensor<unsigned long long, A> &b)
+	{
+		if (c.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.size() != a.size() || c.size() != b.size())
+			throw ::std::invalid_argument(invalid_size);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub<unsigned long long, cpu_avx2>()(c.size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub<unsigned long long, cpu_sse2>()(c.size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub<unsigned long long, cpu_none>()(c.size(), a.data(), b.data(), c.data());
 		return c;
 	}
 
@@ -1256,6 +1528,44 @@ namespace core
 			kernel_sub_element<unsigned int, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		else
 			kernel_sub_element<unsigned int, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<signed long long, A>& cpu_sub(vector<signed long long, A> &c, const vector<signed long long, A> &a, const scalar<signed long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<signed long long, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<signed long long, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<signed long long, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	vector<unsigned long long, A>& cpu_sub(vector<unsigned long long, A> &c, const vector<unsigned long long, A> &a, const scalar<unsigned long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(scalar_not_initialized);
+		if (c.size() != a.size() || c.dimension() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<unsigned long long, cpu_avx2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<unsigned long long, cpu_sse2>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<unsigned long long, cpu_none>()(c.length(), c.dimension(), a.data(), b.data(), c.data());
 		return c;
 	}
 
@@ -1414,6 +1724,44 @@ namespace core
 	}
 
 	template <class A>
+	matrix<signed long long, A>& cpu_sub(matrix<signed long long, A> &c, const matrix<signed long long, A> &a, const vector<signed long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<signed long long, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<signed long long, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<signed long long, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	matrix<unsigned long long, A>& cpu_sub(matrix<unsigned long long, A> &c, const matrix<unsigned long long, A> &a, const vector<unsigned long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(vector_not_initialized);
+		if (c.size() != a.size() || c.row_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<unsigned long long, cpu_avx2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<unsigned long long, cpu_sse2>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<unsigned long long, cpu_none>()(c.rows(), c.row_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
 	matrix<float, A>& cpu_sub(matrix<float, A> &c, const matrix<float, A> &a, const vector<float, A> &b)
 	{
 		if (c.empty() || a.empty())
@@ -1564,6 +1912,44 @@ namespace core
 			kernel_sub_element<unsigned int, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		else
 			kernel_sub_element<unsigned int, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<signed long long, A>& cpu_sub(tensor<signed long long, A> &c, const tensor<signed long long, A> &a, const matrix<signed long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<signed long long, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<signed long long, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<signed long long, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		return c;
+	}
+
+	template <class A>
+	tensor<unsigned long long, A>& cpu_sub(tensor<unsigned long long, A> &c, const tensor<unsigned long long, A> &a, const matrix<unsigned long long, A> &b)
+	{
+		if (c.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.size() != a.size() || c.matrix_size() != b.size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx2())
+			kernel_sub_element<unsigned long long, cpu_avx2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else if (cpu_inst::is_support_sse2())
+			kernel_sub_element<unsigned long long, cpu_sse2>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
+		else
+			kernel_sub_element<unsigned long long, cpu_none>()(c.batch(), c.matrix_size(), a.data(), b.data(), c.data());
 		return c;
 	}
 
