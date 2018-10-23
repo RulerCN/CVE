@@ -204,7 +204,9 @@
     <ClInclude Include="core\cpu\cpu_mapping.h" />
     <ClInclude Include="core\cpu\cpu_sliding.h" />
     <ClInclude Include="core\cpu\cpu_sum.h" />
+    <ClInclude Include="core\cpu\fill\cpu_fill_bilinear.h" />
     <ClInclude Include="core\cpu\fill\cpu_fill_linear.h" />
+    <ClInclude Include="core\cpu\fill\cpu_fill_trilinear.h" />
     <ClInclude Include="core\cpu\gemm\cpu_addmm.h" />
     <ClInclude Include="core\cpu\gemm\cpu_addmmt.h" />
     <ClInclude Include="core\cpu\gevm\cpu_addvm.h" />
@@ -255,7 +257,9 @@
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_float.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_int32.h" />
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_uint32.h" />
+    <ClInclude Include="core\cpu\kernel\fill\kernel_fill_bilinear.h" />
     <ClInclude Include="core\cpu\kernel\fill\kernel_fill_linear.h" />
+    <ClInclude Include="core\cpu\kernel\fill\kernel_fill_trilinear.h" />
     <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_double.h" />
     <ClInclude Include="core\cpu\kernel\gemm\block_gemmt_float.h" />
     <ClInclude Include="core\cpu\kernel\gemm\block_gemm_double.h" />

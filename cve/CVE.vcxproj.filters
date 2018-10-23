@@ -727,6 +727,18 @@
     <ClInclude Include="core\cpu\cpu_fill.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\fill\kernel_fill_bilinear.h">
+      <Filter>core\cpu\kernel\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\fill\kernel_fill_trilinear.h">
+      <Filter>core\cpu\kernel\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\fill\cpu_fill_bilinear.h">
+      <Filter>core\cpu\fill</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\fill\cpu_fill_trilinear.h">
+      <Filter>core\cpu\fill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

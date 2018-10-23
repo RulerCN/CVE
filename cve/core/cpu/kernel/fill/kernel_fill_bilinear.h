@@ -27,11 +27,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_FILL_H__
-#define __CORE_CPU_FILL_H__
+#ifndef __CORE_CPU_KERNEL_FILL_BILINEAR_H__
+#define __CORE_CPU_KERNEL_FILL_BILINEAR_H__
 
-#include "fill/cpu_fill_linear.h"
-#include "fill/cpu_fill_bilinear.h"
-#include "fill/cpu_fill_trilinear.h"
+#include "kernel_fill_linear.h"
+#include "../arithmetic/kernel_arithmetic_add_value.h"
+
+namespace core
+{
+	// Function template kernel_fill_bilinear
+
+	template<class T, cpu_inst_type inst>
+	void kernel_fill_bilinear(size_t m, size_t n, T a, T b, T c, T *d, size_t rsd)
+	{
+		T *p;
+		const kernel_add_value<T, inst> functor;
+
+		kernel_fill_linear<T, inst>(n, a, b, d);
+		a = c;
+		p = d + rsd;
+		for (size_t i = 1; i < m; ++i)
+		{
+			functor(n, a, d, p);
+			a += c;
+			p += rsd;
+		}
+	}
+
+} // namespace core
 
 #endif
