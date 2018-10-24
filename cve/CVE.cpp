@@ -476,7 +476,6 @@ int main()
 		print("meant", meant);
 		print("maxt", maxt);
 
-
 		core::matrix<float> vv(col, col, dim);
 		core::cpu_gtvv(vv, mint, maxt);
 		print("gtvv", vv);

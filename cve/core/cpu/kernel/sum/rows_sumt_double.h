@@ -50,7 +50,7 @@ namespace core
 				{
 					ptr_a = a;
 					ptr_b = b;
-					for (size_t j = 0; j < n; j += 4)
+					for (size_t j = 0; j < aligned_n; j += 4)
 					{
 						ptr_b[0] += static_cast<double>(ptr_a[0]);
 						ptr_b[1] += static_cast<double>(ptr_a[1]);
