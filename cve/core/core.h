@@ -54,6 +54,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_max.h"
 #include "cpu/cpu_mean.h"
 #include "cpu/cpu_min.h"
+#include "cpu/cpu_sum.h"
 #include "cpu/cpu_gemm.h"
 #include "cpu/cpu_gevm.h"
 #include "cpu/cpu_gevv.h"

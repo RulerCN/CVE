@@ -40,6 +40,7 @@ namespace core
 	void kernel_fill_linear(size_t n, T a, T b, T *c)
 	{
 		constexpr size_t block = 4;
+		const T val_b = b * 4;
 		T val_c0 = a;
 		T val_c1 = a + b;
 		T val_c2 = val_c1 + b;
@@ -51,10 +52,10 @@ namespace core
 			c[1] = val_c1;
 			c[2] = val_c2;
 			c[3] = val_c3;
-			val_c0 += b;
-			val_c1 += b;
-			val_c2 += b;
-			val_c3 += b;
+			val_c0 += val_b;
+			val_c1 += val_b;
+			val_c2 += val_b;
+			val_c3 += val_b;
 			c += block;
 			n -= block;
 		}
@@ -69,7 +70,7 @@ namespace core
 	void kernel_fill_linear<signed char, cpu_sse2>(size_t n, signed char a, signed char b, signed char *c)
 	{
 		constexpr size_t block = 16;
-		const __m128i xmm_b = _mm_set1_epi8(b);
+		const __m128i xmm_b = _mm_set1_epi8(b << 4);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -94,7 +95,7 @@ namespace core
 	void kernel_fill_linear<unsigned char, cpu_sse2>(size_t n, unsigned char a, unsigned char b, unsigned char *c)
 	{
 		constexpr size_t block = 16;
-		const __m128i xmm_b = _mm_set1_epi8(b);
+		const __m128i xmm_b = _mm_set1_epi8(b << 4);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -119,7 +120,7 @@ namespace core
 	void kernel_fill_linear<signed short, cpu_sse2>(size_t n, signed short a, signed short b, signed short *c)
 	{
 		constexpr size_t block = 8;
-		const __m128i xmm_b = _mm_set1_epi16(b);
+		const __m128i xmm_b = _mm_set1_epi16(b << 3);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -144,7 +145,7 @@ namespace core
 	void kernel_fill_linear<unsigned short, cpu_sse2>(size_t n, unsigned short a, unsigned short b, unsigned short *c)
 	{
 		constexpr size_t block = 8;
-		const __m128i xmm_b = _mm_set1_epi16(b);
+		const __m128i xmm_b = _mm_set1_epi16(b << 3);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -169,7 +170,7 @@ namespace core
 	void kernel_fill_linear<signed int, cpu_sse2>(size_t n, signed int a, signed int b, signed int *c)
 	{
 		constexpr size_t block = 4;
-		const __m128i xmm_b = _mm_set1_epi32(b);
+		const __m128i xmm_b = _mm_set1_epi32(b << 2);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -194,7 +195,7 @@ namespace core
 	void kernel_fill_linear<unsigned int, cpu_sse2>(size_t n, unsigned int a, unsigned int b, unsigned int *c)
 	{
 		constexpr size_t block = 4;
-		const __m128i xmm_b = _mm_set1_epi32(b);
+		const __m128i xmm_b = _mm_set1_epi32(b << 2);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -219,7 +220,7 @@ namespace core
 	void kernel_fill_linear<signed long long, cpu_sse2>(size_t n, signed long long a, signed long long b, signed long long *c)
 	{
 		constexpr size_t block = 2;
-		const __m128i xmm_b = _mm_set1_epi64x(b);
+		const __m128i xmm_b = _mm_set1_epi64x(b << 1);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -244,7 +245,7 @@ namespace core
 	void kernel_fill_linear<unsigned long long, cpu_sse2>(size_t n, unsigned long long a, unsigned long long b, unsigned long long *c)
 	{
 		constexpr size_t block = 2;
-		const __m128i xmm_b = _mm_set1_epi64x(b);
+		const __m128i xmm_b = _mm_set1_epi64x(b << 1);
 		__m128i xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -269,7 +270,7 @@ namespace core
 	void kernel_fill_linear<float, cpu_sse>(size_t n, float a, float b, float *c)
 	{
 		constexpr size_t block = 4;
-		const __m128 xmm_b = _mm_set1_ps(b);
+		const __m128 xmm_b = _mm_set1_ps(b * 4.0F);
 		__m128 xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -294,7 +295,7 @@ namespace core
 	void kernel_fill_linear<double, cpu_sse2>(size_t n, double a, double b, double *c)
 	{
 		constexpr size_t block = 2;
-		const __m128d xmm_b = _mm_set1_pd(b);
+		const __m128d xmm_b = _mm_set1_pd(b * 2.0);
 		__m128d xmm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -319,7 +320,7 @@ namespace core
 	void kernel_fill_linear<signed char, cpu_avx2>(size_t n, signed char a, signed char b, signed char *c)
 	{
 		constexpr size_t block = 32;
-		const __m256i ymm_b = _mm256_set1_epi8(b);
+		const __m256i ymm_b = _mm256_set1_epi8(b << 5);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -344,7 +345,7 @@ namespace core
 	void kernel_fill_linear<unsigned char, cpu_avx2>(size_t n, unsigned char a, unsigned char b, unsigned char *c)
 	{
 		constexpr size_t block = 32;
-		const __m256i ymm_b = _mm256_set1_epi8(b);
+		const __m256i ymm_b = _mm256_set1_epi8(b << 5);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -369,7 +370,7 @@ namespace core
 	void kernel_fill_linear<signed short, cpu_avx2>(size_t n, signed short a, signed short b, signed short *c)
 	{
 		constexpr size_t block = 16;
-		const __m256i ymm_b = _mm256_set1_epi16(b);
+		const __m256i ymm_b = _mm256_set1_epi16(b << 4);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -394,7 +395,7 @@ namespace core
 	void kernel_fill_linear<unsigned short, cpu_avx2>(size_t n, unsigned short a, unsigned short b, unsigned short *c)
 	{
 		constexpr size_t block = 16;
-		const __m256i ymm_b = _mm256_set1_epi16(b);
+		const __m256i ymm_b = _mm256_set1_epi16(b << 4);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -419,7 +420,7 @@ namespace core
 	void kernel_fill_linear<signed int, cpu_avx2>(size_t n, signed int a, signed int b, signed int *c)
 	{
 		constexpr size_t block = 8;
-		const __m256i ymm_b = _mm256_set1_epi32(b);
+		const __m256i ymm_b = _mm256_set1_epi32(b << 3);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -444,7 +445,7 @@ namespace core
 	void kernel_fill_linear<unsigned int, cpu_avx2>(size_t n, unsigned int a, unsigned int b, unsigned int *c)
 	{
 		constexpr size_t block = 8;
-		const __m256i ymm_b = _mm256_set1_epi32(b);
+		const __m256i ymm_b = _mm256_set1_epi32(b << 3);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -469,7 +470,7 @@ namespace core
 	void kernel_fill_linear<signed long long, cpu_avx2>(size_t n, signed long long a, signed long long b, signed long long *c)
 	{
 		constexpr size_t block = 4;
-		const __m256i ymm_b = _mm256_set1_epi64x(b);
+		const __m256i ymm_b = _mm256_set1_epi64x(b << 2);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -494,7 +495,7 @@ namespace core
 	void kernel_fill_linear<unsigned long long, cpu_avx2>(size_t n, unsigned long long a, unsigned long long b, unsigned long long *c)
 	{
 		constexpr size_t block = 4;
-		const __m256i ymm_b = _mm256_set1_epi64x(b);
+		const __m256i ymm_b = _mm256_set1_epi64x(b << 2);
 		__m256i ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -519,7 +520,7 @@ namespace core
 	void kernel_fill_linear<float, cpu_avx>(size_t n, float a, float b, float *c)
 	{
 		constexpr size_t block = 8;
-		const __m256 ymm_b = _mm256_set1_ps(b);
+		const __m256 ymm_b = _mm256_set1_ps(b * 8.0F);
 		__m256 ymm_c;
 
 		for (size_t i = 0; i < block; ++i)
@@ -544,7 +545,7 @@ namespace core
 	void kernel_fill_linear<double, cpu_avx>(size_t n, double a, double b, double *c)
 	{
 		constexpr size_t block = 4;
-		const __m256d ymm_b = _mm256_set1_pd(b);
+		const __m256d ymm_b = _mm256_set1_pd(b * 4.0);
 		__m256d ymm_c;
 
 		for (size_t i = 0; i < block; ++i)

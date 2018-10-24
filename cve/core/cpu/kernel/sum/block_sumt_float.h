@@ -161,6 +161,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -269,6 +273,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -752,6 +760,18 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
+					val_b0 += static_cast<float>(ptr_a8[j]);
+					val_b0 += static_cast<float>(ptr_a9[j]);
+					val_b0 += static_cast<float>(ptr_aa[j]);
+					val_b0 += static_cast<float>(ptr_ab[j]);
+					val_b0 += static_cast<float>(ptr_ac[j]);
+					val_b0 += static_cast<float>(ptr_ad[j]);
+					val_b0 += static_cast<float>(ptr_ae[j]);
+					val_b0 += static_cast<float>(ptr_af[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -862,6 +882,18 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
+					val_b0 += static_cast<float>(ptr_a8[j]);
+					val_b0 += static_cast<float>(ptr_a9[j]);
+					val_b0 += static_cast<float>(ptr_aa[j]);
+					val_b0 += static_cast<float>(ptr_ab[j]);
+					val_b0 += static_cast<float>(ptr_ac[j]);
+					val_b0 += static_cast<float>(ptr_ad[j]);
+					val_b0 += static_cast<float>(ptr_ae[j]);
+					val_b0 += static_cast<float>(ptr_af[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -932,6 +964,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -1002,6 +1038,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -1072,6 +1112,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -1169,6 +1213,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}
@@ -1229,6 +1277,10 @@ namespace core
 					val_b0 += ptr_a1[j];
 					val_b0 += ptr_a2[j];
 					val_b0 += ptr_a3[j];
+					val_b0 += ptr_a4[j];
+					val_b0 += ptr_a5[j];
+					val_b0 += ptr_a6[j];
+					val_b0 += ptr_a7[j];
 					*b++ = val_b0;
 				}
 			}
@@ -1326,6 +1378,10 @@ namespace core
 					val_b0 += static_cast<float>(ptr_a1[j]);
 					val_b0 += static_cast<float>(ptr_a2[j]);
 					val_b0 += static_cast<float>(ptr_a3[j]);
+					val_b0 += static_cast<float>(ptr_a4[j]);
+					val_b0 += static_cast<float>(ptr_a5[j]);
+					val_b0 += static_cast<float>(ptr_a6[j]);
+					val_b0 += static_cast<float>(ptr_a7[j]);
 					*b++ = val_b0;
 				}
 			}

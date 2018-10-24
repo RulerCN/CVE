@@ -37,158 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	// Bilinear fill a vector
-
-	template <class A>
-	vector<signed char, A>& cpu_bilinear(vector<signed char, A> &d, signed char a, signed char b, signed char c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed char, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed char, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<signed char, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<unsigned char, A>& cpu_bilinear(vector<unsigned char, A> &d, unsigned char a, unsigned char b, unsigned char c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned char, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned char, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<unsigned char, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<signed short, A>& cpu_bilinear(vector<signed short, A> &d, signed short a, signed short b, signed short c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed short, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed short, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<signed short, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<unsigned short, A>& cpu_bilinear(vector<unsigned short, A> &d, unsigned short a, unsigned short b, unsigned short c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned short, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned short, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<unsigned short, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<signed int, A>& cpu_bilinear(vector<signed int, A> &d, signed int a, signed int b, signed int c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed int, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed int, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<signed int, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<unsigned int, A>& cpu_bilinear(vector<unsigned int, A> &d, unsigned int a, unsigned int b, unsigned int c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned int, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned int, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<unsigned int, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<signed long long, A>& cpu_bilinear(vector<signed long long, A> &d, signed long long a, signed long long b, signed long long c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed long long, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed long long, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<signed long long, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<unsigned long long, A>& cpu_bilinear(vector<unsigned long long, A> &d, unsigned long long a, unsigned long long b, unsigned long long c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned long long, cpu_avx2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned long long, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<unsigned long long, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<float, A>& cpu_bilinear(vector<float, A> &d, float a, float b, float c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<float, cpu_avx>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse())
-			kernel_fill_bilinear<float, cpu_sse>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<float, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
-	template <class A>
-	vector<double, A>& cpu_bilinear(vector<double, A> &d, double a, double b, double c)
-	{
-		if (d.empty())
-			throw ::std::invalid_argument(vector_not_initialized);
-
-		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<double, cpu_avx>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<double, cpu_sse2>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		else
-			kernel_fill_bilinear<double, cpu_none>(d.length(), d.dimension(), a, b, c, d.data(), d.dimension());
-		return d;
-	}
-
 	// Bilinear fill a matrix
 
 	template <class A>
@@ -198,11 +46,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed char, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed char, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed char, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -213,11 +61,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned char, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned char, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned char, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -228,11 +76,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed short, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed short, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed short, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -243,11 +91,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned short, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned short, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned short, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -258,11 +106,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed int, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed int, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed int, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -273,11 +121,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned int, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned int, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned int, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -288,11 +136,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed long long, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed long long, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed long long, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -303,11 +151,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned long long, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned long long, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned long long, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -318,11 +166,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<float, cpu_avx>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_avx>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse())
-			kernel_fill_bilinear<float, cpu_sse>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_sse>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<float, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -333,11 +181,11 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 
 		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<double, cpu_avx>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_avx>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<double, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<double, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -350,11 +198,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed char, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed char, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed char, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed char, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -365,11 +213,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned char, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned char, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned char, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned char, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -380,11 +228,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed short, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed short, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed short, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed short, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -395,11 +243,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned short, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned short, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned short, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned short, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -410,11 +258,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed int, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed int, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed int, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed int, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -425,11 +273,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned int, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned int, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned int, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned int, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -440,11 +288,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<signed long long, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<signed long long, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<signed long long, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<signed long long, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -455,11 +303,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx2())
-			kernel_fill_bilinear<unsigned long long, cpu_avx2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_avx2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<unsigned long long, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<unsigned long long, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<unsigned long long, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -470,11 +318,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<float, cpu_avx>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_avx>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse())
-			kernel_fill_bilinear<float, cpu_sse>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_sse>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<float, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<float, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 
@@ -485,11 +333,11 @@ namespace core
 			throw ::std::invalid_argument(tensor_not_initialized);
 
 		if (cpu_inst::is_support_avx())
-			kernel_fill_bilinear<double, cpu_avx>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_avx>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else if (cpu_inst::is_support_sse2())
-			kernel_fill_bilinear<double, cpu_sse2>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_sse2>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		else
-			kernel_fill_bilinear<double, cpu_none>(d.area(), d.dimension(), a, b, c, d.data(), d.dimension());
+			kernel_fill_bilinear<double, cpu_none>(d.rows(), d.row_size(), a, b, c, d.data(), d.row_size());
 		return d;
 	}
 

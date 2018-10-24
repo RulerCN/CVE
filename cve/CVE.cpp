@@ -460,7 +460,7 @@ int main()
 		core::vector<float> maxt(col, dim);
 
 		// Initialization
-		core::cpu_trilinear(a, 0.0F, 0.0F, 0.1F, 1.0F);
+		core::cpu_bilinear(a, 0.0F, 0.1F, 1.0F);
 		core::cpu_min(min, a, core::axis_x);
 		core::cpu_mean(mean, a, core::axis_x);
 		core::cpu_max(max, a, core::axis_x);
