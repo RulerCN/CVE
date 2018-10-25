@@ -238,18 +238,15 @@ namespace core
 				throw ::std::domain_error(scalar_is_initialized);
 			if (n == 0)
 				throw ::std::invalid_argument(invalid_scalar_size);
+			owner = copy_data;
 			count = n;
 			if (copy_data)
 			{
-				owner = true;
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(p, p + count, buffer);
 			}
 			else
-			{
-				owner = false;
 				buffer = p;
-			}
 		}
 
 		template <class InputIterator>
@@ -276,6 +273,29 @@ namespace core
 				throw ::std::domain_error(scalar_is_initialized);
 			if (other.empty())
 				throw ::std::domain_error(scalar_not_initialized);
+			if (copy_mode == shallow_copy)
+				throw ::std::invalid_argument(invalid_copy_mode);
+			owner = true;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+				break;
+			case deep_copy:
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void assign(scalar<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (!empty())
+				throw ::std::domain_error(scalar_is_initialized);
+			if (other.empty())
+				throw ::std::domain_error(scalar_not_initialized);
 			count = other.count;
 			switch (copy_mode)
 			{
@@ -286,7 +306,7 @@ namespace core
 				break;
 			case shallow_copy:
 				owner = false;
-				buffer = const_cast<pointer>(other.data());
+				buffer = other.data();
 				break;
 			case deep_copy:
 				owner = true;
@@ -309,7 +329,7 @@ namespace core
 			size_type original_count = count;
 			owner = true;
 			count = n;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				core::uninitialized_default_construct_n(buffer, count);
@@ -331,7 +351,7 @@ namespace core
 			size_type original_count = count;
 			owner = true;
 			count = n;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_fill_n(buffer, count, value);
@@ -355,7 +375,7 @@ namespace core
 			size_type original_count = count;
 			owner = true;
 			count = n;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(p, p + count, buffer);
@@ -381,7 +401,7 @@ namespace core
 			count = n;
 			if (copy_data)
 			{
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					::std::uninitialized_copy(p, p + count, buffer);
@@ -398,7 +418,7 @@ namespace core
 			}
 			else
 			{
-				if (buffer != nullptr)
+				if (original_owner && buffer != nullptr)
 				{
 					core::destroy_n(buffer, original_count);
 					this->deallocate(buffer, original_count);
@@ -416,7 +436,7 @@ namespace core
 			size_type original_count = count;
 			owner = true;
 			count = ::std::distance(first, last);
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(first, last, buffer);
@@ -441,6 +461,51 @@ namespace core
 		{
 			if (other.empty())
 				throw ::std::domain_error(scalar_not_initialized);
+			if (copy_mode == shallow_copy)
+				throw ::std::invalid_argument(invalid_copy_mode);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				if (!original_owner || buffer == nullptr)
+				{
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				break;
+			case deep_copy:
+				if (!original_owner || buffer == nullptr)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else
+					::std::copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void reassign(scalar<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (other.empty())
+				throw ::std::domain_error(scalar_not_initialized);
 			size_type original_owner = owner;
 			size_type original_count = count;
 			count = other.count;
@@ -448,7 +513,7 @@ namespace core
 			{
 			case without_copy:
 				owner = true;
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					core::uninitialized_default_construct_n(buffer, count);
@@ -463,16 +528,16 @@ namespace core
 				break;
 			case shallow_copy:
 				owner = false;
-				if (buffer != nullptr)
+				if (original_owner && buffer != nullptr)
 				{
 					core::destroy_n(buffer, original_count);
 					this->deallocate(buffer, original_count);
 				}
-				buffer = const_cast<pointer>(other.data());
+				buffer = other.data();
 				break;
 			case deep_copy:
 				owner = true;
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);

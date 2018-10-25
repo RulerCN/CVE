@@ -463,6 +463,7 @@ namespace core
 				throw ::std::domain_error(tensor_is_initialized);
 			if (batch == 0 || rows == 0 || columns == 0 || dimension == 0)
 				throw ::std::invalid_argument(invalid_tensor_size);
+			owner = copy_data;
 			channels = dimension;
 			width = columns;
 			height = rows;
@@ -472,15 +473,11 @@ namespace core
 			count = depth * plane;
 			if (copy_data)
 			{
-				owner = true;
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(p, p + count, buffer);
 			}
 			else
-			{
-				owner = false;
 				buffer = p;
-			}
 		}
 
 		template <class InputIterator>
@@ -515,6 +512,35 @@ namespace core
 				throw ::std::domain_error(tensor_is_initialized);
 			if (other.empty())
 				throw ::std::domain_error(tensor_not_initialized);
+			if (copy_mode == shallow_copy)
+				throw ::std::invalid_argument(invalid_copy_mode);
+			owner = true;
+			channels = other.channels;
+			width = other.width;
+			height = other.height;
+			depth = other.depth;
+			stride = other.stride;
+			plane = other.plane;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				buffer = this->allocate(count);
+				core::uninitialized_default_construct_n(buffer, count);
+				break;
+			case deep_copy:
+				buffer = this->allocate(count);
+				::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void assign(tensor<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (!empty())
+				throw ::std::domain_error(tensor_is_initialized);
+			if (other.empty())
+				throw ::std::domain_error(tensor_not_initialized);
 			channels = other.channels;
 			width = other.width;
 			height = other.height;
@@ -531,7 +557,7 @@ namespace core
 				break;
 			case shallow_copy:
 				owner = false;
-				buffer = const_cast<pointer>(other.data());
+				buffer = other.data();
 				break;
 			case deep_copy:
 				owner = true;
@@ -560,7 +586,7 @@ namespace core
 			stride = width * channels;
 			plane = height * stride;
 			count = depth * plane;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				core::uninitialized_default_construct_n(buffer, count);
@@ -588,7 +614,7 @@ namespace core
 			stride = width * channels;
 			plane = height * stride;
 			count = depth * plane;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_fill_n(buffer, count, value);
@@ -618,7 +644,7 @@ namespace core
 			stride = width * channels;
 			plane = height * stride;
 			count = depth * plane;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(p, p + count, buffer);
@@ -650,7 +676,7 @@ namespace core
 			count = depth * plane;
 			if (copy_data)
 			{
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					::std::uninitialized_copy(p, p + count, buffer);
@@ -667,7 +693,7 @@ namespace core
 			}
 			else
 			{
-				if (buffer != nullptr)
+				if (original_owner && buffer != nullptr)
 				{
 					core::destroy_n(buffer, original_count);
 					this->deallocate(buffer, original_count);
@@ -693,7 +719,7 @@ namespace core
 			stride = width * channels;
 			plane = height * stride;
 			count = depth * plane;
-			if (buffer == nullptr || !original_owner)
+			if (!original_owner || buffer == nullptr)
 			{
 				buffer = this->allocate(count);
 				::std::uninitialized_copy(first, last, buffer);
@@ -718,6 +744,57 @@ namespace core
 		{
 			if (other.empty())
 				throw ::std::domain_error(tensor_not_initialized);
+			if (copy_mode == shallow_copy)
+				throw ::std::invalid_argument(invalid_copy_mode);
+			size_type original_owner = owner;
+			size_type original_count = count;
+			owner = true;
+			channels = other.channels;
+			width = other.width;
+			height = other.height;
+			depth = other.depth;
+			stride = other.stride;
+			plane = other.plane;
+			count = other.count;
+			switch (copy_mode)
+			{
+			case without_copy:
+				if (!original_owner || buffer == nullptr)
+				{
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					core::uninitialized_default_construct_n(buffer, count);
+				}
+				break;
+			case deep_copy:
+				if (!original_owner || buffer == nullptr)
+				{
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else if (count != original_count)
+				{
+					core::destroy_n(buffer, original_count);
+					this->deallocate(buffer, original_count);
+					buffer = this->allocate(count);
+					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);
+				}
+				else
+					::std::copy(other.buffer, other.buffer + count, buffer);
+				break;
+			}
+		}
+
+		void reassign(tensor<T, Allocator>& other, copy_mode_type copy_mode)
+		{
+			if (other.empty())
+				throw ::std::domain_error(tensor_not_initialized);
 			size_type original_owner = owner;
 			size_type original_count = count;
 			channels = other.channels;
@@ -731,7 +808,7 @@ namespace core
 			{
 			case without_copy:
 				owner = true;
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					core::uninitialized_default_construct_n(buffer, count);
@@ -746,16 +823,16 @@ namespace core
 				break;
 			case shallow_copy:
 				owner = false;
-				if (buffer != nullptr)
+				if (original_owner && buffer != nullptr)
 				{
 					core::destroy_n(buffer, original_count);
 					this->deallocate(buffer, original_count);
 				}
-				buffer = const_cast<pointer>(other.data());
+				buffer = other.data();
 				break;
 			case deep_copy:
 				owner = true;
-				if (buffer == nullptr || !original_owner)
+				if (!original_owner || buffer == nullptr)
 				{
 					buffer = this->allocate(count);
 					::std::uninitialized_copy(other.buffer, other.buffer + count, buffer);

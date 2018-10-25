@@ -88,6 +88,10 @@ namespace ann
 			//, output_dimension(0)
 		{}
 
+		// Forward propagation
+		virtual tensor_reference forward(tensor_reference input) = 0;
+		// Back propagation
+		virtual tensor_reference backward(tensor_reference loss) = 0;
 	protected:
 		bool        is_train;
 		bool        is_update;

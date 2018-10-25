@@ -49,6 +49,17 @@ namespace core
 	}
 
 	template <class T, class A>
+	matrix<T, A>& cpu_gemm(matrix<T, A> &d, const matrix<T, A> &a, const matrix<T, A> &b, const vector<T, A> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addmmt(d, a, b);
+		else
+			cpu_addmm(d, a, b);
+		return d;
+	}
+
+	template <class T, class A>
 	matrix<T, A>& cpu_gemm(matrix<T, A> &d, const matrix<T, A> &a, const matrix<T, A> &b, const matrix<T, A> &c, bool transpose = false)
 	{
 		d.fill(c);
@@ -73,6 +84,28 @@ namespace core
 	}
 
 	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const matrix<T, A> &b, const vector<T, A> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addmmt(d, a, b);
+		else
+			cpu_addmm(d, a, b);
+		return d;
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const matrix<T, A> &b, const matrix<T, A> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addmmt(d, a, b);
+		else
+			cpu_addmm(d, a, b);
+		return d;
+	}
+
+	template <class T, class A>
 	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const matrix<T, A> &b, const tensor<T, A> &c, bool transpose = false)
 	{
 		d.fill(c);
@@ -94,6 +127,28 @@ namespace core
 		else
 			cpu_addmm(c, a, b);
 		return c;
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const tensor<T, A> &b, const vector<T, A> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addmmt(d, a, b);
+		else
+			cpu_addmm(d, a, b);
+		return d;
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gemm(tensor<T, A> &d, const tensor<T, A> &a, const tensor<T, A> &b, const matrix<T, A> &c, bool transpose = false)
+	{
+		d.fill(c);
+		if (transpose)
+			cpu_addmmt(d, a, b);
+		else
+			cpu_addmm(d, a, b);
+		return d;
 	}
 
 	template <class T, class A>

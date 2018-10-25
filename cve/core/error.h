@@ -83,6 +83,7 @@ namespace core
 	static const char invalid_length[]             = "Invalid length.";
 	static const char invalid_size[]               = "Invalid size.";
 	static const char invalid_shape[]              = "Invalid shape.";
+	static const char invalid_copy_mode[]          = "Invalid copy mode.";
 	static const char invalid_initializer_list[]   = "Invalid initializer list.";
 	static const char invalid_iterator_distance[]  = "Invalid distance between iterators.";
 	static const char invalid_scalar_size[]        = "Invalid scalar size.";

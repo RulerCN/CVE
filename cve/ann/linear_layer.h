@@ -99,7 +99,7 @@ namespace ann
 		}
 
 		// Forward propagation
-		tensor_reference forward(tensor_reference input)
+		virtual tensor_reference forward(tensor_reference input)
 		{
 			if (input.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
