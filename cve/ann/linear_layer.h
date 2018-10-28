@@ -113,6 +113,7 @@ namespace ann
 			else
 				::core::cpu_gemm(_output, _input, _weight);
 			_output.shape(batch, size_t(1), _out_dim, size_t(1));
+
 			return _output;
 		}
 
