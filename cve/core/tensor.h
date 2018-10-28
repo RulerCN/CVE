@@ -313,7 +313,21 @@ namespace core
 		{
 			assign(batch, rows, columns, dimension, last, last);
 		}
-		tensor(const tensor<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+		tensor(const tensor<T, Allocator>& other)
+			: Allocator(other.get_allocator())
+			, owner(true)
+			, channels(0)
+			, width(0)
+			, height(0)
+			, depth(0)
+			, stride(0)
+			, plane(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, deep_copy);
+		}
+		tensor(tensor<T, Allocator>& other, copy_mode_type copy_mode)
 			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
@@ -342,6 +356,20 @@ namespace core
 			assign(::std::forward<tensor<T, Allocator> >(other));
 		}
 		tensor(const tensor<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, width(0)
+			, height(0)
+			, depth(0)
+			, stride(0)
+			, plane(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, copy_mode);
+		}
+		tensor(tensor<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -392,7 +420,7 @@ namespace core
 			if (this != &other)
 			{
 				clear();
-				assign(other, other.owner ? deep_copy : shallow_copy);
+				assign(other, deep_copy);
 			}
 			return (*this);
 		}
@@ -1644,11 +1672,11 @@ namespace core
 				buffer[i] = g();
 		}
 
-		void reshape(size_type batch, size_type rows, size_type columns, size_type dimension)
+		void shape(size_type batch, size_type rows, size_type columns, size_type dimension)
 		{
 			if (empty())
 				throw ::std::domain_error(tensor_not_initialized);
-			if (count != batch * rows * columns * dimension)
+			if (batch * rows * columns * dimension != count)
 				throw ::std::invalid_argument(invalid_tensor_size);
 			channels = dimension;
 			width = columns;
@@ -1656,26 +1684,16 @@ namespace core
 			depth = batch;
 			stride = width * channels;
 			plane = height * stride;
+			count = depth * plane;
 		}
 
-		void build(size_type batch, size_type rows, size_type columns, size_type dimension)
+		tensor<T, Allocator> reshape(size_type batch, size_type rows, size_type columns, size_type dimension) const
 		{
 			if (empty())
-				assign(batch, rows, columns, dimension);
-			else if (count != batch * rows * columns * dimension)
-			{
-				clear();
-				assign(batch, rows, columns, dimension);
-			}
-			else
-			{
-				channels = dimension;
-				width = columns;
-				height = rows;
-				depth = batch;
-				stride = width * channels;
-				plane = height * stride;
-			}
+				throw ::std::domain_error(tensor_not_initialized);
+			if (batch * rows * columns * dimension != count)
+				throw ::std::invalid_argument(invalid_tensor_size);
+			return tensor<T, Allocator>(batch, rows, columns, dimension, buffer);
 		}
 
 		void swap(tensor<T, Allocator>& rhs) noexcept

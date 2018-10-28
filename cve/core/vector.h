@@ -293,7 +293,17 @@ namespace core
 		{
 			assign(length, dimension, last, last);
 		}
-		vector(const vector<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+		vector(const vector<T, Allocator>& other)
+			: Allocator(other.get_allocator())
+			, owner(true)
+			, channels(0)
+			, number(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, deep_copy);
+		}
+		vector(vector<T, Allocator>& other, copy_mode_type copy_mode)
 			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
@@ -314,6 +324,16 @@ namespace core
 			assign(::std::forward<vector<T, Allocator> >(other));
 		}
 		vector(const vector<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, number(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, copy_mode);
+		}
+		vector(vector<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -352,7 +372,7 @@ namespace core
 			if (this != &other)
 			{
 				clear();
-				assign(other, other.owner ? deep_copy : shallow_copy);
+				assign(other, deep_copy);
 			}
 			return (*this);
 		}
@@ -954,7 +974,7 @@ namespace core
 				buffer[i] = g();
 		}
 
-		void reshape(size_type length, size_type dimension)
+		void shape(size_type length, size_type dimension)
 		{
 			if (empty())
 				throw ::std::domain_error(vector_not_initialized);
@@ -962,6 +982,16 @@ namespace core
 				throw ::std::invalid_argument(invalid_vector_size);
 			channels = dimension;
 			number = length;
+			count = number * channels;
+		}
+
+		vector<T, Allocator> reshape(size_type length, size_type dimension) const
+		{
+			if (empty())
+				throw ::std::domain_error(vector_not_initialized);
+			if (length * dimension != count)
+				throw ::std::invalid_argument(invalid_vector_size);
+			return vector<T, Allocator>(length, dimension, buffer);
 		}
 
 		void swap(vector<T, Allocator>& rhs) noexcept

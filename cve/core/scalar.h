@@ -130,7 +130,15 @@ namespace core
 		{
 			assign(last, last);
 		}
-		scalar(const scalar<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+		scalar(const scalar<T, Allocator>& other)
+			: Allocator(other.get_allocator())
+			, owner(true)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, deep_copy);
+		}
+		scalar(scalar<T, Allocator>& other, copy_mode_type copy_mode)
 			: Allocator(other.get_allocator())
 			, owner(true)
 			, count(0)
@@ -147,6 +155,14 @@ namespace core
 			assign(::std::forward<scalar<T, Allocator> >(other));
 		}
 		scalar(const scalar<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
+			: Allocator(alloc)
+			, owner(true)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, copy_mode);
+		}
+		scalar(scalar<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, count(0)
@@ -179,7 +195,7 @@ namespace core
 			if (this != &other)
 			{
 				clear();
-				assign(other, other.owner ? deep_copy : shallow_copy);
+				assign(other, deep_copy);
 			}
 			return (*this);
 		}

@@ -303,7 +303,19 @@ namespace core
 		{
 			assign(rows, columns, dimension, last, last);
 		}
-		matrix(const matrix<T, Allocator>& other, copy_mode_type copy_mode = deep_copy)
+		matrix(const matrix<T, Allocator>& other)
+			: Allocator(other.get_allocator())
+			, owner(true)
+			, channels(0)
+			, width(0)
+			, height(0)
+			, stride(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, deep_copy);
+		}
+		matrix(matrix<T, Allocator>& other, copy_mode_type copy_mode)
 			: Allocator(other.get_allocator())
 			, owner(true)
 			, channels(0)
@@ -328,6 +340,18 @@ namespace core
 			assign(::std::forward<matrix<T, Allocator> >(other));
 		}
 		matrix(const matrix<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
+			: Allocator(alloc)
+			, owner(true)
+			, channels(0)
+			, width(0)
+			, height(0)
+			, stride(0)
+			, count(0)
+			, buffer(nullptr)
+		{
+			assign(other, copy_mode);
+		}
+		matrix(matrix<T, Allocator>& other, const Allocator& alloc, copy_mode_type copy_mode = deep_copy)
 			: Allocator(alloc)
 			, owner(true)
 			, channels(0)
@@ -372,7 +396,7 @@ namespace core
 			if (this != &other)
 			{
 				clear();
-				assign(other, other.owner ? deep_copy : shallow_copy);
+				assign(other, deep_copy);
 			}
 			return (*this);
 		}
@@ -1338,7 +1362,7 @@ namespace core
 				buffer[i] = g();
 		}
 
-		void reshape(size_type rows, size_type columns, size_type dimension)
+		void shape(size_type rows, size_type columns, size_type dimension)
 		{
 			if (empty())
 				throw ::std::domain_error(matrix_not_initialized);
@@ -1348,6 +1372,16 @@ namespace core
 			width = columns;
 			height = rows;
 			stride = width * channels;
+			count = height * stride;
+		}
+
+		matrix<T, Allocator> reshape(size_type rows, size_type columns, size_type dimension) const
+		{
+			if (empty())
+				throw ::std::domain_error(matrix_not_initialized);
+			if (rows * columns * dimension != count)
+				throw ::std::invalid_argument(invalid_matrix_size);
+			return matrix<T, Allocator>(rows, columns, dimension, buffer);
 		}
 
 		void swap(matrix<T, Allocator>& rhs) noexcept

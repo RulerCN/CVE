@@ -105,15 +105,51 @@ namespace ann
 				throw ::std::domain_error(::core::tensor_not_initialized);
 			if (input.matrix_size() != _weight.rows())
 				throw ::std::invalid_argument(::core::invalid_shape);
-
-			_input.reassign(size_t(1), input.batch(), input.area(), input.dimension(), input.data(), false);
-			_output.reassign(size_t(1), input.batch(), _weight.columns(), _weight.dimension());
+			size_t batch = input.batch();
+			_input.reassign(size_t(1), batch, _in_dim, size_t(1), input.data(), false);
+			_output.reassign(size_t(1), batch, _out_dim, size_t(1));
 			if (has_bias)
 				::core::cpu_gemm(_output, _input, _weight, _bias);
 			else
 				::core::cpu_gemm(_output, _input, _weight);
-			_output.reshape(_output.rows(), size_t(1), _output.columns(), _output.dimension());
+			_output.shape(batch, size_t(1), _out_dim, size_t(1));
 			return _output;
+		}
+
+		// Back propagation
+		virtual tensor_reference backward(tensor_reference loss)
+		{
+			this->error.reassign(this->input, ::core::without_copy);
+			::core::cpu_matmul(this->error, loss_mean, weight, true);
+			return this->error;
+		}
+
+		// Update
+		tensor_reference update(tensor_reference loss)
+		{
+			if (loss.empty())
+				throw ::std::domain_error(::core::tensor_not_initialized);
+			if (loss.size() != this->output.size())
+				throw ::std::invalid_argument(::core::invalid_size);
+
+			// Mean vector of the data
+			::core::reduce_mean(data_mean, this->input_data[0], ::core::reduce_col_avg);
+			// Mean vector of loss data
+			::core::reduce(loss_mean, loss[0], ::core::reduce_col_avg);
+			// Calculate the gradient of weight
+			::core::cpu_matmul(weight_gradient, data_mean, loss_mean);
+			// Update the weights
+			::core::cpu_madd(weight, -this->rate, weight_gradient);
+			// Update the bias
+			::core::cpu_madd(bias, -this->rate, loss_mean);
+		}
+
+		// Back propagation
+		tensor_reference backward(void)
+		{
+			this->error.reassign(this->input, ::core::without_copy);
+			::core::cpu_matmul(this->error, loss_mean, weight, true);
+			return this->error;
 		}
 
 		//if (this->is_train)
@@ -163,34 +199,6 @@ namespace ann
 		//	this->output.reshape(this->output_data.rows(), size_t(1), this->output_data.columns(), this->output_data.dimension());
 		//	return this->output;
 		//}
-
-		// Update
-		tensor_reference update(tensor_reference loss)
-		{
-			if (loss.empty())
-				throw ::std::domain_error(::core::tensor_not_initialized);
-			if (loss.size() != this->output.size())
-				throw ::std::invalid_argument(::core::invalid_size);
-
-			// Mean vector of the data
-			::core::reduce_mean(data_mean, this->input_data[0], ::core::reduce_col_avg);
-			// Mean vector of loss data
-			::core::reduce(loss_mean, loss[0], ::core::reduce_col_avg);
-			// Calculate the gradient of weight
-			::core::cpu_matmul(weight_gradient, data_mean, loss_mean);
-			// Update the weights
-			::core::cpu_madd(weight, -this->rate, weight_gradient);
-			// Update the bias
-			::core::cpu_madd(bias, -this->rate, loss_mean);
-		}
-
-		// Back propagation
-		tensor_reference backward(void)
-		{
-			this->error.reassign(this->input, ::core::without_copy);
-			::core::cpu_matmul(this->error, loss_mean, weight, true);
-			return this->error;
-		}
 	private:
 		size_type   _in_dim;
 		size_type   _out_dim;
