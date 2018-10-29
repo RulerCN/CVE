@@ -90,6 +90,8 @@ namespace ann
 
 		// Forward propagation
 		virtual tensor_reference forward(tensor_reference input) = 0;
+		// Update parameters
+		virtual void update(tensor_reference loss) = 0;
 		// Back propagation
 		virtual tensor_reference backward(tensor_reference loss) = 0;
 	protected:
