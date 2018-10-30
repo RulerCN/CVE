@@ -43,9 +43,6 @@
     <ClInclude Include="core\tensor.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\kernel_transpose.h">
-      <Filter>core\cpu\kernel</Filter>
-    </ClInclude>
     <ClInclude Include="image\bitmap.h">
       <Filter>image</Filter>
     </ClInclude>
@@ -739,6 +736,18 @@
     <ClInclude Include="nn\softmax_layer.h">
       <Filter>nn</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\transpose\block_transpose.h">
+      <Filter>core\cpu\kernel\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\transpose\common_transpose.h">
+      <Filter>core\cpu\kernel\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\kernel\transpose\kernel_transpose.h">
+      <Filter>core\cpu\kernel\transpose</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\transpose\cpu_transpose.h">
+      <Filter>core\cpu\transpose</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -845,6 +854,12 @@
     </Filter>
     <Filter Include="nn">
       <UniqueIdentifier>{52158753-8cb9-4428-b271-f29c8170bf5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\transpose">
+      <UniqueIdentifier>{d79853e3-3d2d-44e6-9dbf-8922a9b10c00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\transpose">
+      <UniqueIdentifier>{d53b3551-47a9-4568-89b6-0b20f62b1863}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -293,7 +293,6 @@
     <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h" />
-    <ClInclude Include="core\cpu\kernel\kernel_transpose.h" />
     <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and_value.h" />
@@ -335,6 +334,9 @@
     <ClInclude Include="core\cpu\kernel\sum\rows_sum_double.h" />
     <ClInclude Include="core\cpu\kernel\sum\rows_sum_float.h" />
     <ClInclude Include="core\cpu\kernel\sum\rows_sum_int32.h" />
+    <ClInclude Include="core\cpu\kernel\transpose\block_transpose.h" />
+    <ClInclude Include="core\cpu\kernel\transpose\common_transpose.h" />
+    <ClInclude Include="core\cpu\kernel\transpose\kernel_transpose.h" />
     <ClInclude Include="core\cpu\logic\cpu_logic_and.h" />
     <ClInclude Include="core\cpu\logic\cpu_logic_or.h" />
     <ClInclude Include="core\cpu\logic\cpu_logic_xor.h" />
@@ -370,6 +372,7 @@
     <ClInclude Include="core\cpu\sum\cpu_sum_z_double.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_z_float.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_z_int32.h" />
+    <ClInclude Include="core\cpu\transpose\cpu_transpose.h" />
     <ClInclude Include="core\definition.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\matrix.h" />

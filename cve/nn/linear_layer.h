@@ -175,15 +175,21 @@ namespace nn
 			if (loss.size() != _out_dim)
 				throw ::std::invalid_argument(::core::invalid_size);
 
-			if (weight_gradient.empty())
-				weight_gradient.assign(_weight, ::core::without_copy);
-			// weight_gradient = input^T * loss;
-			::core::cpu_gtvv(weight_gradient, _input, loss);
-			// weight -= rate * weight_gradient;
-			::core::cpu_madd(_weight, -_rate, weight_gradient);
-			// bias -= rate * loss;
+			if (_w_grad.empty())
+				_w_grad.assign(_weight, ::core::without_copy);
+			// _w_grad = input^T * loss;
+			::core::cpu_gtvv(_w_grad, _input, loss);
+			// weight -= rate * _w_grad;
+			::core::cpu_madd(_weight, -_rate, _w_grad);
 			if (_has_bias)
-				::core::cpu_madd(_bias, -_rate, loss);
+			{
+				if (_b_grad.empty())
+					_b_grad.assign(_bias, ::core::without_copy);
+				// _b_grad = loss;
+				_b_grad = loss;
+				// bias -= rate * loss;
+				::core::cpu_madd(_bias, -_rate, _b_grad);
+			}
 		}
 
 		// Back propagation
@@ -202,8 +208,9 @@ namespace nn
 		size_type   _in_dim;
 		size_type   _out_dim;
 		tensor_type _weight;
-		tensor_type weight_gradient;
 		tensor_type _bias;
+		tensor_type _w_grad;
+		tensor_type _b_grad;
 		tensor_type _input;
 		tensor_type _output;
 		tensor_type _loss;
