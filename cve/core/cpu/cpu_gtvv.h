@@ -44,7 +44,39 @@ namespace core
 	}
 
 	template <class T, class A>
-	matrix<T, A>& cpu_gtvv(matrix<T, A> &d, const vector<T, A> &a, const vector<T, A> &b, const vector<T, A> &c)
+	matrix<T, A>& cpu_gtvv(matrix<T, A> &d, const vector<T, A> &a, const vector<T, A> &b, const matrix<T, A> &c)
+	{
+		d.fill(c);
+		return cpu_addtvv(d, a, b);
+	}
+
+	// The multiplication of the column vector and the row vector
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gtvv(tensor<T, A> &c, const matrix<T, A> &a, const matrix<T, A> &b)
+	{
+		c.fill(T(0));
+		return cpu_addtvv(c, a, b);
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gtvv(tensor<T, A> &d, const matrix<T, A> &a, const matrix<T, A> &b, const tensor<T, A> &c)
+	{
+		d.fill(c);
+		return cpu_addtvv(d, a, b);
+	}
+
+	// The multiplication of the column vector and the row vector
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gtvv(tensor<T, A> &c, const tensor<T, A> &a, const tensor<T, A> &b)
+	{
+		c.fill(T(0));
+		return cpu_addtvv(c, a, b);
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_gtvv(tensor<T, A> &d, const tensor<T, A> &a, const tensor<T, A> &b, const tensor<T, A> &c)
 	{
 		d.fill(c);
 		return cpu_addtvv(d, a, b);

@@ -60,4 +60,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cpu/cpu_gevv.h"
 #include "cpu/cpu_gtvv.h"
 
+#include "cpu/cpu_get_element.h"
+
 #endif

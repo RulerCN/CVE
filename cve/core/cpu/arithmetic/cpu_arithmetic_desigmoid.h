@@ -50,7 +50,7 @@ namespace core
 
 		if (cpu_inst::is_support_avx())
 			kernel_desigmoid<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
-		else if (cpu_inst::is_support_sse)
+		else if (cpu_inst::is_support_sse())
 			kernel_desigmoid<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_desigmoid<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
@@ -86,7 +86,7 @@ namespace core
 
 		if (cpu_inst::is_support_avx())
 			kernel_desigmoid<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
-		else if (cpu_inst::is_support_sse)
+		else if (cpu_inst::is_support_sse())
 			kernel_desigmoid<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_desigmoid<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
@@ -122,7 +122,7 @@ namespace core
 
 		if (cpu_inst::is_support_avx())
 			kernel_desigmoid<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
-		else if (cpu_inst::is_support_sse)
+		else if (cpu_inst::is_support_sse())
 			kernel_desigmoid<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_desigmoid<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());
@@ -158,7 +158,7 @@ namespace core
 
 		if (cpu_inst::is_support_avx())
 			kernel_desigmoid<float, cpu_avx>()(c.size(), a.data(), b.data(), c.data());
-		else if (cpu_inst::is_support_sse)
+		else if (cpu_inst::is_support_sse())
 			kernel_desigmoid<float, cpu_sse>()(c.size(), a.data(), b.data(), c.data());
 		else
 			kernel_desigmoid<float, cpu_none>()(c.size(), a.data(), b.data(), c.data());

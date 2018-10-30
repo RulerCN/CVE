@@ -46,15 +46,6 @@
     <ClInclude Include="core\cpu\kernel\kernel_transpose.h">
       <Filter>core\cpu\kernel</Filter>
     </ClInclude>
-    <ClInclude Include="ann\sample_base.h">
-      <Filter>ann</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\mnist_data.h">
-      <Filter>ann</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\mnist.h">
-      <Filter>ann</Filter>
-    </ClInclude>
     <ClInclude Include="image\bitmap.h">
       <Filter>image</Filter>
     </ClInclude>
@@ -76,26 +67,11 @@
     <ClInclude Include="core\cpu\cpu_mapping.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="ann\linear_layer.h">
-      <Filter>ann</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\layer_base.h">
-      <Filter>ann</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\conv_layer.h">
-      <Filter>ann</Filter>
-    </ClInclude>
     <ClInclude Include="core\core.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_inst.h">
       <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\sigmoid_layer.h">
-      <Filter>ann</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\softmax_layer.h">
-      <Filter>ann</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_replicate.h">
       <Filter>core\cpu</Filter>
@@ -312,9 +288,6 @@
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_onehot.h">
       <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="ann\sample_set.h">
-      <Filter>ann</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\convert\kernel_cvtmul_int32.h">
       <Filter>core\cpu\kernel\convert</Filter>
@@ -739,6 +712,33 @@
     <ClInclude Include="core\cpu\fill\cpu_fill_trilinear.h">
       <Filter>core\cpu\fill</Filter>
     </ClInclude>
+    <ClInclude Include="nn\conv_layer.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\layer_base.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\linear_layer.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\mnist.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\mnist_data.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\sample_base.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\sample_set.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\sigmoid_layer.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\softmax_layer.h">
+      <Filter>nn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -746,9 +746,6 @@
   <ItemGroup>
     <Filter Include="core">
       <UniqueIdentifier>{ed18c081-8b4b-4326-9733-52e0cba051a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ann">
-      <UniqueIdentifier>{52158753-8cb9-4428-b271-f29c8170bf5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="image">
       <UniqueIdentifier>{94082df3-40ac-4094-887e-6d473e601f85}</UniqueIdentifier>
@@ -845,6 +842,9 @@
     </Filter>
     <Filter Include="core\cpu\fill">
       <UniqueIdentifier>{3cad24dd-99d0-43ea-aa83-14254f3c04a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nn">
+      <UniqueIdentifier>{52158753-8cb9-4428-b271-f29c8170bf5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

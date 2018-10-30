@@ -8,11 +8,11 @@
 
 #include "core/core.h"
 #include "image/bitmap.h"
-#include "ann/mnist.h"
-#include "ann/sample_set.h"
-#include "ann/linear_layer.h"
-#include "ann/sigmoid_layer.h"
-#include "ann/softmax_layer.h"
+#include "nn/mnist.h"
+#include "nn/sample_set.h"
+#include "nn/linear_layer.h"
+#include "nn/sigmoid_layer.h"
+#include "nn/softmax_layer.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -121,8 +121,8 @@ int main()
 {
 	const size_t batch_size = 16;
 	const size_t sample_size = 1000;
-	ann::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
-	ann::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
+	nn::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
+	nn::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
 
 	// Assign random value
 	std::default_random_engine engine(1U);
@@ -140,6 +140,46 @@ int main()
 		*pData++ = (float)distribution(engine) + 0.2F;
 		*pData++ = (float)distribution(engine) + 0.1F;
 		*pLabel++ = 1;
+	}
+
+	//// Save train samples as image
+	//float scale = 320.0F;
+	//core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
+	//pData = train_samples.data.data();
+	//pLabel = train_samples.labels.data();
+	//for (size_t i = 0; i < sample_size; ++i)
+	//{
+	//	int x = 160 + static_cast<int>(*pData++ * scale);
+	//	int y = 160 + static_cast<int>(*pData++ * scale);
+	//	if (x >= 0 && x < 320 && y >= 0 && y < 320)
+	//	{
+	//		unsigned char value = *pLabel++ ? 0xFF : 0x00;
+	//		train_image[y][x][0] = 255 - value;
+	//		train_image[y][x][1] = 0;
+	//		train_image[y][x][2] = value;
+	//	}
+	//}
+	//img::bitmap::encode("data/train_samples.bmp", train_image);
+
+	const size_t in_dim = 2;
+	const size_t hide_dim = 5;
+	const size_t out_dim = 2;
+	const float rate = 0.01F;
+	nn::linear_layer<float> layer1(in_dim, hide_dim, true, rate, 0.0F, 0.01F);
+	nn::sigmoid_layer<float> layer2;
+	nn::linear_layer<float> layer3(hide_dim, out_dim, true, rate, 0.0F, 0.01F);
+	nn::sigmoid_layer<float> layer4;
+
+	train_samples.shuffle(1U);
+	train_samples.next_batch(batch_samples);
+
+	for (size_t loop = 0; loop < 1; ++loop)
+	{
+		core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
+		core::tensor<float> &tensor2 = layer2.forward(tensor1);
+		core::tensor<float> &tensor3 = layer3.forward(tensor2);
+		core::tensor<float> &tensor4 = layer4.forward(tensor3);
+		//core::tensor<float> &loss = layer4.backward(batch_samples.labels);
 	}
 
 	//__m256d ymm_t0 = _mm256_set_pd(1, 2, 3, 4);
@@ -183,47 +223,6 @@ int main()
 	//	xmm_t0 = _mm_unpacklo_epi64(xmm_a0, xmm_a1);
 	//	xmm_t1 = _mm_unpackhi_epi64(xmm_a0, xmm_a1);
 	//	xmm_t0 = _mm_min_epi8(xmm_t0, xmm_t1);
-
-
-	//// Save train samples as image
-	//float scale = 320.0F;
-	//core::matrix<unsigned char> train_image(320, 320, 3, (unsigned char)255);
-	//pData = train_samples.data.data();
-	//pLabel = train_samples.labels.data();
-	//for (size_t i = 0; i < sample_size; ++i)
-	//{
-	//	int x = 160 + static_cast<int>(*pData++ * scale);
-	//	int y = 160 + static_cast<int>(*pData++ * scale);
-	//	if (x >= 0 && x < 320 && y >= 0 && y < 320)
-	//	{
-	//		unsigned char value = *pLabel++ ? 0xFF : 0x00;
-	//		train_image[y][x][0] = 255 - value;
-	//		train_image[y][x][1] = 0;
-	//		train_image[y][x][2] = value;
-	//	}
-	//}
-	//img::bitmap::encode("data/train_samples.bmp", train_image);
-
-	//const size_t input_dim = 2;
-	//const size_t hide_dim = 5;
-	//const size_t output_dim = 2;
-	//ann::linear_layer<float> layer1(input_dim, hide_dim, true);
-	//ann::sigmoid_layer<float> layer2;
-	//ann::linear_layer<float> layer3(hide_dim, output_dim, true);
-	//ann::softmax_layer<float> layer4(output_dim);
-
-	//train_samples.shuffle(1U);
-	//train_samples.next_batch(batch_samples);
-
-	//for (size_t loop = 0; loop < 1; ++loop)
-	//{
-	//	core::tensor<float> &tensor1 = layer1.forward(batch_samples.data);
-	//	core::tensor<float> &tensor2 = layer2.forward(tensor1);
-	//	core::tensor<float> &tensor3 = layer3.forward(tensor2);
-	//	core::tensor<float> &tensor4 = layer4.forward(tensor3);
-
-	//	core::tensor<float> &loss = layer4.backward(batch_samples.labels);
-	//}
 
 	//// 120 376
 	//const signed char ptr_a0[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };

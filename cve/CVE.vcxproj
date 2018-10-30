@@ -146,15 +146,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ann\conv_layer.h" />
-    <ClInclude Include="ann\layer_base.h" />
-    <ClInclude Include="ann\linear_layer.h" />
-    <ClInclude Include="ann\mnist.h" />
-    <ClInclude Include="ann\mnist_data.h" />
-    <ClInclude Include="ann\sample_base.h" />
-    <ClInclude Include="ann\sigmoid_layer.h" />
-    <ClInclude Include="ann\softmax_layer.h" />
-    <ClInclude Include="ann\sample_set.h" />
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
     <ClInclude Include="core\core.h" />
@@ -390,6 +381,15 @@
     <ClInclude Include="core\uninitialized.h" />
     <ClInclude Include="core\vector.h" />
     <ClInclude Include="image\bitmap.h" />
+    <ClInclude Include="nn\conv_layer.h" />
+    <ClInclude Include="nn\layer_base.h" />
+    <ClInclude Include="nn\linear_layer.h" />
+    <ClInclude Include="nn\mnist.h" />
+    <ClInclude Include="nn\mnist_data.h" />
+    <ClInclude Include="nn\sample_base.h" />
+    <ClInclude Include="nn\sample_set.h" />
+    <ClInclude Include="nn\sigmoid_layer.h" />
+    <ClInclude Include="nn\softmax_layer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

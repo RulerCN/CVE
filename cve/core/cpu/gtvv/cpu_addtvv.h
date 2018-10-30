@@ -97,6 +97,126 @@ namespace core
 		return c;
 	}
 
+	// The multiplication of the column vector and the row vector
+
+	template <class A>
+	tensor<float, A>& cpu_addtvv(tensor<float, A> &c, const matrix<float, A> &a, const matrix<float, A> &b)
+	{
+		if (c.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (a.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.rows() != a.row_size() || c.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_float<8, cpu_avx | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_float<8, cpu_avx>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else if (cpu_inst::is_support_sse())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_float<4, cpu_sse | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_float<4, cpu_sse>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else
+			kernel_gtvv_float<4, cpu_none>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		return c;
+	}
+
+	template <class A>
+	tensor<double, A>& cpu_addtvv(tensor<double, A> &c, const matrix<double, A> &a, const matrix<double, A> &b)
+	{
+		if (c.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (a.empty() || b.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (c.rows() != a.row_size() || c.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_double<4, cpu_avx | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_double<4, cpu_avx>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else if (cpu_inst::is_support_sse2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_double<2, cpu_sse2 | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_double<2, cpu_sse2>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else
+			kernel_gtvv_double<4, cpu_none>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		return c;
+	}
+
+	// The multiplication of the column vector and the row vector
+
+	template <class A>
+	tensor<float, A>& cpu_addtvv(tensor<float, A> &c, const tensor<float, A> &a, const tensor<float, A> &b)
+	{
+		if (c.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (a.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.rows() != a.row_size() || c.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_float<8, cpu_avx | cpu_fma>(a.size(), b.size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_float<8, cpu_avx>(a.size(), b.size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else if (cpu_inst::is_support_sse())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_float<4, cpu_sse | cpu_fma>(a.size(), b.size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_float<4, cpu_sse>(a.size(), b.size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else
+			kernel_gtvv_float<4, cpu_none>(a.size(), b.size(), a.data(), b.data(), c.data(), c.row_size());
+		return c;
+	}
+
+	template <class A>
+	tensor<double, A>& cpu_addtvv(tensor<double, A> &c, const tensor<double, A> &a, const tensor<double, A> &b)
+	{
+		if (c.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (a.empty() || b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (c.rows() != a.row_size() || c.row_size() != b.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		if (cpu_inst::is_support_avx())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_double<4, cpu_avx | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_double<4, cpu_avx>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else if (cpu_inst::is_support_sse2())
+		{
+			if (cpu_inst::is_support_fma())
+				kernel_gtvv_double<2, cpu_sse2 | cpu_fma>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+			else
+				kernel_gtvv_double<2, cpu_sse2>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		}
+		else
+			kernel_gtvv_double<4, cpu_none>(a.row_size(), b.row_size(), a.data(), b.data(), c.data(), c.row_size());
+		return c;
+	}
+
 } // namespace core
 
 #endif
