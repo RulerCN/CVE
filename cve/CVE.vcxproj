@@ -354,6 +354,7 @@
     <ClInclude Include="core\cpu\min\cpu_min_yz.h" />
     <ClInclude Include="core\cpu\min\cpu_min_z.h" />
     <ClInclude Include="core\cpu\onehot\cpu_onehot_sub.h" />
+    <ClInclude Include="core\cpu\repeat\cpu_repeat.h" />
     <ClInclude Include="core\cpu\sliding\cpu_sliding_window.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_xyz_double.h" />
     <ClInclude Include="core\cpu\sum\cpu_sum_xyz_float.h" />

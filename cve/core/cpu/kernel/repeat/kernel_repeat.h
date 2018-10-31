@@ -51,10 +51,11 @@ namespace core
 	template<class T>
 	void kernel_repeat(size_t m, size_t n, const T *a, size_t rows, size_t rsa, T *b)
 	{
-		const size_t size = rsa * sizeof(T);
-		const size_t stride = rows * n * rsa;
+		size_t size;
+		size_t stride;
 		T *ptr_b = b;
 
+		size = rsa * sizeof(T);
 		for (size_t i = 0; i < rows; ++i)
 		{
 			for (size_t j = 0; j < n; ++j)
@@ -64,6 +65,7 @@ namespace core
 			}
 			a += rsa;
 		}
+		stride = rows * n * rsa;
 		size = stride * sizeof(T);
 		ptr_b = b + stride;
 		for (size_t i = 1; i < m; ++i)
@@ -76,12 +78,13 @@ namespace core
 	template<class T>
 	void kernel_repeat(size_t l, size_t m, size_t n, const T *a, size_t batch, size_t rows, size_t rsa, T *b)
 	{
-		const size_t size = rsa * sizeof(T);
-		const size_t stride = rows * n * rsa;
+		size_t size;
+		size_t stride;
 		T *ptr_b = b;
 
 		for (size_t i = 0; i < m; ++i)
 		{
+			size = rsa * sizeof(T);
 			for (size_t j = 0; j < rows; ++j)
 			{
 				for (size_t k = 0; k < n; ++k)
@@ -91,6 +94,7 @@ namespace core
 				}
 				a += rsa;
 			}
+			stride = rows * n * rsa;
 			size = stride * sizeof(T);
 			ptr_b = b + stride;
 			for (size_t i = 1; i < m; ++i)
@@ -108,57 +112,6 @@ namespace core
 			ptr_b += stride;
 		}
 	}
-
-	//template<class T>
-	//void kernel_replicate(size_t m, size_t n, const T *a, size_t rows, size_t rsa, T *b, size_t rsb)
-	//{
-	//	size_t size = rsa * sizeof(T);
-	//	T *ptr_b = b;
-
-	//	for (size_t i = 0; i < n; ++i)
-	//	{
-	//		::std::memcpy(ptr_b, a, size);
-	//		ptr_b += rsa;
-	//	}
-	//	size = n * size;
-	//	ptr_b = b + rsb;
-	//	for (size_t i = 1; i < m; ++i)
-	//	{
-	//		::std::memcpy(ptr_b, b, size);
-	//		ptr_b += rsb;
-	//	}
-	//}
-
-	//template<class T>
-	//void kernel_replicate(size_t m, size_t n, const T *a, size_t rsa, size_t rows, T *b, size_t rsb)
-	//{
-	//	size_t size = rsa * sizeof(T);
-	//	const T *ptr_a = a;
-	//	T *ptr, *ptr_b = b;
-
-	//	for (size_t j = 0; j < rows; ++j)
-	//	{
-	//		ptr = ptr_b;
-	//		for (size_t i = 0; i < n; ++i)
-	//		{
-	//			::std::memcpy(ptr, ptr_a, size);
-	//			ptr += rsa;
-	//		}
-	//		ptr_a += rsa;
-	//		ptr_b += rsb;
-	//	}
-	//	size = n * size;
-	//	for (size_t i = 1; i < m; ++i)
-	//	{
-	//		ptr = b;
-	//		for (size_t j = 0; j < rows; ++j)
-	//		{
-	//			::std::memcpy(ptr_b, ptr, size);
-	//			ptr += rsb;
-	//			ptr_b += rsb;
-	//		}
-	//	}
-	//}
 
 } // namespace core
 

@@ -751,6 +751,9 @@
     <ClInclude Include="core\cpu\kernel\repeat\kernel_repeat.h">
       <Filter>core\cpu\kernel\repeat</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\repeat\cpu_repeat.h">
+      <Filter>core\cpu\repeat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
