@@ -748,6 +748,9 @@
     <ClInclude Include="core\cpu\transpose\cpu_transpose.h">
       <Filter>core\cpu\transpose</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\kernel\repeat\kernel_repeat.h">
+      <Filter>core\cpu\kernel\repeat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -860,6 +863,12 @@
     </Filter>
     <Filter Include="core\cpu\transpose">
       <UniqueIdentifier>{d53b3551-47a9-4568-89b6-0b20f62b1863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\kernel\repeat">
+      <UniqueIdentifier>{79ae228e-ad32-4502-8bf0-e34edf412f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\cpu\repeat">
+      <UniqueIdentifier>{a28d4cbc-a7de-4e52-a098-63f12b1d520f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

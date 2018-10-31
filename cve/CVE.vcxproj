@@ -313,6 +313,7 @@
     <ClInclude Include="core\cpu\kernel\min\rows_min.h" />
     <ClInclude Include="core\cpu\kernel\min\rows_mint.h" />
     <ClInclude Include="core\cpu\kernel\onehot\kernel_onehot_sub.h" />
+    <ClInclude Include="core\cpu\kernel\repeat\kernel_repeat.h" />
     <ClInclude Include="core\cpu\kernel\sliding\block_sliding.h" />
     <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_neighbour.h" />
     <ClInclude Include="core\cpu\kernel\sliding\kernel_sliding_window.h" />
