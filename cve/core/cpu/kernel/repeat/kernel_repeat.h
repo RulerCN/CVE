@@ -39,7 +39,7 @@ namespace core
 	template<class T>
 	void kernel_repeat(size_t n, const T *a, size_t len, T *b)
 	{
-		const size_t size = len * sizeof(T);
+		size_t size = len * sizeof(T);
 
 		for (size_t i = 0; i < n; ++i)
 		{
@@ -56,9 +56,9 @@ namespace core
 		T *ptr_b = b;
 
 		size = rsa * sizeof(T);
-		for (size_t i = 0; i < rows; ++i)
+		for (size_t j = 0; j < rows; ++j)
 		{
-			for (size_t j = 0; j < n; ++j)
+			for (size_t i = 0; i < n; ++i)
 			{
 				::std::memcpy(ptr_b, a, size);
 				ptr_b += rsa;
@@ -82,12 +82,12 @@ namespace core
 		size_t stride;
 		T *ptr_b = b;
 
-		for (size_t i = 0; i < m; ++i)
+		for (size_t k = 0; k < batch; ++k)
 		{
 			size = rsa * sizeof(T);
 			for (size_t j = 0; j < rows; ++j)
 			{
-				for (size_t k = 0; k < n; ++k)
+				for (size_t i = 0; i < n; ++i)
 				{
 					::std::memcpy(ptr_b, a, size);
 					ptr_b += rsa;
@@ -103,7 +103,7 @@ namespace core
 				ptr_b += stride;
 			}
 		}
-		stride = m * rows * n * rsa;
+		stride = batch * m * rows * n * rsa;
 		size = stride * sizeof(T);
 		ptr_b = b + stride;
 		for (size_t i = 1; i < l; ++i)

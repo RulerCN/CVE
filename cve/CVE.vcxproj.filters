@@ -52,9 +52,6 @@
     <ClInclude Include="core\cpu\cpu_get_element.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\cpu_transpose.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\cpu_border.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
@@ -68,9 +65,6 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_inst.h">
-      <Filter>core\cpu</Filter>
-    </ClInclude>
-    <ClInclude Include="core\cpu\cpu_replicate.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h">
@@ -753,6 +747,12 @@
     </ClInclude>
     <ClInclude Include="core\cpu\repeat\cpu_repeat.h">
       <Filter>core\cpu\repeat</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_transpose.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_repeat.h">
+      <Filter>core\cpu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

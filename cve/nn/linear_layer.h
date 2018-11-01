@@ -159,7 +159,10 @@ namespace nn
 			::core::cpu_mean(_input, input, ::core::axis_y);
 			// output = intput * weight + bias
 			if (_has_bias)
-				::core::cpu_gemm(_output, input, _weight, _bias);
+			{
+				::core::cpu_repeat(_output, _bias, size_t(1), size_t(batch), size_t(1));
+				::core::cpu_addmmt(_output, input, _weight);
+			}
 			else
 				::core::cpu_gemm(_output, input, _weight);
 			// Reshape an output tensor

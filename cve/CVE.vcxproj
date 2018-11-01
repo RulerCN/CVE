@@ -187,14 +187,15 @@
     <ClInclude Include="core\cpu\cpu_mean.h" />
     <ClInclude Include="core\cpu\cpu_min.h" />
     <ClInclude Include="core\cpu\cpu_onehot.h" />
-    <ClInclude Include="core\cpu\cpu_replicate.h" />
     <ClInclude Include="core\cpu\cpu_inst.h" />
     <ClInclude Include="core\cpu\cpu_border.h" />
     <ClInclude Include="core\cpu\cpu_convert.h" />
     <ClInclude Include="core\cpu\cpu_get_element.h" />
     <ClInclude Include="core\cpu\cpu_mapping.h" />
+    <ClInclude Include="core\cpu\cpu_repeat.h" />
     <ClInclude Include="core\cpu\cpu_sliding.h" />
     <ClInclude Include="core\cpu\cpu_sum.h" />
+    <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\fill\cpu_fill_bilinear.h" />
     <ClInclude Include="core\cpu\fill\cpu_fill_linear.h" />
     <ClInclude Include="core\cpu\fill\cpu_fill_trilinear.h" />
@@ -293,7 +294,6 @@
     <ClInclude Include="core\cpu\kernel\gtvv\rows_gtvv_float.h" />
     <ClInclude Include="core\cpu\kernel\kernel_mapping.h" />
     <ClInclude Include="core\cpu\kernel\kernel_replicate.h" />
-    <ClInclude Include="core\cpu\cpu_transpose.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_and_value.h" />
     <ClInclude Include="core\cpu\kernel\logic\kernel_logic_or.h" />

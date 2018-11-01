@@ -44,6 +44,8 @@ namespace core
 	{
 		if (b.empty() || a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
 		if (b.size() != n * a.size())
 			throw ::std::invalid_argument(invalid_size);
 
@@ -58,6 +60,8 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (m == 0 || n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
 		if (b.size() != m * n * a.size())
 			throw ::std::invalid_argument(invalid_size);
 
@@ -72,10 +76,60 @@ namespace core
 			throw ::std::invalid_argument(matrix_not_initialized);
 		if (a.empty())
 			throw ::std::invalid_argument(vector_not_initialized);
+		if (l == 0 || m == 0 || n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
 		if (b.size() != l * m * n * a.size())
 			throw ::std::invalid_argument(invalid_size);
 
 		kernel_repeat(l * m * n, a.data(), a.size(), b.data());
+		return b;
+	}
+
+	// Repeat and tile a matrix
+
+	template <class T, class A>
+	matrix<T, A>& cpu_repeat(matrix<T, A> &b, const matrix<T, A> &a, size_t m, size_t n)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (m == 0 || n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
+		if (b.rows() != m * a.rows() || b.row_size() != n * a.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_repeat(m, n, a.data(), a.rows(), a.row_size(), b.data());
+		return b;
+	}
+
+	template <class T, class A>
+	tensor<T, A>& cpu_repeat(tensor<T, A> &b, const matrix<T, A> &a, size_t l, size_t m, size_t n)
+	{
+		if (b.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (a.empty())
+			throw ::std::invalid_argument(matrix_not_initialized);
+		if (l == 0 || m == 0 || n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
+		if (b.rows() != m * a.rows() || b.row_size() != n * a.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_repeat(l * m, n, a.data(), a.rows(), a.row_size(), b.data());
+		return b;
+	}
+
+	// Repeat and tile a tensor
+
+	template <class T, class A>
+	tensor<T, A>& cpu_repeat(tensor<T, A> &b, const tensor<T, A> &a, size_t l, size_t m, size_t n)
+	{
+		if (b.empty() || a.empty())
+			throw ::std::invalid_argument(tensor_not_initialized);
+		if (l == 0 || m == 0 || n == 0)
+			throw ::std::invalid_argument(invalid_repeat_parameters);
+		if (b.batch() != l * a.batch() || b.rows() != m * a.rows() || b.row_size() != n * a.row_size())
+			throw ::std::invalid_argument(invalid_shape);
+
+		kernel_repeat(l, m, n, a.data(), a.batch(), a.rows(), a.row_size(), b.data());
 		return b;
 	}
 
