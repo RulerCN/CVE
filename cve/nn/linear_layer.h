@@ -157,13 +157,14 @@ namespace nn
 			input.shape(size_t(1), batch, _in_dim, size_t(1));
 			// Mean value of input tensor
 			::core::cpu_mean(_input, input, ::core::axis_y);
-			// output = intput * weight + bias
 			if (_has_bias)
 			{
+				// output = intput * weight + bias
 				::core::cpu_repeat(_output, _bias, size_t(1), size_t(batch), size_t(1));
-				::core::cpu_addmmt(_output, input, _weight);
+				::core::cpu_addmm(_output, input, _weight);
 			}
 			else
+				// output = intput * weight
 				::core::cpu_gemm(_output, input, _weight);
 			// Reshape an output tensor
 			_output.shape(batch, size_t(1), _out_dim, size_t(1));
