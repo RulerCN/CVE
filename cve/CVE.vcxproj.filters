@@ -703,9 +703,6 @@
     <ClInclude Include="core\cpu\fill\cpu_fill_trilinear.h">
       <Filter>core\cpu\fill</Filter>
     </ClInclude>
-    <ClInclude Include="nn\conv_layer.h">
-      <Filter>nn</Filter>
-    </ClInclude>
     <ClInclude Include="nn\mnist.h">
       <Filter>nn</Filter>
     </ClInclude>
@@ -752,6 +749,9 @@
       <Filter>nn</Filter>
     </ClInclude>
     <ClInclude Include="nn\softmax.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\conv2d.h">
       <Filter>nn</Filter>
     </ClInclude>
   </ItemGroup>

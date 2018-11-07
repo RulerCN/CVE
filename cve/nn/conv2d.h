@@ -27,43 +27,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __NN_CONV_LAYER_H__
-#define __NN_CONV_LAYER_H__
+#ifndef __NN_CONV2D_H__
+#define __NN_CONV2D_H__
 
-#include "layer_base.h"
+#include "layer.h"
 
 namespace nn
 {
-	// Class template conv_layer
+	// Class template conv2d
 	template <class T, class Allocator = ::core::allocator<T> >
-	class conv_layer : public layer_base<T, Allocator>
+	class conv2d : public layer<T, Allocator>
 	{
 	public:
 		// types:
 
-		typedef layer_base<T, Allocator>                        layer_base_type;
+		typedef layer<T, Allocator>                        layer_type;
 
-		typedef typename layer_base_type::allocator_type        allocator_type;
-		typedef typename layer_base_type::allocator_traits_type allocator_traits_type;
-		typedef typename layer_base_type::scalar_type           scalar_type;
-		typedef typename layer_base_type::vector_type           vector_type;
-		typedef typename layer_base_type::matrix_type           matrix_type;
-		typedef typename layer_base_type::tensor_type           tensor_type;
+		typedef typename layer_type::allocator_type        allocator_type;
+		typedef typename layer_type::allocator_traits_type allocator_traits_type;
+		typedef typename layer_type::scalar_type           scalar_type;
+		typedef typename layer_type::vector_type           vector_type;
+		typedef typename layer_type::matrix_type           matrix_type;
+		typedef typename layer_type::tensor_type           tensor_type;
 
-		typedef typename layer_base_type::value_type            value_type;
-		typedef typename layer_base_type::pointer               pointer;
-		typedef typename layer_base_type::const_pointer         const_pointer;
-		typedef typename layer_base_type::reference             reference;
-		typedef typename layer_base_type::const_reference       const_reference;
-		typedef typename layer_base_type::size_type             size_type;
-		typedef typename layer_base_type::difference_type       difference_type;
+		typedef typename layer_type::value_type            value_type;
+		typedef typename layer_type::pointer               pointer;
+		typedef typename layer_type::const_pointer         const_pointer;
+		typedef typename layer_type::reference             reference;
+		typedef typename layer_type::const_reference       const_reference;
+		typedef typename layer_type::size_type             size_type;
+		typedef typename layer_type::difference_type       difference_type;
 
 		// construct/copy/destroy:
 
-		conv_layer(const Allocator& alloc = Allocator())
+		conv2d(const Allocator& alloc = Allocator())
 		{}
 
-		conv_layer(size_type in_dim, size_type out_dim)
+		conv2d(size_type in_dim, size_type out_dim)
 		{
 			assign(in_dim, out_dim);
 		}

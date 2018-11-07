@@ -386,7 +386,7 @@
     <ClInclude Include="core\uninitialized.h" />
     <ClInclude Include="core\vector.h" />
     <ClInclude Include="image\bitmap.h" />
-    <ClInclude Include="nn\conv_layer.h" />
+    <ClInclude Include="nn\conv2d.h" />
     <ClInclude Include="nn\layer.h" />
     <ClInclude Include="nn\linear.h" />
     <ClInclude Include="nn\mnist.h" />
