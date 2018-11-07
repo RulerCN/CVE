@@ -10,9 +10,9 @@
 #include "image/bitmap.h"
 #include "nn/mnist.h"
 #include "nn/sample_set.h"
-#include "nn/linear_layer.h"
-#include "nn/sigmoid_layer.h"
-#include "nn/softmax_layer.h"
+#include "nn/linear.h"
+#include "nn/sigmoid.h"
+#include "nn/softmax.h"
 
 using std::chrono::time_point;
 using std::chrono::system_clock;
@@ -119,7 +119,18 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 
 int main()
 {
-	const size_t batch_size = 16;
+	core::vector<float> x(3, 1, { 0.7F, 0.8F, 0.9F });
+	core::vector<float> y(3, 1);
+	core::vector<float> t(3, 1, { 1.0F, 1.0F, 1.0F });
+	core::vector<float> l(3, 1);
+	core::cpu_sigmoid(y, x);
+	print("y:", y);
+	core::cpu_sub(l, t, y);
+	print("l:", l);
+	float mean;
+	core::cpu_mean(mean, l, core::axis_x);
+
+ 	const size_t batch_size = 16;
 	const size_t sample_size = 1000;
 	nn::sample_set<float, unsigned char> batch_samples(batch_size, 1, 1, 2);
 	nn::sample_set<float, unsigned char> train_samples(sample_size, 1, 1, 2);
@@ -165,10 +176,10 @@ int main()
 	const size_t hide_dim = 5;
 	const size_t out_dim = 2;
 	const float rate = 0.01F;
-	nn::linear_layer<float> layer1(in_dim, hide_dim, true, rate, 0.0F, 0.01F);
-	nn::sigmoid_layer<float> layer2;
-	nn::linear_layer<float> layer3(hide_dim, out_dim, true, rate, 0.0F, 0.01F);
-	nn::sigmoid_layer<float> layer4;
+	nn::linear<float> layer1(in_dim, hide_dim, true, rate, 0.0F, 0.01F);
+	nn::sigmoid<float> layer2;
+	nn::linear<float> layer3(hide_dim, out_dim, true, rate, 0.0F, 0.01F);
+	nn::sigmoid<float> layer4;
 
 	train_samples.shuffle(1U);
 	train_samples.next_batch(batch_samples);

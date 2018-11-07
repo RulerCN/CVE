@@ -706,12 +706,6 @@
     <ClInclude Include="nn\conv_layer.h">
       <Filter>nn</Filter>
     </ClInclude>
-    <ClInclude Include="nn\layer_base.h">
-      <Filter>nn</Filter>
-    </ClInclude>
-    <ClInclude Include="nn\linear_layer.h">
-      <Filter>nn</Filter>
-    </ClInclude>
     <ClInclude Include="nn\mnist.h">
       <Filter>nn</Filter>
     </ClInclude>
@@ -722,12 +716,6 @@
       <Filter>nn</Filter>
     </ClInclude>
     <ClInclude Include="nn\sample_set.h">
-      <Filter>nn</Filter>
-    </ClInclude>
-    <ClInclude Include="nn\sigmoid_layer.h">
-      <Filter>nn</Filter>
-    </ClInclude>
-    <ClInclude Include="nn\softmax_layer.h">
       <Filter>nn</Filter>
     </ClInclude>
     <ClInclude Include="core\cpu\kernel\transpose\block_transpose.h">
@@ -753,6 +741,18 @@
     </ClInclude>
     <ClInclude Include="core\cpu\cpu_repeat.h">
       <Filter>core\cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\linear.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\layer.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\sigmoid.h">
+      <Filter>nn</Filter>
+    </ClInclude>
+    <ClInclude Include="nn\softmax.h">
+      <Filter>nn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,68 +27,68 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __NN_LINEAR_LAYER_H__
-#define __NN_LINEAR_LAYER_H__
+#ifndef __NN_LINEAR_H__
+#define __NN_LINEAR_H__
 
-#include "layer_base.h"
+#include "layer.h"
 
 namespace nn
 {
-	// Class template linear_layer
+	// Class template linear
 	template <class T, class Allocator = ::core::allocator<T> >
-	class linear_layer : public layer_base<T, Allocator>
+	class linear : public layer<T, Allocator>
 	{
 	public:
 		// types:
 
-		typedef layer_base<T, Allocator>                         layer_base_type;
+		typedef layer<T, Allocator>                         layer_type;
 
-		typedef typename layer_base_type::allocator_type         allocator_type;
-		typedef typename layer_base_type::allocator_traits_type  allocator_traits_type;
-		typedef typename layer_base_type::scalar_type            scalar_type;
-		typedef typename layer_base_type::vector_type            vector_type;
-		typedef typename layer_base_type::matrix_type            matrix_type;
-		typedef typename layer_base_type::tensor_type            tensor_type;
-		typedef typename layer_base_type::const_scalar_type      const_scalar_type;
-		typedef typename layer_base_type::const_vector_type      const_vector_type;
-		typedef typename layer_base_type::const_matrix_type      const_matrix_type;
-		typedef typename layer_base_type::const_tensor_type      const_tensor_type;
-		typedef typename layer_base_type::scalar_pointer         scalar_pointer;
-		typedef	typename layer_base_type::vector_pointer         vector_pointer;
-		typedef	typename layer_base_type::matrix_pointer         matrix_pointer;
-		typedef	typename layer_base_type::tensor_pointer         tensor_pointer;
-		typedef typename layer_base_type::const_scalar_pointer   const_scalar_pointer;
-		typedef	typename layer_base_type::const_vector_pointer   const_vector_pointer;
-		typedef	typename layer_base_type::const_matrix_pointer   const_matrix_pointer;
-		typedef	typename layer_base_type::const_tensor_pointer   const_tensor_pointer;
-		typedef	typename layer_base_type::scalar_reference       scalar_reference;
-		typedef	typename layer_base_type::vector_reference       vector_reference;
-		typedef	typename layer_base_type::matrix_reference       matrix_reference;
-		typedef	typename layer_base_type::tensor_reference       tensor_reference;
-		typedef	typename layer_base_type::const_scalar_reference const_scalar_reference;
-		typedef	typename layer_base_type::const_vector_reference const_vector_reference;
-		typedef	typename layer_base_type::const_matrix_reference const_matrix_reference;
-		typedef	typename layer_base_type::const_tensor_reference const_tensor_reference;
+		typedef typename layer_type::allocator_type         allocator_type;
+		typedef typename layer_type::allocator_traits_type  allocator_traits_type;
+		typedef typename layer_type::scalar_type            scalar_type;
+		typedef typename layer_type::vector_type            vector_type;
+		typedef typename layer_type::matrix_type            matrix_type;
+		typedef typename layer_type::tensor_type            tensor_type;
+		typedef typename layer_type::const_scalar_type      const_scalar_type;
+		typedef typename layer_type::const_vector_type      const_vector_type;
+		typedef typename layer_type::const_matrix_type      const_matrix_type;
+		typedef typename layer_type::const_tensor_type      const_tensor_type;
+		typedef typename layer_type::scalar_pointer         scalar_pointer;
+		typedef	typename layer_type::vector_pointer         vector_pointer;
+		typedef	typename layer_type::matrix_pointer         matrix_pointer;
+		typedef	typename layer_type::tensor_pointer         tensor_pointer;
+		typedef typename layer_type::const_scalar_pointer   const_scalar_pointer;
+		typedef	typename layer_type::const_vector_pointer   const_vector_pointer;
+		typedef	typename layer_type::const_matrix_pointer   const_matrix_pointer;
+		typedef	typename layer_type::const_tensor_pointer   const_tensor_pointer;
+		typedef	typename layer_type::scalar_reference       scalar_reference;
+		typedef	typename layer_type::vector_reference       vector_reference;
+		typedef	typename layer_type::matrix_reference       matrix_reference;
+		typedef	typename layer_type::tensor_reference       tensor_reference;
+		typedef	typename layer_type::const_scalar_reference const_scalar_reference;
+		typedef	typename layer_type::const_vector_reference const_vector_reference;
+		typedef	typename layer_type::const_matrix_reference const_matrix_reference;
+		typedef	typename layer_type::const_tensor_reference const_tensor_reference;
 
-		typedef typename layer_base_type::value_type             value_type;
-		typedef typename layer_base_type::pointer                pointer;
-		typedef typename layer_base_type::const_pointer          const_pointer;
-		typedef typename layer_base_type::reference              reference;
-		typedef typename layer_base_type::const_reference        const_reference;
-		typedef typename layer_base_type::size_type              size_type;
-		typedef typename layer_base_type::difference_type        difference_type;
+		typedef typename layer_type::value_type             value_type;
+		typedef typename layer_type::pointer                pointer;
+		typedef typename layer_type::const_pointer          const_pointer;
+		typedef typename layer_type::reference              reference;
+		typedef typename layer_type::const_reference        const_reference;
+		typedef typename layer_type::size_type              size_type;
+		typedef typename layer_type::difference_type        difference_type;
 
 		// construct/copy/destroy:
 
-		linear_layer(const Allocator& alloc = Allocator())
-			: layer_base_type()
+		linear(const Allocator& alloc = Allocator())
+			: layer_type()
 			, _rate(0)
 			, _in_dim(0)
 			, _out_dim(0)
 			, _has_bias(false)
 		{}
-		linear_layer(size_type in_dim, size_type out_dim, bool has_bias, value_type rate)
-			: layer_base_type()
+		linear(size_type in_dim, size_type out_dim, bool has_bias, value_type rate)
+			: layer_type()
 			, _rate(rate)
 			, _in_dim(0)
 			, _out_dim(0)
@@ -96,8 +96,8 @@ namespace nn
 		{
 			assign(in_dim, out_dim, has_bias);
 		}
-		linear_layer(size_type in_dim, size_type out_dim, bool has_bias, value_type rate, value_type mean, value_type sigma, unsigned int seed = 1U)
-			: layer_base_type()
+		linear(size_type in_dim, size_type out_dim, bool has_bias, value_type rate, value_type mean, value_type sigma, unsigned int seed = 1U)
+			: layer_type()
 			, _rate(rate)
 			, _in_dim(0)
 			, _out_dim(0)
@@ -148,7 +148,7 @@ namespace nn
 				throw ::std::invalid_argument(::core::invalid_shape);
 
 			size_t batch = input.batch();
-			// Assign an input matrix
+			// Assign an input tensor
 			if (_input.empty())
 				_input.assign(size_t(1), size_t(1), _in_dim, size_t(1));
 			// Reassign an output tensor

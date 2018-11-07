@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __NN_LAYER_BASE_H__
-#define __NN_LAYER_BASE_H__
+#ifndef __NN_LAYER_H__
+#define __NN_LAYER_H__
 
 #include <random>
 #include <functional>
@@ -36,9 +36,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace nn
 {
-	// Class template layer_base
+	// Class template layer
 	template <class T, class Allocator = ::core::allocator<T> >
-	class layer_base
+	class layer
 	{
 	public:
 		// types:
@@ -80,7 +80,7 @@ namespace nn
 		typedef typename allocator_traits_type::difference_type difference_type;
 
 		// construct/copy/destroy:
-		layer_base(void) {}
+		layer(void) {}
 		// Forward propagation
 		virtual tensor_reference forward(tensor_reference input) = 0;
 		// Update parameters

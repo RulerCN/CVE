@@ -54,14 +54,14 @@ namespace core
 {
 	// Computes the sum of elements across dimensions of a vector
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_mean(T1 &b, const vector<T2, A2> &a, axis_type axis = axis_x)
+	template <class T, class T1, class A1>
+	T& cpu_mean(T &b, const vector<T1, A1> &a, axis_type axis = axis_x)
 	{
-		T1 scale;
+		T scale;
 		switch (axis)
 		{
 		case axis_x:
-			scale = T1(1) / a.size();
+			scale = T(1) / a.size();
 			cpu_sum_x(b, a);
 			b *= scale;
 			break;
@@ -112,14 +112,14 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_mean(T1 &b, const matrix<T2, A2> &a, axis_type axis)
+	template <class T, class T1, class A1>
+	T& cpu_mean(T &b, const matrix<T1, A1> &a, axis_type axis)
 	{
-		T1 scale;
+		T scale;
 		switch (axis)
 		{
 		case axis_xy:
-			scale = T1(1) / a.size();
+			scale = T(1) / a.size();
 			cpu_sum_xy(b, a);
 			b *= scale;
 			break;
@@ -207,14 +207,14 @@ namespace core
 		return b;
 	}
 
-	template <class T1, class T2, class A1, class A2>
-	T1& cpu_mean(T1 &b, const tensor<T2, A2> &a, axis_type axis)
+	template <class T, class T1, class A1>
+	T& cpu_mean(T &b, const tensor<T1, A1> &a, axis_type axis)
 	{
-		T1 scale;
+		T scale;
 		switch (axis)
 		{
 		case axis_xyz:
-			scale = T1(1) / a.size();
+			scale = T(1) / a.size();
 			cpu_sum_xyz(b, a);
 			b *= scale;
 			break;
