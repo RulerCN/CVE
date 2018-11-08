@@ -439,6 +439,20 @@ namespace core
 	}
 
 /*
+
+	_PS_CONST(cephes_SQRTHF, 0.707106781186547524);
+	_PS_CONST(cephes_log_p0, 7.0376836292E-2);    1/11
+	_PS_CONST(cephes_log_p1, - 1.1514610310E-1); -1/10
+	_PS_CONST(cephes_log_p2, 1.1676998740E-1);    1/9
+	_PS_CONST(cephes_log_p3, - 1.2420140846E-1); -1/8
+	_PS_CONST(cephes_log_p4, + 1.4249322787E-1);  1/7
+	_PS_CONST(cephes_log_p5, - 1.6668057665E-1); -1/6
+	_PS_CONST(cephes_log_p6, + 2.0000714765E-1);  1/5
+	_PS_CONST(cephes_log_p7, - 2.4999993993E-1); -1/4
+	_PS_CONST(cephes_log_p8, + 3.3333331174E-1);  1/3
+	_PS_CONST(cephes_log_q1, -2.12194440e-4);
+	_PS_CONST(cephes_log_q2, 0.693359375);
+
 	__m128 _mm_log_ps(__m128 x)
 	{
 		__m128 invalid_mask = _mm_cmp_ps(x, xmm_zero, _CMP_LE_OS);
