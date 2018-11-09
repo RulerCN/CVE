@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	typedef signed char tree_node_state;
-	static constexpr tree_node_state tree_state_parent = -0x10;
-	static constexpr tree_node_state tree_state_sibling = 0x01;
-	static constexpr tree_node_state tree_state_child = 0x12;
+	static constexpr tree_node_state tree_state_parent  = -0x10;
+	static constexpr tree_node_state tree_state_sibling =  0x01;
+	static constexpr tree_node_state tree_state_child   =  0x12;
 
 	// Class template tree_node
 	template <class T>

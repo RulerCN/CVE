@@ -92,7 +92,7 @@ namespace core
 				xmm_a = _mm_sub_ps(xmm_a, _mm_mul_ps(xmm_r, xmm_ln2f_hi));
 				// a -= r * ln2_lo;
 				xmm_a = _mm_sub_ps(xmm_a, _mm_mul_ps(xmm_r, xmm_ln2f_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				xmm_b = xmm_expf_p7;
 				xmm_b = _mm_add_ps(_mm_mul_ps(xmm_b, xmm_a), xmm_expf_p6);
@@ -146,7 +146,7 @@ namespace core
 				xmm_a = _mm_sub_ps(xmm_a, _mm_mul_ps(xmm_r, xmm_ln2f_hi));
 				// a -= r * ln2_lo;
 				xmm_a = _mm_sub_ps(xmm_a, _mm_mul_ps(xmm_r, xmm_ln2f_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				xmm_b = xmm_expf_p7;
 				xmm_b = _mm_fmadd_ps(xmm_b, xmm_a, xmm_expf_p6);
@@ -200,7 +200,7 @@ namespace core
 				xmm_a = _mm_sub_pd(xmm_a, _mm_mul_pd(xmm_r, xmm_ln2d_hi));
 				// a -= r * ln2_lo;
 				xmm_a = _mm_sub_pd(xmm_a, _mm_mul_pd(xmm_r, xmm_ln2d_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				//   + a^8/8! + a^9/9! + a^10/10! + a^11/11! + + a^12/12! + + a^13/13!
 				xmm_b = xmm_expd_p13;
@@ -261,7 +261,7 @@ namespace core
 				xmm_a = _mm_sub_pd(xmm_a, _mm_mul_pd(xmm_r, xmm_ln2d_hi));
 				// a -= r * ln2_lo;
 				xmm_a = _mm_sub_pd(xmm_a, _mm_mul_pd(xmm_r, xmm_ln2d_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				//   + a^8/8! + a^9/9! + a^10/10! + a^11/11! + + a^12/12! + + a^13/13!
 				xmm_b = xmm_expd_p13;
@@ -322,7 +322,7 @@ namespace core
 				ymm_a = _mm256_sub_ps(ymm_a, _mm256_mul_ps(ymm_r, ymm_ln2f_hi));
 				// a -= r * ln2_lo;
 				ymm_a = _mm256_sub_ps(ymm_a, _mm256_mul_ps(ymm_r, ymm_ln2f_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				ymm_b = ymm_expf_p7;
 				ymm_b = _mm256_add_ps(_mm256_mul_ps(ymm_b, ymm_a), ymm_expf_p6);
@@ -376,7 +376,7 @@ namespace core
 				ymm_a = _mm256_sub_ps(ymm_a, _mm256_mul_ps(ymm_r, ymm_ln2f_hi));
 				// a -= r * ln2_lo;
 				ymm_a = _mm256_sub_ps(ymm_a, _mm256_mul_ps(ymm_r, ymm_ln2f_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				ymm_b = ymm_expf_p7;
 				ymm_b = _mm256_fmadd_ps(ymm_b, ymm_a, ymm_expf_p6);
@@ -430,7 +430,7 @@ namespace core
 				ymm_a = _mm256_sub_pd(ymm_a, _mm256_mul_pd(ymm_r, ymm_ln2d_hi));
 				// a -= r * ln2_lo;
 				ymm_a = _mm256_sub_pd(ymm_a, _mm256_mul_pd(ymm_r, ymm_ln2d_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				//   + a^8/8! + a^9/9! + a^10/10! + a^11/11! + + a^12/12! + + a^13/13!
 				ymm_b = ymm_expd_p13;
@@ -491,7 +491,7 @@ namespace core
 				ymm_a = _mm256_sub_pd(ymm_a, _mm256_mul_pd(ymm_r, ymm_ln2d_hi));
 				// a -= r * ln2_lo;
 				ymm_a = _mm256_sub_pd(ymm_a, _mm256_mul_pd(ymm_r, ymm_ln2d_lo));
-				// Taylor expansion of e^x:
+				// Maclaurin expansion of e^x:
 				// b = 1 + a + a^2/2! + a^3/3! + a^4/4! + a^5/5! + a^6/6! + a^7/7!
 				//   + a^8/8! + a^9/9! + a^10/10! + a^11/11! + + a^12/12! + + a^13/13!
 				ymm_b = ymm_expd_p13;

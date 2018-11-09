@@ -38,15 +38,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	typedef bool rb_tree_color_type;
-	static constexpr rb_tree_color_type rb_tree_red = false;
+	static constexpr rb_tree_color_type rb_tree_red   = false;
 	static constexpr rb_tree_color_type rb_tree_black = true;
 
 	typedef signed char rb_tree_node_state;
-	static constexpr rb_tree_node_state rb_tree_state_parent = -0x10;
-	static constexpr rb_tree_node_state rb_tree_state_sibling = 0x01;
-	static constexpr rb_tree_node_state rb_tree_state_left = 0x12;
-	static constexpr rb_tree_node_state rb_tree_state_right = 0x13;
-	static constexpr rb_tree_node_state rb_tree_state_root = 0x04;
+	static constexpr rb_tree_node_state rb_tree_state_parent  = -0x10;
+	static constexpr rb_tree_node_state rb_tree_state_sibling =  0x01;
+	static constexpr rb_tree_node_state rb_tree_state_left    =  0x12;
+	static constexpr rb_tree_node_state rb_tree_state_right   =  0x13;
+	static constexpr rb_tree_node_state rb_tree_state_root    =  0x04;
 
 	// Class template rb_tree_node
 	template <class T>

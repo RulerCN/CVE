@@ -37,8 +37,8 @@ namespace core
 {
 	static constexpr float  flt_exp_min = -87.3365479F;              //-126.000000/log2e
 	static constexpr float  flt_exp_max =  88.3762589F;              // 127.499992/log2e
-	static constexpr float  flt_ln2_hi  =  0.693359375F;
-	static constexpr float  flt_ln2_lo  = -2.12194440e-4F;
+	static constexpr float  flt_ln2_hi  =  6.93359375e-1F;           // ln2 of 11 digit mantissa
+	static constexpr float  flt_ln2_lo  = -2.12194440e-4F;           // ln2 - flt_ln2_hi
 	static constexpr double dbl_exp_min = -708.39641853226431;       //-1022.0000000000000/log2e
 	static constexpr double dbl_exp_max =  709.43613930310414;       // 1023.4999999999999/log2e
 	static constexpr double dbl_ln2_hi  =  0.693145751953125;
