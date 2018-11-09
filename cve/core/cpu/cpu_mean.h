@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_REDUCE_MEAN_H__
-#define __CORE_CPU_REDUCE_MEAN_H__
+#ifndef __CORE_CPU_MEAN_H__
+#define __CORE_CPU_MEAN_H__
 
 #include "sum/cpu_sum_x_int32.h"
 #include "sum/cpu_sum_x_float.h"
