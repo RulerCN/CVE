@@ -41,17 +41,31 @@ namespace core
 	static constexpr float  flt_ln2_lo  = -2.12194440e-4F;           // ln2 - flt_ln2_hi
 	static constexpr double dbl_exp_min = -708.39641853226431;       //-1022.0000000000000/log2e
 	static constexpr double dbl_exp_max =  709.43613930310414;       // 1023.4999999999999/log2e
-	static constexpr double dbl_ln2_hi  =  0.693145751953125;
-	static constexpr double dbl_ln2_lo  =  1.428606820309417e-6;
+	static constexpr double dbl_ln2_hi  =  6.9314718246459961e-1;    // ln2 of 20 digit mantissa
+	static constexpr double dbl_ln2_lo  = -1.9046543005827679e-9;    // ln2 - dbl_ln2_hi
+
 	// float sse
 	static const __m128i xmm_flt_sign   = _mm_set1_epi32(core::flt_sign);
 	static const __m128i xmm_flt_base   = _mm_set1_epi32(core::flt_base);
+	static const __m128i xmm_flt_exp    = _mm_set1_epi32(core::flt_exp_mask);
+	static const __m128i xmm_flt_mant   = _mm_set1_epi32(core::flt_mant_mask);
+	static const __m128  xmm_zerof      = _mm_set1_ps(core::flt_zero);
+	static const __m128  xmm_halff      = _mm_set1_ps(core::flt_half);
 	static const __m128  xmm_onef       = _mm_set1_ps(core::flt_one);
-	static const __m128  xmm_log2ef     = _mm_set1_ps(core::flt_log2e);
-	static const __m128  xmm_expf_min   = _mm_set1_ps(flt_exp_min);
-	static const __m128  xmm_expf_max   = _mm_set1_ps(flt_exp_max);
+	static const __m128  xmm_twof       = _mm_set1_ps(core::flt_two);
 	static const __m128  xmm_ln2f_hi    = _mm_set1_ps(flt_ln2_hi);
 	static const __m128  xmm_ln2f_lo    = _mm_set1_ps(flt_ln2_lo);
+	static const __m128  xmm_log2ef     = _mm_set1_ps(core::flt_log2e);
+	static const __m128  xmm_logf_min   = _mm_set1_ps(core::flt_min);
+	static const __m128  xmm_logf_p1    = _mm_set1_ps(core::flt_rcp_1);
+	static const __m128  xmm_logf_p2    = _mm_set1_ps(core::flt_rcp_3);
+	static const __m128  xmm_logf_p3    = _mm_set1_ps(core::flt_rcp_5);
+	static const __m128  xmm_logf_p4    = _mm_set1_ps(core::flt_rcp_7);
+	static const __m128  xmm_logf_p5    = _mm_set1_ps(core::flt_rcp_9);
+	static const __m128  xmm_logf_p6    = _mm_set1_ps(core::flt_rcp_11);
+	static const __m128  xmm_logf_p7    = _mm_set1_ps(core::flt_rcp_13);
+	static const __m128  xmm_expf_min   = _mm_set1_ps(flt_exp_min);
+	static const __m128  xmm_expf_max   = _mm_set1_ps(flt_exp_max);
 	static const __m128  xmm_expf_p1    = _mm_set1_ps(core::flt_rcp_fact1);
 	static const __m128  xmm_expf_p2    = _mm_set1_ps(core::flt_rcp_fact2);
 	static const __m128  xmm_expf_p3    = _mm_set1_ps(core::flt_rcp_fact3);
@@ -119,6 +133,48 @@ namespace core
 	static const __m256d ymm_expd_p11   = _mm256_set1_pd(core::dbl_rcp_fact11);
 	static const __m256d ymm_expd_p12   = _mm256_set1_pd(core::dbl_rcp_fact12);
 	static const __m256d ymm_expd_p13   = _mm256_set1_pd(core::dbl_rcp_fact13);
+
+	// Logarithmic function
+
+	__m128 log_sse2(__m128 xmm_x)
+	{
+		__m128i xmm_i;
+		__m128 xmm_neg, xmm_e, xmm_m, xmm_t, xmm_y;
+
+		// xmm_neg = xmm_x <= xmm_zerof;
+		xmm_neg = _mm_cmp_ps(xmm_x, xmm_zerof, _CMP_LE_OS);
+		// xmm_x = max(xmm_x, xmm_logf_min);
+		xmm_x = _mm_max_ps(xmm_x, xmm_logf_min);
+		// keep the exponent part
+		xmm_i = _mm_srli_epi32(_mm_castps_si128(xmm_x), 23);
+		xmm_i = _mm_sub_epi32(xmm_i, xmm_flt_base);
+		xmm_e = _mm_cvtepi32_ps(xmm_i);
+		// keep the decimal part
+		xmm_m = _mm_and_ps(xmm_x, _mm_castsi128_ps(xmm_flt_mant));
+		xmm_m = _mm_or_ps(xmm_m, _mm_castsi128_ps(xmm_flt_exp));
+		// xmm_t = (xmm_m - 1) / (xmm_m + 1);
+		xmm_t = _mm_div_ps(_mm_sub_ps(xmm_m, xmm_onef), _mm_add_ps(xmm_m, xmm_onef));
+		// xmm_x = xmm_t * xmm_t;
+		xmm_x = _mm_mul_ps(xmm_t, xmm_t);
+		// Maclaurin expansion of ln(x) = ln((t+1)/(t-1)):
+		// y = 2t(1 + t^2/3 + t^4/5 + t^6/7 + t^8/9 + t^10/11 + t^12/13)
+		xmm_y = xmm_logf_p7;
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p6);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p5);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p4);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p3);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p2);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), xmm_logf_p1);
+		xmm_y = _mm_mul_ps(xmm_y, xmm_t);
+		xmm_y = _mm_mul_ps(xmm_y, xmm_twof);
+		// xmm_y = xmm_y + (float) xmm_e * xmm_ln2f_hi;
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_e, xmm_ln2f_hi), xmm_y);
+		// xmm_y = xmm_y + (float) xmm_e * xmm_ln2f_lo;
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_e, xmm_ln2f_lo), xmm_y);
+		// negative number returns to NAN 
+		xmm_y = _mm_or_ps(xmm_y, xmm_neg);
+		return xmm_y;
+	}
 
 	// Exponential function
 

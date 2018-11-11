@@ -217,7 +217,7 @@ namespace core
 				xmm_b = _mm_add_pd(_mm_mul_pd(xmm_b, xmm_a), xmm_expd_p2);
 				xmm_b = _mm_add_pd(_mm_mul_pd(xmm_b, xmm_a), xmm_expd_p1);
 				xmm_b = _mm_add_pd(_mm_mul_pd(xmm_b, xmm_a), xmm_oned);
-				// i = 2^r
+				// i = 2^r;
 				xmm_i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(xmm_r));
 				xmm_i = _mm_add_epi64(xmm_i, xmm_dbl_base);
 				xmm_i = _mm_slli_epi64(xmm_i, 52);
@@ -278,7 +278,7 @@ namespace core
 				xmm_b = _mm_fmadd_pd(xmm_b, xmm_a, xmm_expd_p2);
 				xmm_b = _mm_fmadd_pd(xmm_b, xmm_a, xmm_expd_p1);
 				xmm_b = _mm_fmadd_pd(xmm_b, xmm_a, xmm_oned);
-				// i = 2^r
+				// i = 2^r;
 				xmm_i = _mm_cvtepi32_epi64(_mm_cvttpd_epi32(xmm_r));
 				xmm_i = _mm_add_epi64(xmm_i, xmm_dbl_base);
 				xmm_i = _mm_slli_epi64(xmm_i, 52);

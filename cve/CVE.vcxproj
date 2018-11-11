@@ -212,6 +212,7 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_div_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h" />
+    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_log.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_madd.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_madd_value.h" />
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_math.h" />
