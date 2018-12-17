@@ -117,8 +117,139 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 	return os;
 }
 
+constexpr float flt_one    =  1.00000000000000000000e00F;  // 1
+constexpr float flt_two    =  2.00000000000000000000e00F;  // 2
+constexpr float flt_sqrt2  =  1.41421356237309504880e00F;  // sqrt(2)
+constexpr float flt_ln2_hi =  6.93359375000000000000e-1F; // ln2 of 11 digit mantissa
+constexpr float flt_ln2_lo = -2.12194440000000000000e-4F; // ln2 - flt_ln2_hi
+
+constexpr float flt_log_p0 =  2.00000000000000000000e00F;
+constexpr float flt_log_p1 = -2.56410256410256410256e00F;
+constexpr float flt_log_p2 =  7.91608391608391608392e-1F;
+constexpr float flt_log_p3 = -3.40992340992340992341e-2F;
+constexpr float flt_log_q0 =  1.00000000000000000000e00F;
+constexpr float flt_log_q1 = -1.61538461538461538462e00F;
+constexpr float flt_log_q2 =  7.34265734265734265734e-1F;
+constexpr float flt_log_q3 = -8.15850815850815850816e-2F;
+
+constexpr unsigned int flt_nan  = 0xffc00000;
+constexpr unsigned int flt_inf  = 0x7f800000;
+constexpr unsigned int flt_ninf = 0xff800000;
+
+float ln(float x)
+{
+	signed int *i = reinterpret_cast<signed int*>(&x);
+	// if x < 0 return NAN
+	if (*i & 0x80000000)
+		return *reinterpret_cast<const float*>(&flt_nan);
+	// if x = 0 return -INF
+	if (x == 0)
+		return *reinterpret_cast<const float*>(&flt_ninf);
+	// keep the exponent part
+	signed int exp = ((*i & 0x7f800000) >> 23) - 127;
+	float e = static_cast<float>(exp);
+	// keep the decimal part
+	signed int mant = (*i & 0x007fffff) | 0x3f800000;
+	float m = *reinterpret_cast<float*>(&mant);
+	// if m > sqrt(2) e += 1 and m /= 2
+	if (m > flt_sqrt2)
+	{
+		e += flt_one;
+		m /= flt_two;
+	}
+	// t = (m - 1) / (m + 1)
+	float t = (m - flt_one) / (m + flt_one);
+	// x = t * t
+	x = t * t;
+	// P(x) = p0 + p1 * x + p2 * x^2 + p3 * x^3
+	float p = flt_log_p3;
+	p = p * x + flt_log_p2;
+	p = p * x + flt_log_p1;
+	p = p * x + flt_log_p0;
+	// Q(x) = q0 + q1 * x + q2 * x^2 + q3 * x^3
+	float q = flt_log_q3;
+	q = q * x + flt_log_q2;
+	q = q * x + flt_log_q1;
+	q = q * x + flt_log_q0;
+	// y = t * P(x) / Q(x)
+	float y = t * p / q;
+	// y += e * ln2;
+	y += e * flt_ln2_hi;
+	y += e * flt_ln2_lo;
+	return y;
+}
+
+constexpr double dbl_one    =  1.00000000000000000000e0; // 1
+constexpr double dbl_two    =  2.00000000000000000000e0; // 2
+constexpr double dbl_sqrt2  =  1.41421356237309504880e0; // sqrt(2)
+constexpr double dbl_ln2_hi =  6.9314718246459961e-1;    // ln2 of 20 digit mantissa
+constexpr double dbl_ln2_lo = -1.9046543005827679e-9;    // ln2 - dbl_ln2_hi
+
+constexpr double dbl_log_p0 =  2.00000000000000000000e0;
+constexpr double dbl_log_p1 = -3.56862745098039215686e0;
+constexpr double dbl_log_p2 =  1.95294117647058823529e0;
+constexpr double dbl_log_p3 = -3.33290239172592113769e-1;
+constexpr double dbl_log_p4 =  8.55823914647444059209e-3;
+constexpr double dbl_log_q0 =  1.00000000000000000000e0;
+constexpr double dbl_log_q1 = -2.11764705882352941176e0;
+constexpr double dbl_log_q2 =  1.48235294117647058824e0;
+constexpr double dbl_log_q3 = -3.80090497737556561086e-1;
+constexpr double dbl_log_q4 =  2.59152612093788564377e-2;
+
+constexpr unsigned long long dbl_nan  = 0xfff8000000000000;
+constexpr unsigned long long dbl_inf  = 0x7ff0000000000000;
+constexpr unsigned long long dbl_ninf = 0xfff0000000000000;
+
+double ln(double x)
+{
+	signed long long *i = reinterpret_cast<signed long long*>(&x);
+	// if x < 0 return NAN
+	if (*i & 0x8000000000000000)
+		return *reinterpret_cast<const double*>(&dbl_nan);
+	// if x = 0 return -INF
+	if (x == 0)
+		return *reinterpret_cast<const double*>(&dbl_ninf);
+	// keep the exponent part
+	signed long long exp = ((*i & 0x7ff0000000000000) >> 52) - 1023;
+	double e = static_cast<double>(exp);
+	// keep the decimal part
+	signed long long mant = (*i & 0x000fffffffffffff) | 0x3ff0000000000000;
+	double m = *reinterpret_cast<double*>(&mant);
+	// if m > sqrt(2) e += 1 and m /= 2
+	if (m > dbl_sqrt2)
+	{
+		e += dbl_one;
+		m /= dbl_two;
+	}
+	// t = (m - 1) / (m + 1)
+	double t = (m - dbl_one) / (m + dbl_one);
+	// x = t * t
+	x = t * t;
+	// P(x) = p0 + p1 * x + p2 * x^2 + p3 * x^3 + p4 * x^4
+	double p = dbl_log_p4;
+	p = p * x + dbl_log_p3;
+	p = p * x + dbl_log_p2;
+	p = p * x + dbl_log_p1;
+	p = p * x + dbl_log_p0;
+	// Q(x) = q0 + q1 * x + q2 * x^2 + q3 * x^3 + q4 * x^4
+	double q = dbl_log_q4;
+	q = q * x + dbl_log_q3;
+	q = q * x + dbl_log_q2;
+	q = q * x + dbl_log_q1;
+	q = q * x + dbl_log_q0;
+	// y = t * P(x) / Q(x)
+	double y = t * p / q;
+	// y += e * ln2;
+	y += e * dbl_ln2_hi;
+	y += e * dbl_ln2_lo;
+	return y;
+}
+
 int main()
 {
+	double logy = log(1.2);
+	double lny = ln(1.2);
+
 	core::vector<float> x(3, 1, { 0.7F, 0.8F, 0.9F });
 	core::vector<float> y(3, 1);
 	core::vector<float> t(3, 1, { 1.0F, 1.0F, 1.0F });

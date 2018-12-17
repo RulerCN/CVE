@@ -100,9 +100,9 @@ namespace core
 	static constexpr signed long long   int64_abs          = 0x7fffffffffffffffLL;        /* 9223372036854775807LL */
 	// Floating point
 	static constexpr signed int         flt_sign           = 0x80000000;
-	static constexpr signed int         flt_exp_mask       = 0x3f800000;
+	static constexpr signed int         flt_exp_mask       = 0x7f800000;
 	static constexpr signed int         flt_mant_mask      = 0x007fffff;
-	static constexpr signed int         flt_base           = 0x0000007F;
+	static constexpr signed int         flt_base           = 0x0000007f;
 	static constexpr signed int         flt_dig            = 6;
 	static constexpr signed int         flt_mant_dig       = 24;
 	static constexpr float              flt_epsilon        = 1.192092896e-07F;
@@ -114,10 +114,11 @@ namespace core
 	static constexpr signed int         flt_max_exp        = 128;
 
 	static constexpr signed long long   dbl_sign           = 0x8000000000000000;
-	static constexpr signed long long   dbl_base           = 0x00000000000003FF;
+	static constexpr signed long long   dbl_exp_mask       = 0x7ff0000000000000;
+	static constexpr signed long long   dbl_mant_mask      = 0x000fffffffffffff;
+	static constexpr signed long long   dbl_base           = 0x00000000000003ff;
 	static constexpr signed int         dbl_dig            = 15;
 	static constexpr signed int         dbl_mant_dig       = 53;
-	static constexpr signed long long   dbl_mant_mask      = 0x3ff0000000000000;
 	static constexpr double             dbl_epsilon        = 2.2204460492503131e-016;
 	static constexpr double             dbl_min            = 2.2250738585072014e-308;
 	static constexpr signed int         dbl_min_10_exp     = -307;
@@ -183,10 +184,10 @@ namespace core
 	static constexpr double             dbl_2_sqrtpi       = 1.12837916709551257390;      /* 2/sqrt(pi) */
 	static constexpr double             dbl_sqrt2          = 1.41421356237309504880;      /* sqrt(2) */
 	static constexpr double             dbl_sqrt1_2        = 0.707106781186547524401;     /* 1/sqrt(2) */
-	static constexpr float              dbl_zero           = 0.000000000000000000000;     /* 0 */
-	static constexpr float              dbl_half           = 0.500000000000000000000;     /* 0.5 */
+	static constexpr double             dbl_zero           = 0.000000000000000000000;     /* 0 */
+	static constexpr double             dbl_half           = 0.500000000000000000000;     /* 0.5 */
 	static constexpr double             dbl_one            = 1.00000000000000000000;      /* 1 */
-	static constexpr float              dbl_two            = 2.00000000000000000000;      /* 2 */
+	static constexpr double             dbl_two            = 2.00000000000000000000;      /* 2 */
 	static constexpr double             dbl_rcp_1          = 1.00000000000000000000;      /* 1/1 */
 	static constexpr double             dbl_rcp_2          = 0.500000000000000000000;     /* 1/2 */
 	static constexpr double             dbl_rcp_3          = 0.333333333333333333333;     /* 1/3 */

@@ -44,11 +44,40 @@ namespace core
 	static constexpr double dbl_ln2_hi  =  6.9314718246459961e-1;    // ln2 of 20 digit mantissa
 	static constexpr double dbl_ln2_lo  = -1.9046543005827679e-9;    // ln2 - dbl_ln2_hi
 
-	// float sse
+	static constexpr float  flt_log_p0 =  2.00000000000000000000e00F;
+	static constexpr float  flt_log_p1 = -2.56410256410256410256e00F;
+	static constexpr float  flt_log_p2 =  7.91608391608391608392e-1F;
+	static constexpr float  flt_log_p3 = -3.40992340992340992341e-2F;
+	static constexpr float  flt_log_q0 =  1.00000000000000000000e00F;
+	static constexpr float  flt_log_q1 = -1.61538461538461538462e00F;
+	static constexpr float  flt_log_q2 =  7.34265734265734265734e-1F;
+	static constexpr float  flt_log_q3 = -8.15850815850815850816e-2F;
+
+	static constexpr double dbl_log_p0 =  2.00000000000000000000e00;
+	static constexpr double dbl_log_p1 = -3.56862745098039215686e00;
+	static constexpr double dbl_log_p2 =  1.95294117647058823529e00;
+	static constexpr double dbl_log_p3 = -3.33290239172592113769e-1;
+	static constexpr double dbl_log_p4 =  8.55823914647444059209e-3;
+	static constexpr double dbl_log_q0 =  1.00000000000000000000e00;
+	static constexpr double dbl_log_q1 = -2.11764705882352941176e00;
+	static constexpr double dbl_log_q2 =  1.48235294117647058824e00;
+	static constexpr double dbl_log_q3 = -3.80090497737556561086e-1;
+	static constexpr double dbl_log_q4 =  2.59152612093788564377e-2;
+
+	// float
+	static const __m128  xmm_zero       = _mm_set1_ps(core::flt_zero);
+	static const __m128  xmm_half       = _mm_set1_ps(core::flt_half);
+	static const __m128  xmm_one        = _mm_set1_ps(core::flt_one);
+	static const __m128  xmm_two        = _mm_set1_ps(core::flt_two);
+	static const __m128  xmm_sqrt2      = _mm_set1_ps(core::flt_sqrt2);
+	static const __m128  xmm_ln2f_hi    = _mm_set1_ps(flt_ln2_hi);
+	static const __m128  xmm_ln2f_lo    = _mm_set1_ps(flt_ln2_lo);
+
 	static const __m128i xmm_flt_sign   = _mm_set1_epi32(core::flt_sign);
 	static const __m128i xmm_flt_base   = _mm_set1_epi32(core::flt_base);
 	static const __m128i xmm_flt_exp    = _mm_set1_epi32(core::flt_exp_mask);
 	static const __m128i xmm_flt_mant   = _mm_set1_epi32(core::flt_mant_mask);
+
 	static const __m128  xmm_zerof      = _mm_set1_ps(core::flt_zero);
 	static const __m128  xmm_halff      = _mm_set1_ps(core::flt_half);
 	static const __m128  xmm_onef       = _mm_set1_ps(core::flt_one);
@@ -98,12 +127,24 @@ namespace core
 	// float avx
 	static const __m256i ymm_flt_sign   = _mm256_set1_epi32(core::flt_sign);
 	static const __m256i ymm_flt_base   = _mm256_set1_epi32(core::flt_base);
+	static const __m256i ymm_flt_exp    = _mm256_set1_epi32(core::flt_exp_mask);
+	static const __m256i ymm_flt_mant   = _mm256_set1_epi32(core::flt_mant_mask);
+	static const __m256  ymm_zerof      = _mm256_set1_ps(core::flt_zero);
 	static const __m256  ymm_onef       = _mm256_set1_ps(core::flt_one);
+	static const __m256  ymm_twof       = _mm256_set1_ps(core::flt_two);
 	static const __m256  ymm_log2ef     = _mm256_set1_ps(core::flt_log2e);
-	static const __m256  ymm_expf_min   = _mm256_set1_ps(flt_exp_min);
-	static const __m256  ymm_expf_max   = _mm256_set1_ps(flt_exp_max);
 	static const __m256  ymm_ln2f_hi    = _mm256_set1_ps(flt_ln2_hi);
 	static const __m256  ymm_ln2f_lo    = _mm256_set1_ps(flt_ln2_lo);
+	static const __m256  ymm_logf_min   = _mm256_set1_ps(core::flt_min);
+	static const __m256  ymm_logf_p1    = _mm256_set1_ps(core::flt_rcp_1);
+	static const __m256  ymm_logf_p2    = _mm256_set1_ps(core::flt_rcp_3);
+	static const __m256  ymm_logf_p3    = _mm256_set1_ps(core::flt_rcp_5);
+	static const __m256  ymm_logf_p4    = _mm256_set1_ps(core::flt_rcp_7);
+	static const __m256  ymm_logf_p5    = _mm256_set1_ps(core::flt_rcp_9);
+	static const __m256  ymm_logf_p6    = _mm256_set1_ps(core::flt_rcp_11);
+	static const __m256  ymm_logf_p7    = _mm256_set1_ps(core::flt_rcp_13);
+	static const __m256  ymm_expf_min   = _mm256_set1_ps(flt_exp_min);
+	static const __m256  ymm_expf_max   = _mm256_set1_ps(flt_exp_max);
 	static const __m256  ymm_expf_p1    = _mm256_set1_ps(core::flt_rcp_fact1);
 	static const __m256  ymm_expf_p2    = _mm256_set1_ps(core::flt_rcp_fact2);
 	static const __m256  ymm_expf_p3    = _mm256_set1_ps(core::flt_rcp_fact3);
