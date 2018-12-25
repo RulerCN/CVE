@@ -117,68 +117,6 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 	return os;
 }
 
-constexpr float flt_one    =  1.00000000000000000000e00F;  // 1
-constexpr float flt_two    =  2.00000000000000000000e00F;  // 2
-constexpr float flt_sqrt2  =  1.41421356237309504880e00F;  // sqrt(2)
-constexpr float flt_ln2_hi =  6.93359375000000000000e-1F; // ln2 of 11 digit mantissa
-constexpr float flt_ln2_lo = -2.12194440000000000000e-4F; // ln2 - flt_ln2_hi
-
-constexpr float flt_log_p0 =  2.00000000000000000000e00F;
-constexpr float flt_log_p1 = -2.56410256410256410256e00F;
-constexpr float flt_log_p2 =  7.91608391608391608392e-1F;
-constexpr float flt_log_p3 = -3.40992340992340992341e-2F;
-constexpr float flt_log_q0 =  1.00000000000000000000e00F;
-constexpr float flt_log_q1 = -1.61538461538461538462e00F;
-constexpr float flt_log_q2 =  7.34265734265734265734e-1F;
-constexpr float flt_log_q3 = -8.15850815850815850816e-2F;
-
-constexpr unsigned int flt_nan  = 0xffc00000;
-constexpr unsigned int flt_inf  = 0x7f800000;
-constexpr unsigned int flt_ninf = 0xff800000;
-
-float ln(float x)
-{
-	signed int *i = reinterpret_cast<signed int*>(&x);
-	// if x < 0 return NAN
-	if (*i & 0x80000000)
-		return *reinterpret_cast<const float*>(&flt_nan);
-	// if x = 0 return -INF
-	if (x == 0)
-		return *reinterpret_cast<const float*>(&flt_ninf);
-	// keep the exponent part
-	signed int exp = ((*i & 0x7f800000) >> 23) - 127;
-	float e = static_cast<float>(exp);
-	// keep the decimal part
-	signed int mant = (*i & 0x007fffff) | 0x3f800000;
-	float m = *reinterpret_cast<float*>(&mant);
-	// if m > sqrt(2) e += 1 and m /= 2
-	if (m > flt_sqrt2)
-	{
-		e += flt_one;
-		m /= flt_two;
-	}
-	// t = (m - 1) / (m + 1)
-	float t = (m - flt_one) / (m + flt_one);
-	// x = t * t
-	x = t * t;
-	// P(x) = p0 + p1 * x + p2 * x^2 + p3 * x^3
-	float p = flt_log_p3;
-	p = p * x + flt_log_p2;
-	p = p * x + flt_log_p1;
-	p = p * x + flt_log_p0;
-	// Q(x) = q0 + q1 * x + q2 * x^2 + q3 * x^3
-	float q = flt_log_q3;
-	q = q * x + flt_log_q2;
-	q = q * x + flt_log_q1;
-	q = q * x + flt_log_q0;
-	// y = t * P(x) / Q(x)
-	float y = t * p / q;
-	// y += e * ln2;
-	y += e * flt_ln2_hi;
-	y += e * flt_ln2_lo;
-	return y;
-}
-
 constexpr double dbl_one    =  1.00000000000000000000e0; // 1
 constexpr double dbl_two    =  2.00000000000000000000e0; // 2
 constexpr double dbl_sqrt2  =  1.41421356237309504880e0; // sqrt(2)
@@ -779,35 +717,6 @@ int main()
 	//img::bitmap::encode("data/test/7.bmp", test_images[6]);
 	//img::bitmap::encode("data/test/8.bmp", test_images[7]);
 
-	//size_t row = 13;
-	//size_t col = 17;
-	//size_t dim = 1;
-	//core::matrix<signed char> x(row, col, dim);
-	//core::matrix<signed char> t(col, row, dim);
-	//core::vector<signed char> col_min(col, dim, static_cast<signed char>(core::int8_max));
-	//core::vector<signed char> col_max(col, dim, static_cast<signed char>(core::int8_min));
-	//core::vector<signed int> col_sum(col, dim, static_cast<signed int>(core::int32_zero));
-	//core::vector<signed char> row_min(row, dim, static_cast<signed char>(core::int8_max));
-	//core::vector<signed char> row_max(row, dim, static_cast<signed char>(core::int8_min));
-	//core::vector<signed int> row_sum(row, dim, static_cast<signed int>(core::int32_zero));
-	//// Initialization matrix
-	//x.linear_fill(static_cast<signed char>(1), static_cast<signed char>(2), static_cast<signed char>(1));
-	//// Matrix operation
-	//core::transpose(t, x);
-	//core::reduce(col_min, x, core::reduce_col_min);
-	//core::reduce(col_max, x, core::reduce_col_max);
-	//core::reduce(col_sum, x, core::reduce_col_sum);
-	//core::reduce(row_min, x, core::reduce_row_min);
-	//core::reduce(row_max, x, core::reduce_row_max);
-	//core::reduce(row_sum, x, core::reduce_row_sum);
-	//print("X", x);
-	//print("T", t);
-	//print("col_min", col_min);
-	//print("col_max", col_max);
-	//print("col_sum", col_sum);
-	//print("row_min", row_min);
-	//print("row_max", row_max);
-	//print("row_sum", row_sum);
 	return 0;
 }
 

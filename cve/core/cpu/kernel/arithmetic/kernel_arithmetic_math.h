@@ -82,8 +82,6 @@ namespace core
 	static const __m128  xmm_halff      = _mm_set1_ps(core::flt_half);
 	static const __m128  xmm_onef       = _mm_set1_ps(core::flt_one);
 	static const __m128  xmm_twof       = _mm_set1_ps(core::flt_two);
-	static const __m128  xmm_ln2f_hi    = _mm_set1_ps(flt_ln2_hi);
-	static const __m128  xmm_ln2f_lo    = _mm_set1_ps(flt_ln2_lo);
 	static const __m128  xmm_log2ef     = _mm_set1_ps(core::flt_log2e);
 	static const __m128  xmm_logf_min   = _mm_set1_ps(core::flt_min);
 	static const __m128  xmm_logf_p1    = _mm_set1_ps(core::flt_rcp_1);
