@@ -757,6 +757,12 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_log.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\math\cpu_exp.h">
+      <Filter>core\cpu\math</Filter>
+    </ClInclude>
+    <ClInclude Include="core\cpu\cpu_math.h">
+      <Filter>core\cpu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -876,5 +882,11 @@
     <Filter Include="core\cpu\repeat">
       <UniqueIdentifier>{a28d4cbc-a7de-4e52-a098-63f12b1d520f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="core\cpu\math">
+      <UniqueIdentifier>{8116ae4c-f84b-4872-bd42-aa7bdfbb2fbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

@@ -33,13 +33,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../definition.h"
 
 #include <omp.h>
+
 // Microsoft Visual Studio
 #if defined(_MSC_VER)
 #include <intrin.h>
+#define ALIGN(n)  __declspec(align(n))
 // GNU GCC/G++.
 #elif defined(__GNUC__) || defined(__GNUG__)
 #include <cpuid.h>
 #include <x86intrin.h>
+#define ALIGN(n)  __attribute__((aligned(n)))
 #endif
 
 namespace core
@@ -398,7 +401,7 @@ namespace core
 	{
 	public:
 		// Enabling or disabling SIMD
-		static int enable_simd(bool enable = true)
+		static signed int enable_simd(bool enable = true)
 		{
 			instruction_set = cpu_none;
 			if (enable)
@@ -411,7 +414,7 @@ namespace core
 			return instruction_set;
 		}
 		// Enabling or disabling Multi-Processing
-		static int enable_mp(int number = 0)
+		static signed int enable_mp(signed int number = 0)
 		{
 			max_thread_num = omp_get_num_procs();
 			// specify absolute number of threads
@@ -481,12 +484,12 @@ namespace core
 			return ((instruction_set & cpu_fma4) == cpu_fma4);
 		}
 		// Get the maximum number of threads
-		static int get_max_threads(void)
+		static signed int get_max_threads(void)
 		{
 			return max_thread_num;
 		}
 		// Get the number of threads
-		static int get_threads(void)
+		static signed int get_threads(void)
 		{
 			return thread_num;
 		}
@@ -516,15 +519,15 @@ namespace core
 		// Get CPUID field
 		static unsigned int get_cpuid_field(unsigned int cpu_field)
 		{
-			int info[4] = { 0 };
+			signed int info[4] = { 0 };
 			get_cpuidex(info, CPUIDFIELD_FID(cpu_field), CPUIDFIELD_FIDSUB(cpu_field));
 			return CPUID_GETBITS32(info[CPUIDFIELD_REG(cpu_field)], CPUIDFIELD_POS(cpu_field), CPUIDFIELD_LEN(cpu_field));
 		}
 		// Detect MMX instruction set
-		static int detect_mmx(void)
+		static signed int detect_mmx(void)
 		{
-			int rst = cpu_none;
-			int info[4] = { 0 };
+			signed int rst = cpu_none;
+			signed int info[4] = { 0 };
 			get_cpuid(info, 1);
 			if (info[3] & edx_mmx)
 				rst |= cpu_mmx;
@@ -546,10 +549,10 @@ namespace core
 			return rst;
 		}
 		// Detect SSE instruction set
-		static int detect_sse(void)
+		static signed int detect_sse(void)
 		{
-			int rst = cpu_none;
-			int info[4] = { 0 };
+			signed int rst = cpu_none;
+			signed int info[4] = { 0 };
 			get_cpuid(info, 1);
 			if (info[3] & edx_sse)
 				rst |= cpu_sse;
@@ -568,7 +571,7 @@ namespace core
 				try
 				{
 					__m128 m = _mm_setzero_ps();
-					int* p = reinterpret_cast<int*>(&m);
+					signed int* p = reinterpret_cast<signed int*>(&m);
 					if (*p != 0)
 						rst = cpu_none;
 				}
@@ -580,9 +583,9 @@ namespace core
 			return rst;
 		}
 		// Detect AVX instruction set
-		static int detect_avx(void)
+		static signed int detect_avx(void)
 		{
-			int rst = cpu_none;
+			signed int rst = cpu_none;
 			if (get_cpuid_field(CPUF_AVX))
 				rst |= cpu_avx;
 			if (get_cpuid_field(CPUF_AVX2))
@@ -598,9 +601,9 @@ namespace core
 			return rst;
 		}
 		// Detect FMA instruction set
-		static int detect_fma(void)
+		static signed int detect_fma(void)
 		{
-			int rst = cpu_none;
+			signed int rst = cpu_none;
 			if (get_cpuid_field(CPUF_FMA))
 				rst |= cpu_fma;
 			if (get_cpuid_field(CPUF_FMA4))
@@ -608,13 +611,13 @@ namespace core
 			return rst;
 		}
 	private:
-		static constexpr int edx_mmx   = 0x00800000;
-		static constexpr int edx_sse   = 0x02000000;
-		static constexpr int edx_sse2  = 0x04000000;
-		static constexpr int ecx_sse3  = 0x00000001;
-		static constexpr int ecx_ssse3 = 0x00000200;
-		static constexpr int ecx_sse41 = 0x00080000;
-		static constexpr int ecx_sse42 = 0x00100000;
+		static constexpr signed int edx_mmx   = 0x00800000;
+		static constexpr signed int edx_sse   = 0x02000000;
+		static constexpr signed int edx_sse2  = 0x04000000;
+		static constexpr signed int ecx_sse3  = 0x00000001;
+		static constexpr signed int ecx_ssse3 = 0x00000200;
+		static constexpr signed int ecx_sse41 = 0x00080000;
+		static constexpr signed int ecx_sse42 = 0x00100000;
 
 		static cpu_inst_type instruction_set;
 		static cpu_inst_type thread_num;

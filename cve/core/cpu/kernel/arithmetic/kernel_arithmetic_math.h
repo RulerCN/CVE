@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
+/*
 	static constexpr float  flt_exp_min = -87.3365479F;              //-126.000000/log2e
 	static constexpr float  flt_exp_max =  88.3762589F;              // 127.499992/log2e
 	static constexpr float  flt_ln2_hi  =  6.93359375e-1F;           // ln2 of 11 digit mantissa

@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// The sigmoid function for scalar
-
+/*
 	template <class A>
 	scalar<float, A>& cpu_sigmoid(scalar<float, A> &b, const scalar<float, A> &a)
 	{
@@ -261,7 +261,7 @@ namespace core
 			kernel_sigmoid<double, cpu_none>()(b.size(), a.data(), b.data());
 		return b;
 	}
-
+*/
 } // namespace core
 
 #endif

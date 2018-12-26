@@ -95,7 +95,7 @@ namespace nn
 			// Reassign an output tensor
 			_output.reassign(input, ::core::without_copy);
 			// _output = sigmoid(input)
-			::core::cpu_sigmoid(_output, _input);
+			//::core::cpu_sigmoid(_output, _input);
 			return _output;
 		}
 

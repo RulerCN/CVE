@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "rb_tree.h"
 #include "tree.h"
 
+#include "cpu/cpu_math.h"
 #include "cpu/cpu_fill.h"
 #include "cpu/cpu_repeat.h"
 #include "cpu/cpu_transpose.h"

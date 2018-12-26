@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template kernel_sigmoid
-
+/*
 	template<class T, cpu_inst_type inst>
 	struct kernel_sigmoid
 	{
@@ -570,7 +570,7 @@ namespace core
 				b[i] = 1.0 / (1.0 + exp(-a[i]));
 		}
 	};
-
+*/
 } // namespace core
 
 #endif

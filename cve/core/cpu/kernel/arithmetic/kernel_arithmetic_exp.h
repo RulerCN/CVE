@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// Class template kernel_exp
-
+/*
 	template<class T, cpu_inst_type inst>
 	struct kernel_exp
 	{
@@ -521,7 +521,7 @@ namespace core
 				b[i] = exp(a[i]);
 		}
 	};
-
+*/
 } // namespace core
 
 #endif

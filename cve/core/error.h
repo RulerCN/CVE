@@ -77,6 +77,7 @@ namespace core
 	static const char tensor_different_size[]      = "Unable to operate tensors of different size.";
 	static const char sample_unequal_number[]      = "Unequal number of images and labels.";
 	// invalid_argument
+	static const char invalid_template_parameter[] = "Invalid template parameter.";
 	static const char invalid_power[]              = "Invalid power.";
 	static const char invalid_dimension[]          = "Invalid dimension.";
 	static const char invalid_pointer[]            = "Invalid pointer.";
