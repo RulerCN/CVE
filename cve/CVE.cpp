@@ -185,21 +185,14 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 
 int main()
 {
-	float x1 = -1.25F;
-	float x2 = -1.75F;
+	float x = -1.25F;
 
-	int i1 = static_cast<signed int>(x1 * 2.0F + 0.5F);
-	int i2 = static_cast<signed int>(x2 * 2.0F + 0.5F);
-	float r1 = static_cast<float>(i1) / 2.0F;
-	float r2 = static_cast<float>(i2) / 2.0F;
-	float d1 = x1 - r1;
-	float d2 = x2 - r2;
-
-	float y1 = core::exp(x1);
-	float y2 = core::exp(x2);
-	//float y2 = exp(x);
-	//__m128 xmm_y = core::expf4<core::cpu_sse41>(_mm_set1_ps(x));
-	//__m256 ymm_y = core::expf8(_mm256_set1_ps(x));
+	float y1 = core::exp(x);
+	float y2 = exp(x);
+	__m128 xmm_y = core::expf4<core::cpu_sse2 | core::cpu_fma>(_mm_set1_ps(x));
+	__m256 ymm_y = core::expf8<core::cpu_avx | core::cpu_fma>(_mm256_set1_ps(x));
+	std::cout << y1 << "\n";
+	std::cout << y2 << "\n";
 
  	const size_t batch_size = 16;
 	const size_t sample_size = 1000;
