@@ -34,64 +34,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace core
 {
-	static constexpr float  flt_rcp_fact0  = 1.00000000000000000000e000F; /* 1/0! */
-	static constexpr float  flt_rcp_fact1  = 1.00000000000000000000e000F; /* 1/1! */
-	static constexpr float  flt_rcp_fact2  = 5.00000000000000000000e-01F; /* 1/2! */
-	static constexpr float  flt_rcp_fact3  = 1.66666666666666666667e-01F; /* 1/3! */
-	static constexpr float  flt_rcp_fact4  = 4.16666666666666666667e-02F; /* 1/4! */
-	static constexpr float  flt_rcp_fact5  = 8.33333333333333333333e-03F; /* 1/5! */
-	static constexpr float  flt_rcp_fact6  = 1.38888888888888888889e-03F; /* 1/6! */
-	static constexpr float  flt_rcp_fact7  = 1.98412698412698412698e-04F; /* 1/7! */
-	static constexpr float  flt_rcp_fact8  = 2.48015873015873015873e-05F; /* 1/8! */
-	static constexpr float  flt_rcp_fact9  = 2.75573192239858906526e-06F; /* 1/9! */
-	static constexpr float  flt_rcp_fact10 = 2.75573192239858906526e-07F; /* 1/10! */
-	static constexpr float  flt_rcp_fact11 = 2.50521083854417187751e-08F; /* 1/11! */
-	static constexpr float  flt_rcp_fact12 = 2.08767569878680989792e-09F; /* 1/12! */
-	static constexpr float  flt_rcp_fact13 = 1.60590438368216145994e-10F; /* 1/13! */
-	static constexpr double dbl_rcp_fact0  = 1.00000000000000000000e000;  /* 1/0! */
-	static constexpr double dbl_rcp_fact1  = 1.00000000000000000000e000;  /* 1/1! */
-	static constexpr double dbl_rcp_fact2  = 5.00000000000000000000e-01;  /* 1/2! */
-	static constexpr double dbl_rcp_fact3  = 1.66666666666666666667e-01;  /* 1/3! */
-	static constexpr double dbl_rcp_fact4  = 4.16666666666666666667e-02;  /* 1/4! */
-	static constexpr double dbl_rcp_fact5  = 8.33333333333333333333e-03;  /* 1/5! */
-	static constexpr double dbl_rcp_fact6  = 1.38888888888888888889e-03;  /* 1/6! */
-	static constexpr double dbl_rcp_fact7  = 1.98412698412698412698e-04;  /* 1/7! */
-	static constexpr double dbl_rcp_fact8  = 2.48015873015873015873e-05;  /* 1/8! */
-	static constexpr double dbl_rcp_fact9  = 2.75573192239858906526e-06;  /* 1/9! */
-	static constexpr double dbl_rcp_fact10 = 2.75573192239858906526e-07;  /* 1/10! */
-	static constexpr double dbl_rcp_fact11 = 2.50521083854417187751e-08;  /* 1/11! */
-	static constexpr double dbl_rcp_fact12 = 2.08767569878680989792e-09;  /* 1/12! */
-	static constexpr double dbl_rcp_fact13 = 1.60590438368216145994e-10;  /* 1/13! */
+	static constexpr float  flt_exp_0  = 1.00000000000000000000e000F; /* 1/0! */
+	static constexpr float  flt_exp_1  = 1.00000000000000000000e000F; /* 1/1! */
+	static constexpr float  flt_exp_2  = 5.00000000000000000000e-01F; /* 1/2! */
+	static constexpr float  flt_exp_3  = 1.66666666666666666667e-01F; /* 1/3! */
+	static constexpr float  flt_exp_4  = 4.16666666666666666667e-02F; /* 1/4! */
+	static constexpr float  flt_exp_5  = 8.33333333333333333333e-03F; /* 1/5! */
+	static constexpr float  flt_exp_6  = 1.38888888888888888889e-03F; /* 1/6! */
+	static constexpr float  flt_exp_7  = 1.98412698412698412698e-04F; /* 1/7! */
+	static constexpr float  flt_exp_8  = 2.48015873015873015873e-05F; /* 1/8! */
+	static constexpr float  flt_exp_9  = 2.75573192239858906526e-06F; /* 1/9! */
+	static constexpr float  flt_exp_10 = 2.75573192239858906526e-07F; /* 1/10! */
+	static constexpr float  flt_exp_11 = 2.50521083854417187751e-08F; /* 1/11! */
+	static constexpr float  flt_exp_12 = 2.08767569878680989792e-09F; /* 1/12! */
+	static constexpr float  flt_exp_13 = 1.60590438368216145994e-10F; /* 1/13! */
+	static constexpr double dbl_exp_0  = 1.00000000000000000000e000;  /* 1/0! */
+	static constexpr double dbl_exp_1  = 1.00000000000000000000e000;  /* 1/1! */
+	static constexpr double dbl_exp_2  = 5.00000000000000000000e-01;  /* 1/2! */
+	static constexpr double dbl_exp_3  = 1.66666666666666666667e-01;  /* 1/3! */
+	static constexpr double dbl_exp_4  = 4.16666666666666666667e-02;  /* 1/4! */
+	static constexpr double dbl_exp_5  = 8.33333333333333333333e-03;  /* 1/5! */
+	static constexpr double dbl_exp_6  = 1.38888888888888888889e-03;  /* 1/6! */
+	static constexpr double dbl_exp_7  = 1.98412698412698412698e-04;  /* 1/7! */
+	static constexpr double dbl_exp_8  = 2.48015873015873015873e-05;  /* 1/8! */
+	static constexpr double dbl_exp_9  = 2.75573192239858906526e-06;  /* 1/9! */
+	static constexpr double dbl_exp_10 = 2.75573192239858906526e-07;  /* 1/10! */
+	static constexpr double dbl_exp_11 = 2.50521083854417187751e-08;  /* 1/11! */
+	static constexpr double dbl_exp_12 = 2.08767569878680989792e-09;  /* 1/12! */
+	static constexpr double dbl_exp_13 = 1.60590438368216145994e-10;  /* 1/13! */
 
-	static constexpr ALIGN(32) signed int  i4_sign[4]      = { flt_sign,   flt_sign,   flt_sign,   flt_sign   };
-	static constexpr ALIGN(32) signed int  i4_base[4]      = { flt_base,   flt_base,   flt_base,   flt_base   };
-	static constexpr ALIGN(32) float       f4_half[4]      = { flt_half,   flt_half,   flt_half,   flt_half   };
-	static constexpr ALIGN(32) float       f4_log2e[4]     = { flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e  };
-	static constexpr ALIGN(32) float       f4_ln2_hi[4]    = { flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi };
-	static constexpr ALIGN(32) float       f4_ln2_lo[4]    = { flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo };
-	static constexpr ALIGN(32) float       f4_rcp_fact0[4] = { flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0 };
-	static constexpr ALIGN(32) float       f4_rcp_fact1[4] = { flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1 };
-	static constexpr ALIGN(32) float       f4_rcp_fact2[4] = { flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2 };
-	static constexpr ALIGN(32) float       f4_rcp_fact3[4] = { flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3 };
-	static constexpr ALIGN(32) float       f4_rcp_fact4[4] = { flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4 };
-	static constexpr ALIGN(32) float       f4_rcp_fact5[4] = { flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5 };
-	static constexpr ALIGN(32) float       f4_rcp_fact6[4] = { flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6 };
-	static constexpr ALIGN(32) float       f4_rcp_fact7[4] = { flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7 };
-
-	static constexpr ALIGN(64) signed int  i8_sign[8]      = { flt_sign,   flt_sign,   flt_sign,   flt_sign,   flt_sign,   flt_sign,   flt_sign,   flt_sign   };
-	static constexpr ALIGN(64) signed int  i8_base[8]      = { flt_base,   flt_base,   flt_base,   flt_base,   flt_base,   flt_base,   flt_base,   flt_base   };
-	static constexpr ALIGN(64) float       f8_half[8]      = { flt_half,   flt_half,   flt_half,   flt_half,   flt_half,   flt_half,   flt_half,   flt_half   };
-	static constexpr ALIGN(64) float       f8_log2e[8]     = { flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e,  flt_log2e  };
-	static constexpr ALIGN(64) float       f8_ln2_hi[8]    = { flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi, flt_ln2_hi };
-	static constexpr ALIGN(64) float       f8_ln2_lo[8]    = { flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo, flt_ln2_lo };
-	static constexpr ALIGN(64) float       f8_rcp_fact0[8] = { flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0, flt_rcp_fact0 };
-	static constexpr ALIGN(64) float       f8_rcp_fact1[8] = { flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1, flt_rcp_fact1 };
-	static constexpr ALIGN(64) float       f8_rcp_fact2[8] = { flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2, flt_rcp_fact2 };
-	static constexpr ALIGN(64) float       f8_rcp_fact3[8] = { flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3, flt_rcp_fact3 };
-	static constexpr ALIGN(64) float       f8_rcp_fact4[8] = { flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4, flt_rcp_fact4 };
-	static constexpr ALIGN(64) float       f8_rcp_fact5[8] = { flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5, flt_rcp_fact5 };
-	static constexpr ALIGN(64) float       f8_rcp_fact6[8] = { flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6, flt_rcp_fact6 };
-	static constexpr ALIGN(64) float       f8_rcp_fact7[8] = { flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7, flt_rcp_fact7 };
+	static constexpr ALIGN(64) float a8_flt_exp_0[8] = CONST_ARRAY_8(flt_exp_0);
+	static constexpr ALIGN(64) float a8_flt_exp_1[8] = CONST_ARRAY_8(flt_exp_1);
+	static constexpr ALIGN(64) float a8_flt_exp_2[8] = CONST_ARRAY_8(flt_exp_2);
+	static constexpr ALIGN(64) float a8_flt_exp_3[8] = CONST_ARRAY_8(flt_exp_3);
+	static constexpr ALIGN(64) float a8_flt_exp_4[8] = CONST_ARRAY_8(flt_exp_4);
+	static constexpr ALIGN(64) float a8_flt_exp_5[8] = CONST_ARRAY_8(flt_exp_5);
+	static constexpr ALIGN(64) float a8_flt_exp_6[8] = CONST_ARRAY_8(flt_exp_6);
+	static constexpr ALIGN(64) float a8_flt_exp_7[8] = CONST_ARRAY_8(flt_exp_7);
 
 	// Function template exp
 
@@ -100,7 +79,7 @@ namespace core
 		// t = x * log2(e);
 		float t = x * flt_log2e;
 		// the round number of t
-		signed int sign = *reinterpret_cast<signed int*>(&t) & 0x80000000;
+		signed int sign = *reinterpret_cast<signed int*>(&t) & flt_sign;
 		signed int half = *reinterpret_cast<const signed int*>(&flt_half) | sign;
 		signed int integer = static_cast<signed int>(t + *reinterpret_cast<float*>(&half));
 		float round = static_cast<float>(integer);
@@ -109,16 +88,16 @@ namespace core
 		x -= round * flt_ln2_lo;
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		float y = flt_rcp_fact7;
-		y = y * x + flt_rcp_fact6;
-		y = y * x + flt_rcp_fact5;
-		y = y * x + flt_rcp_fact4;
-		y = y * x + flt_rcp_fact3;
-		y = y * x + flt_rcp_fact2;
-		y = y * x + flt_rcp_fact1;
-		y = y * x + flt_rcp_fact0;
+		float y = flt_exp_7;
+		y = y * x + flt_exp_6;
+		y = y * x + flt_exp_5;
+		y = y * x + flt_exp_4;
+		y = y * x + flt_exp_3;
+		y = y * x + flt_exp_2;
+		y = y * x + flt_exp_1;
+		y = y * x + flt_exp_0;
 		// y *= (float) 2^integer;
-		integer = (integer + 127) << 23;
+		integer = (integer + flt_base) << 23;
 		y *= *reinterpret_cast<float*>(&integer);
 		return y;
 	}
@@ -133,27 +112,27 @@ namespace core
 	__m128 expf4<cpu_sse2>(__m128 xmm_x)
 	{
 		// t = x * log2(e);
-		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(f4_log2e));
+		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(a8_flt_log2e));
 		// the round number of t
-		__m128 xmm_s = _mm_and_ps(xmm_t, *reinterpret_cast<const __m128*>(i4_sign));
-		__m128 xmm_h = _mm_or_ps(xmm_s, *reinterpret_cast<const __m128*>(f4_half));
+		__m128 xmm_s = _mm_and_ps(xmm_t, *reinterpret_cast<const __m128*>(a8_flt_sign));
+		__m128 xmm_h = _mm_or_ps(xmm_s, *reinterpret_cast<const __m128*>(a8_flt_half));
 		__m128i xmm_i = _mm_cvtps_epi32(_mm_add_ps(xmm_t, xmm_h));
 		__m128 xmm_r = _mm_cvtepi32_ps(xmm_i);
 		// x -= r * ln2;
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_hi)));
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_lo)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_hi)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m128 xmm_y = *reinterpret_cast<const __m128*>(f4_rcp_fact7);
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact6));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact5));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact4));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact3));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact2));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact1));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact0));
+		__m128 xmm_y = *reinterpret_cast<const __m128*>(a8_flt_exp_7);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_6));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_5));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_4));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_3));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_2));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_1));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_0));
 		// i = 2^r;
-		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(i4_base));
+		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(a8_flt_base));
 		xmm_i = _mm_slli_epi32(xmm_i, 23);
 		// y *= (float) i;
 		xmm_y = _mm_mul_ps(xmm_y, _mm_castsi128_ps(xmm_i));
@@ -164,27 +143,27 @@ namespace core
 	__m128 expf4<cpu_sse2 | cpu_fma>(__m128 xmm_x)
 	{
 		// t = x * log2(e);
-		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(f4_log2e));
+		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(a8_flt_log2e));
 		// the round number of t
-		__m128 xmm_s = _mm_and_ps(xmm_t, *reinterpret_cast<const __m128*>(i4_sign));
-		__m128 xmm_h = _mm_or_ps(xmm_s, *reinterpret_cast<const __m128*>(f4_half));
+		__m128 xmm_s = _mm_and_ps(xmm_t, *reinterpret_cast<const __m128*>(a8_flt_sign));
+		__m128 xmm_h = _mm_or_ps(xmm_s, *reinterpret_cast<const __m128*>(a8_flt_half));
 		__m128i xmm_i = _mm_cvtps_epi32(_mm_add_ps(xmm_t, xmm_h));
 		__m128 xmm_r = _mm_cvtepi32_ps(xmm_i);
 		// x -= r * ln2;
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_hi)));
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_lo)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_hi)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m128 xmm_y = *reinterpret_cast<const __m128*>(f4_rcp_fact7);
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact6));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact5));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact4));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact3));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact2));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact1));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact0));
+		__m128 xmm_y = *reinterpret_cast<const __m128*>(a8_flt_exp_7);
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_6));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_5));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_4));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_3));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_2));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_1));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_0));
 		// i = 2^r;
-		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(i4_base));
+		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(a8_flt_base));
 		xmm_i = _mm_slli_epi32(xmm_i, 23);
 		// y *= (float) i;
 		xmm_y = _mm_mul_ps(xmm_y, _mm_castsi128_ps(xmm_i));
@@ -195,25 +174,25 @@ namespace core
 	__m128 expf4<cpu_sse41>(__m128 xmm_x)
 	{
 		// t = x * log2(e);
-		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(f4_log2e));
+		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(a8_flt_log2e));
 		// r = round(t);
 		__m128 xmm_r = _mm_round_ps(xmm_t, _MM_FROUND_NINT);
 		// x -= r * ln2;
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_hi)));
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_lo)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_hi)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m128 xmm_y = *reinterpret_cast<const __m128*>(f4_rcp_fact7);
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact6));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact5));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact4));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact3));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact2));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact1));
-		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(f4_rcp_fact0));
+		__m128 xmm_y = *reinterpret_cast<const __m128*>(a8_flt_exp_7);
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_6));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_5));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_4));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_3));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_2));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_1));
+		xmm_y = _mm_add_ps(_mm_mul_ps(xmm_y, xmm_x), *reinterpret_cast<const __m128*>(a8_flt_exp_0));
 		// i = 2^r;
 		__m128i xmm_i = _mm_cvttps_epi32(xmm_r);
-		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(i4_base));
+		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(a8_flt_base));
 		xmm_i = _mm_slli_epi32(xmm_i, 23);
 		// y *= (float) i;
 		xmm_y = _mm_mul_ps(xmm_y, _mm_castsi128_ps(xmm_i));
@@ -224,25 +203,25 @@ namespace core
 	__m128 expf4<cpu_sse41 | cpu_fma>(__m128 xmm_x)
 	{
 		// t = x * log2(e);
-		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(f4_log2e));
+		__m128 xmm_t = _mm_mul_ps(xmm_x, *reinterpret_cast<const __m128*>(a8_flt_log2e));
 		// r = round(t);
 		__m128 xmm_r = _mm_round_ps(xmm_t, _MM_FROUND_NINT);
 		// x -= r * ln2;
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_hi)));
-		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(f4_ln2_lo)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_hi)));
+		xmm_x = _mm_sub_ps(xmm_x, _mm_mul_ps(xmm_r, *reinterpret_cast<const __m128*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m128 xmm_y = *reinterpret_cast<const __m128*>(f4_rcp_fact7);
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact6));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact5));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact4));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact3));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact2));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact1));
-		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(f4_rcp_fact0));
+		__m128 xmm_y = *reinterpret_cast<const __m128*>(a8_flt_exp_7);
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_6));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_5));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_4));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_3));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_2));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_1));
+		xmm_y = _mm_fmadd_ps(xmm_y, xmm_x, *reinterpret_cast<const __m128*>(a8_flt_exp_0));
 		// i = 2^r;
 		__m128i xmm_i = _mm_cvttps_epi32(xmm_r);
-		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(i4_base));
+		xmm_i = _mm_add_epi32(xmm_i, *reinterpret_cast<const __m128i*>(a8_flt_base));
 		xmm_i = _mm_slli_epi32(xmm_i, 23);
 		// y *= (float) i;
 		xmm_y = _mm_mul_ps(xmm_y, _mm_castsi128_ps(xmm_i));
@@ -259,25 +238,25 @@ namespace core
 	__m256 expf8<cpu_avx>(__m256 ymm_x)
 	{
 		// t = x * log2(e);
-		__m256 ymm_t = _mm256_mul_ps(ymm_x, *reinterpret_cast<const __m256*>(f8_log2e));
+		__m256 ymm_t = _mm256_mul_ps(ymm_x, *reinterpret_cast<const __m256*>(a8_flt_log2e));
 		// r = round(t);
 		__m256 ymm_r = _mm256_round_ps(ymm_t, _MM_FROUND_NINT);
 		// x -= r * ln2;
-		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(f8_ln2_hi)));
-		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(f8_ln2_lo)));
+		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(a8_flt_ln2_hi)));
+		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m256 ymm_y = *reinterpret_cast<const __m256*>(f8_rcp_fact7);
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact6));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact5));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact4));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact3));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact2));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact1));
-		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(f8_rcp_fact0));
+		__m256 ymm_y = *reinterpret_cast<const __m256*>(a8_flt_exp_7);
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_6));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_5));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_4));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_3));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_2));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_1));
+		ymm_y = _mm256_add_ps(_mm256_mul_ps(ymm_y, ymm_x), *reinterpret_cast<const __m256*>(a8_flt_exp_0));
 		// i = 2^r;
 		__m256i ymm_i = _mm256_cvttps_epi32(ymm_r);
-		ymm_i = _mm256_add_epi32(ymm_i, *reinterpret_cast<const __m256i*>(i8_base));
+		ymm_i = _mm256_add_epi32(ymm_i, *reinterpret_cast<const __m256i*>(a8_flt_base));
 		ymm_i = _mm256_slli_epi32(ymm_i, 23);
 		// y *= (float) i;
 		ymm_y = _mm256_mul_ps(ymm_y, _mm256_castsi256_ps(ymm_i));
@@ -288,25 +267,25 @@ namespace core
 	__m256 expf8<cpu_avx | cpu_fma>(__m256 ymm_x)
 	{
 		// t = x * log2(e);
-		__m256 ymm_t = _mm256_mul_ps(ymm_x, *reinterpret_cast<const __m256*>(f8_log2e));
+		__m256 ymm_t = _mm256_mul_ps(ymm_x, *reinterpret_cast<const __m256*>(a8_flt_log2e));
 		// r = round(t);
 		__m256 ymm_r = _mm256_round_ps(ymm_t, _MM_FROUND_NINT);
 		// x -= r * ln2;
-		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(f8_ln2_hi)));
-		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(f8_ln2_lo)));
+		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(a8_flt_ln2_hi)));
+		ymm_x = _mm256_sub_ps(ymm_x, _mm256_mul_ps(ymm_r, *reinterpret_cast<const __m256*>(a8_flt_ln2_lo)));
 		// Taylor series of e^x:
 		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!
-		__m256 ymm_y = *reinterpret_cast<const __m256*>(f8_rcp_fact7);
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact6));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact5));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact4));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact3));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact2));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact1));
-		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(f8_rcp_fact0));
+		__m256 ymm_y = *reinterpret_cast<const __m256*>(a8_flt_exp_7);
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_6));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_5));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_4));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_3));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_2));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_1));
+		ymm_y = _mm256_fmadd_ps(ymm_y, ymm_x, *reinterpret_cast<const __m256*>(a8_flt_exp_0));
 		// i = 2^r;
 		__m256i ymm_i = _mm256_cvttps_epi32(ymm_r);
-		ymm_i = _mm256_add_epi32(ymm_i, *reinterpret_cast<const __m256i*>(i8_base));
+		ymm_i = _mm256_add_epi32(ymm_i, *reinterpret_cast<const __m256i*>(a8_flt_base));
 		ymm_i = _mm256_slli_epi32(ymm_i, 23);
 		// y *= (float) i;
 		ymm_y = _mm256_mul_ps(ymm_y, _mm256_castsi256_ps(ymm_i));

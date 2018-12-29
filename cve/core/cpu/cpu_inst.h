@@ -37,12 +37,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Microsoft Visual Studio
 #if defined(_MSC_VER)
 #include <intrin.h>
-#define ALIGN(n)  __declspec(align(n))
 // GNU GCC/G++.
 #elif defined(__GNUC__) || defined(__GNUG__)
 #include <cpuid.h>
 #include <x86intrin.h>
-#define ALIGN(n)  __attribute__((aligned(n)))
 #endif
 
 namespace core
