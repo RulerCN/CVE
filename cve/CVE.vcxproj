@@ -344,6 +344,7 @@
     <ClInclude Include="core\cpu\logic\cpu_logic_or.h" />
     <ClInclude Include="core\cpu\logic\cpu_logic_xor.h" />
     <ClInclude Include="core\cpu\math\cpu_exp.h" />
+    <ClInclude Include="core\cpu\math\cpu_log.h" />
     <ClInclude Include="core\cpu\max\cpu_max_x.h" />
     <ClInclude Include="core\cpu\max\cpu_max_xy.h" />
     <ClInclude Include="core\cpu\max\cpu_max_xyz.h" />

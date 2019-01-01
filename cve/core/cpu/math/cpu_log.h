@@ -27,125 +27,148 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ====================================================================*/
 #pragma once
 
-#ifndef __CORE_CPU_EXP_H__
-#define __CORE_CPU_EXP_H__
+#ifndef __CORE_CPU_LOG_H__
+#define __CORE_CPU_LOG_H__
 
 #include "../cpu_inst.h"
 
 namespace core
 {
-	static constexpr float  flt_exp_0  =  1.00000000000000000000e000F; /*  1/0! */
-	static constexpr float  flt_exp_1  =  1.00000000000000000000e000F; /*  1/1! */
-	static constexpr float  flt_exp_2  =  5.00000000000000000000e-01F; /*  1/2! */
-	static constexpr float  flt_exp_3  =  1.66666666666666666667e-01F; /*  1/3! */
-	static constexpr float  flt_exp_4  =  4.16666666666666666667e-02F; /*  1/4! */
-	static constexpr float  flt_exp_5  =  8.33333333333333333333e-03F; /*  1/5! */
-	static constexpr float  flt_exp_6  =  1.38888888888888888889e-03F; /*  1/6! */
-	static constexpr float  flt_exp_7  =  1.98412698412698412698e-04F; /*  1/7! */
-	static constexpr double dbl_exp_p0 =  1.00000000000000000000e000;  /*  1 */
-	static constexpr double dbl_exp_p1 =  5.00000000000000000000e-01;  /*  1/2 */
-	static constexpr double dbl_exp_p2 =  1.13636363636363636364e-01;  /*  5/44 */
-	static constexpr double dbl_exp_p3 =  1.51515151515151515152e-02;  /*  1/66 */
-	static constexpr double dbl_exp_p4 =  1.26262626262626262626e-03;  /*  1/792 */
-	static constexpr double dbl_exp_p5 =  6.31313131313131313131e-05;  /*  1/15840 */
-	static constexpr double dbl_exp_p6 =  1.50312650312650312650e-06;  /*  1/665280 */
-	static constexpr double dbl_exp_q0 =  1.00000000000000000000e000;  /*  1 */
-	static constexpr double dbl_exp_q1 = -5.00000000000000000000e-01;  /* -1/2 */
-	static constexpr double dbl_exp_q2 =  1.13636363636363636364e-01;  /*  5/44 */
-	static constexpr double dbl_exp_q3 = -1.51515151515151515152e-02;  /* -1/66 */
-	static constexpr double dbl_exp_q4 =  1.26262626262626262626e-03;  /*  1/792 */
-	static constexpr double dbl_exp_q5 = -6.31313131313131313131e-05;  /* -1/15840 */
-	static constexpr double dbl_exp_q6 =  1.50312650312650312650e-06;  /*  1/665280 */
+	static constexpr float  flt_log_p0 =  2.00000000000000000000e000F; /* 2 */
+	static constexpr float  flt_log_p1 = -3.56862745098039215686e000F; /*-182/51 */
+	static constexpr float  flt_log_p2 =  1.95294117647058823529e000F; /* 166/85 */
+	static constexpr float  flt_log_p3 = -3.33290239172592113769e-01F; /*-2578/7735 */
+	static constexpr float  flt_log_p4 =  8.55823914647444059209e-03F; /* 32768/3828825 */
+	static constexpr float  flt_log_q0 =  1.00000000000000000000e000F; /* 1 */
+	static constexpr float  flt_log_q1 = -2.11764705882352941176e000F; /*-36/17 */
+	static constexpr float  flt_log_q2 =  1.48235294117647058824e000F; /* 126/85 */
+	static constexpr float  flt_log_q3 = -3.80090497737556561086e-01F; /*-84/221 */
+	static constexpr float  flt_log_q4 =  2.59152612093788564377e-02F; /* 63/2431 */
+	static constexpr double dbl_log_p0 =  2.00000000000000000000e000;  /* 2 */
+	static constexpr double dbl_log_p1 = -4.57142857142857142857e000;  /*-32/7 */
+	static constexpr double dbl_log_p2 =  3.61637426900584795322e000;  /* 3092/855 */
+	static constexpr double dbl_log_p3 = -1.15111307680967123692e000;  /*-7808/6783 */
+	static constexpr double dbl_log_p4 =  1.25846829960054197117e-01;  /* 17926/142443 */
+	static constexpr double dbl_log_p5 = -2.14492209184823072483e-03;  /*-131072/61108047 */
+	static constexpr double dbl_log_q0 =  1.00000000000000000000e000;  /* 1 */
+	static constexpr double dbl_log_q1 = -2.61904761904761904762e000;  /*-55/21 */
+	static constexpr double dbl_log_q2 =  2.48120300751879699248e000;  /* 330/133 */
+	static constexpr double dbl_log_q3 = -1.02167182662538699690e000;  /*-330/323 */
+	static constexpr double dbl_log_q4 =  1.70278637770897832817e-01;  /* 55/323 */
+	static constexpr double dbl_log_q5 = -7.85901405096451536080e-03;  /*-33/4199 */
 
-	static constexpr ALIGN(64) float  a8_flt_exp_0[8]  = CONST_ARRAY_8(flt_exp_0);
-	static constexpr ALIGN(64) float  a8_flt_exp_1[8]  = CONST_ARRAY_8(flt_exp_1);
-	static constexpr ALIGN(64) float  a8_flt_exp_2[8]  = CONST_ARRAY_8(flt_exp_2);
-	static constexpr ALIGN(64) float  a8_flt_exp_3[8]  = CONST_ARRAY_8(flt_exp_3);
-	static constexpr ALIGN(64) float  a8_flt_exp_4[8]  = CONST_ARRAY_8(flt_exp_4);
-	static constexpr ALIGN(64) float  a8_flt_exp_5[8]  = CONST_ARRAY_8(flt_exp_5);
-	static constexpr ALIGN(64) float  a8_flt_exp_6[8]  = CONST_ARRAY_8(flt_exp_6);
-	static constexpr ALIGN(64) float  a8_flt_exp_7[8]  = CONST_ARRAY_8(flt_exp_7);
-	static constexpr ALIGN(64) double a4_dbl_exp_p0[4] = CONST_ARRAY_4(dbl_exp_p0);
-	static constexpr ALIGN(64) double a4_dbl_exp_p1[4] = CONST_ARRAY_4(dbl_exp_p1);
-	static constexpr ALIGN(64) double a4_dbl_exp_p2[4] = CONST_ARRAY_4(dbl_exp_p2);
-	static constexpr ALIGN(64) double a4_dbl_exp_p3[4] = CONST_ARRAY_4(dbl_exp_p3);
-	static constexpr ALIGN(64) double a4_dbl_exp_p4[4] = CONST_ARRAY_4(dbl_exp_p4);
-	static constexpr ALIGN(64) double a4_dbl_exp_p5[4] = CONST_ARRAY_4(dbl_exp_p5);
-	static constexpr ALIGN(64) double a4_dbl_exp_p6[4] = CONST_ARRAY_4(dbl_exp_p6);
-	static constexpr ALIGN(64) double a4_dbl_exp_q0[4] = CONST_ARRAY_4(dbl_exp_q0);
-	static constexpr ALIGN(64) double a4_dbl_exp_q1[4] = CONST_ARRAY_4(dbl_exp_q1);
-	static constexpr ALIGN(64) double a4_dbl_exp_q2[4] = CONST_ARRAY_4(dbl_exp_q2);
-	static constexpr ALIGN(64) double a4_dbl_exp_q3[4] = CONST_ARRAY_4(dbl_exp_q3);
-	static constexpr ALIGN(64) double a4_dbl_exp_q4[4] = CONST_ARRAY_4(dbl_exp_q4);
-	static constexpr ALIGN(64) double a4_dbl_exp_q5[4] = CONST_ARRAY_4(dbl_exp_q5);
-	static constexpr ALIGN(64) double a4_dbl_exp_q6[4] = CONST_ARRAY_4(dbl_exp_q6);
+	static constexpr ALIGN(64) float  a8_flt_log_p0[8] = CONST_ARRAY_8(flt_log_p0);
+	static constexpr ALIGN(64) float  a8_flt_log_p1[8] = CONST_ARRAY_8(flt_log_p1);
+	static constexpr ALIGN(64) float  a8_flt_log_p2[8] = CONST_ARRAY_8(flt_log_p2);
+	static constexpr ALIGN(64) float  a8_flt_log_p3[8] = CONST_ARRAY_8(flt_log_p3);
+	static constexpr ALIGN(64) float  a8_flt_log_p4[8] = CONST_ARRAY_8(flt_log_p4);
+	static constexpr ALIGN(64) float  a8_flt_log_q0[8] = CONST_ARRAY_8(flt_log_q0);
+	static constexpr ALIGN(64) float  a8_flt_log_q1[8] = CONST_ARRAY_8(flt_log_q1);
+	static constexpr ALIGN(64) float  a8_flt_log_q2[8] = CONST_ARRAY_8(flt_log_q2);
+	static constexpr ALIGN(64) float  a8_flt_log_q3[8] = CONST_ARRAY_8(flt_log_q3);
+	static constexpr ALIGN(64) float  a8_flt_log_q4[8] = CONST_ARRAY_8(flt_log_q4);
+	static constexpr ALIGN(64) double a4_dbl_log_p0[4] = CONST_ARRAY_4(dbl_log_p0);
+	static constexpr ALIGN(64) double a4_dbl_log_p1[4] = CONST_ARRAY_4(dbl_log_p1);
+	static constexpr ALIGN(64) double a4_dbl_log_p2[4] = CONST_ARRAY_4(dbl_log_p2);
+	static constexpr ALIGN(64) double a4_dbl_log_p3[4] = CONST_ARRAY_4(dbl_log_p3);
+	static constexpr ALIGN(64) double a4_dbl_log_p4[4] = CONST_ARRAY_4(dbl_log_p4);
+	static constexpr ALIGN(64) double a4_dbl_log_p5[4] = CONST_ARRAY_4(dbl_log_p5);
+	static constexpr ALIGN(64) double a4_dbl_log_q0[4] = CONST_ARRAY_4(dbl_log_q0);
+	static constexpr ALIGN(64) double a4_dbl_log_q1[4] = CONST_ARRAY_4(dbl_log_q1);
+	static constexpr ALIGN(64) double a4_dbl_log_q2[4] = CONST_ARRAY_4(dbl_log_q2);
+	static constexpr ALIGN(64) double a4_dbl_log_q3[4] = CONST_ARRAY_4(dbl_log_q3);
+	static constexpr ALIGN(64) double a4_dbl_log_q4[4] = CONST_ARRAY_4(dbl_log_q4);
+	static constexpr ALIGN(64) double a4_dbl_log_q5[4] = CONST_ARRAY_4(dbl_log_q5);
 
-	// Function template exp
+	// Function template log
 
-	extern float exp(float x)
+	extern float log(float x)
 	{
-		// t = x * log2(e);
-		float t = x * flt_log2e;
-		// the round number of t
-		signed int sign = *reinterpret_cast<signed int*>(&t) & flt_sign;
-		signed int half = *reinterpret_cast<const signed int*>(&flt_half) | sign;
-		signed int integer = static_cast<signed int>(t + *reinterpret_cast<float*>(&half));
-		float round = static_cast<float>(integer);
-		// x -= round * ln2;
-		x -= round * flt_ln2_hi;
-		x -= round * flt_ln2_lo;
-		// Taylor series of e^x:
-		// y = 1 + x + x^2/2! + x^3/3! + x^4/4! + x^5/5! + x^6/6! + x^7/7!;
-		float y = flt_exp_7;
-		y = y * x + flt_exp_6;
-		y = y * x + flt_exp_5;
-		y = y * x + flt_exp_4;
-		y = y * x + flt_exp_3;
-		y = y * x + flt_exp_2;
-		y = y * x + flt_exp_1;
-		y = y * x + flt_exp_0;
-		// y *= (float) 2^integer;
-		integer = (integer + flt_base) << 23;
-		y *= *reinterpret_cast<float*>(&integer);
+	//	signed int neg = *reinterpret_cast<signed int*>(&x) >> 31;
+		if (x < 0)
+			return *reinterpret_cast<const float*>(&flt_nan);
+		if (x == 0)
+			return *reinterpret_cast<const float*>(&flt_ninf);
+		// keep the exponent part
+		signed int exp = (*reinterpret_cast<signed int*>(&x) & flt_exp) >> 23;
+		float e = static_cast<float>(exp - flt_base);
+		// keep the mantissa part
+		signed int mant = (*reinterpret_cast<signed int*>(&x) & flt_mant) | 0x3f800000;
+		float m = *reinterpret_cast<float*>(&mant);
+		if (m >= flt_sqrt2)
+		{
+			e += flt_one;
+			m /= flt_two;
+		}
+		// t = (m - 1) / (m + 1);
+		float t = (m - flt_one) / (m + flt_one);
+		// x = t * t;
+		x = t * t;
+		// P(x) = p0 + p1*x + p2*x^2 + p3*x^3 + p4*x^4;
+		float p = flt_log_p4;
+		p = p * x + flt_log_p3;
+		p = p * x + flt_log_p2;
+		p = p * x + flt_log_p1;
+		p = p * x + flt_log_p0;
+		// Q(x) = q0 + q1*x + q2*x^2 + q3*x^3;
+		float q = flt_log_q4;
+		q = q * x + flt_log_q3;
+		q = q * x + flt_log_q2;
+		q = q * x + flt_log_q1;
+		q = q * x + flt_log_q0;
+		// y = t * P(x) / Q(x);
+		float y = t * p / q;
+		// y += e * ln2;
+		y += e * flt_ln2_hi;
+		y += e * flt_ln2_lo;
 		return y;
 	}
 
-	extern double exp(double x)
+	extern double log(double x)
 	{
-		// t = x * log2(e);
-		double t = x * dbl_log2e;
-		// the round number of t
-		signed long long sign = *reinterpret_cast<signed long long*>(&t) & dbl_sign;
-		signed long long half = *reinterpret_cast<const signed long long*>(&dbl_half) | sign;
-		signed long long integer = static_cast<signed long long>(t + *reinterpret_cast<double*>(&half));
-		double round = static_cast<double>(integer);
-		// x -= round * ln2;
-		x -= round * dbl_ln2_hi;
-		x -= round * dbl_ln2_lo;
-		// P(x) = p0 + p1*x + p2*x^2 + p3*x^3 + p4*x^4 + p5*x^5 + p6*x^6;
-		double p = dbl_exp_p6;
-		p = p * x + dbl_exp_p5;
-		p = p * x + dbl_exp_p4;
-		p = p * x + dbl_exp_p3;
-		p = p * x + dbl_exp_p2;
-		p = p * x + dbl_exp_p1;
-		p = p * x + dbl_exp_p0;
-		// Q(x) = q0 + q1*x + q2*x^2 + q3*x^3 + q4*x^4 + q5*x^5 + q6*x^6;
-		double q = dbl_exp_q6;
-		q = q * x + dbl_exp_q5;
-		q = q * x + dbl_exp_q4;
-		q = q * x + dbl_exp_q3;
-		q = q * x + dbl_exp_q2;
-		q = q * x + dbl_exp_q1;
-		q = q * x + dbl_exp_q0;
-		// y = P(x) / Q(x);
-		double y = p / q;
-		// y *= (double) 2^integer;
-		integer = (integer + dbl_base) << 52;
-		y *= *reinterpret_cast<double*>(&integer);
+	//	signed long long neg = *reinterpret_cast<signed long long*>(&x) >> 63;
+		if (x < 0)
+			return *reinterpret_cast<const double*>(&dbl_nan);
+		if (x == 0)
+			return *reinterpret_cast<const double*>(&dbl_ninf);
+		// keep the exponent part
+		signed long long exp = (*reinterpret_cast<signed long long*>(&x) & dbl_exp) >> 52;
+		double e = static_cast<double>(exp - dbl_base);
+		// keep the mantissa part
+		signed long long mant = (*reinterpret_cast<signed long long*>(&x) & dbl_mant) | 0x3ff0000000000000;
+		double m = *reinterpret_cast<double*>(&mant);
+		if (m >= dbl_sqrt2)
+		{
+			e += dbl_one;
+			m /= dbl_two;
+		}
+		// t = (m - 1) / (m + 1);
+		double t = (m - dbl_one) / (m + dbl_one);
+		// x = t * t;
+		x = t * t;
+		// P(x) = p0 + p1*x + p2*x^2 + p3*x^3 + p4*x^4 + p5*x^5;
+		double p = dbl_log_p5;
+		p = p * x + dbl_log_p4;
+		p = p * x + dbl_log_p3;
+		p = p * x + dbl_log_p2;
+		p = p * x + dbl_log_p1;
+		p = p * x + dbl_log_p0;
+		// Q(x) = q0 + q1*x + q2*x^2 + q3*x^3 + q4*x^4 + q5*x^5;
+		double q = dbl_log_q5;
+		q = q * x + dbl_log_q4;
+		q = q * x + dbl_log_q3;
+		q = q * x + dbl_log_q2;
+		q = q * x + dbl_log_q1;
+		q = q * x + dbl_log_q0;
+		// y = t * P(x) / Q(x);
+		double y = t * p / q;
+		// y += e * ln2;
+		y += e * dbl_ln2_hi;
+		y += e * dbl_ln2_lo;
 		return y;
 	}
 
+/*
 	template<cpu_inst_type inst>
 	__m128 expf4(__m128 xmm_x)
 	{
@@ -573,7 +596,7 @@ namespace core
 		ymm_y = _mm256_mul_pd(ymm_y, _mm256_castsi256_pd(ymm_i));
 		return ymm_y;
 	}
-
+*/
 } // namespace core
 
 #endif

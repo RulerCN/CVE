@@ -763,6 +763,9 @@
     <ClInclude Include="core\cpu\cpu_math.h">
       <Filter>core\cpu</Filter>
     </ClInclude>
+    <ClInclude Include="core\cpu\math\cpu_log.h">
+      <Filter>core\cpu\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
