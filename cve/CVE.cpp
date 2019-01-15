@@ -185,8 +185,57 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 
 int main()
 {
-	float x = -1.25F;
+	//static constexpr double dbl_nan = std::numeric_limits<double>::signaling_NaN();
+	//static constexpr double dbl_inf = std::numeric_limits<double>::infinity();
 
+	//bool isnan = std::isnan(dbl_nan);
+	//bool isinf = std::isinf(dbl_inf);
+
+	//std::uint64_t f1n;
+	//std::memcpy(&f1n, &nan, sizeof inf);
+	//std::cout << "nan(\"0\") = " << inf << " (" << std::hex << f1n << ")\n";
+
+	float small = core::flt_epsilon;
+
+	float one1 = core::flt_one;
+	float one2 = core::flt_one + core::flt_epsilon;
+	float max1 = one1 / one2;
+	float max2 = max1 + core::flt_epsilon;
+
+	float min1 = core::flt_one / core::flt_epsilon - core::flt_one;
+
+	float sigmoid = core::flt_one / (core::flt_one + min1);
+
+
+	// 1.192092896e-07 / (1 - 1.192092896e-07)
+	// 1.192092896e-07
+
+	// 2.2204460492503131e-016 / (1 - 2.2204460492503131e-016)
+	// 2.2204460492503131e-016
+
+	float min_x =-15.942385033256568611253644262487F;
+	float max_x = 15.942385152465865316681572419504F;
+
+	double sigmoid_min = -3.60436533891171558590e001;
+	double sigmoid_max =  3.60436533891171560811e001;
+
+	float min_exp = core::exp(min_x);
+	float max_exp = core::exp(max_x);
+
+	float min_s = core::flt_one / (core::flt_one + min_exp);
+	float max_s = core::flt_one / (core::flt_one + max_exp);
+
+	int none1 = *((int*)&one1);
+	int none2 = *((int*)&one2);
+	int nmax1 = *((int*)&max1);
+	int nmax2 = *((int*)&max2);
+
+	std::cout << std::hex << none1 << "\n";
+	std::cout << std::hex << none2 << "\n";
+	std::cout << std::hex << nmax1 << "\n";
+	std::cout << std::hex << nmax2 << "\n";
+
+	float x = -1.25F;
 	float y1 = core::exp(x);
 	float y2 = exp(x);
 	__m128 xmm_y = core::expf4<core::cpu_sse2 | core::cpu_fma>(_mm_set1_ps(x));
