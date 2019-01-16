@@ -52,82 +52,17 @@ namespace core
 			x = flt_sigmoid_min;
 		else if (x > flt_sigmoid_max)
 			x = flt_sigmoid_max;
-		// keep the exponent part
-		signed int exp = (*reinterpret_cast<signed int*>(&x) & flt_exp) >> 23;
-		float e = static_cast<float>(exp - flt_base);
-		// keep the mantissa part
-		signed int mant = (*reinterpret_cast<signed int*>(&x) & flt_mant) | 0x3f800000;
-		float m = *reinterpret_cast<float*>(&mant);
-		if (m >= flt_sqrt2)
-		{
-			e += flt_one;
-			m /= flt_two;
-		}
-		// t = (m - 1) / (m + 1);
-		float t = (m - flt_one) / (m + flt_one);
-		// x = t * t;
-		x = t * t;
-		// P(x) = p0 + p1*x + p2*x^2 + p3*x^3 + p4*x^4;
-		float p = flt_log_p4;
-		p = p * x + flt_log_p3;
-		p = p * x + flt_log_p2;
-		p = p * x + flt_log_p1;
-		p = p * x + flt_log_p0;
-		// Q(x) = q0 + q1*x + q2*x^2 + q3*x^3;
-		float q = flt_log_q4;
-		q = q * x + flt_log_q3;
-		q = q * x + flt_log_q2;
-		q = q * x + flt_log_q1;
-		q = q * x + flt_log_q0;
-		// y = t * P(x) / Q(x);
-		float y = t * p / q;
-		// y += e * ln2;
-		y += e * flt_ln2_hi;
-		y += e * flt_ln2_lo;
+		float y = flt_one / (flt_one + core::exp(-x));
 		return y;
 	}
 
 	extern double sigmoid(double x)
 	{
-	//	signed long long neg = *reinterpret_cast<signed long long*>(&x) >> 63;
-		if (x < 0)
-			return *reinterpret_cast<const double*>(&dbl_nan);
-		if (x == 0)
-			return *reinterpret_cast<const double*>(&dbl_ninf);
-		// keep the exponent part
-		signed long long exp = (*reinterpret_cast<signed long long*>(&x) & dbl_exp) >> 52;
-		double e = static_cast<double>(exp - dbl_base);
-		// keep the mantissa part
-		signed long long mant = (*reinterpret_cast<signed long long*>(&x) & dbl_mant) | 0x3ff0000000000000;
-		double m = *reinterpret_cast<double*>(&mant);
-		if (m >= dbl_sqrt2)
-		{
-			e += dbl_one;
-			m /= dbl_two;
-		}
-		// t = (m - 1) / (m + 1);
-		double t = (m - dbl_one) / (m + dbl_one);
-		// x = t * t;
-		x = t * t;
-		// P(x) = p0 + p1*x + p2*x^2 + p3*x^3 + p4*x^4 + p5*x^5;
-		double p = dbl_log_p5;
-		p = p * x + dbl_log_p4;
-		p = p * x + dbl_log_p3;
-		p = p * x + dbl_log_p2;
-		p = p * x + dbl_log_p1;
-		p = p * x + dbl_log_p0;
-		// Q(x) = q0 + q1*x + q2*x^2 + q3*x^3 + q4*x^4 + q5*x^5;
-		double q = dbl_log_q5;
-		q = q * x + dbl_log_q4;
-		q = q * x + dbl_log_q3;
-		q = q * x + dbl_log_q2;
-		q = q * x + dbl_log_q1;
-		q = q * x + dbl_log_q0;
-		// y = t * P(x) / Q(x);
-		double y = t * p / q;
-		// y += e * ln2;
-		y += e * dbl_ln2_hi;
-		y += e * dbl_ln2_lo;
+		if (x < dbl_sigmoid_min)
+			x = dbl_sigmoid_min;
+		else if (x > dbl_sigmoid_max)
+			x = dbl_sigmoid_max;
+		double y = dbl_one / (dbl_one + core::exp(-x));
 		return y;
 	}
 
