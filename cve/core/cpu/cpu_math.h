@@ -31,5 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_CPU_MATH_H__
 
 #include "math/cpu_exp.h"
+#include "math/cpu_sigmoid.h"
 
 #endif

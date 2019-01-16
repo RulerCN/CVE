@@ -82,7 +82,8 @@ namespace core
 
 	// Function template exp
 
-	extern float exp(float x)
+	template<cpu_inst_type inst>
+	float exp(float x)
 	{
 		// t = x * log2(e);
 		float t = x * flt_log2e;
@@ -110,7 +111,8 @@ namespace core
 		return y;
 	}
 
-	extern double exp(double x)
+	template<cpu_inst_type inst>
+	double exp(double x)
 	{
 		// t = x * log2(e);
 		double t = x * dbl_log2e;
@@ -145,6 +147,8 @@ namespace core
 		y *= *reinterpret_cast<double*>(&integer);
 		return y;
 	}
+
+	// Function template expf4
 
 	template<cpu_inst_type inst>
 	__m128 expf4(__m128 xmm_x)
@@ -271,6 +275,8 @@ namespace core
 		xmm_y = _mm_mul_ps(xmm_y, _mm_castsi128_ps(xmm_i));
 		return xmm_y;
 	}
+
+	// Function template expd2
 
 	template<cpu_inst_type inst>
 	__m128d expd2(__m128d xmm_x)
@@ -430,6 +436,8 @@ namespace core
 		return xmm_y;
 	}
 
+	// Function template expf8
+
 	template<cpu_inst_type inst>
 	__m256 expf8(__m256 ymm_x)
 	{
@@ -493,6 +501,8 @@ namespace core
 		ymm_y = _mm256_mul_ps(ymm_y, _mm256_castsi256_ps(ymm_i));
 		return ymm_y;
 	}
+
+	// Function template expd4
 
 	template<cpu_inst_type inst>
 	__m256d expd4(__m256d ymm_x)
