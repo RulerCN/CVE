@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "matrix.h"
 #include "tensor.h"
 #include "rb_tree.h"
+#include "sb_tree.h"
 #include "tree.h"
 
 #include "cpu/cpu_math.h"

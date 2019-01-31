@@ -383,6 +383,7 @@
     <ClInclude Include="core\matrix.h" />
     <ClInclude Include="core\rb_tree.h" />
     <ClInclude Include="core\sample_allocator.h" />
+    <ClInclude Include="core\sb_tree.h" />
     <ClInclude Include="core\scalar.h" />
     <ClInclude Include="core\tensor.h" />
     <ClInclude Include="core\tree.h" />

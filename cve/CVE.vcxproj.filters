@@ -763,6 +763,9 @@
     <ClInclude Include="core\cpu\math\cpu_sigmoid.h">
       <Filter>core\cpu\math</Filter>
     </ClInclude>
+    <ClInclude Include="core\sb_tree.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
