@@ -268,7 +268,7 @@ namespace core
 	}
 
 	template<>
-	__m256d expd4<cpu_avx | cpu_fma>(__m256d ymm_x)
+	__m256d sigmoidd4<cpu_avx | cpu_fma>(__m256d ymm_x)
 	{
 		// x = max(x, min);
 		ymm_x = _mm256_max_pd(ymm_x, *reinterpret_cast<const __m256d*>(a4_dbl_sigmoid_min));

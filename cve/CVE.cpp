@@ -219,8 +219,8 @@ int main()
 	double sigmoid_min = -3.60436533891171558590e001;
 	double sigmoid_max =  3.60436533891171560811e001;
 
-	float min_exp = core::exp(min_x);
-	float max_exp = core::exp(max_x);
+	float min_exp = core::exp<core::cpu_none>(min_x);
+	float max_exp = core::exp<core::cpu_none>(max_x);
 
 	float min_s = core::flt_one / (core::flt_one + min_exp);
 	float max_s = core::flt_one / (core::flt_one + max_exp);
@@ -236,7 +236,7 @@ int main()
 	std::cout << std::hex << nmax2 << "\n";
 
 	float x = -1.25F;
-	float y1 = core::exp(x);
+	float y1 = core::exp<core::cpu_none>(x);
 	float y2 = exp(x);
 	__m128 xmm_y = core::expf4<core::cpu_sse2 | core::cpu_fma>(_mm_set1_ps(x));
 	__m256 ymm_y = core::expf8<core::cpu_avx | core::cpu_fma>(_mm256_set1_ps(x));

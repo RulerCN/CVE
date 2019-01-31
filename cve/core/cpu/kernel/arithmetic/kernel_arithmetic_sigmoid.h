@@ -30,8 +30,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CORE_CPU_KERNEL_ARITHMETIC_SIGMOID_H__
 #define __CORE_CPU_KERNEL_ARITHMETIC_SIGMOID_H__
 
-#include "kernel_arithmetic_math.h"
-
 namespace core
 {
 	// Class template kernel_sigmoid
