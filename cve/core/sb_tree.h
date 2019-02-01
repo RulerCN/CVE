@@ -48,7 +48,7 @@ namespace core
 	template <class T>
 	struct sb_tree_node
 	{
-		typedef rb_tree_node<T>  node_type;
+		typedef sb_tree_node<T>  node_type;
 		typedef node_type*       node_pointer;
 		typedef const node_type* const_node_pointer;
 		typedef node_type&       node_reference;
@@ -928,6 +928,7 @@ namespace core
 			header->parent = nullptr;
 			header->left = header;
 			header->right = header;
+			header->size = 0;
 		}
 
 		void destroy_header(void)
@@ -996,6 +997,7 @@ namespace core
 			node_pointer node = this->create_node(::std::forward<Args>(args)...);
 			node->left = nullptr;
 			node->right = nullptr;
+			node->size = 1;
 			if (header->parent == nullptr)
 			{
 				node->parent = header;
@@ -1016,6 +1018,7 @@ namespace core
 						{
 							node->parent = ptr;
 							ptr->left = node;
+							ptr->size += 1;
 							if (ptr == header->left)
 								header->left = node;
 							ptr = nullptr;
@@ -1029,15 +1032,15 @@ namespace core
 						{
 							node->parent = ptr;
 							ptr->right = node;
+							ptr->size += 1;
 							if (ptr == header->right)
 								header->right = node;
 							ptr = nullptr;
 						}
 					}
 				}
-				insert_rebalance(node, header->parent);
+				matain(node, header->parent);
 			}
-			++count;
 			return node;
 		}
 
@@ -1096,7 +1099,7 @@ namespace core
 						}
 					}
 				}
-				insert_rebalance(node, header->parent);
+				matain(node, header->parent);
 			}
 			++count;
 			return node;
@@ -1311,11 +1314,23 @@ namespace core
 
 		void matain(node_pointer x, node_pointer& root) const noexcept
 		{
+			node_pointer p = x->parent;
+
+			if (p == p->parent->left)
+			{
+				if (p->parent->right == nullptr || x->size > p->parent->right->szie)
+				{
+					rotate_right(p->parent, root);
+					matain(x->right, root);
+					matain(x, root);
+				}
+			}
+
 			if (x->left->left->size > x->right->size)
 			{
 				rotate_right(x, root);
 				matain(x->right, root);
-				matain(x);
+				matain(x, root);
 			}
 			else if (x->left->right->size > x->right->size)
 			{
@@ -1323,13 +1338,13 @@ namespace core
 				rotate_right(x, root);
 				matain(x->left, root);
 				matain(x->right, root);
-				matain(x);
+				matain(x, root);
 			}
 			else if (x->right->right->size > x->left->size)
 			{
 				rotate_left(x, root);
 				matain(x->left, root);
-				matain(x);
+				matain(x, root);
 			}
 			else if (x->right->left->size > x->left->size)
 			{
@@ -1337,9 +1352,41 @@ namespace core
 				rotate_left(x, root);
 				matain(x->left, root);
 				matain(x->right, root);
-				matain(x);
+				matain(x, root);
 			}
 		}
+
+		//void matain(node_pointer x, node_pointer& root) const noexcept
+		//{
+		//	if (x->left->left->size > x->right->size)
+		//	{
+		//		rotate_right(x, root);
+		//		matain(x->right, root);
+		//		matain(x, root);
+		//	}
+		//	else if (x->left->right->size > x->right->size)
+		//	{
+		//		rotate_left(x->left, root);
+		//		rotate_right(x, root);
+		//		matain(x->left, root);
+		//		matain(x->right, root);
+		//		matain(x, root);
+		//	}
+		//	else if (x->right->right->size > x->left->size)
+		//	{
+		//		rotate_left(x, root);
+		//		matain(x->left, root);
+		//		matain(x, root);
+		//	}
+		//	else if (x->right->left->size > x->left->size)
+		//	{
+		//		rotate_right(x->right, root);
+		//		rotate_left(x, root);
+		//		matain(x->left, root);
+		//		matain(x->right, root);
+		//		matain(x, root);
+		//	}
+		//}
 	private:
 		node_pointer header;
 		key_compare  compare;
