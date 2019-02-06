@@ -185,9 +185,12 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 
 int main()
 {
-	float x = -1.25F;
+	static constexpr float  flt_exp_min = -8.73365402000000000000e001F; /* -126.000000/log2e */
+	static constexpr float  flt_exp_max =  8.83762589000000000000e001F; /* 127.5/log2e */
 
-	float y1 = core::exp(x);
+	float x = flt_exp_max;
+
+	float y1 = core::exp(x); // 1.66240633e-38
 	float y2 = exp(x);
 	__m128 xmm_y = core::expf4<core::cpu_sse2 | core::cpu_fma>(_mm_set1_ps(x));
 	__m256 ymm_y = core::expf8<core::cpu_avx | core::cpu_fma>(_mm256_set1_ps(x));
