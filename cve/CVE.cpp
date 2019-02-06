@@ -117,85 +117,52 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 	return os;
 }
 
-//constexpr double dbl_one    =  1.00000000000000000000e0; // 1
-//constexpr double dbl_two    =  2.00000000000000000000e0; // 2
-//constexpr double dbl_sqrt2  =  1.41421356237309504880e0; // sqrt(2)
-//constexpr double dbl_ln2_hi =  6.9314718246459961e-1;    // ln2 of 20 digit mantissa
-//constexpr double dbl_ln2_lo = -1.9046543005827679e-9;    // ln2 - dbl_ln2_hi
-//
-//constexpr double dbl_log_p0 =  2.00000000000000000000e0;
-//constexpr double dbl_log_p1 = -3.56862745098039215686e0;
-//constexpr double dbl_log_p2 =  1.95294117647058823529e0;
-//constexpr double dbl_log_p3 = -3.33290239172592113769e-1;
-//constexpr double dbl_log_p4 =  8.55823914647444059209e-3;
-//constexpr double dbl_log_q0 =  1.00000000000000000000e0;
-//constexpr double dbl_log_q1 = -2.11764705882352941176e0;
-//constexpr double dbl_log_q2 =  1.48235294117647058824e0;
-//constexpr double dbl_log_q3 = -3.80090497737556561086e-1;
-//constexpr double dbl_log_q4 =  2.59152612093788564377e-2;
-//
-//constexpr unsigned long long dbl_nan  = 0xfff8000000000000;
-//constexpr unsigned long long dbl_inf  = 0x7ff0000000000000;
-//constexpr unsigned long long dbl_ninf = 0xfff0000000000000;
-//
-//double ln(double x)
-//{
-//	signed long long *i = reinterpret_cast<signed long long*>(&x);
-//	// if x < 0 return NAN
-//	if (*i & 0x8000000000000000)
-//		return *reinterpret_cast<const double*>(&dbl_nan);
-//	// if x = 0 return -INF
-//	if (x == 0)
-//		return *reinterpret_cast<const double*>(&dbl_ninf);
-//	// keep the exponent part
-//	signed long long exp = ((*i & 0x7ff0000000000000) >> 52) - 1023;
-//	double e = static_cast<double>(exp);
-//	// keep the decimal part
-//	signed long long mant = (*i & 0x000fffffffffffff) | 0x3ff0000000000000;
-//	double m = *reinterpret_cast<double*>(&mant);
-//	// if m > sqrt(2) e += 1 and m /= 2
-//	if (m > dbl_sqrt2)
-//	{
-//		e += dbl_one;
-//		m /= dbl_two;
-//	}
-//	// t = (m - 1) / (m + 1)
-//	double t = (m - dbl_one) / (m + dbl_one);
-//	// x = t * t
-//	x = t * t;
-//	// P(x) = p0 + p1 * x + p2 * x^2 + p3 * x^3 + p4 * x^4
-//	double p = dbl_log_p4;
-//	p = p * x + dbl_log_p3;
-//	p = p * x + dbl_log_p2;
-//	p = p * x + dbl_log_p1;
-//	p = p * x + dbl_log_p0;
-//	// Q(x) = q0 + q1 * x + q2 * x^2 + q3 * x^3 + q4 * x^4
-//	double q = dbl_log_q4;
-//	q = q * x + dbl_log_q3;
-//	q = q * x + dbl_log_q2;
-//	q = q * x + dbl_log_q1;
-//	q = q * x + dbl_log_q0;
-//	// y = t * P(x) / Q(x)
-//	double y = t * p / q;
-//	// y += e * ln2;
-//	y += e * dbl_ln2_hi;
-//	y += e * dbl_ln2_lo;
-//	return y;
-//}
+// Test size-blanced tree container
+void test_sb_tree(void)
+{
+	// Create a red-black tree
+	core::sb_tree<std::string, std::string, std::identity<std::string> > fruit;
+
+	fruit.insert_equal("banana");
+	fruit.insert_equal("fig");
+	fruit.insert_equal("grape");
+	//fruit.insert_equal({ "grape", "peach", "banana", "orange", "fig", "plum" });
+	//// Print the red-black tree
+	//size_t index = 0;
+	//std::cout << "elements:" << std::endl;
+	//for (auto i = fruit.cbegin(); i != fruit.cend(); ++i)
+	//{
+	//	std::cout << std::setw(5) << ++index << "." << i->data() << std::endl;
+	//}
+	//size_t depth = 1;
+	//std::cout << "size-blanced tree:" << std::endl;
+	//for (auto i = fruit.cpbegin(); i != fruit.cpend(); ++i)
+	//{
+	//	depth += i.get_depth();
+	//	if (i.get_state() != core::rb_tree_state_parent)
+	//	{
+	//		size_t width = (depth << 2) + 2;
+	//		switch (i.get_state())
+	//		{
+	//		case core::rb_tree_state_left:
+	//			std::cout << std::setw(width) << "1." << i->data() << " (" << color.data() << ")" << std::endl;
+	//			break;
+	//		case core::rb_tree_state_right:
+	//		case core::rb_tree_state_sibling:
+	//			std::cout << std::setw(width) << "2." << i->data() << " (" << color.data() << ")" << std::endl;
+	//			break;
+	//		case core::rb_tree_state_root:
+	//			std::cout << std::setw(width) << "0." << i->data() << " (" << color.data() << ")" << std::endl;
+	//			break;
+	//		}
+	//	}
+	//}
+}
 
 int main()
 {
-	static constexpr float  flt_exp_min = -8.73365402000000000000e001F; /* -126.000000/log2e */
-	static constexpr float  flt_exp_max =  8.83762589000000000000e001F; /* 127.5/log2e */
-
-	float x = flt_exp_max;
-
-	float y1 = core::exp(x); // 1.66240633e-38
-	float y2 = exp(x);
-	__m128 xmm_y = core::expf4<core::cpu_sse2 | core::cpu_fma>(_mm_set1_ps(x));
-	__m256 ymm_y = core::expf8<core::cpu_avx | core::cpu_fma>(_mm256_set1_ps(x));
-	std::cout << y1 << "\n";
-	std::cout << y2 << "\n";
+	test_sb_tree();
+	return 0;
 
  	const size_t batch_size = 16;
 	const size_t sample_size = 1000;

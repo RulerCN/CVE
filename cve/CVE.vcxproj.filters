@@ -166,9 +166,6 @@
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_exp.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_math.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_sigmoid.h">
       <Filter>core\cpu\kernel\arithmetic</Filter>
     </ClInclude>
@@ -754,9 +751,6 @@
     <ClInclude Include="nn\conv2d.h">
       <Filter>nn</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\kernel\arithmetic\kernel_arithmetic_log.h">
-      <Filter>core\cpu\kernel\arithmetic</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\math\cpu_exp.h">
       <Filter>core\cpu\math</Filter>
     </ClInclude>
@@ -766,11 +760,11 @@
     <ClInclude Include="core\cpu\math\cpu_log.h">
       <Filter>core\cpu\math</Filter>
     </ClInclude>
-    <ClInclude Include="core\cpu\math\cpu_sbce.h">
-      <Filter>core\cpu\math</Filter>
-    </ClInclude>
     <ClInclude Include="core\cpu\math\cpu_sigmoid.h">
       <Filter>core\cpu\math</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sb_tree.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
