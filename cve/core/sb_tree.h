@@ -1315,45 +1315,55 @@ namespace core
 		void matain(node_pointer x, node_pointer& root) const noexcept
 		{
 			node_pointer p = x->parent;
+			node_pointer g = p->parent;
 
-			if (p == p->parent->left)
+			if (p == g->left)
 			{
-				if (p->parent->right == nullptr || x->size > p->parent->right->szie)
+				if (g->right == nullptr || x->size > g->right->size)
 				{
-					rotate_right(p->parent, root);
+					rotate_right(g, root);
 					matain(x->right, root);
 					matain(x, root);
 				}
 			}
+			else
+			{
+				if (g->left == nullptr || x->size > g->left->size)
+				{
+					rotate_left(g, root);
+					matain(x->left, root);
+					matain(x, root);
+				}
+			}
 
-			if (x->left->left->size > x->right->size)
-			{
-				rotate_right(x, root);
-				matain(x->right, root);
-				matain(x, root);
-			}
-			else if (x->left->right->size > x->right->size)
-			{
-				rotate_left(x->left, root);
-				rotate_right(x, root);
-				matain(x->left, root);
-				matain(x->right, root);
-				matain(x, root);
-			}
-			else if (x->right->right->size > x->left->size)
-			{
-				rotate_left(x, root);
-				matain(x->left, root);
-				matain(x, root);
-			}
-			else if (x->right->left->size > x->left->size)
-			{
-				rotate_right(x->right, root);
-				rotate_left(x, root);
-				matain(x->left, root);
-				matain(x->right, root);
-				matain(x, root);
-			}
+			//if (x->left->left->size > x->right->size)
+			//{
+			//	rotate_right(x, root);
+			//	matain(x->right, root);
+			//	matain(x, root);
+			//}
+			//else if (x->left->right->size > x->right->size)
+			//{
+			//	rotate_left(x->left, root);
+			//	rotate_right(x, root);
+			//	matain(x->left, root);
+			//	matain(x->right, root);
+			//	matain(x, root);
+			//}
+			//else if (x->right->right->size > x->left->size)
+			//{
+			//	rotate_left(x, root);
+			//	matain(x->left, root);
+			//	matain(x, root);
+			//}
+			//else if (x->right->left->size > x->left->size)
+			//{
+			//	rotate_right(x->right, root);
+			//	rotate_left(x, root);
+			//	matain(x->left, root);
+			//	matain(x->right, root);
+			//	matain(x, root);
+			//}
 		}
 
 		//void matain(node_pointer x, node_pointer& root) const noexcept
