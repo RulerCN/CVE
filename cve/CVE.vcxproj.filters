@@ -766,6 +766,9 @@
     <ClInclude Include="core\sb_tree.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\bin_tree.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

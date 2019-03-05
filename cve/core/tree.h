@@ -1697,6 +1697,8 @@ namespace core
 
 		void erase_children(const node_pointer parent)
 		{
+			if (parent->first_child == nullptr)
+				return;
 			node_pointer cur = parent;
 			node_pointer next = nullptr;
 			do

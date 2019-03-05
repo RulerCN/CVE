@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="core\aligned_allocator.h" />
     <ClInclude Include="core\allocator.h" />
+    <ClInclude Include="core\bin_tree.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_add.h" />
     <ClInclude Include="core\cpu\arithmetic\cpu_arithmetic_adds.h" />
