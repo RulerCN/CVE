@@ -120,12 +120,12 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 // Test size-blanced tree container
 void test_sb_tree(void)
 {
-	// Create a red-black tree
-	core::sb_tree<std::string, std::string, std::identity<std::string> > fruit;
+	//// Create a red-black tree
+	//core::sb_tree<std::string, std::string, std::identity<std::string> > fruit;
 
-	fruit.insert_equal("banana");
-	fruit.insert_equal("fig");
-	fruit.insert_equal("grape");
+	//fruit.insert_equal("banana");
+	//fruit.insert_equal("fig");
+	//fruit.insert_equal("grape");
 	//fruit.insert_equal({ "grape", "peach", "banana", "orange", "fig", "plum" });
 	//// Print the red-black tree
 	//size_t index = 0;

@@ -34,14 +34,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iterator>
 #include <functional>
 #include <utility>
+#include "allocator.h"
 
 namespace core
 {
-	typedef bool rb_tree_color_type;
+	using rb_tree_color_type = bool;
 	static constexpr rb_tree_color_type rb_tree_red   = false;
 	static constexpr rb_tree_color_type rb_tree_black = true;
 
-	typedef signed char rb_tree_node_state;
+	using rb_tree_node_state = signed char;
 	static constexpr rb_tree_node_state rb_tree_state_parent  = -0x10;
 	static constexpr rb_tree_node_state rb_tree_state_sibling =  0x01;
 	static constexpr rb_tree_node_state rb_tree_state_left    =  0x12;
@@ -52,17 +53,17 @@ namespace core
 	template <class T>
 	struct rb_tree_node
 	{
-		typedef rb_tree_node<T>  node_type;
-		typedef node_type*       node_pointer;
-		typedef const node_type* const_node_pointer;
-		typedef node_type&       node_reference;
-		typedef const node_type& const_node_reference;
+		using node_type            = rb_tree_node<T>;
+		using node_pointer         = node_type*;
+		using const_node_pointer   = const node_type*;
+		using node_reference       = node_type&;
+		using const_node_reference = const node_type&;
 
-		node_pointer             parent;
-		node_pointer             left;
-		node_pointer             right;
-		rb_tree_color_type       color;
-		T                        data;
+		node_pointer               parent;
+		node_pointer               left;
+		node_pointer               right;
+		rb_tree_color_type         color;
+		T                          data;
 	};
 
 	// Class template rb_tree_type_traits
@@ -70,25 +71,25 @@ namespace core
 	template <class Tree, bool IsConst>
 	struct rb_tree_type_traits
 	{
-		typedef typename Tree::node_type       node_type;
-		typedef typename Tree::node_pointer    node_pointer;
-		typedef typename Tree::value_type      value_type;
-		typedef typename Tree::pointer         pointer;
-		typedef typename Tree::reference       reference;
-		typedef typename Tree::size_type       size_type;
-		typedef typename Tree::difference_type difference_type;
+		using value_type      = typename Tree::value_type;
+		using pointer         = typename Tree::pointer;
+		using reference       = typename Tree::reference;
+		using size_type       = typename Tree::size_type;
+		using difference_type = typename Tree::difference_type;
+		using node_type       = typename Tree::node_type;
+		using node_pointer    = typename Tree::node_pointer;
 	};
 
 	template <class Tree>
 	struct rb_tree_type_traits<Tree, true>
 	{
-		typedef typename Tree::node_type       node_type;
-		typedef typename Tree::node_pointer    node_pointer;
-		typedef typename Tree::value_type      value_type;
-		typedef typename Tree::const_pointer   pointer;
-		typedef typename Tree::const_reference reference;
-		typedef typename Tree::size_type       size_type;
-		typedef typename Tree::difference_type difference_type;
+		using value_type      = typename Tree::value_type;
+		using pointer         = typename Tree::const_pointer;
+		using reference       = typename Tree::const_reference;
+		using size_type       = typename Tree::size_type;
+		using difference_type = typename Tree::difference_type;
+		using node_type       = typename Tree::node_type;
+		using node_pointer    = typename Tree::node_pointer;
 	};
 
 	// Class template rb_tree_iterator
@@ -98,16 +99,16 @@ namespace core
 	public:
 		// types:
 
-		typedef rb_tree_iterator<Tree, IsConst>                              iterator_type;
-		typedef ::std::bidirectional_iterator_tag                            iterator_category;
+		using value_type        = typename rb_tree_type_traits<Tree, IsConst>::value_type;
+		using pointer           = typename rb_tree_type_traits<Tree, IsConst>::pointer;
+		using reference         = typename rb_tree_type_traits<Tree, IsConst>::reference;
+		using size_type         = typename rb_tree_type_traits<Tree, IsConst>::size_type;
+		using difference_type   = typename rb_tree_type_traits<Tree, IsConst>::difference_type;
+		using node_type         = typename rb_tree_type_traits<Tree, IsConst>::node_type;
+		using node_pointer      = typename rb_tree_type_traits<Tree, IsConst>::node_pointer;
 
-		typedef typename rb_tree_type_traits<Tree, IsConst>::node_type       node_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::node_pointer    node_pointer;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::value_type      value_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::pointer         pointer;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::reference       reference;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::size_type       size_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::difference_type difference_type;
+		using iterator_type     = rb_tree_iterator<Tree, IsConst>;
+		using iterator_category = ::std::bidirectional_iterator_tag;
 
 		// construct/copy/destroy:
 
@@ -251,16 +252,16 @@ namespace core
 	public:
 		// types:
 
-		typedef rb_tree_primitive_iterator<Tree, IsConst>                    iterator_type;
-		typedef ::std::bidirectional_iterator_tag                            iterator_category;
+		using value_type        = typename rb_tree_type_traits<Tree, IsConst>::value_type;
+		using pointer           = typename rb_tree_type_traits<Tree, IsConst>::pointer;
+		using reference         = typename rb_tree_type_traits<Tree, IsConst>::reference;
+		using size_type         = typename rb_tree_type_traits<Tree, IsConst>::size_type;
+		using difference_type   = typename rb_tree_type_traits<Tree, IsConst>::difference_type;
+		using node_type         = typename rb_tree_type_traits<Tree, IsConst>::node_type;
+		using node_pointer      = typename rb_tree_type_traits<Tree, IsConst>::node_pointer;
 
-		typedef typename rb_tree_type_traits<Tree, IsConst>::node_type       node_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::node_pointer    node_pointer;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::value_type      value_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::pointer         pointer;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::reference       reference;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::size_type       size_type;
-		typedef typename rb_tree_type_traits<Tree, IsConst>::difference_type difference_type;
+		using iterator_type     = rb_tree_primitive_iterator<Tree, IsConst>;
+		using iterator_category = ::std::bidirectional_iterator_tag;
 
 		// construct/copy/destroy:
 
@@ -449,16 +450,13 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                                  allocator_type;
-		typedef typename rb_tree_node<T>::node_type                        tree_node_type;
-		typedef typename Allocator::template rebind<tree_node_type>::other node_allocator_type;
-		typedef ::std::allocator_traits<allocator_type>                    allocator_traits_type;
-		typedef ::std::allocator_traits<node_allocator_type>               node_allocator_traits_type;
-
-		typedef typename node_allocator_traits_type::size_type             node_size_type;
-		typedef typename node_allocator_traits_type::difference_type       node_difference_type;
-		typedef typename node_allocator_traits_type::value_type            node_type;
-		typedef typename node_allocator_traits_type::pointer               node_pointer;
+		using allocator_type       = Allocator;
+		using tree_node_type       = typename rb_tree_node<T>::node_type;
+		using node_allocator_type  = typename Allocator::template rebind<tree_node_type>::other;
+		using node_type            = typename node_allocator_type::value_type;
+		using node_pointer         = typename node_allocator_type::pointer;
+		using node_size_type       = typename node_allocator_type::size_type;
+		using node_difference_type = typename node_allocator_type::difference_type;
 
 		// construct/copy/destroy:
 
@@ -508,29 +506,29 @@ namespace core
 	public:
 		// types:
 
-		typedef Key                                                    key_type;
-		typedef KeyCompare                                             key_compare;
-		typedef Allocator                                              allocator_type;
-		typedef rb_tree_node_allocator<Value, Allocator>               node_allocator_type;
-		typedef rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator> tree_type;
-		typedef typename node_allocator_type::node_type                node_type;
-		typedef typename node_allocator_type::node_pointer             node_pointer;
-		typedef typename allocator_type::value_type                    value_type;
-		typedef typename allocator_type::pointer                       pointer;
-		typedef typename allocator_type::const_pointer                 const_pointer;
-		typedef typename allocator_type::reference                     reference;
-		typedef typename allocator_type::const_reference               const_reference;
-		typedef typename allocator_type::size_type                     size_type;
-		typedef typename allocator_type::difference_type               difference_type;
+		using key_type                         = Key;
+		using key_compare                      = KeyCompare;
+		using allocator_type                   = Allocator;
+		using node_allocator_type              = rb_tree_node_allocator<Value, Allocator>;
+		using tree_type                        = rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>;
+		using node_type                        = typename node_allocator_type::node_type;
+		using node_pointer                     = typename node_allocator_type::node_pointer;
+		using value_type                       = typename allocator_type::value_type;
+		using pointer                          = typename allocator_type::pointer;
+		using const_pointer                    = typename allocator_type::const_pointer;
+		using reference                        = typename allocator_type::reference;
+		using const_reference                  = typename allocator_type::const_reference;
+		using size_type                        = typename allocator_type::size_type;
+		using difference_type                  = typename allocator_type::difference_type;
 
-		typedef rb_tree_iterator<tree_type, false>                     iterator;
-		typedef rb_tree_iterator<tree_type, true>                      const_iterator;
-		typedef rb_tree_primitive_iterator<tree_type, false>           primitive_iterator;
-		typedef rb_tree_primitive_iterator<tree_type, true>            const_primitive_iterator;
-		typedef ::std::reverse_iterator<iterator>                      reverse_iterator;
-		typedef ::std::reverse_iterator<const_iterator>                const_reverse_iterator;
-		typedef ::std::reverse_iterator<primitive_iterator>            reverse_primitive_iterator;
-		typedef ::std::reverse_iterator<const_primitive_iterator>      const_reverse_primitive_iterator;
+		using iterator                         = rb_tree_iterator<tree_type, false>;
+		using const_iterator                   = rb_tree_iterator<tree_type, true>;
+		using primitive_iterator               = rb_tree_primitive_iterator<tree_type, false>;
+		using const_primitive_iterator         = rb_tree_primitive_iterator<tree_type, true>;
+		using reverse_iterator                 = ::std::reverse_iterator<iterator>;
+		using const_reverse_iterator           = ::std::reverse_iterator<const_iterator>;
+		using reverse_primitive_iterator       = ::std::reverse_iterator<primitive_iterator>;
+		using const_reverse_primitive_iterator = ::std::reverse_iterator<const_primitive_iterator>;
 
 		// construct/copy/destroy:
 
@@ -539,7 +537,7 @@ namespace core
 			, compare(comp)
 			, count(0)
 		{
-			create_header();
+			create_header() = 
 		}
 		explicit rb_tree(const Allocator& alloc)
 			: node_allocator_type(alloc)

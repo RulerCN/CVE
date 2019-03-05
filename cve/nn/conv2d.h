@@ -41,22 +41,20 @@ namespace nn
 	public:
 		// types:
 
-		typedef layer<T, Allocator>                        layer_type;
+		using layer_type            = layer<T, Allocator>;
+		using allocator_type        = typename layer_type::allocator_type;
+		using value_type            = typename layer_type::value_type;
+		using pointer               = typename layer_type::pointer;
+		using const_pointer         = typename layer_type::const_pointer;
+		using reference             = typename layer_type::reference;
+		using const_reference       = typename layer_type::const_reference;
+		using size_type             = typename layer_type::size_type;
+		using difference_type       = typename layer_type::difference_type;
 
-		typedef typename layer_type::allocator_type        allocator_type;
-		typedef typename layer_type::allocator_traits_type allocator_traits_type;
-		typedef typename layer_type::scalar_type           scalar_type;
-		typedef typename layer_type::vector_type           vector_type;
-		typedef typename layer_type::matrix_type           matrix_type;
-		typedef typename layer_type::tensor_type           tensor_type;
-
-		typedef typename layer_type::value_type            value_type;
-		typedef typename layer_type::pointer               pointer;
-		typedef typename layer_type::const_pointer         const_pointer;
-		typedef typename layer_type::reference             reference;
-		typedef typename layer_type::const_reference       const_reference;
-		typedef typename layer_type::size_type             size_type;
-		typedef typename layer_type::difference_type       difference_type;
+		using scalar_type           = typename layer_type::scalar_type;
+		using vector_type           = typename layer_type::vector_type;
+		using matrix_type           = typename layer_type::matrix_type;
+		using tensor_type           = typename layer_type::tensor_type;
 
 		// construct/copy/destroy:
 

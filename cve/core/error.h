@@ -57,50 +57,50 @@ namespace core
 	//      |--system_error
 
 	// bad_alloc
-	static const char not_enough_memory[]          = "Not enough storage.";
+	static constexpr char not_enough_memory[]          = "Not enough storage.";
 	// domain_error
-	static const char scalar_is_initialized[]      = "Scalar is initialized.";
-	static const char scalar_not_initialized[]     = "Scalar not initialized.";
-	static const char vector_is_initialized[]      = "Vector is initialized.";
-	static const char vector_not_initialized[]     = "Vector not initialized.";
-	static const char matrix_is_initialized[]      = "Matrix is initialized.";
-	static const char matrix_not_initialized[]     = "Matrix not initialized.";
-	static const char tensor_is_initialized[]      = "Tensor is initialized.";
-	static const char tensor_not_initialized[]     = "Tensor not initialized.";
-	static const char layer_is_initialized[]       = "Layer is initialized.";
-	static const char layer_not_initialized[]      = "Layer not initialized.";
-	static const char sample_set_is_initialized[]  = "Sample set is initialized.";
-	static const char sample_set_not_initialized[] = "Sample set not initialized.";
-	static const char scalar_different_size[]      = "Unable to operate scalars of different size.";
-	static const char vector_different_size[]      = "Unable to operate vectors of different size.";
-	static const char matrix_different_size[]      = "Unable to operate matrixs of different size.";
-	static const char tensor_different_size[]      = "Unable to operate tensors of different size.";
-	static const char sample_unequal_number[]      = "Unequal number of images and labels.";
+	static constexpr char scalar_is_initialized[]      = "Scalar is initialized.";
+	static constexpr char scalar_not_initialized[]     = "Scalar not initialized.";
+	static constexpr char vector_is_initialized[]      = "Vector is initialized.";
+	static constexpr char vector_not_initialized[]     = "Vector not initialized.";
+	static constexpr char matrix_is_initialized[]      = "Matrix is initialized.";
+	static constexpr char matrix_not_initialized[]     = "Matrix not initialized.";
+	static constexpr char tensor_is_initialized[]      = "Tensor is initialized.";
+	static constexpr char tensor_not_initialized[]     = "Tensor not initialized.";
+	static constexpr char layer_is_initialized[]       = "Layer is initialized.";
+	static constexpr char layer_not_initialized[]      = "Layer not initialized.";
+	static constexpr char sample_set_is_initialized[]  = "Sample set is initialized.";
+	static constexpr char sample_set_not_initialized[] = "Sample set not initialized.";
+	static constexpr char scalar_different_size[]      = "Unable to operate scalars of different size.";
+	static constexpr char vector_different_size[]      = "Unable to operate vectors of different size.";
+	static constexpr char matrix_different_size[]      = "Unable to operate matrixs of different size.";
+	static constexpr char tensor_different_size[]      = "Unable to operate tensors of different size.";
+	static constexpr char sample_unequal_number[]      = "Unequal number of images and labels.";
 	// invalid_argument
-	static const char invalid_template_parameter[] = "Invalid template parameter.";
-	static const char invalid_power[]              = "Invalid power.";
-	static const char invalid_dimension[]          = "Invalid dimension.";
-	static const char invalid_pointer[]            = "Invalid pointer.";
-	static const char invalid_length[]             = "Invalid length.";
-	static const char invalid_size[]               = "Invalid size.";
-	static const char invalid_shape[]              = "Invalid shape.";
-	static const char invalid_copy_mode[]          = "Invalid copy mode.";
-	static const char invalid_initializer_list[]   = "Invalid initializer list.";
-	static const char invalid_iterator_distance[]  = "Invalid distance between iterators.";
-	static const char invalid_scalar_size[]        = "Invalid scalar size.";
-	static const char invalid_vector_size[]        = "Invalid vector size.";
-	static const char invalid_matrix_size[]        = "Invalid matrix size.";
-	static const char invalid_tensor_size[]        = "Invalid tensor size.";
-	static const char invalid_border_size[]        = "Invalid border size.";
-	static const char invalid_window_size[]        = "Invalid window size.";
-	static const char invalid_sliding_stride[]     = "Invalid sliding stride.";
-	static const char invalid_axis_parameters[]    = "Invalid axis parameters.";
-	static const char invalid_repeat_parameters[]  = "Invalid repeat parameters.";
+	static constexpr char invalid_template_parameter[] = "Invalid template parameter.";
+	static constexpr char invalid_power[]              = "Invalid power.";
+	static constexpr char invalid_dimension[]          = "Invalid dimension.";
+	static constexpr char invalid_pointer[]            = "Invalid pointer.";
+	static constexpr char invalid_length[]             = "Invalid length.";
+	static constexpr char invalid_size[]               = "Invalid size.";
+	static constexpr char invalid_shape[]              = "Invalid shape.";
+	static constexpr char invalid_copy_mode[]          = "Invalid copy mode.";
+	static constexpr char invalid_initializer_list[]   = "Invalid initializer list.";
+	static constexpr char invalid_iterator_distance[]  = "Invalid distance between iterators.";
+	static constexpr char invalid_scalar_size[]        = "Invalid scalar size.";
+	static constexpr char invalid_vector_size[]        = "Invalid vector size.";
+	static constexpr char invalid_matrix_size[]        = "Invalid matrix size.";
+	static constexpr char invalid_tensor_size[]        = "Invalid tensor size.";
+	static constexpr char invalid_border_size[]        = "Invalid border size.";
+	static constexpr char invalid_window_size[]        = "Invalid window size.";
+	static constexpr char invalid_sliding_stride[]     = "Invalid sliding stride.";
+	static constexpr char invalid_axis_parameters[]    = "Invalid axis parameters.";
+	static constexpr char invalid_repeat_parameters[]  = "Invalid repeat parameters.";
 	// out_of_range
-	static const char scalar_out_of_range[]        = "Scalar subscript out of range.";
-	static const char vector_out_of_range[]        = "Vector subscript out of range.";
-	static const char matrix_out_of_range[]        = "Matrix subscript out of range.";
-	static const char tensor_out_of_range[]        = "Tensor subscript out of range.";
+	static constexpr char scalar_out_of_range[]        = "Scalar subscript out of range.";
+	static constexpr char vector_out_of_range[]        = "Vector subscript out of range.";
+	static constexpr char matrix_out_of_range[]        = "Matrix subscript out of range.";
+	static constexpr char tensor_out_of_range[]        = "Tensor subscript out of range.";
 
 } // namespace core
 

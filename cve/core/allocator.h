@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CORE_ALLOCATOR_H__
 
 #include <memory>
+#include <cstring>
 #include <exception>
 
 namespace core
@@ -42,15 +43,16 @@ namespace core
 	class allocator<void, inst>
 	{
 	public:
-		typedef void              value_type;
-		typedef void*             pointer;
-		typedef const void*       const_pointer;
-		typedef size_t            size_type;
-		typedef ptrdiff_t         difference_type;
+		using value_type      = void;
+		using pointer         = void*;
+		using const_pointer   = const void*;
+		using size_type       = size_t;
+		using difference_type = ptrdiff_t;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef allocator<U, inst> other;
+			using other = allocator<U, inst>;
 		};
 	};
 
@@ -158,7 +160,7 @@ namespace core
 				if (result == nullptr)
 				{
 					copy_size = new_size > old_size ? old_size : new_size;
-					memcpy(result, p, copy_size);
+					::std::memcpy(result, p, copy_size);
 					arw_deallocate(p, old_size);
 				}
 			}
@@ -295,23 +297,24 @@ namespace core
 	class allocator : public allocator_base<inst>
 	{
 	public:
-		typedef T                 value_type;
-		typedef value_type*       pointer;
-		typedef const value_type* const_pointer;
-		typedef value_type&       reference;
-		typedef const value_type& const_reference;
-		typedef size_t            size_type;
-		typedef ptrdiff_t         difference_type;
-
-		template <class U> struct rebind
+		using value_type      = T;
+		using pointer         = value_type*;
+		using const_pointer   = const value_type*;
+		using reference       = value_type&;
+		using const_reference = const value_type&;
+		using size_type       = size_t;
+		using difference_type = ptrdiff_t;
+		
+		template<class U>
+		struct rebind
 		{
-			typedef allocator<U, inst> other;
+			using other = allocator<U, inst>;
 		};
 
-		typedef ::std::false_type propagate_on_container_copy_assignment;
-		typedef ::std::false_type propagate_on_container_move_assignment;
-		typedef ::std::false_type propagate_on_container_swap;
-		typedef ::std::true_type  is_always_equal;
+		using propagate_on_container_copy_assignment = ::std::false_type;
+		using propagate_on_container_move_assignment = ::std::false_type;
+		using propagate_on_container_swap            = ::std::false_type;
+		using is_always_equal                        = ::std::true_type;
 	public:
 		// Construct default allocator
 		allocator(void) noexcept

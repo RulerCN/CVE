@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace core
 {
 	// CPU instruction set
-	typedef unsigned int cpu_inst_type;
+	using cpu_inst_type = unsigned int;
 	static constexpr cpu_inst_type        cpu_none           =  0x00000000;
 	static constexpr cpu_inst_type        cpu_mmx            =  0x00000001;                 /* MMX instruction set */
 	static constexpr cpu_inst_type        cpu_sse            =  0x00000100;                 /* SSE instruction set */
@@ -62,19 +62,19 @@ namespace core
 	static constexpr cpu_inst_type        cpu_fma4           =  0x04000000;                 /* FMA4 instruction set */
 	static constexpr cpu_inst_type        cpu_xop            =  0x08000000;                 /* XOP instruction set */
 	// Copy mode
-	typedef unsigned char copy_mode_type;
+	using copy_mode_type = unsigned char;
 	static constexpr copy_mode_type       without_copy       = 0x00;                        /* no copy or reference to any data */
 	static constexpr copy_mode_type       shallow_copy       = 0x01;                        /* only reference the original data */
 	static constexpr copy_mode_type       deep_copy          = 0x02;                        /* copy all the original data */
 	// Border type
-	typedef unsigned char border_type;
+	using border_type = unsigned char;
 	static constexpr border_type          border_constant    = 0x00;                        /* iiii|abcdefgh|iiii */
 	static constexpr border_type          border_replicate   = 0x01;                        /* aaaa|abcdefgh|hhhh */
 	static constexpr border_type          border_reflect     = 0x02;                        /* dcba|abcdefgh|hgfe */
 	static constexpr border_type          border_reflect101  = 0x03;                        /* edcb|abcdefgh|gfed */
 	static constexpr border_type          border_wrap        = 0x04;                        /* efgh|abcdefgh|abcd */
 	// Axis type
-	typedef unsigned char axis_type;
+	using axis_type = unsigned char;
 	static constexpr axis_type            axis_none          = 0x00;
 	static constexpr axis_type            axis_x             = 0x01;                        /* x-axis */
 	static constexpr axis_type            axis_y             = 0x02;                        /* y-axis */

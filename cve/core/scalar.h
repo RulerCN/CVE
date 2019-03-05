@@ -45,17 +45,18 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using allocator_type        = Allocator;
+		using allocator_traits_type = ::std::allocator_traits<allocator_type>;
+		using value_type            = typename allocator_traits_type::value_type;
+		using pointer               = typename allocator_traits_type::pointer;
+		using const_pointer         = typename allocator_traits_type::const_pointer;
+		using size_type             = typename allocator_traits_type::size_type;
+		using difference_type       = typename allocator_traits_type::difference_type;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef scalar<U, Allocator> other;
+			using other = scalar<U, Allocator>;
 		};
 	};
 
@@ -66,19 +67,20 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using allocator_type        = Allocator;
+		using allocator_traits_type = ::std::allocator_traits<allocator_type>;
+		using value_type            = typename allocator_traits_type::value_type;
+		using pointer               = typename allocator_traits_type::pointer;
+		using const_pointer         = typename allocator_traits_type::const_pointer;
+		using reference             = typename allocator_type::reference;
+		using const_reference       = typename allocator_type::const_reference;
+		using size_type             = typename allocator_traits_type::size_type;
+		using difference_type       = typename allocator_traits_type::difference_type;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef scalar<U, Allocator> other;
+			using other = scalar<U, Allocator>;
 		};
 
 		// construct/copy/destroy:

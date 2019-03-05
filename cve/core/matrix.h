@@ -47,57 +47,58 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using allocator_type        = Allocator;
+		using allocator_traits_type = ::std::allocator_traits<allocator_type>;
+		using value_type            = typename allocator_traits_type::value_type;
+		using pointer               = typename allocator_traits_type::pointer;
+		using const_pointer         = typename allocator_traits_type::const_pointer;
+		using size_type             = typename allocator_traits_type::size_type;
+		using difference_type       = typename allocator_traits_type::difference_type;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef matrix<U, Allocator> other;
+			using other = matrix<U, Allocator>;
 		};
 	};
 
 	// Class template matrix_type_traits
 
-	template <class Matrix, bool is_const>
+	template <class Matrix, bool IsConst>
 	struct matrix_type_traits
 	{
-		typedef typename Matrix::value_type      value_type;
-		typedef typename Matrix::pointer         pointer;
-		typedef typename Matrix::reference       reference;
-		typedef typename Matrix::size_type       size_type;
-		typedef typename Matrix::difference_type difference_type;
+		using value_type      = typename Matrix::value_type;
+		using pointer         = typename Matrix::pointer;
+		using reference       = typename Matrix::reference;
+		using size_type       = typename Matrix::size_type;
+		using difference_type = typename Matrix::difference_type;
 	};
 
 	template <class Matrix>
 	struct matrix_type_traits<Matrix, true>
 	{
-		typedef typename Matrix::value_type      value_type;
-		typedef typename Matrix::const_pointer   pointer;
-		typedef typename Matrix::const_reference reference;
-		typedef typename Matrix::size_type       size_type;
-		typedef typename Matrix::difference_type difference_type;
+		using value_type      = typename Matrix::value_type;
+		using pointer         = typename Matrix::const_pointer;
+		using reference       = typename Matrix::const_reference;
+		using size_type       = typename Matrix::size_type;
+		using difference_type = typename Matrix::difference_type;
 	};
 
 	// Class template matrix_iterator
-	template <class Matrix, bool is_const>
+	template <class Matrix, bool IsConst>
 	class matrix_iterator
 	{
 	public:
 		// types:
 
-		typedef matrix_iterator<Matrix, is_const>                              iterator_type;
-		typedef ::std::bidirectional_iterator_tag                              iterator_category;
+		using value_type        = typename matrix_type_traits<Matrix, IsConst>::value_type;
+		using pointer           = typename matrix_type_traits<Matrix, IsConst>::pointer;
+		using reference         = typename matrix_type_traits<Matrix, IsConst>::reference;
+		using size_type         = typename matrix_type_traits<Matrix, IsConst>::size_type;
+		using difference_type   = typename matrix_type_traits<Matrix, IsConst>::difference_type;
 
-		typedef typename matrix_type_traits<Matrix, is_const>::value_type      value_type;
-		typedef typename matrix_type_traits<Matrix, is_const>::pointer         pointer;
-		typedef typename matrix_type_traits<Matrix, is_const>::reference       reference;
-		typedef typename matrix_type_traits<Matrix, is_const>::size_type       size_type;
-		typedef typename matrix_type_traits<Matrix, is_const>::difference_type difference_type;
+		using iterator_type     = matrix_iterator<Matrix, IsConst>;
+		using iterator_category = ::std::bidirectional_iterator_tag;
 
 		// construct/copy/destroy:
 
@@ -109,12 +110,12 @@ namespace core
 			: step(stride)
 			, ptr(p)
 		{}
-		matrix_iterator(const matrix_iterator<Matrix, is_const>& other) noexcept
+		matrix_iterator(const matrix_iterator<Matrix, IsConst>& other) noexcept
 			: step(other.step)
 			, ptr(other.ptr)
 		{}
 
-		matrix_iterator<Matrix, is_const>& operator=(const matrix_iterator<Matrix, is_const>& other) noexcept
+		matrix_iterator<Matrix, IsConst>& operator=(const matrix_iterator<Matrix, IsConst>& other) noexcept
 		{
 			if (this != &other)
 			{
@@ -148,34 +149,34 @@ namespace core
 
 		// increment / decrement
 
-		matrix_iterator<Matrix, is_const>& operator++(void) noexcept
+		matrix_iterator<Matrix, IsConst>& operator++(void) noexcept
 		{
 			ptr += step;
 			return *this;
 		}
-		matrix_iterator<Matrix, is_const>& operator--(void) noexcept
+		matrix_iterator<Matrix, IsConst>& operator--(void) noexcept
 		{
 			ptr -= step;
 			return *this;
 		}
-		matrix_iterator<Matrix, is_const> operator++(int) noexcept
+		matrix_iterator<Matrix, IsConst> operator++(int) noexcept
 		{
 			matrix_iterator tmp(*this);
 			++(*this);
 			return tmp;
 		}
-		matrix_iterator<Matrix, is_const> operator--(int) noexcept
+		matrix_iterator<Matrix, IsConst> operator--(int) noexcept
 		{
 			matrix_iterator tmp(*this);
 			--(*this);
 			return tmp;
 		}
-		matrix_iterator<Matrix, is_const>& operator+=(difference_type n) noexcept
+		matrix_iterator<Matrix, IsConst>& operator+=(difference_type n) noexcept
 		{
 			ptr += (n * step);
 			return *this;
 		}
-		matrix_iterator<Matrix, is_const>& operator-=(difference_type n) noexcept
+		matrix_iterator<Matrix, IsConst>& operator-=(difference_type n) noexcept
 		{
 			ptr -= (n * step);
 			return *this;
@@ -205,29 +206,29 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef core::scalar<T, Allocator>                      scalar_type;
-		typedef const scalar_type                               const_scalar_type;
-		typedef core::vector<T, Allocator>                      vector_type;
-		typedef const vector_type                               const_vector_type;
+		using allocator_type         = Allocator;
+		using scalar_type            = core::scalar<T, Allocator>;
+		using const_scalar_type      = const scalar_type;
+		using vector_type            = core::vector<T, Allocator>;
+		using const_vector_type      = const vector_type;
+		using allocator_traits_type  = ::std::allocator_traits<allocator_type>;
+		using value_type             = typename allocator_traits_type::value_type;
+		using pointer                = typename allocator_traits_type::pointer;
+		using const_pointer          = typename allocator_traits_type::const_pointer;
+		using reference              = typename allocator_type::reference;
+		using const_reference        = typename allocator_type::const_reference;
+		using size_type              = typename allocator_traits_type::size_type;
+		using difference_type        = typename allocator_traits_type::difference_type;
 
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using iterator               = matrix_iterator<matrix<T, Allocator>, false>;
+		using const_iterator         = matrix_iterator<matrix<T, Allocator>, true>;
+		using reverse_iterator       = ::std::reverse_iterator<iterator>;
+		using const_reverse_iterator = ::std::reverse_iterator<const_iterator>;
 
-		typedef matrix_iterator<matrix<T, Allocator>, false>    iterator;
-		typedef matrix_iterator<matrix<T, Allocator>, true>     const_iterator;
-		typedef ::std::reverse_iterator<iterator>               reverse_iterator;
-		typedef ::std::reverse_iterator<const_iterator>         const_reverse_iterator;
-
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef matrix<U, Allocator> other;
+			using other = matrix<U, Allocator>;
 		};
 
 		// construct/copy/destroy:

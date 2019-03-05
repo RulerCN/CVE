@@ -46,57 +46,58 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using allocator_type        = Allocator;
+		using allocator_traits_type = ::std::allocator_traits<allocator_type>;
+		using value_type            = typename allocator_traits_type::value_type;
+		using pointer               = typename allocator_traits_type::pointer;
+		using const_pointer         = typename allocator_traits_type::const_pointer;
+		using size_type             = typename allocator_traits_type::size_type;
+		using difference_type       = typename allocator_traits_type::difference_type;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef vector<U, Allocator> other;
+			using other = vector<U, Allocator>;
 		};
 	};
 
 	// Class template vector_type_traits
 
-	template <class Vector, bool is_const>
+	template <class Vector, bool IsConst>
 	struct vector_type_traits
 	{
-		typedef typename Vector::value_type        value_type;
-		typedef typename Vector::pointer           pointer;
-		typedef typename Vector::reference         reference;
-		typedef typename Vector::size_type         size_type;
-		typedef typename Vector::difference_type   difference_type;
+		using value_type      = typename Vector::value_type;
+		using pointer         = typename Vector::pointer;
+		using reference       = typename Vector::reference;
+		using size_type       = typename Vector::size_type;
+		using difference_type = typename Vector::difference_type;
 	};
 
 	template <class Vector>
 	struct vector_type_traits<Vector, true>
 	{
-		typedef typename Vector::value_type        value_type;
-		typedef typename Vector::const_pointer     pointer;
-		typedef typename Vector::const_reference   reference;
-		typedef typename Vector::size_type         size_type;
-		typedef typename Vector::difference_type   difference_type;
+		using value_type      = typename Vector::value_type;
+		using pointer         = typename Vector::const_pointer;
+		using reference       = typename Vector::const_reference;
+		using size_type       = typename Vector::size_type;
+		using difference_type = typename Vector::difference_type;
 	};
 
 	// Class template vector_iterator
-	template <class Vector, bool is_const>
+	template <class Vector, bool IsConst>
 	class vector_iterator
 	{
 	public:
 		// types:
 
-		typedef vector_iterator<Vector, is_const>                              iterator_type;
-		typedef ::std::bidirectional_iterator_tag                              iterator_category;
+		using value_type        = typename vector_type_traits<Vector, IsConst>::value_type;
+		using pointer           = typename vector_type_traits<Vector, IsConst>::pointer;
+		using reference         = typename vector_type_traits<Vector, IsConst>::reference;
+		using size_type         = typename vector_type_traits<Vector, IsConst>::size_type;
+		using difference_type   = typename vector_type_traits<Vector, IsConst>::difference_type;
 
-		typedef typename vector_type_traits<Vector, is_const>::value_type      value_type;
-		typedef typename vector_type_traits<Vector, is_const>::pointer         pointer;
-		typedef typename vector_type_traits<Vector, is_const>::reference       reference;
-		typedef typename vector_type_traits<Vector, is_const>::size_type       size_type;
-		typedef typename vector_type_traits<Vector, is_const>::difference_type difference_type;
+		using iterator_type     = vector_iterator<Vector, IsConst>;
+		using iterator_category = ::std::bidirectional_iterator_tag;
 
 		// construct/copy/destroy:
 
@@ -108,12 +109,12 @@ namespace core
 			: step(stride)
 			, ptr(p)
 		{}
-		vector_iterator(const vector_iterator<Vector, is_const>& other) noexcept
+		vector_iterator(const vector_iterator<Vector, IsConst>& other) noexcept
 			: step(other.step)
 			, ptr(other.ptr)
 		{}
 
-		vector_iterator<Vector, is_const>& operator=(const vector_iterator<Vector, is_const>& other) noexcept
+		vector_iterator<Vector, IsConst>& operator=(const vector_iterator<Vector, IsConst>& other) noexcept
 		{
 			if (this != &other)
 			{
@@ -152,34 +153,34 @@ namespace core
 
 		// increment / decrement
 
-		vector_iterator<Vector, is_const>& operator++(void) noexcept
+		vector_iterator<Vector, IsConst>& operator++(void) noexcept
 		{
 			ptr += step;
 			return *this;
 		}
-		vector_iterator<Vector, is_const>& operator--(void) noexcept
+		vector_iterator<Vector, IsConst>& operator--(void) noexcept
 		{
 			ptr -= step;
 			return *this;
 		}
-		vector_iterator<Vector, is_const> operator++(int) noexcept
+		vector_iterator<Vector, IsConst> operator++(int) noexcept
 		{
 			vector_iterator tmp(*this);
 			++(*this);
 			return tmp;
 		}
-		vector_iterator<Vector, is_const> operator--(int) noexcept
+		vector_iterator<Vector, IsConst> operator--(int) noexcept
 		{
 			vector_iterator tmp(*this);
 			--(*this);
 			return tmp;
 		}
-		vector_iterator<Vector, is_const>& operator+=(difference_type n) noexcept
+		vector_iterator<Vector, IsConst>& operator+=(difference_type n) noexcept
 		{
 			ptr += (n * step);
 			return *this;
 		}
-		vector_iterator<Vector, is_const>& operator-=(difference_type n) noexcept
+		vector_iterator<Vector, IsConst>& operator-=(difference_type n) noexcept
 		{
 			ptr -= (n * step);
 			return *this;
@@ -209,27 +210,27 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef core::scalar<T, Allocator>                      scalar_type;
-		typedef const scalar_type                               const_scalar_type;
+		using allocator_type         = Allocator;
+		using scalar_type            = core::scalar<T, Allocator>;
+		using const_scalar_type      = const scalar_type;
+		using allocator_traits_type  = ::std::allocator_traits<allocator_type>;
+		using value_type             = typename allocator_traits_type::value_type;
+		using pointer                = typename allocator_traits_type::pointer;
+		using const_pointer          = typename allocator_traits_type::const_pointer;
+		using reference              = typename allocator_type::reference;
+		using const_reference        = typename allocator_type::const_reference;
+		using size_type              = typename allocator_traits_type::size_type;
+		using difference_type        = typename allocator_traits_type::difference_type;
 
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using iterator               = vector_iterator<vector<T, Allocator>, false>;
+		using const_iterator         = vector_iterator<vector<T, Allocator>, true>;
+		using reverse_iterator       = ::std::reverse_iterator<iterator>;
+		using const_reverse_iterator = ::std::reverse_iterator<const_iterator>;
 
-		typedef vector_iterator<vector<T, Allocator>, false>    iterator;
-		typedef vector_iterator<vector<T, Allocator>, true>     const_iterator;
-		typedef ::std::reverse_iterator<iterator>               reverse_iterator;
-		typedef ::std::reverse_iterator<const_iterator>         const_reverse_iterator;
-
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef vector<U, Allocator> other;
+			using other = vector<U, Allocator>;
 		};
 
 		// construct/copy/destroy:

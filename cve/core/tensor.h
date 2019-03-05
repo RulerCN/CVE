@@ -48,57 +48,58 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using allocator_type        = Allocator;
+		using allocator_traits_type = ::std::allocator_traits<allocator_type>;
+		using value_type            = typename allocator_traits_type::value_type;
+		using pointer               = typename allocator_traits_type::pointer;
+		using const_pointer         = typename allocator_traits_type::const_pointer;
+		using size_type             = typename allocator_traits_type::size_type;
+		using difference_type       = typename allocator_traits_type::difference_type;
 
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef tensor<U, Allocator> other;
+			using other = tensor<U, Allocator>;
 		};
 	};
 
 	// Class template tensor_type_traits
 
-	template <class Tensor, bool is_const>
+	template <class Tensor, bool IsConst>
 	struct tensor_type_traits
 	{
-		typedef typename Tensor::value_type      value_type;
-		typedef typename Tensor::pointer         pointer;
-		typedef typename Tensor::reference       reference;
-		typedef typename Tensor::size_type       size_type;
-		typedef typename Tensor::difference_type difference_type;
+		using value_type      = typename Tensor::value_type;
+		using pointer         = typename Tensor::pointer;
+		using reference       = typename Tensor::reference;
+		using size_type       = typename Tensor::size_type;
+		using difference_type = typename Tensor::difference_type;
 	};
 
 	template <class Tensor>
 	struct tensor_type_traits<Tensor, true>
 	{
-		typedef typename Tensor::value_type      value_type;
-		typedef typename Tensor::const_pointer   pointer;
-		typedef typename Tensor::const_reference reference;
-		typedef typename Tensor::size_type       size_type;
-		typedef typename Tensor::difference_type difference_type;
+		using value_type      = typename Tensor::value_type;
+		using pointer         = typename Tensor::const_pointer;
+		using reference       = typename Tensor::const_reference;
+		using size_type       = typename Tensor::size_type;
+		using difference_type = typename Tensor::difference_type;
 	};
 
 	// Class template tensor_iterator
-	template <class Tensor, bool is_const>
+	template <class Tensor, bool IsConst>
 	class tensor_iterator
 	{
 	public:
 		// types:
 
-		typedef tensor_iterator<Tensor, is_const>                              iterator_type;
-		typedef ::std::bidirectional_iterator_tag                              iterator_category;
+		using value_type        = typename tensor_type_traits<Tensor, IsConst>::value_type;
+		using pointer           = typename tensor_type_traits<Tensor, IsConst>::pointer;
+		using reference         = typename tensor_type_traits<Tensor, IsConst>::reference;
+		using size_type         = typename tensor_type_traits<Tensor, IsConst>::size_type;
+		using difference_type   = typename tensor_type_traits<Tensor, IsConst>::difference_type;
 
-		typedef typename tensor_type_traits<Tensor, is_const>::value_type      value_type;
-		typedef typename tensor_type_traits<Tensor, is_const>::pointer         pointer;
-		typedef typename tensor_type_traits<Tensor, is_const>::reference       reference;
-		typedef typename tensor_type_traits<Tensor, is_const>::size_type       size_type;
-		typedef typename tensor_type_traits<Tensor, is_const>::difference_type difference_type;
+		using iterator_type     = tensor_iterator<Tensor, IsConst>;
+		using iterator_category = ::std::bidirectional_iterator_tag;
 
 		// construct/copy/destroy:
 
@@ -110,12 +111,12 @@ namespace core
 			: step(stride)
 			, ptr(p)
 		{}
-		tensor_iterator(const tensor_iterator<Tensor, is_const>& other) noexcept
+		tensor_iterator(const tensor_iterator<Tensor, IsConst>& other) noexcept
 			: step(other.step)
 			, ptr(other.ptr)
 		{}
 
-		tensor_iterator<Tensor, is_const>& operator=(const tensor_iterator<Tensor, is_const>& other) noexcept
+		tensor_iterator<Tensor, IsConst>& operator=(const tensor_iterator<Tensor, IsConst>& other) noexcept
 		{
 			if (this != &other)
 			{
@@ -144,34 +145,34 @@ namespace core
 
 		// increment / decrement
 
-		tensor_iterator<Tensor, is_const>& operator++(void) noexcept
+		tensor_iterator<Tensor, IsConst>& operator++(void) noexcept
 		{
 			ptr += step;
 			return *this;
 		}
-		tensor_iterator<Tensor, is_const>& operator--(void) noexcept
+		tensor_iterator<Tensor, IsConst>& operator--(void) noexcept
 		{
 			ptr -= step;
 			return *this;
 		}
-		tensor_iterator<Tensor, is_const> operator++(int) noexcept
+		tensor_iterator<Tensor, IsConst> operator++(int) noexcept
 		{
 			tensor_iterator tmp(*this);
 			++(*this);
 			return tmp;
 		}
-		tensor_iterator<Tensor, is_const> operator--(int) noexcept
+		tensor_iterator<Tensor, IsConst> operator--(int) noexcept
 		{
 			tensor_iterator tmp(*this);
 			--(*this);
 			return tmp;
 		}
-		tensor_iterator<Tensor, is_const>& operator+=(difference_type n) noexcept
+		tensor_iterator<Tensor, IsConst>& operator+=(difference_type n) noexcept
 		{
 			ptr += (n * step);
 			return *this;
 		}
-		tensor_iterator<Tensor, is_const>& operator-=(difference_type n) noexcept
+		tensor_iterator<Tensor, IsConst>& operator-=(difference_type n) noexcept
 		{
 			ptr -= (n * step);
 			return *this;
@@ -201,31 +202,31 @@ namespace core
 	public:
 		// types:
 
-		typedef Allocator                                       allocator_type;
-		typedef ::std::allocator_traits<allocator_type>         allocator_traits_type;
-		typedef core::scalar<T, Allocator>                      scalar_type;
-		typedef const scalar_type                               const_scalar_type;
-		typedef core::vector<T, Allocator>                      vector_type;
-		typedef const vector_type                               const_vector_type;
-		typedef core::matrix<T, Allocator>                      matrix_type;
-		typedef const matrix_type                               const_matrix_type;
+		using allocator_type         = Allocator;
+		using scalar_type            = core::scalar<T, Allocator>;
+		using const_scalar_type      = const scalar_type;
+		using vector_type            = core::vector<T, Allocator>;
+		using const_vector_type      = const vector_type;
+		using matrix_type            = core::matrix<T, Allocator>;
+		using const_matrix_type      = const matrix_type;
+		using allocator_traits_type  = ::std::allocator_traits<allocator_type>;
+		using value_type             = typename allocator_traits_type::value_type;
+		using pointer                = typename allocator_traits_type::pointer;
+		using const_pointer          = typename allocator_traits_type::const_pointer;
+		using reference              = typename allocator_type::reference;
+		using const_reference        = typename allocator_type::const_reference;
+		using size_type              = typename allocator_traits_type::size_type;
+		using difference_type        = typename allocator_traits_type::difference_type;
 
-		typedef typename allocator_traits_type::value_type      value_type;
-		typedef typename allocator_traits_type::pointer         pointer;
-		typedef typename allocator_traits_type::const_pointer   const_pointer;
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_traits_type::size_type       size_type;
-		typedef typename allocator_traits_type::difference_type difference_type;
+		using iterator               = tensor_iterator<tensor<T, Allocator>, false>;
+		using const_iterator         = tensor_iterator<tensor<T, Allocator>, true>;
+		using reverse_iterator       = ::std::reverse_iterator<iterator>;
+		using const_reverse_iterator = ::std::reverse_iterator<const_iterator>;
 
-		typedef tensor_iterator<tensor<T, Allocator>, false>    iterator;
-		typedef tensor_iterator<tensor<T, Allocator>, true>     const_iterator;
-		typedef ::std::reverse_iterator<iterator>               reverse_iterator;
-		typedef ::std::reverse_iterator<const_iterator>         const_reverse_iterator;
-
-		template <class U> struct rebind
+		template <class U>
+		struct rebind
 		{
-			typedef tensor<U, Allocator> other;
+			using other = tensor<U, Allocator>;
 		};
 
 		// construct/copy/destroy:

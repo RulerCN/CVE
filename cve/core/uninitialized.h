@@ -37,7 +37,7 @@ namespace core
 	template<class InputIt, class ForwardIt>
 	inline ForwardIt uninitialized_move(InputIt first, InputIt last, ForwardIt d_first)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = d_first;
 		try
 		{
@@ -56,7 +56,7 @@ namespace core
 	template<class InputIt, class Size, class ForwardIt>
 	inline ::std::pair<InputIt, ForwardIt> uninitialized_move_n(InputIt first, Size count, ForwardIt d_first)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = d_first;
 		try
 		{
@@ -75,7 +75,7 @@ namespace core
 	template<class ForwardIt>
 	inline void uninitialized_default_construct(ForwardIt first, ForwardIt last)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = first;
 		try
 		{
@@ -92,7 +92,7 @@ namespace core
 	template<class ForwardIt, class Size>
 	ForwardIt uninitialized_default_construct_n(ForwardIt first, Size n)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = first;
 		try
 		{
@@ -111,7 +111,7 @@ namespace core
 	template<class ForwardIt>
 	inline void uninitialized_value_construct(ForwardIt first, ForwardIt last)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = first;
 		try
 		{
@@ -129,7 +129,7 @@ namespace core
 	template<class ForwardIt, class Size>
 	ForwardIt uninitialized_value_construct_n(ForwardIt first, Size n)
 	{
-		typedef typename ::std::iterator_traits<ForwardIt>::value_type Value;
+		using Value = typename ::std::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = first;
 		try
 		{
