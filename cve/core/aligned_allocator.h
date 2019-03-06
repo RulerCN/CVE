@@ -259,9 +259,9 @@ namespace core
 			char                buffer[1];
 		};
 	private:
-		static constexpr size_t max_bytes = align << 4;
+		static constexpr size_t max_bytes      = align << 4;
 		static constexpr size_t free_list_size = 16;
-		static constexpr size_t chunk_count = 16;
+		static constexpr size_t chunk_count    = 16;
 		static constexpr size_t heap_threshold = (max_bytes * chunk_count) << 5;
 		static constexpr size_t memory_surplus = sizeof(void*) + align - 1;
 
