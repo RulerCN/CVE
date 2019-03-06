@@ -72,8 +72,6 @@ namespace core
 		using value_type            = typename allocator_traits_type::value_type;
 		using pointer               = typename allocator_traits_type::pointer;
 		using const_pointer         = typename allocator_traits_type::const_pointer;
-		using reference             = typename allocator_type::reference;
-		using const_reference       = typename allocator_type::const_reference;
 		using size_type             = typename allocator_traits_type::size_type;
 		using difference_type       = typename allocator_traits_type::difference_type;
 
@@ -336,7 +334,7 @@ namespace core
 
 		void assign(scalar<T, Allocator>&& other)
 		{
-			assign_rv(std::forward<scalar<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+			assign_rv(::std::forward<scalar<T, Allocator> >(other), typename allocator_traits_type::propagate_on_container_move_assignment());
 		}
 
 		void reassign(size_type n)
@@ -592,16 +590,16 @@ namespace core
 
 		// element access:
 
-		reference operator[](size_type idx) noexcept
+		value_type& operator[](size_type idx) noexcept
 		{
 			return buffer[idx];
 		}
-		const_reference operator[](size_type idx) const noexcept
+		const value_type& operator[](size_type idx) const noexcept
 		{
 			return buffer[idx];
 		}
 
-		reference at(size_type idx)
+		value_type& at(size_type idx)
 		{
 			if (empty())
 				throw ::std::domain_error(scalar_not_initialized);
@@ -609,7 +607,7 @@ namespace core
 				throw ::std::out_of_range(scalar_out_of_range);
 			return buffer[idx];
 		}
-		const_reference at(size_type idx) const
+		const value_type& at(size_type idx) const
 		{
 			if (empty())
 				throw ::std::domain_error(scalar_not_initialized);

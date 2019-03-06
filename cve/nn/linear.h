@@ -61,20 +61,10 @@ namespace nn
 		typedef	typename layer_type::const_vector_pointer   const_vector_pointer;
 		typedef	typename layer_type::const_matrix_pointer   const_matrix_pointer;
 		typedef	typename layer_type::const_tensor_pointer   const_tensor_pointer;
-		typedef	typename layer_type::scalar_reference       scalar_reference;
-		typedef	typename layer_type::vector_reference       vector_reference;
-		typedef	typename layer_type::matrix_reference       matrix_reference;
-		typedef	typename layer_type::tensor_reference       tensor_reference;
-		typedef	typename layer_type::const_scalar_reference const_scalar_reference;
-		typedef	typename layer_type::const_vector_reference const_vector_reference;
-		typedef	typename layer_type::const_matrix_reference const_matrix_reference;
-		typedef	typename layer_type::const_tensor_reference const_tensor_reference;
 
 		typedef typename layer_type::value_type             value_type;
 		typedef typename layer_type::pointer                pointer;
 		typedef typename layer_type::const_pointer          const_pointer;
-		typedef typename layer_type::reference              reference;
-		typedef typename layer_type::const_reference        const_reference;
 		typedef typename layer_type::size_type              size_type;
 		typedef typename layer_type::difference_type        difference_type;
 
@@ -140,7 +130,7 @@ namespace nn
 		}
 
 		// Forward propagation
-		virtual tensor_reference forward(tensor_reference input)
+		virtual tensor_type& forward(tensor_type& input)
 		{
 			if (input.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
@@ -172,7 +162,7 @@ namespace nn
 		}
 
 		// Update parameters
-		virtual void update(tensor_reference loss)
+		virtual void update(tensor_type& loss)
 		{
 			if (loss.empty())
 				throw ::std::domain_error(::core::tensor_not_initialized);
@@ -197,7 +187,7 @@ namespace nn
 		}
 
 		// Back propagation
-		virtual tensor_reference backward(tensor_reference loss)
+		virtual tensor_type& backward(tensor_type& loss)
 		{
 			// Assign a loss vector
 			if (_loss.empty())

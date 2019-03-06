@@ -450,13 +450,14 @@ namespace core
 	public:
 		// types:
 
-		using allocator_type       = Allocator;
-		using tree_node_type       = typename rb_tree_node<T>::node_type;
-		using node_allocator_type  = typename Allocator::template rebind<tree_node_type>::other;
-		using node_type            = typename node_allocator_type::value_type;
-		using node_pointer         = typename node_allocator_type::pointer;
-		using node_size_type       = typename node_allocator_type::size_type;
-		using node_difference_type = typename node_allocator_type::difference_type;
+		using allocator_type             = Allocator;
+		using tree_node_type             = typename rb_tree_node<T>::node_type;
+		using node_allocator_type        = typename Allocator::template rebind<tree_node_type>::other;
+		using node_allocator_traits_type = ::std::allocator_traits<node_allocator_type>;
+		using node_type                  = typename node_allocator_traits_type::value_type;
+		using node_pointer               = typename node_allocator_traits_type::pointer;
+		using node_size_type             = typename node_allocator_traits_type::size_type;
+		using node_difference_type       = typename node_allocator_traits_type::difference_type;
 
 		// construct/copy/destroy:
 
@@ -509,17 +510,17 @@ namespace core
 		using key_type                         = Key;
 		using key_compare                      = KeyCompare;
 		using allocator_type                   = Allocator;
-		using node_allocator_type              = rb_tree_node_allocator<Value, Allocator>;
 		using tree_type                        = rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>;
+		using node_allocator_type              = rb_tree_node_allocator<Value, Allocator>;
+		using allocator_traits_type            = ::std::allocator_traits<allocator_type>;
+		using node_allocator_traits_type       = ::std::allocator_traits<node_allocator_type>;
+		using value_type                       = typename allocator_traits_type::value_type;
+		using pointer                          = typename allocator_traits_type::pointer;
+		using const_pointer                    = typename allocator_traits_type::const_pointer;
+		using size_type                        = typename allocator_traits_type::size_type;
+		using difference_type                  = typename allocator_traits_type::difference_type;
 		using node_type                        = typename node_allocator_type::node_type;
 		using node_pointer                     = typename node_allocator_type::node_pointer;
-		using value_type                       = typename allocator_type::value_type;
-		using pointer                          = typename allocator_type::pointer;
-		using const_pointer                    = typename allocator_type::const_pointer;
-		using reference                        = typename allocator_type::reference;
-		using const_reference                  = typename allocator_type::const_reference;
-		using size_type                        = typename allocator_type::size_type;
-		using difference_type                  = typename allocator_type::difference_type;
 
 		using iterator                         = rb_tree_iterator<tree_type, false>;
 		using const_iterator                   = rb_tree_iterator<tree_type, true>;

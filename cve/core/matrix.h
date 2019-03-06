@@ -69,9 +69,9 @@ namespace core
 	{
 		using value_type      = typename Matrix::value_type;
 		using pointer         = typename Matrix::pointer;
-		using reference       = typename Matrix::reference;
 		using size_type       = typename Matrix::size_type;
 		using difference_type = typename Matrix::difference_type;
+		using reference       = value_type&;
 	};
 
 	template <class Matrix>
@@ -79,9 +79,9 @@ namespace core
 	{
 		using value_type      = typename Matrix::value_type;
 		using pointer         = typename Matrix::const_pointer;
-		using reference       = typename Matrix::const_reference;
 		using size_type       = typename Matrix::size_type;
 		using difference_type = typename Matrix::difference_type;
+		using reference       = const value_type&;
 	};
 
 	// Class template matrix_iterator
@@ -215,8 +215,6 @@ namespace core
 		using value_type             = typename allocator_traits_type::value_type;
 		using pointer                = typename allocator_traits_type::pointer;
 		using const_pointer          = typename allocator_traits_type::const_pointer;
-		using reference              = typename allocator_type::reference;
-		using const_reference        = typename allocator_type::const_reference;
 		using size_type              = typename allocator_traits_type::size_type;
 		using difference_type        = typename allocator_traits_type::difference_type;
 
@@ -560,7 +558,7 @@ namespace core
 
 		void assign(matrix<T, Allocator>&& other)
 		{
-			assign_rv(std::forward<matrix<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+			assign_rv(::std::forward<matrix<T, Allocator> >(other), typename allocator_traits_type::propagate_on_container_move_assignment());
 		}
 
 		void reassign(size_type rows, size_type columns, size_type dimension)

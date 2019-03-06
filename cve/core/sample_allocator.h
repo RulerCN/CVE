@@ -63,8 +63,6 @@ namespace core
 		using value_type      = T;
 		using pointer         = value_type*;
 		using const_pointer   = const value_type*;
-		using reference       = value_type&;
-		using const_reference = const value_type&;
 		using size_type       = size_t;
 		using difference_type = ptrdiff_t;
 
@@ -97,12 +95,12 @@ namespace core
 		{
 		}
 		// Return address of mutable x
-		pointer address(reference x) const noexcept
+		pointer address(value_type& x) const noexcept
 		{
 			return (::std::addressof(x));
 		}
 		// Return address of nonmutable x
-		const_pointer address(const_reference x) const noexcept
+		const_pointer address(const value_type& x) const noexcept
 		{
 			return (::std::addressof(x));
 		}

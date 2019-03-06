@@ -70,9 +70,9 @@ namespace core
 	{
 		using value_type      = typename Tensor::value_type;
 		using pointer         = typename Tensor::pointer;
-		using reference       = typename Tensor::reference;
 		using size_type       = typename Tensor::size_type;
 		using difference_type = typename Tensor::difference_type;
+		using reference       = value_type&;
 	};
 
 	template <class Tensor>
@@ -80,9 +80,9 @@ namespace core
 	{
 		using value_type      = typename Tensor::value_type;
 		using pointer         = typename Tensor::const_pointer;
-		using reference       = typename Tensor::const_reference;
 		using size_type       = typename Tensor::size_type;
 		using difference_type = typename Tensor::difference_type;
+		using reference       = const value_type&;
 	};
 
 	// Class template tensor_iterator
@@ -213,8 +213,6 @@ namespace core
 		using value_type             = typename allocator_traits_type::value_type;
 		using pointer                = typename allocator_traits_type::pointer;
 		using const_pointer          = typename allocator_traits_type::const_pointer;
-		using reference              = typename allocator_type::reference;
-		using const_reference        = typename allocator_type::const_reference;
 		using size_type              = typename allocator_traits_type::size_type;
 		using difference_type        = typename allocator_traits_type::difference_type;
 
@@ -598,7 +596,7 @@ namespace core
 
 		void assign(tensor<T, Allocator>&& other)
 		{
-			assign_rv(std::forward<tensor<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+			assign_rv(::std::forward<tensor<T, Allocator> >(other), typename allocator_traits_type::propagate_on_container_move_assignment());
 		}
 
 		void reassign(size_type batch, size_type rows, size_type columns, size_type dimension)

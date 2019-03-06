@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iterator>
 #include <functional>
 #include <utility>
+#include "allocator.h"
 
 namespace core
 {
@@ -667,13 +668,14 @@ namespace core
 	public:
 		// types:
 
-		using allocator_type       = Allocator;
-		using tree_node_type       = typename tree_node<T>::node_type;
-		using node_allocator_type  = typename Allocator::template rebind<tree_node_type>::other;
-		using node_type            = typename node_allocator_type::value_type;
-		using node_pointer         = typename node_allocator_type::pointer;
-		using node_size_type       = typename node_allocator_type::size_type;
-		using node_difference_type = typename node_allocator_type::difference_type;
+		using allocator_type             = Allocator;
+		using tree_node_type             = typename tree_node<T>::node_type;
+		using node_allocator_type        = typename Allocator::template rebind<tree_node_type>::other;
+		using node_allocator_traits_type = ::std::allocator_traits<node_allocator_type>;
+		using node_type                  = typename node_allocator_traits_type::value_type;
+		using node_pointer               = typename node_allocator_traits_type::pointer;
+		using node_size_type             = typename node_allocator_traits_type::size_type;
+		using node_difference_type       = typename node_allocator_traits_type::difference_type;
 
 		// construct/copy/destroy:
 
@@ -726,15 +728,15 @@ namespace core
 		using allocator_type                   = Allocator;
 		using tree_type                        = tree<T, Allocator>;
 		using node_allocator_type              = tree_node_allocator<T, Allocator>;
-		using value_type                       = typename allocator_type::value_type;
-		using pointer                          = typename allocator_type::pointer;
-		using const_pointer                    = typename allocator_type::const_pointer;
-		using reference                        = typename allocator_type::reference;
-		using const_reference                  = typename allocator_type::const_reference;
-		using size_type                        = typename allocator_type::size_type;
-		using difference_type                  = typename allocator_type::difference_type;
-		using node_type                        = typename node_allocator_type::node_type;
-		using node_pointer                     = typename node_allocator_type::node_pointer;
+		using allocator_traits_type            = ::std::allocator_traits<allocator_type>;
+		using node_allocator_traits_type       = ::std::allocator_traits<node_allocator_type>;
+		using value_type                       = typename allocator_traits_type::value_type;
+		using pointer                          = typename allocator_traits_type::pointer;
+		using const_pointer                    = typename allocator_traits_type::const_pointer;
+		using size_type                        = typename allocator_traits_type::size_type;
+		using difference_type                  = typename allocator_traits_type::difference_type;
+		using node_type                        = typename node_allocator_traits_type::node_type;
+		using node_pointer                     = typename node_allocator_traits_type::node_pointer;
 
 		using iterator                         = tree_iterator<tree_type, false>;
 		using const_iterator                   = tree_iterator<tree_type, true>;

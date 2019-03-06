@@ -68,9 +68,9 @@ namespace core
 	{
 		using value_type      = typename Vector::value_type;
 		using pointer         = typename Vector::pointer;
-		using reference       = typename Vector::reference;
 		using size_type       = typename Vector::size_type;
 		using difference_type = typename Vector::difference_type;
+		using reference       = value_type&;
 	};
 
 	template <class Vector>
@@ -78,9 +78,9 @@ namespace core
 	{
 		using value_type      = typename Vector::value_type;
 		using pointer         = typename Vector::const_pointer;
-		using reference       = typename Vector::const_reference;
 		using size_type       = typename Vector::size_type;
 		using difference_type = typename Vector::difference_type;
+		using reference       = const value_type&;
 	};
 
 	// Class template vector_iterator
@@ -217,8 +217,6 @@ namespace core
 		using value_type             = typename allocator_traits_type::value_type;
 		using pointer                = typename allocator_traits_type::pointer;
 		using const_pointer          = typename allocator_traits_type::const_pointer;
-		using reference              = typename allocator_type::reference;
-		using const_reference        = typename allocator_type::const_reference;
 		using size_type              = typename allocator_traits_type::size_type;
 		using difference_type        = typename allocator_traits_type::difference_type;
 
@@ -522,7 +520,7 @@ namespace core
 
 		void assign(vector<T, Allocator>&& other)
 		{
-			assign_rv(std::forward<vector<T, Allocator> >(other), typename allocator_type::propagate_on_container_move_assignment());
+			assign_rv(::std::forward<vector<T, Allocator> >(other), typename allocator_traits_type::propagate_on_container_move_assignment());
 		}
 
 		void reassign(size_type length, size_type dimension)

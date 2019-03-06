@@ -51,8 +51,6 @@ namespace nn
 		typedef typename allocator_traits_type::value_type         value_type;
 		typedef typename allocator_traits_type::pointer            pointer;
 		typedef typename allocator_traits_type::const_pointer      const_pointer;
-		typedef typename allocator_type::reference                 reference;
-		typedef typename allocator_type::const_reference           const_reference;
 		typedef typename allocator_traits_type::size_type          size_type;
 		typedef typename allocator_traits_type::difference_type    difference_type;
 
