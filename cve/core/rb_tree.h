@@ -73,11 +73,11 @@ namespace core
 	{
 		using value_type      = typename Tree::value_type;
 		using pointer         = typename Tree::pointer;
-		using reference       = typename Tree::reference;
 		using size_type       = typename Tree::size_type;
 		using difference_type = typename Tree::difference_type;
 		using node_type       = typename Tree::node_type;
 		using node_pointer    = typename Tree::node_pointer;
+		using reference       = value_type&;
 	};
 
 	template <class Tree>
@@ -85,11 +85,11 @@ namespace core
 	{
 		using value_type      = typename Tree::value_type;
 		using pointer         = typename Tree::const_pointer;
-		using reference       = typename Tree::const_reference;
 		using size_type       = typename Tree::size_type;
 		using difference_type = typename Tree::difference_type;
 		using node_type       = typename Tree::node_type;
 		using node_pointer    = typename Tree::node_pointer;
+		using reference       = const value_type&;
 	};
 
 	// Class template rb_tree_iterator
@@ -501,7 +501,7 @@ namespace core
 	};
 
 	// Class template rb_tree
-	template <class Key, class Value, class KeyOfValue, class KeyCompare = ::std::less<Key>, class Allocator = allocator<Value> >
+	template <class Key, class Value, class KeyCompare = ::std::less<Key>, class Allocator = allocator<Value> >
 	class rb_tree : public rb_tree_node_allocator<Value, Allocator>
 	{
 	public:
@@ -510,7 +510,7 @@ namespace core
 		using key_type                         = Key;
 		using key_compare                      = KeyCompare;
 		using allocator_type                   = Allocator;
-		using tree_type                        = rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>;
+		using tree_type                        = rb_tree<Key, Value, KeyCompare, Allocator>;
 		using node_allocator_type              = rb_tree_node_allocator<Value, Allocator>;
 		using allocator_traits_type            = ::std::allocator_traits<allocator_type>;
 		using node_allocator_traits_type       = ::std::allocator_traits<node_allocator_type>;
@@ -538,7 +538,7 @@ namespace core
 			, compare(comp)
 			, count(0)
 		{
-			create_header() = 
+			create_header();
 		}
 		explicit rb_tree(const Allocator& alloc)
 			: node_allocator_type(alloc)
@@ -547,7 +547,7 @@ namespace core
 		{
 			create_header();
 		}
-		rb_tree(const rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& x)
+		rb_tree(const rb_tree<Key, Value, KeyCompare, Allocator>& x)
 			: node_allocator_type(x.get_allocator())
 			, compare(x.compare)
 			, count(0)
@@ -557,7 +557,7 @@ namespace core
 				copy_root(x.header->parent);
 			count = x.count;
 		}
-		rb_tree(const rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& x, const Allocator& alloc)
+		rb_tree(const rb_tree<Key, Value, KeyCompare, Allocator>& x, const Allocator& alloc)
 			: node_allocator_type(alloc)
 			, compare(x.compare)
 			, count(0)
@@ -567,7 +567,7 @@ namespace core
 				copy_root(x.header->parent);
 			count = x.count;
 		}
-		rb_tree(rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>&& x)
+		rb_tree(rb_tree<Key, Value, KeyCompare, Allocator>&& x)
 			: node_allocator_type(x.get_allocator())
 		{
 			create_header();
@@ -578,7 +578,7 @@ namespace core
 				::std::swap(count, x.count);
 			}
 		}
-		rb_tree(rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>&& x, const Allocator& alloc)
+		rb_tree(rb_tree<Key, Value, KeyCompare, Allocator>&& x, const Allocator& alloc)
 			: node_allocator_type(alloc)
 		{
 			create_header();
@@ -594,7 +594,7 @@ namespace core
 			clear();
 			destroy_header();
 		}
-		rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& operator=(const rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& x)
+		rb_tree<Key, Value, KeyCompare, Allocator>& operator=(const rb_tree<Key, Value, KeyCompare, Allocator>& x)
 		{
 			if (this != &x)
 			{
@@ -606,7 +606,7 @@ namespace core
 			}
 			return (*this);
 		}
-		rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& operator=(rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>&& x)
+		rb_tree<Key, Value, KeyCompare, Allocator>& operator=(rb_tree<Key, Value, KeyCompare, Allocator>&& x)
 		{
 			if (this != &x)
 			{
@@ -858,7 +858,7 @@ namespace core
 			return n;
 		}
 
-		void swap(rb_tree<Key, Value, KeyOfValue, KeyCompare, Allocator>& rhs) noexcept
+		void swap(rb_tree<Key, Value, KeyCompare, Allocator>& rhs) noexcept
 		{
 			if (this != &rhs)
 			{
@@ -950,7 +950,7 @@ namespace core
 			node_pointer cur = header->parent;
 			while (cur != nullptr)
 			{
-				if (!compare(KeyOfValue()(cur->data), key))
+				if (!compare(cur->data, key))
 				{
 					pre = cur;
 					cur = cur->left;
@@ -958,7 +958,7 @@ namespace core
 				else
 					cur = cur->right;
 			}
-			if (pre == header || compare(key, KeyOfValue()(pre->data)))
+			if (pre == header || compare(key, pre->data))
 			{
 				pre = header;
 			}
@@ -971,7 +971,7 @@ namespace core
 			node_pointer cur = header->parent;
 			while (cur != nullptr)
 			{
-				if (!compare(KeyOfValue()(cur->data), key))
+				if (!compare(cur->data, key))
 				{
 					pre = cur;
 					cur = cur->left;
@@ -988,7 +988,7 @@ namespace core
 			node_pointer cur = header->parent;
 			while (cur != nullptr)
 			{
-				if (compare(key, KeyOfValue()(cur->data)))
+				if (compare(key, cur->data))
 				{
 					pre = cur;
 					cur = cur->left;
@@ -1017,7 +1017,7 @@ namespace core
 				node_pointer ptr = header->parent;
 				while (ptr != nullptr)
 				{
-					if (compare(KeyOfValue()(node->data), KeyOfValue()(ptr->data)))
+					if (compare(node->data, ptr->data))
 					{
 						if (ptr->left != nullptr)
 							ptr = ptr->left;
@@ -1070,7 +1070,7 @@ namespace core
 				node_pointer ptr = header->parent;
 				while (ptr != nullptr)
 				{
-					if (compare(KeyOfValue()(value), KeyOfValue()(ptr->data)))
+					if (compare(value, ptr->data))
 					{
 						if (ptr->left != nullptr)
 							ptr = ptr->left;
@@ -1088,7 +1088,7 @@ namespace core
 					}
 					else
 					{
-						if (!compare(KeyOfValue()(ptr->data), KeyOfValue()(value)))
+						if (!compare(ptr->data, value))
 							return ptr;
 						if (ptr->right != nullptr)
 							ptr = ptr->right;

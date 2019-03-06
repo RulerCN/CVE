@@ -6,6 +6,9 @@
 #include <iostream>
 #include <iomanip>
 
+#include <map>
+#include <set>
+
 #include "core/core.h"
 #include "image/bitmap.h"
 #include "nn/mnist.h"
@@ -118,50 +121,63 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 }
 
 // Test size-blanced tree container
-void test_sb_tree(void)
+// Test red-black tree container
+void test_rb_tree(void)
 {
-	//// Create a red-black tree
-	//core::sb_tree<std::string, std::string, std::identity<std::string> > fruit;
+	// Create a red-black tree
+	core::rb_tree<std::string, std::string> fruit;
+	fruit.insert_equal("banana");
+	fruit.insert_equal("fig");
+	fruit.insert_equal("grape");
 
-	//fruit.insert_equal("banana");
-	//fruit.insert_equal("fig");
-	//fruit.insert_equal("grape");
-	//fruit.insert_equal({ "grape", "peach", "banana", "orange", "fig", "plum" });
-	//// Print the red-black tree
-	//size_t index = 0;
-	//std::cout << "elements:" << std::endl;
-	//for (auto i = fruit.cbegin(); i != fruit.cend(); ++i)
-	//{
-	//	std::cout << std::setw(5) << ++index << "." << i->data() << std::endl;
-	//}
-	//size_t depth = 1;
-	//std::cout << "size-blanced tree:" << std::endl;
-	//for (auto i = fruit.cpbegin(); i != fruit.cpend(); ++i)
-	//{
-	//	depth += i.get_depth();
-	//	if (i.get_state() != core::rb_tree_state_parent)
-	//	{
-	//		size_t width = (depth << 2) + 2;
-	//		switch (i.get_state())
-	//		{
-	//		case core::rb_tree_state_left:
-	//			std::cout << std::setw(width) << "1." << i->data() << " (" << color.data() << ")" << std::endl;
-	//			break;
-	//		case core::rb_tree_state_right:
-	//		case core::rb_tree_state_sibling:
-	//			std::cout << std::setw(width) << "2." << i->data() << " (" << color.data() << ")" << std::endl;
-	//			break;
-	//		case core::rb_tree_state_root:
-	//			std::cout << std::setw(width) << "0." << i->data() << " (" << color.data() << ")" << std::endl;
-	//			break;
-	//		}
-	//	}
-	//}
+	//core::rb_tree<std::string, std::string> fruit({ "grape", "peach", "banana", "orange", "fig", "plum" });
+	// Print the red-black tree
+	size_t index = 0;
+	std::cout << "elements:" << std::endl;
+	for (auto i = fruit.cbegin(); i != fruit.cend(); ++i)
+	{
+		std::cout << std::setw(5) << ++index << "." << i->data() << std::endl;
+	}
+	size_t depth = 1;
+	std::cout << "size-blanced tree:" << std::endl;
+	for (auto i = fruit.cpbegin(); i != fruit.cpend(); ++i)
+	{
+		depth += i.get_depth();
+		auto color = i.get_color();
+		if (i.get_state() != core::rb_tree_state_parent)
+		{
+			size_t width = (depth << 2) + 2;
+			switch (i.get_state())
+			{
+			case core::rb_tree_state_left:
+				std::cout << std::setw(width) << "1." << i->data() << " (" << color << ")" << std::endl;
+				break;
+			case core::rb_tree_state_right:
+			case core::rb_tree_state_sibling:
+				std::cout << std::setw(width) << "2." << i->data() << " (" << color << ")" << std::endl;
+				break;
+			case core::rb_tree_state_root:
+				std::cout << std::setw(width) << "0." << i->data() << " (" << color << ")" << std::endl;
+				break;
+
+			//case core::rb_tree_state_left:
+			//	std::cout << std::setw(width) << "1." << i->data() << " (" << color.data() << ")" << std::endl;
+			//	break;
+			//case core::rb_tree_state_right:
+			//case core::rb_tree_state_sibling:
+			//	std::cout << std::setw(width) << "2." << i->data() << " (" << color.data() << ")" << std::endl;
+			//	break;
+			//case core::rb_tree_state_root:
+			//	std::cout << std::setw(width) << "0." << i->data() << " (" << color.data() << ")" << std::endl;
+			//	break;
+			}
+		}
+	}
 }
 
 int main()
 {
-	test_sb_tree();
+	test_rb_tree();
 	return 0;
 
  	const size_t batch_size = 16;
