@@ -501,17 +501,16 @@ namespace core
 	};
 
 	// Class template rb_tree
-	template <class Key, class Value, class KeyCompare = ::std::less<Key>, class Allocator = allocator<Value> >
-	class rb_tree : public rb_tree_node_allocator<Value, Allocator>
+	template <class T, class Compare = ::std::less<T>, class Allocator = allocator<T> >
+	class rb_tree : public rb_tree_node_allocator<T, Allocator>
 	{
 	public:
 		// types:
 
-		using key_type                         = Key;
-		using key_compare                      = KeyCompare;
+		using compare_type                     = Compare;
 		using allocator_type                   = Allocator;
-		using tree_type                        = rb_tree<Key, Value, KeyCompare, Allocator>;
-		using node_allocator_type              = rb_tree_node_allocator<Value, Allocator>;
+		using tree_type                        = rb_tree<T, Compare, Allocator>;
+		using node_allocator_type              = rb_tree_node_allocator<T, Allocator>;
 		using allocator_traits_type            = ::std::allocator_traits<allocator_type>;
 		using node_allocator_traits_type       = ::std::allocator_traits<node_allocator_type>;
 		using value_type                       = typename allocator_traits_type::value_type;
@@ -533,7 +532,7 @@ namespace core
 
 		// construct/copy/destroy:
 
-		explicit rb_tree(const KeyCompare& comp = KeyCompare(), const Allocator& alloc = Allocator())
+		explicit rb_tree(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
 			: node_allocator_type(alloc)
 			, compare(comp)
 			, count(0)
@@ -542,12 +541,12 @@ namespace core
 		}
 		explicit rb_tree(const Allocator& alloc)
 			: node_allocator_type(alloc)
-			, compare(KeyCompare())
+			, compare(Compare())
 			, count(0)
 		{
 			create_header();
 		}
-		rb_tree(const rb_tree<Key, Value, KeyCompare, Allocator>& x)
+		rb_tree(const rb_tree<T, Compare, Allocator>& x)
 			: node_allocator_type(x.get_allocator())
 			, compare(x.compare)
 			, count(0)
@@ -557,7 +556,7 @@ namespace core
 				copy_root(x.header->parent);
 			count = x.count;
 		}
-		rb_tree(const rb_tree<Key, Value, KeyCompare, Allocator>& x, const Allocator& alloc)
+		rb_tree(const rb_tree<T, Compare, Allocator>& x, const Allocator& alloc)
 			: node_allocator_type(alloc)
 			, compare(x.compare)
 			, count(0)
@@ -567,7 +566,7 @@ namespace core
 				copy_root(x.header->parent);
 			count = x.count;
 		}
-		rb_tree(rb_tree<Key, Value, KeyCompare, Allocator>&& x)
+		rb_tree(rb_tree<T, Compare, Allocator>&& x)
 			: node_allocator_type(x.get_allocator())
 		{
 			create_header();
@@ -578,7 +577,7 @@ namespace core
 				::std::swap(count, x.count);
 			}
 		}
-		rb_tree(rb_tree<Key, Value, KeyCompare, Allocator>&& x, const Allocator& alloc)
+		rb_tree(rb_tree<T, Compare, Allocator>&& x, const Allocator& alloc)
 			: node_allocator_type(alloc)
 		{
 			create_header();
@@ -594,7 +593,7 @@ namespace core
 			clear();
 			destroy_header();
 		}
-		rb_tree<Key, Value, KeyCompare, Allocator>& operator=(const rb_tree<Key, Value, KeyCompare, Allocator>& x)
+		rb_tree<T, Compare, Allocator>& operator=(const rb_tree<T, Compare, Allocator>& x)
 		{
 			if (this != &x)
 			{
@@ -606,7 +605,7 @@ namespace core
 			}
 			return (*this);
 		}
-		rb_tree<Key, Value, KeyCompare, Allocator>& operator=(rb_tree<Key, Value, KeyCompare, Allocator>&& x)
+		rb_tree<T, Compare, Allocator>& operator=(rb_tree<T, Compare, Allocator>&& x)
 		{
 			if (this != &x)
 			{
@@ -621,12 +620,12 @@ namespace core
 			clear();
 			insert_equal(first, last);
 		}
-		void assign_equal(size_type n, const Value& value)
+		void assign_equal(size_type n, const value_type& value)
 		{
 			clear();
 			insert_equal(n, value);
 		}
-		void assign_equal(::std::initializer_list<Value> init)
+		void assign_equal(::std::initializer_list<value_type> init)
 		{
 			clear();
 			insert_equal(init.begin(), init.end());
@@ -636,12 +635,12 @@ namespace core
 			clear();
 			insert_unique(first, last);
 		}
-		void assign_unique(const Value& value)
+		void assign_unique(const value_type& value)
 		{
 			clear();
 			insert_unique(value);
 		}
-		void assign_unique(::std::initializer_list<Value> init)
+		void assign_unique(::std::initializer_list<value_type> init)
 		{
 			clear();
 			insert_unique(init.begin(), init.end());
@@ -761,7 +760,7 @@ namespace core
 
 		// observers:
 
-		key_compare key_comp(void) const
+		compare_type key_comp(void) const
 		{
 			return compare;
 		}
@@ -858,7 +857,7 @@ namespace core
 			return n;
 		}
 
-		void swap(rb_tree<Key, Value, KeyCompare, Allocator>& rhs) noexcept
+		void swap(rb_tree<T, Compare, Allocator>& rhs) noexcept
 		{
 			if (this != &rhs)
 			{
@@ -1446,7 +1445,7 @@ namespace core
 		}
 	private:
 		node_pointer header;
-		key_compare  compare;
+		compare_type compare;
 		size_type    count;
 	};
 
