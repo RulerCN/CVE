@@ -588,6 +588,12 @@ namespace core
 				::std::swap(count, x.count);
 			}
 		}
+		rb_tree(::std::initializer_list<T> il, const Allocator& alloc = Allocator())
+			: node_allocator_type(alloc)
+		{
+			create_header();
+			insert_unique(il.begin(), il.end());
+		}
 		~rb_tree(void)
 		{
 			clear();
@@ -625,10 +631,10 @@ namespace core
 			clear();
 			insert_equal(n, value);
 		}
-		void assign_equal(::std::initializer_list<value_type> init)
+		void assign_equal(::std::initializer_list<value_type> il)
 		{
 			clear();
-			insert_equal(init.begin(), init.end());
+			insert_equal(il.begin(), il.end());
 		}
 		void assign_unique(const_iterator first, const_iterator last)
 		{
@@ -640,10 +646,10 @@ namespace core
 			clear();
 			insert_unique(value);
 		}
-		void assign_unique(::std::initializer_list<value_type> init)
+		void assign_unique(::std::initializer_list<value_type> il)
 		{
 			clear();
-			insert_unique(init.begin(), init.end());
+			insert_unique(il.begin(), il.end());
 		}
 
 		// iterators:
@@ -760,7 +766,7 @@ namespace core
 
 		// observers:
 
-		compare_type key_comp(void) const
+		compare_type comp(void) const
 		{
 			return compare;
 		}
@@ -797,9 +803,9 @@ namespace core
 		}
 
 		template <class InputIterator>
-		void insert_equal(::std::initializer_list<value_type> init)
+		void insert_equal(::std::initializer_list<value_type> il)
 		{
-			insert_equal(init.begin(), init.end());
+			insert_equal(il.begin(), il.end());
 		}
 
 		template <class... Args>
@@ -825,9 +831,9 @@ namespace core
 				insert_unique_node(*first);
 		}
 
-		void insert_unique(::std::initializer_list<value_type> init)
+		void insert_unique(::std::initializer_list<value_type> il)
 		{
-			insert_unique(init.begin(), init.end());
+			insert_unique(il.begin(), il.end());
 		}
 
 		void erase(iterator position)
@@ -844,7 +850,8 @@ namespace core
 					erase(first++);
 		}
 
-		size_type erase(const key_type& key)
+		template <class KeyType>
+		size_type erase(const KeyType& key)
 		{
 			size_type n = 0;
 			iterator first = lower_bound(key);
@@ -881,29 +888,35 @@ namespace core
 
 		// operations:
 
-		iterator find(const key_type& key) noexcept
+		template <class KeyType>
+		iterator find(const KeyType& key) noexcept
 		{
 			return iterator(find_node(key));
 		}
-		const_iterator find(const key_type& key) const noexcept
+		template <class KeyType>
+		const_iterator find(const KeyType& key) const noexcept
 		{
 			return const_iterator(find_node(key));
 		}
 
-		iterator lower_bound(const key_type& key) noexcept
+		template <class KeyType>
+		iterator lower_bound(const KeyType& key) noexcept
 		{
 			return iterator(lower_bound_node(key));
 		}
-		const_iterator lower_bound(const key_type& key) const noexcept
+		template <class KeyType>
+		const_iterator lower_bound(const KeyType& key) const noexcept
 		{
 			return const_iterator(lower_bound_node(key));
 		}
 
-		iterator upper_bound(const key_type& key) noexcept
+		template <class KeyType>
+		iterator upper_bound(const KeyType& key) noexcept
 		{
 			return iterator(upper_bound_node(key));
 		}
-		const_iterator upper_bound(const key_type& key) const noexcept
+		template <class KeyType>
+		const_iterator upper_bound(const KeyType& key) const noexcept
 		{
 			return const_iterator(upper_bound_node(key));
 		}
@@ -943,7 +956,8 @@ namespace core
 			this->destroy_node(header);
 		}
 
-		node_pointer find_node(const key_type& key) const noexcept
+		template <class KeyType>
+		node_pointer find_node(const KeyType& key) const noexcept
 		{
 			node_pointer pre = header;
 			node_pointer cur = header->parent;
@@ -964,7 +978,8 @@ namespace core
 			return pre;
 		}
 
-		node_pointer lower_bound_node(const key_type& key) const noexcept
+		template <class KeyType>
+		node_pointer lower_bound_node(const KeyType& key) const noexcept
 		{
 			node_pointer pre = header;
 			node_pointer cur = header->parent;
@@ -981,7 +996,8 @@ namespace core
 			return pre;
 		}
 
-		node_pointer upper_bound_node(const key_type& key) const noexcept
+		template <class KeyType>
+		node_pointer upper_bound_node(const KeyType& key) const noexcept
 		{
 			node_pointer pre = header;
 			node_pointer cur = header->parent;

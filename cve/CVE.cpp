@@ -125,12 +125,12 @@ std::ostream& operator<<(std::ostream &os, const core::tensor<unsigned char, All
 void test_rb_tree(void)
 {
 	// Create a red-black tree
-	core::rb_tree<std::string, std::string> fruit;
-	fruit.insert_equal("banana");
-	fruit.insert_equal("fig");
-	fruit.insert_equal("grape");
+	//core::rb_tree<std::string> fruit;
+	//fruit.insert_equal("banana");
+	//fruit.insert_equal("fig");
+	//fruit.insert_equal("grape");
 
-	//core::rb_tree<std::string, std::string> fruit({ "grape", "peach", "banana", "orange", "fig", "plum" });
+	core::rb_tree<std::string> fruit({ "grape", "peach", "banana", "orange", "fig", "plum" });
 	// Print the red-black tree
 	size_t index = 0;
 	std::cout << "elements:" << std::endl;
@@ -139,37 +139,26 @@ void test_rb_tree(void)
 		std::cout << std::setw(5) << ++index << "." << i->data() << std::endl;
 	}
 	size_t depth = 1;
-	std::cout << "size-blanced tree:" << std::endl;
+	std::cout << "red-black tree:" << std::endl;
 	for (auto i = fruit.cpbegin(); i != fruit.cpend(); ++i)
 	{
 		depth += i.get_depth();
-		auto color = i.get_color();
+		auto color = i.get_color() == core::rb_tree_red ? "red" : "black";
 		if (i.get_state() != core::rb_tree_state_parent)
 		{
 			size_t width = (depth << 2) + 2;
 			switch (i.get_state())
 			{
 			case core::rb_tree_state_left:
-				std::cout << std::setw(width) << "1." << i->data() << " (" << color << ")" << std::endl;
+				std::cout << std::setw(width) << "l." << i->data() << " (" << color << ")" << std::endl;
 				break;
 			case core::rb_tree_state_right:
 			case core::rb_tree_state_sibling:
-				std::cout << std::setw(width) << "2." << i->data() << " (" << color << ")" << std::endl;
+				std::cout << std::setw(width) << "r." << i->data() << " (" << color << ")" << std::endl;
 				break;
 			case core::rb_tree_state_root:
-				std::cout << std::setw(width) << "0." << i->data() << " (" << color << ")" << std::endl;
+				std::cout << std::setw(width) << "t." << i->data() << " (" << color << ")" << std::endl;
 				break;
-
-			//case core::rb_tree_state_left:
-			//	std::cout << std::setw(width) << "1." << i->data() << " (" << color.data() << ")" << std::endl;
-			//	break;
-			//case core::rb_tree_state_right:
-			//case core::rb_tree_state_sibling:
-			//	std::cout << std::setw(width) << "2." << i->data() << " (" << color.data() << ")" << std::endl;
-			//	break;
-			//case core::rb_tree_state_root:
-			//	std::cout << std::setw(width) << "0." << i->data() << " (" << color.data() << ")" << std::endl;
-			//	break;
 			}
 		}
 	}
